@@ -2,29 +2,58 @@ package source.model;
 
 import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
+
+import java.util.*;
 
 public class GameTest extends TestCase {
+    Map<Integer, List<Player>> playersTest = new HashMap<>();
+    List<Player> player1 = Arrays.asList(
+            new Player(0, "Arimondo"),
+            new Player(1, "Lorenzo"),
+            new Player(2, "Pietro"),
+            new Player(3, "Rita")
+    );
+    List<Player> player2 = Arrays.asList(
+            new Player(0, "Arimondo"),
+            new Player(1, "Lorenzo"),
+            new Player(2, "Pietro"),
+            new Player(3, "Rita")
+    );
+    playersTest.put(0, player1);
+    playersTest.put(1, player2);
+    @TestFactory
+    public void SetUp() {
+        new Game(0, dashboard, playersTest.get(0), commonGoals, 122, false);
+    }
 
     @Test
-    public void testGetCurrentPlayer() {
-        //Checking the current player
+    void getCurrentPlayer() {
     }
 
-    public void testSetCurrentPlayer() {
+    @Test
+    void setCurrentPlayer() {
+
     }
 
-    public void testGetCommonGoals() {
+    @Test
+    void getCommonGoals() {
     }
 
-    public void testGetCommonGoalsPoints() {
+    @Test
+    void getCommonGoalsPoints() {
     }
 
-    public void testSetCommonGoals() {
+    @Test
+    void setCommonGoals() {
+
     }
 
-    public void testUpdatePoints() {
+    @Test
+    void updatePoints() {
     }
 
-    public void testEndGameToken() {
+    @Test
+    void endGameToken() {
     }
 }
