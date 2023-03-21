@@ -22,12 +22,60 @@ public class Dashboard {
     public Dashboard(int np){
         switch(np){
             case 2:
-                //Setting the tiles for the dashboard-->matrix 9x9
+                //Setting the tiles for the dashboard-->matrix 9x9 v2
+                this.tiles = new int[][] {
+                        {-1, -1, -1, -1, -1, -1, -1, -1, -1},
+                        {-1, -1, -1, 0, 0, -1, -1, -1, -1},
+                        {-1, -1, -1, 0, 0, 0, -1, -1, -1},
+                        {-1, -1, 0, 0, 0, 0, 0, 0, -1},
+                        {-1, 0, 0, 0, 0, 0, 0, 0, -1},
+                        {-1, 0, 0, 0, 0, 0, 0, -1, -1},
+                        {-1, -1, -1, 0, 0, 0, -1, -1, -1},
+                        {-1, -1, -1, -1, 0, 0, -1, -1, -1},
+                        {-1, -1, -1, -1, -1, -1, -1, -1, -1}
+                };
+
             case 3:
-                //Setting the tiles for the dashboard-->matrix 9x9
+                //Setting the tiles for the dashboard-->matrix 9x9 v3
+                this.tiles = new int[][] {
+                        {-1, -1, -1, 0, -1, -1, -1, -1, -1},
+                        {-1, -1, -1, 0, 0, -1, -1, -1, -1},
+                        {-1, -1, 0, 0, 0, 0, 0, -1, -1},
+                        {-1, -1, 0, 0, 0, 0, 0, 0, 0},
+                        {-1, 0, 0, 0, 0, 0, 0, 0, -1},
+                        {0, 0, 0, 0, 0, 0, 0, -1, -1},
+                        {-1, -1, 0, 0, 0, 0, 0, -1, -1},
+                        {-1, -1, -1, -1, 0, 0, -1, -1, -1},
+                        {-1, -1, -1, -1, -1, 0, -1, -1, -1}};
+
             case 4:
-                //Setting the tiles for the dashboard-->matrix 9x9
+                //Setting the tiles for the dashboard-->matrix 9x9 v4
+                this.tiles = new int[][] {
+                        {-1, -1, -1, 0, 0, -1, -1, -1, -1},
+                        {-1, -1, -1, 0, 0, 0, -1, -1, -1},
+                        {-1, -1, 0, 0, 0, 0, 0, -1, -1},
+                        {-1, 0, 0, 0, 0, 0, 0, 0, 0},
+                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                        {0, 0, 0, 0, 0, 0, 0, 0, -1},
+                        {-1, -1, 0, 0, 0, 0, 0, -1, -1},
+                        {-1, -1, -1, 0, 0, 0, -1, -1, -1},
+                        {-1, -1, -1, -1, 0, 0, -1, -1, -1}};
         }
+
+        this.refillable = new TILETYPE[][] {
+                {TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.THREE_PL, TILETYPE.FOUR_PL, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK},
+                {TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.FOUR_PL, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK},
+                {TILETYPE.BLK, TILETYPE.BLK, TILETYPE.THREE_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.THREE_PL, TILETYPE.BLK, TILETYPE.BLK},
+                {TILETYPE.BLK, TILETYPE.FOUR_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.THREE_PL},
+                {TILETYPE.FOUR_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.FOUR_PL},
+                {TILETYPE.THREE_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.FOUR_PL, TILETYPE.BLK},
+                {TILETYPE.BLK, TILETYPE.BLK, TILETYPE.THREE_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.THREE_PL, TILETYPE.BLK, TILETYPE.BLK},
+                {TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.FOUR_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK},
+                {TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.FOUR_PL, TILETYPE.THREE_PL, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK}
+        };
+
+        this.refill = false;
+        this.players = np;
     }
 
     public void updateDashboard(int [] tiles){
