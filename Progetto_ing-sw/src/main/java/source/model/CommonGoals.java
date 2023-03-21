@@ -1,6 +1,4 @@
-//name package
 package source.model;
-
 //abstract class that has the strategy method
 interface CommonGoals{
 
@@ -34,16 +32,16 @@ class SixPairsEqualCommonGoals implements CommonGoals {
                 }
 
 
-               if (i < 6) {
-                   if (matrixSupport[i][j] != 0 && matrixSupport[i][j] == matrixSupport[i + 1][j] && matrixSupport[i][j] != matrixSupport[i - 1][j] && matrixSupport[i][j] != matrixSupport[i][j + 1]
-                           && matrixSupport[i][j] != matrixSupport[i][j - 1] && matrixSupport[i][j] != matrixSupport[i + 1][j + 1] && matrixSupport[i][j] != matrixSupport[i + 1][j - 1] && matrixSupport[i][j] != matrixSupport[i + 2][j]) {
-                       flag++;
+                if (i < 6) {
+                    if (matrixSupport[i][j] != 0 && matrixSupport[i][j] == matrixSupport[i + 1][j] && matrixSupport[i][j] != matrixSupport[i - 1][j] && matrixSupport[i][j] != matrixSupport[i][j + 1]
+                            && matrixSupport[i][j] != matrixSupport[i][j - 1] && matrixSupport[i][j] != matrixSupport[i + 1][j + 1] && matrixSupport[i][j] != matrixSupport[i + 1][j - 1] && matrixSupport[i][j] != matrixSupport[i + 2][j]) {
+                        flag++;
 
-                   }
-               }
-
+                    }
                 }
+
             }
+        }
 
         if (flag > 5) {
             return 1;
@@ -112,30 +110,14 @@ class fourRowsCommonGoals implements CommonGoals {
                 countEqualsTiles[w]=0;
             }
             for (int j = 0; j < 6; j++) {
-                switch (matrix[i][j]) {
-                    case 1:
-                        countEqualsTiles[0]++;
-                    case 2:
-                        countEqualsTiles[1]++;
-                    case 3:
-                        countEqualsTiles[2]++;
-                    case 4:
-                        countEqualsTiles[3]++;
-                    case 5:
-                        countEqualsTiles[4]++;
-                    case 6:
-                        countEqualsTiles[5]++;
-
-                    case 0:
-                        countEqualsTiles[6]++;
-                }
+                countEqualsTiles[matrix[i][j]]++;
             }
-            for (int k = 0; k < 6; k++) {
+            for (int k = 1; k < 7; k++) {
                 if (countEqualsTiles[k] > 1) {
                     countExc++;
                 }
             }
-            if (countExc < 4 && countEqualsTiles[6]==0) {
+            if (countExc < 4 && countEqualsTiles[0]==0) {
                 count++;
             }
 
@@ -192,29 +174,14 @@ class twoColumnsCommonGoals implements CommonGoals {
             }
             countExc=0;
             for (int j = 0; j < 6; j++) {
-                switch (matrix[j][i]) {
-                    case 1:
-                        countEqualsTiles[0]++;
-                    case 2:
-                        countEqualsTiles[1]++;
-                    case 3:
-                        countEqualsTiles[2]++;
-                    case 4:
-                        countEqualsTiles[3]++;
-                    case 5:
-                        countEqualsTiles[4]++;
-                    case 6:
-                        countEqualsTiles[5]++;
-                    case 0:
-                        countEqualsTiles[6]++;
-                }
+                countEqualsTiles[matrix[j][i]]++;
             }
-            for (int k = 0; k < 6; k++) {
+            for (int k = 1; k < 7; k++) {
                 if (countEqualsTiles[k] > 1) {
                     countExc=1;
                 }
             }
-            if (countExc==0 && countEqualsTiles[6]==0) {
+            if (countExc==0 && countEqualsTiles[0]==0) {
                 count++;
             }
 
@@ -250,7 +217,7 @@ class subMatrix2CommonGoals implements CommonGoals {
             for (int i = 1; i < 6; i++) {
                 for (int j = 1; j <5 ; j++) {
                     if (matrixSupport[i][j] == w && matrixSupport[i][j] == matrixSupport[i][j + 1] && matrixSupport[i][j] == matrixSupport[i + 1][j] && matrixSupport[i][j] == matrixSupport[i + 1][j + 1]
-                        && matrixSupport[i][j]!= matrixSupport[i-1][j] && matrixSupport[i][j]!= matrixSupport[i-1][j+1] && matrixSupport[i][j]!= matrixSupport[i][j+2] && matrixSupport[i][j]!= matrixSupport[i+1][j+2]
+                            && matrixSupport[i][j]!= matrixSupport[i-1][j] && matrixSupport[i][j]!= matrixSupport[i-1][j+1] && matrixSupport[i][j]!= matrixSupport[i][j+2] && matrixSupport[i][j]!= matrixSupport[i+1][j+2]
                             && matrixSupport[i][j]!= matrixSupport[i+2][j] && matrixSupport[i][j]!= matrixSupport[i+2][j+1] && matrixSupport[i][j]!= matrixSupport[i][j-1] && matrixSupport[i][j]!= matrixSupport[i+1][j-1]
                     ) {
                         flag += 1;
@@ -267,107 +234,88 @@ class subMatrix2CommonGoals implements CommonGoals {
 }
 
 
-    //2 rows of  All different tiles
+//2 rows of  All different tiles
 //id=8
-    class twoRowsAllDifferentCommonGoals implements CommonGoals {
+class twoRowsAllDifferentCommonGoals implements CommonGoals {
 
-        @Override
-        public int Checker(int[][] matrix) {int count = 0;
-            int countExc = 0;
-            int[] countEqualsTiles = new int[7];
-            for (int i = 0; i < 5; i++) {
-                for (int w=0; w<7; w++) {
-                    countEqualsTiles[w]=0;
-                }
-                countExc=0;
-                for (int j = 0; j < 6; j++) {
-                    switch (matrix[i][j]) {
-                        case 1:
-                            countEqualsTiles[0]++;
-                        case 2:
-                            countEqualsTiles[1]++;
-                        case 3:
-                            countEqualsTiles[2]++;
-                        case 4:
-                            countEqualsTiles[3]++;
-                        case 5:
-                            countEqualsTiles[4]++;
-                        case 6:
-                            countEqualsTiles[5]++;
-                        case 0:
-                            countEqualsTiles[6]++;
-                    }
-                }
-                for (int k = 0; k < 6; k++) {
-                    if (countEqualsTiles[k] > 1) {
-                        countExc=1;
-                    }
-                }
-                if (countExc==0 && countEqualsTiles[6]==0) {
-                    count++;
-                }
+    @Override
+    public int Checker(int[][] matrix) {int count = 0;
+        int countExc = 0;
+        int[] countEqualsTiles = new int[7];
+        for (int i = 0; i < 5; i++) {
 
+            for (int w=0; w<7; w++) {
+                countEqualsTiles[w]=0;
             }
-            if (count > 1) {
-                return 1;
-            }else{
-                return 0;
+
+            countExc=0;
+            for (int j = 0; j < 6; j++) {
+                countEqualsTiles[matrix[i][j]]++;
             }
+            for (int k = 1; k < 7; k++) {
+                if (countEqualsTiles[k] > 1) {
+                    countExc=1;
+                }
+            }
+            if (countExc==0 && countEqualsTiles[0]==0) {
+                count++;
+            }
+
         }
-
-    }
-
-
-
-
-    // 3 disegual columns
-    //id=9
-    class threeDisegualColumnsCommonGoals implements CommonGoals {
-
-        @Override
-        public int Checker(int[][] matrix) {
-            int count = 0;
-            int countExc = 0;
-            int[] countEqualsTiles = new int[7];
-            for (int i = 0; i < 5; i++) {
-                for (int w=0; w<7; w++) {
-                    countEqualsTiles[w]=0;
-                }
-                for (int j = 0; j < 6; j++) {
-                    switch (matrix[j][i]) {
-                        case 1:
-                            countEqualsTiles[0]++;
-                        case 2:
-                            countEqualsTiles[1]++;
-                        case 3:
-                            countEqualsTiles[2]++;
-                        case 4:
-                            countEqualsTiles[3]++;
-                        case 5:
-                            countEqualsTiles[4]++;
-                        case 6:
-                            countEqualsTiles[5]++;
-                        case 0:
-                            countEqualsTiles[6]++;
-                    }
-                }
-                for (int k = 0; k < 6; k++) {
-                    if (countEqualsTiles[k] > 1) {
-                        countExc++;
-                    }
-                }
-                if (countExc < 4 && countEqualsTiles[6]==0) {
-                    count++;
-                }
-
-            }
-            if (count > 2) {
-                return 1;
-            }else{
-                return 0;
-            }
+        if (count > 1) {
+            return 1;
+        }else{
+            return 0;
         }
     }
+
+}
+
+
+
+
+// 3 disegual columns
+//id=9
+class threeDisegualColumnsCommonGoals implements CommonGoals {
+
+    @Override
+    public int Checker(int[][] matrix) {
+        int count = 0;
+        int countExc = 0;
+        int[] countEqualsTiles = new int[7];
+
+        for (int i = 0; i < 5; i++) {
+
+            for (int w=0; w<7; w++) {
+                countEqualsTiles[w]=0;
+
+            }
+
+            countExc = 0;
+            for (int j = 0; j < 6; j++) {
+                countEqualsTiles[matrix[j][i]]++;
+            }
+
+            for (int k = 1; k < 7; k++) {
+                if (countEqualsTiles[k]  > 0) {
+                    countExc+=1;
+
+                }
+            }
+
+
+            if (countExc < 4 && countEqualsTiles[0]==0) {
+                count+=1;
+            }
+
+        }
+        if (count > 2) {
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+}
 
 
 
@@ -379,7 +327,6 @@ class equalXCommonGoals implements CommonGoals {
     @Override
     public int Checker(int[][] matrix) {
         int flag=0;
-
         for (int i=0; i<4; i++){
             for(int j=0; j<3; j++){
                 if (matrix[i][j] == matrix[i][j+2] && matrix[i][j] == matrix[i+2][j] && matrix[i][j] == matrix[i+1][j+1] && matrix[i][j] == matrix[i+2][j+2]) {
@@ -404,39 +351,23 @@ class eightEqualCommonGoals implements CommonGoals {
 
     @Override
     public int Checker(int[][] matrix) {
-        int countRed =0;       //1
-        int countYellow=0;     //2
-        int countGreen=0;      //3
-        int countWhite=0;      //4
-        int countBlue=0;       //5
-        int countLightBlue=0;  //6
+        int[] countEqualsTiles = new int[7];
+        for (int w=0; w<7; w++) {
+            countEqualsTiles[w]=0;
+
+        }
         for (int i=0; i< 6; i++){
             for (int j=0; j< 5; j++){
-                switch(matrix[i][j]){
-                    case 1:
-                        countRed++;
-                    case 2:
-                        countYellow++;
-                    case 3:
-                        countGreen++;
-                    case 4:
-                        countWhite++;
-                    case 5:
-                        countBlue++;
-                    case 6:
-                        countLightBlue++;
-                }
-
-
+                countEqualsTiles[matrix[i][j]]++;
             }
         }
 
-        if (countRed>7 || countYellow>7 || countGreen>7 || countWhite>7 || countBlue>7 || countLightBlue>7) {
-            return 1;
-        }else {
-            return 0;
+        for(int k= 1; k<7; k++){
+            if(countEqualsTiles[k]>7){
+                return 1;
+            }
         }
-
+        return 0;
     }
 }
 
