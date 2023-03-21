@@ -2,7 +2,7 @@ package source.model.cgoal;
 
 //equals 4 corners
 //id=3
-class CornersEqualsCommonGoals implements CommonGoals {
+ public class CornersEqualsCommonGoals implements CommonGoals {
 
 
     @Override

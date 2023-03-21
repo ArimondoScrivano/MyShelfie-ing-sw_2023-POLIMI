@@ -2,7 +2,7 @@ package source.model.cgoal;
 
 // 6 pairs equal
 //id=1
-class SixPairsEqualCommonGoals implements CommonGoals {
+ public class SixPairsEqualCommonGoals implements CommonGoals {
 
     @Override
     public int Checker(int[][] matrix) {

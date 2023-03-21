@@ -2,7 +2,7 @@ package source.model.cgoal;
 
 //2 rows of  All different tiles
 //id=8
-    class twoRowsAllDifferentCommonGoals implements CommonGoals {
+     public class twoRowsAllDifferentCommonGoals implements CommonGoals {
 
         @Override
         public int Checker(int[][] matrix) {int count = 0;

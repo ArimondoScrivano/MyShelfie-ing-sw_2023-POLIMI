@@ -3,7 +3,7 @@ package source.model.cgoal;
 //equalsubmatrix2*2
 //id=7
 //da rivedere
-class subMatrix2CommonGoals implements CommonGoals {
+ public class subMatrix2CommonGoals implements CommonGoals {
 
     @Override
     public int Checker(int[][] matrix) {

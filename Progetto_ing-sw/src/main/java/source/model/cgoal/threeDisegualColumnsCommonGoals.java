@@ -2,7 +2,7 @@ package source.model.cgoal;
 
 // 3 disegual columns
     //id=9
-    class threeDisegualColumnsCommonGoals implements CommonGoals {
+     public class threeDisegualColumnsCommonGoals implements CommonGoals {
 
         @Override
         public int Checker(int[][] matrix) {

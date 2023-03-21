@@ -2,7 +2,7 @@ package source.model.cgoal;
 
 // diagonal equals tiles
 //id=2
-class diagonalEqualCommonGoals implements CommonGoals {
+ public class diagonalEqualCommonGoals implements CommonGoals {
     @Override
     public int Checker(int[][] matrix) {
         int flag = 0;

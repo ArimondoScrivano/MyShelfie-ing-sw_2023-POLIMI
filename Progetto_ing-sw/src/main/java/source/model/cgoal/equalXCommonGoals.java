@@ -3,7 +3,7 @@ package source.model.cgoal;
 //equal "x"
 //id=10
 // da rivedere
-class equalXCommonGoals implements CommonGoals {
+ public class equalXCommonGoals implements CommonGoals {
 
     @Override
     public int Checker(int[][] matrix) {

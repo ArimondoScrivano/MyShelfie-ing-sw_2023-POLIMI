@@ -2,7 +2,7 @@ package source.model.cgoal;
 
 // 5 Columns different highs
 //id=12
-class fiveColumnsCommonGoals implements CommonGoals {
+ public class fiveColumnsCommonGoals implements CommonGoals {
 
     @Override
     public int Checker(int[][] matrix) {
