@@ -2,7 +2,7 @@ package source.model.cgoal;
 
 // 4 vertical tiles equals four times
 //id=5
-class FourVerticalCommonGoals implements CommonGoals {
+ public class FourVerticalCommonGoals implements CommonGoals {
 
     @Override
     public int Checker(int[][] matrix) {

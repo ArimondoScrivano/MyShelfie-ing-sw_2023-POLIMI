@@ -2,7 +2,7 @@ package source.model.cgoal;
 
 // 4 rows that have max 3 tiles egual
 //id=4
-class fourRowsCommonGoals implements CommonGoals {
+ public class fourRowsCommonGoals implements CommonGoals {
     @Override
     public int Checker(int[][] matrix) {
         int count = 0;

@@ -2,7 +2,7 @@ package source.model.cgoal;
 
 //8 equal tiles random order
 //id=11
-class eightEqualCommonGoals implements CommonGoals {
+public class eightEqualCommonGoals implements CommonGoals {
 
     public int Checker(int[][] matrix) {
         int[] countEqualsTiles = new int[7];
