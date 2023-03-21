@@ -47,12 +47,14 @@ public class Game extends Observable {
                 pointsCommonGoal_2.add(2, 8);
             case 4:
                 setCommonGoals(commonGoals);
+                pointsCommonGoal_1 = new ArrayList<>();
                 //Setting the points for the commonGoals
                 pointsCommonGoal_1.add(0, 2);
                 pointsCommonGoal_1.add(1, 4);
                 pointsCommonGoal_1.add(2, 6);
                 pointsCommonGoal_1.add(3, 8);
                 //2nd commonGoal
+                pointsCommonGoal_2 = new ArrayList<>();
                 pointsCommonGoal_2.add(0, 2);
                 pointsCommonGoal_2.add(1, 4);
                 pointsCommonGoal_2.add(2, 6);

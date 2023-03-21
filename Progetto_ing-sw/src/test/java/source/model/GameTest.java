@@ -1,6 +1,7 @@
 package source.model;
 
 import junit.framework.TestCase;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
@@ -20,15 +21,19 @@ public class GameTest extends TestCase {
             new Player(2, "Pietro"),
             new Player(3, "Rita")
     );
-    playersTest.put(0, player1);
-    playersTest.put(1, player2);
-    @TestFactory
+
+    @BeforeEach
     public void SetUp() {
+        playersTest.put(0, player1);
+        playersTest.put(1, player2);
+        Dashboard dashboard = new Dashboard(2);
+        CommonGoals[] commonGoals = new CommonGoals[2];
         new Game(0, dashboard, playersTest.get(0), commonGoals, 122, false);
     }
 
     @Test
     void getCurrentPlayer() {
+        assertEquals(playersTest.get(0).get(0), player1.get(0));
     }
 
     @Test
