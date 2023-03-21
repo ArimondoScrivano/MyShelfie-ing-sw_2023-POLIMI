@@ -140,11 +140,9 @@ public class Player {
                             if (counter == 5) this.points += 5;
                             if (counter >= 6) this.points += 8;
                         }
-                    }
-                    j = 0;
-                    i = 0; //I get back to the first tile and look for another chain of the t-type. I wont count again
-                    // the same chain because I marked the t type with a c type.
-                }else{i++;}
+                    }else{i++;}
+                }i = 0; j++; //I get back to the first tile and look for another chain of the t-type. I won't count again
+                // the same chain because I marked the t type with a c type.
             }j++; i=0;
         }
         for(j=0; j<6; j++){ //before checking the following type I convert back the c tiles to t type.
