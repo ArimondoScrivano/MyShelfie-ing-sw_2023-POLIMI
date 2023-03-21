@@ -1,4 +1,5 @@
 package source.model;
+import source.model.cgoal.*;
 import java.util.*;
 
 public class Game extends Observable {
@@ -87,6 +88,7 @@ public class Game extends Observable {
         return this.pointsCommonGoal_2.lastIndexOf(pointsCommonGoal_1);
     }
 
+    //TODO: lista con associazione temporanea
     public void setCommonGoals(CommonGoals[] commonGoals){
         //Two random numbers to get the 2 id of the common_goals of the game
         Random rand=new Random();
