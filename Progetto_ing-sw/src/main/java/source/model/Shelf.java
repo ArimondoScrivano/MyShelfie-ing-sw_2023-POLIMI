@@ -1,4 +1,4 @@
-package src.model;
+package source.model;
 
 public class Shelf {
     protected int[][] tilesShelf;

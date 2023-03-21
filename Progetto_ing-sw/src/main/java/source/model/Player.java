@@ -1,4 +1,4 @@
-package src.model;
+package source.model;
 public class Player {
     //INTEGER TO IDENTIFY THE PLAYER
     private int id;

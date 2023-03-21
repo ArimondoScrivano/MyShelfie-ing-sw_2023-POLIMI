@@ -1,4 +1,4 @@
-package src.model;
+package source.model;
 import java.util.List;
 
 public class PersonalGoal {
