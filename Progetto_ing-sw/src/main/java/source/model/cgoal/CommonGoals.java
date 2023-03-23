@@ -1,8 +1,12 @@
 package source.model.cgoal;
-//abstract class that has the strategy method
- public interface CommonGoals{
+import source.model.*;
+import java.util.*;
 
-    // the result are 0 or 1: 0 no match, 1 match
-    public int Checker(int[][] matrix);
+//abstract class that has the strategy method
+ public interface  CommonGoals{
+
+
+    // the result is: 0 or 1.
+    public   int Checker(Tile[][] matrix);
 
 }

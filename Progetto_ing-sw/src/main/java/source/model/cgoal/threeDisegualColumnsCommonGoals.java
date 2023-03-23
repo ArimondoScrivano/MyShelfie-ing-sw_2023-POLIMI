@@ -1,5 +1,8 @@
 package source.model.cgoal;
 
+
+//TODO
+
 // 3 disegual columns
     //id=9
      public class threeDisegualColumnsCommonGoals implements CommonGoals {

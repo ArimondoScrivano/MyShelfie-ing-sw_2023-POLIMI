@@ -1,5 +1,8 @@
 package source.model.cgoal;
 
+
+//TODO
+
 //2 rows of  All different tiles
 //id=8
      public class twoRowsAllDifferentCommonGoals implements CommonGoals {

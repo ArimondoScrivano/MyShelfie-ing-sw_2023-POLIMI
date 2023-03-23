@@ -1,5 +1,8 @@
 package source.model.cgoal;
 
+
+//TODO
+
 //2 columns All different tiles
 //id=6
  public class twoColumnsCommonGoals implements CommonGoals {

@@ -1,10 +1,13 @@
 package source.model.cgoal;
+import source.model.*;
 
+
+//DONE
 //8 equal tiles random order
 //id=11
 public class eightEqualCommonGoals implements CommonGoals {
 
-    public int Checker(int[][] matrix) {
+    public int Checker(Tile[][] matrix) {
         int[] countEqualsTiles = new int[7];
         for (int w=0; w<7; w++) {
             countEqualsTiles[w]=0;
@@ -12,7 +15,7 @@ public class eightEqualCommonGoals implements CommonGoals {
         }
         for (int i=0; i< 6; i++){
             for (int j=0; j< 5; j++){
-                countEqualsTiles[matrix[i][j]]++;
+                countEqualsTiles[matrix[i][j].getColor().compareTo(COLOR.BLANK)]++;
             }
         }
 
