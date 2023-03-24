@@ -12,6 +12,7 @@ import source.model.*;
         int flag=0;
         for(int i=0; i<3; i++){
             for (int j=0; j<5; j++){
+
                 if (!matrix[i][j].getColor().equals(COLOR.BLANK)
                         && matrix[i][j].getColor().equals(matrix[i+1][j].getColor())
                         && matrix[i][j].getColor().equals(matrix[i+2][j].getColor())

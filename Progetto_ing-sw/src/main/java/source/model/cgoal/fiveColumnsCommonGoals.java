@@ -9,6 +9,7 @@ import source.model.*;
     @Override
     public int Checker(Tile[][] matrix) {
         int flag = 0;
+
         if (!matrix[4][0].getColor().equals(COLOR.BLANK)
                 && !matrix[3][1].getColor().equals(COLOR.BLANK)
                 && !matrix[2][2].getColor().equals(COLOR.BLANK)
