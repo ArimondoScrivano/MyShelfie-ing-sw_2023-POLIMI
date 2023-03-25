@@ -1,10 +1,13 @@
 package source.model.cgoal;
+import source.model.*;
 
+
+//DONE
 // 4 rows that have max 3 tiles egual
 //id=4
  public class fourRowsCommonGoals implements CommonGoals {
     @Override
-    public int Checker(int[][] matrix) {
+    public int Checker(Tile[][] matrix) {
         int count = 0;
         int countExc = 0;
         int[] countEqualsTiles = new int[7];
@@ -13,7 +16,7 @@ package source.model.cgoal;
                 countEqualsTiles[w]=0;
             }
             for (int j = 0; j < 6; j++) {
-                countEqualsTiles[matrix[i][j]]++;
+                countEqualsTiles[matrix[i][j].getColor().compareTo(COLOR.BLANK)]++;
             }
             for (int k = 1; k < 7; k++) {
                 if (countEqualsTiles[k] > 1) {

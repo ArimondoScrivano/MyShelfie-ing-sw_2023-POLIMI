@@ -1,5 +1,8 @@
 package source.model.cgoal;
 
+
+//TODO
+
 // 6 pairs equal
 //id=1
  public class SixPairsEqualCommonGoals implements CommonGoals {

@@ -13,9 +13,7 @@ public class Dashboard {
     public enum TILETYPE{
         TWO_PL, THREE_PL, FOUR_PL, BLK
     }
-    public enum COLOR{
-        BLUE, YELLOW, WHITE, LIGHTBLUE, VIOLET, GREEN
-    }
+
 
     //Constructor given the number of players
     //TODO

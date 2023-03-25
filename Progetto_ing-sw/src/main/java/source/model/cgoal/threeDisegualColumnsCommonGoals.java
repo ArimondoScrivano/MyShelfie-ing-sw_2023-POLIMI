@@ -1,11 +1,14 @@
 package source.model.cgoal;
+import source.model.*;
+
+//TODO
 
 // 3 disegual columns
     //id=9
      public class threeDisegualColumnsCommonGoals implements CommonGoals {
 
         @Override
-        public int Checker(int[][] matrix) {
+        public int Checker(Tile[][] matrix) {
             int count = 0;
             int countExc = 0;
             int[] countEqualsTiles = new int[7];
@@ -19,7 +22,7 @@ package source.model.cgoal;
 
                 countExc = 0;
                 for (int j = 0; j < 6; j++) {
-                    countEqualsTiles[matrix[j][i]]++;
+                    countEqualsTiles[matrix[j][i].getColor().compareTo(COLOR.BLANK)]++;
                 }
 
                 for (int k = 1; k < 7; k++) {

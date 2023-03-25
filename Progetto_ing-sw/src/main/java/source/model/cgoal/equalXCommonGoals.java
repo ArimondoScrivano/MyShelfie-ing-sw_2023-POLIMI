@@ -2,7 +2,7 @@ package source.model.cgoal;
 
 //equal "x"
 //id=10
-// da rivedere
+//TODO
  public class equalXCommonGoals implements CommonGoals {
 
     @Override

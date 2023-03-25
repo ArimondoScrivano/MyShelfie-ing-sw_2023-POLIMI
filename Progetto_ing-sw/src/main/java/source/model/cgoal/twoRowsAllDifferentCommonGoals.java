@@ -1,11 +1,14 @@
 package source.model.cgoal;
+import source.model.*;
+
+//DONE
 
 //2 rows of  All different tiles
 //id=8
      public class twoRowsAllDifferentCommonGoals implements CommonGoals {
 
         @Override
-        public int Checker(int[][] matrix) {int count = 0;
+        public int Checker(Tile[][] matrix) {int count = 0;
             int countExc = 0;
             int[] countEqualsTiles = new int[7];
             for (int i = 0; i < 5; i++) {
@@ -16,7 +19,7 @@ package source.model.cgoal;
 
                 countExc=0;
                 for (int j = 0; j < 6; j++) {
-                    countEqualsTiles[matrix[i][j]]++;
+                    countEqualsTiles[matrix[i][j].getColor().compareTo(COLOR.BLANK)]++;
                 }
                 for (int k = 1; k < 7; k++) {
                     if (countEqualsTiles[k] > 1) {
