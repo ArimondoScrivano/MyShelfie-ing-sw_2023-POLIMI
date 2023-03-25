@@ -2,44 +2,34 @@ package source.model;
 
 import source.model.cgoal.*;
 import junit.framework.TestCase;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestFactory;
 
 import java.util.*;
 
 public class GameTest extends TestCase {
-    Map<Integer, List<Player>> playersTest = new HashMap<>();
+    List<Player> playersTest = new ArrayList<>();
     List<Player> player1 = Arrays.asList(
             new Player(0, "Arimondo"),
             new Player(1, "Lorenzo"),
             new Player(2, "Pietro"),
             new Player(3, "Rita")
     );
-    List<Player> player2 = Arrays.asList(
-            new Player(0, "Arimondo"),
-            new Player(1, "Lorenzo"),
-            new Player(2, "Pietro"),
-            new Player(3, "Rita")
-    );
 
-    @BeforeEach
-    public void SetUp() {
-        playersTest.put(0, player1);
-        playersTest.put(1, player2);
+    @Test
+    public void testGetCurrentPlayer() throws NoSuchElementException {
         Dashboard dashboard = new Dashboard(2);
-        CommonGoals[] commonGoals = new CommonGoals[2];
-        new Game(0, dashboard, playersTest.get(0), commonGoals, 122, false);
+        playersTest.addAll(player1);
+        Game game1 = new Game(0, dashboard, playersTest);
+        assertEquals(game1.getCurrentPlayer(), playersTest.get(0));
     }
 
     @Test
-    void getCurrentPlayer() {
-        assertEquals(playersTest.get(0).get(0), player1.get(0));
-    }
-
-    @Test
-    void setCurrentPlayer() {
-
+    public void testSetCurrentPlayer() throws NoSuchElementException {
+        Dashboard dashboard = new Dashboard(2);
+        playersTest.addAll(player1);
+        Game game1 = new Game(0, dashboard, playersTest);
+        game1.setCurrentPlayer(player1.get(1));
+        assertEquals(game1.getCurrentPlayer(), playersTest.get(1));
     }
 
     @Test
@@ -52,7 +42,6 @@ public class GameTest extends TestCase {
 
     @Test
     void setCommonGoals() {
-
     }
 
     @Test
