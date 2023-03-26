@@ -10,14 +10,18 @@ import source.model.*;
     public int Checker(Tile[][] matrix) {
         int flag = 0;
         // Diagonal 5-4-3-2-1
-        if (matrix[4][0].getColor().equals(matrix[3][1].getColor()) && matrix[4][0].getColor().equals(matrix[2][2].getColor())
-                && matrix[4][0].getColor().equals(matrix[1][3].getColor()) && matrix[4][0].getColor().equals(matrix[0][4].getColor())
+        if (matrix[4][0].getColor().equals(matrix[3][1].getColor())
+                && matrix[4][0].getColor().equals(matrix[2][2].getColor())
+                && matrix[4][0].getColor().equals(matrix[1][3].getColor())
+                && matrix[4][0].getColor().equals(matrix[0][4].getColor())
                 && !matrix[4][0].getColor().equals(COLOR.BLANK)) {
             flag = 1;
         }
         //Diagonal 1-2-3-4-5
-        if (matrix[4][4].getColor().equals(matrix[3][3].getColor()) && matrix[4][4].getColor().equals(matrix[2][2].getColor())
-                && matrix[4][4].getColor().equals(matrix[1][1].getColor())&& matrix[4][4].getColor().equals(matrix[0][0].getColor())
+        if (matrix[4][4].getColor().equals(matrix[3][3].getColor())
+                && matrix[4][4].getColor().equals(matrix[2][2].getColor())
+                && matrix[4][4].getColor().equals(matrix[1][1].getColor())
+                && matrix[4][4].getColor().equals(matrix[0][0].getColor())
                 && !matrix[4][4].getColor().equals(COLOR.BLANK))
         {
             flag = 1;

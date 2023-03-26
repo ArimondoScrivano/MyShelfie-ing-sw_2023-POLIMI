@@ -11,8 +11,10 @@ import source.model.*;
 
     @Override
     public int Checker(Tile[][] matrix) {
-        if (matrix[0][0].getColor().equals(matrix[0][4].getColor()) && matrix[0][0].getColor().equals(matrix[5][0].getColor())
-                && matrix[0][0].getColor().equals(matrix[5][4].getColor()) && !matrix[0][0].getColor().equals(COLOR.BLANK))
+        if (matrix[0][0].getColor().equals(matrix[0][4].getColor())
+                && matrix[0][0].getColor().equals(matrix[5][0].getColor())
+                && matrix[0][0].getColor().equals(matrix[5][4].getColor())
+                && !matrix[0][0].getColor().equals(COLOR.BLANK))
         {
 
             return 1;
