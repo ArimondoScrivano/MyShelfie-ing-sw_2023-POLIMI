@@ -5,31 +5,30 @@ import java.util.*;
 public class Game extends Observable {
     //Number of game
     private int id;
+    //Dashboard reference
     private final Dashboard dashboard;
-    private Map<Integer, List<Player>> players;
+    //Players
+    private List<Player> players;
+    private Player currentPlayer;
+    static int MAX_PLAYERS=4;
+    //Common goals
     private CommonGoals[] commonGoals;
     private List<Integer> pointsCommonGoal_1;
     private List<Integer> pointsCommonGoal_2;
-    private Player currentPlayer;
-    private int availableTiles;
     private boolean endGame;
 
-    public Game(int id, Dashboard dashboard, List<Player> pl, CommonGoals[] commonGoals, int availableTiles, boolean endGame){
+    public Game(int id, Dashboard dashboard, List<Player> pl){
         //Setting the number of the game
         this.id=id;
         //Setting the reference to the dashboard
         this.dashboard=dashboard;
         //Updating the Map of players
-        this.players = new HashMap<Integer, List<Player>>();
-        //Insert the list of the first players to play
-        players.put(id, pl);
-        //Finding the first element of the map on a key
-        setCurrentPlayer(players.get(id).get(0));
+        this.players = new ArrayList<>(pl);
         //Setting the commonGoals based on the number of players
-        int numberOfPlayers = players.get(id).size();
+        int numberOfPlayers = players.size();
         switch(numberOfPlayers){
             case 2:
-                setCommonGoals(commonGoals);
+                setCommonGoals();
                 //Setting the points for the commonGoals
                 pointsCommonGoal_1.add(0, 4);
                 pointsCommonGoal_1.add(1, 8);
@@ -37,7 +36,7 @@ public class Game extends Observable {
                 pointsCommonGoal_2.add(0, 4);
                 pointsCommonGoal_2.add(1, 8);
             case 3:
-                setCommonGoals(commonGoals);
+                setCommonGoals();
                 //Setting the points for the commonGoals
                 pointsCommonGoal_1.add(0, 4);
                 pointsCommonGoal_1.add(1, 6);
@@ -47,7 +46,7 @@ public class Game extends Observable {
                 pointsCommonGoal_2.add(1, 6);
                 pointsCommonGoal_2.add(2, 8);
             case 4:
-                setCommonGoals(commonGoals);
+                setCommonGoals();
                 pointsCommonGoal_1 = new ArrayList<>();
                 //Setting the points for the commonGoals
                 pointsCommonGoal_1.add(0, 2);
@@ -85,11 +84,11 @@ public class Game extends Observable {
         if(idCommonGoal==1){
             return this.pointsCommonGoal_1.lastIndexOf(pointsCommonGoal_1);
         }
-        return this.pointsCommonGoal_2.lastIndexOf(pointsCommonGoal_1);
+        return this.pointsCommonGoal_2.lastIndexOf(pointsCommonGoal_2);
     }
 
-    //TODO: lista con associazione temporanea
-    public void setCommonGoals(CommonGoals[] commonGoals){
+    //TODO: settare i common goals in maniera più orientata agli oggetti
+    public void setCommonGoals(){
         //Two random numbers to get the 2 id of the common_goals of the game
         Random rand=new Random();
         //Random number between 0+1-11+1
@@ -98,59 +97,60 @@ public class Game extends Observable {
         do {
             id_2 = rand.nextInt(12) + 1;
         }while(id_2==id_1);
+
         //Setting the commonGoals array with the id of the two commonGoals
         switch(id_1){
             case 1:
-                commonGoals[0] = new SixPairsEqualCommonGoals();
+                this.commonGoals[0] = new SixPairsEqualCommonGoals();
             case 2:
-                commonGoals[0] = new diagonalEqualCommonGoals();
+                this.commonGoals[0] = new diagonalEqualCommonGoals();
             case 3:
-                commonGoals[0] = new CornersEqualsCommonGoals();
+                this.commonGoals[0] = new CornersEqualsCommonGoals();
             case 4:
-                commonGoals[0] = new fourRowsCommonGoals();
+                this.commonGoals[0] = new fourRowsCommonGoals();
             case 5:
-                commonGoals[0] = new FourVerticalCommonGoals();
+                this.commonGoals[0] = new FourVerticalCommonGoals();
             case 6:
-                commonGoals[0] = new twoColumnsCommonGoals();
+                this.commonGoals[0] = new twoColumnsCommonGoals();
             case 7:
-                commonGoals[0] = new subMatrix2CommonGoals();
+                this.commonGoals[0] = new subMatrix2CommonGoals();
             case 8:
-                commonGoals[0] = new twoRowsAllDifferentCommonGoals();
+                this.commonGoals[0] = new twoRowsAllDifferentCommonGoals();
             case 9:
-                commonGoals[0] = new threeDisegualColumnsCommonGoals();
+                this.commonGoals[0] = new threeDisegualColumnsCommonGoals();
             case 10:
-                commonGoals[0] = new equalXCommonGoals();
+                this.commonGoals[0] = new equalXCommonGoals();
             case 11:
-                commonGoals[0] = new eightEqualCommonGoals();
+                this.commonGoals[0] = new eightEqualCommonGoals();
             case 12:
-                commonGoals[0] = new fiveColumnsCommonGoals();
+                this.commonGoals[0] = new fiveColumnsCommonGoals();
         }
 
-        switch(id_1){
+        switch(id_2){
             case 1:
-                commonGoals[1] = new SixPairsEqualCommonGoals();
+                this.commonGoals[1] = new SixPairsEqualCommonGoals();
             case 2:
-                commonGoals[1] = new diagonalEqualCommonGoals();
+                this.commonGoals[1] = new diagonalEqualCommonGoals();
             case 3:
-                commonGoals[1] = new CornersEqualsCommonGoals();
+                this.commonGoals[1] = new CornersEqualsCommonGoals();
             case 4:
-                commonGoals[1] = new fourRowsCommonGoals();
+                this.commonGoals[1] = new fourRowsCommonGoals();
             case 5:
-                commonGoals[1] = new FourVerticalCommonGoals();
+                this.commonGoals[1] = new FourVerticalCommonGoals();
             case 6:
-                commonGoals[1] = new twoColumnsCommonGoals();
+                this.commonGoals[1] = new twoColumnsCommonGoals();
             case 7:
-                commonGoals[1] = new subMatrix2CommonGoals();
+                this.commonGoals[1] = new subMatrix2CommonGoals();
             case 8:
-                commonGoals[1] = new twoRowsAllDifferentCommonGoals();
+                this.commonGoals[1] = new twoRowsAllDifferentCommonGoals();
             case 9:
-                commonGoals[1] = new threeDisegualColumnsCommonGoals();
+                this.commonGoals[1] = new threeDisegualColumnsCommonGoals();
             case 10:
-                commonGoals[1] = new equalXCommonGoals();
+                this.commonGoals[1] = new equalXCommonGoals();
             case 11:
-                commonGoals[1] = new eightEqualCommonGoals();
+                this.commonGoals[1] = new eightEqualCommonGoals();
             case 12:
-                commonGoals[1] = new fiveColumnsCommonGoals();
+                this.commonGoals[1] = new fiveColumnsCommonGoals();
         }
     }
 
@@ -160,7 +160,7 @@ public class Game extends Observable {
 
     //The endgame token is taken by the current player if his shelf is completed
     public void endGameToken(){
-        if(getCurrentPlayer().shelfCompleted==true){
+        if(getCurrentPlayer().shelfCompleted){
             //The endgame token value is 1
             getCurrentPlayer().points++;
             endGame=true;
