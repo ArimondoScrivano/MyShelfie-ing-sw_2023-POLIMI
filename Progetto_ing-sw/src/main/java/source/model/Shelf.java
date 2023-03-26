@@ -9,6 +9,6 @@ public class Shelf {
     //TODO
     public void updateShelf(int[] tiles){}
     //METHOD TO RETURN TRUE WHETHER ONE'S SHELF IS COMPLETED
-    public boolean completeShelf(){}
+    public boolean completeShelf(){return false;}
 
 }

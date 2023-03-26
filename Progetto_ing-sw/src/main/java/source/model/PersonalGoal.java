@@ -5,5 +5,5 @@ public class PersonalGoal {
     private int[][] layout;
     private List<Integer> points;
     //METHOD TO RETURN GOAL POINTS
-    public int getPoints(){} //points.get(i);
+    public int getPoints(){return 0;} //points.get(i);
 }

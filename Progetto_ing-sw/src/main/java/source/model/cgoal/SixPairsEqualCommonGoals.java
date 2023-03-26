@@ -27,7 +27,8 @@ import java.util.*;
                 if (!tilesAlreadyIn.contains(matrixSupport[i][j]) && !matrixSupport[i][j].getColor().equals(COLOR.BLANK)) {
 
                 // up
-                    if (matrixSupport[i][j].getColor().equals(matrixSupport[i + 1][j].getColor())) {
+                    if (!tilesAlreadyIn.contains(matrixSupport[i][j])
+                        && matrixSupport[i][j].getColor().equals(matrixSupport[i + 1][j].getColor())) {
                         if (!tilesAlreadyIn.contains(matrixSupport[i + 1][j])) {
                             count = count + 1;
                         }
@@ -35,7 +36,8 @@ import java.util.*;
                         tilesAlreadyIn.add(matrixSupport[i][j]);
                     }
                 // down
-                    if (matrixSupport[i][j].getColor().equals(matrixSupport[i-1][j].getColor())){
+                    if (!tilesAlreadyIn.contains(matrixSupport[i][j])
+                        && matrixSupport[i][j].getColor().equals(matrixSupport[i-1][j].getColor())){
                         if (!tilesAlreadyIn.contains(matrixSupport[i-1][j])) {
                             count = count + 1;
                         }
@@ -44,15 +46,17 @@ import java.util.*;
                     }
 
                 //left corner
-                if(matrixSupport[i][j].getColor().equals(matrixSupport[i][j-1].getColor())){
-                    if (!tilesAlreadyIn.contains(matrixSupport[i][j-1])) {
-                        count = count + 1;
-                    }
+                    if(!tilesAlreadyIn.contains(matrixSupport[i][j])
+                     &&matrixSupport[i][j].getColor().equals(matrixSupport[i][j-1].getColor())){
+                        if (!tilesAlreadyIn.contains(matrixSupport[i][j-1])) {
+                            count = count + 1;
+                        }
                     tilesAlreadyIn.add(matrixSupport[i][j-1]);
                     tilesAlreadyIn.add(matrixSupport[i][j]);
-                }
+                    }
                 // right corner
-                if(matrixSupport[i][j].getColor().equals(matrixSupport[i][j+1].getColor())){
+                if(!tilesAlreadyIn.contains(matrixSupport[i][j])
+                    && matrixSupport[i][j].getColor().equals(matrixSupport[i][j+1].getColor())){
                     if (!tilesAlreadyIn.contains(matrixSupport[i][j+1])) {
                             count = count + 1;
                         }
