@@ -80,11 +80,11 @@ public class CornersEqualsCommonGoalsTest extends TestCase {
         matrix[5][2] = a52;
         Tile a53 = new Tile(COLOR.BLUE, 1);
         matrix[5][3] = a53;
-        Tile a54 = new Tile(COLOR.GREEN, 1);
+        Tile a54 = new Tile(COLOR.BLUE, 1);
         matrix[5][4] = a54;
 
         assertEquals(0, test1.Checker(matrix));
-        assertEquals(1, test8.Checker(matrix));
+        assertEquals(0, test8.Checker(matrix));
     }
 }
 
