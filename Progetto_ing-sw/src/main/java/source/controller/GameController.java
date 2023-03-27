@@ -2,7 +2,7 @@ package source.controller;
 
 import source.model.*;
 
-//TODO
+//TODO:controller
 public class GameController {
     //Model
     Game currentGame;
