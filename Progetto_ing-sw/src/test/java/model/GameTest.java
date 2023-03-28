@@ -2,8 +2,8 @@ package model;
 
 
 import junit.framework.TestCase;
+import model.cgoal.CommonGoals;
 import org.junit.jupiter.api.Test;
-
 import java.util.*;
 
 public class GameTest extends TestCase {
@@ -14,6 +14,7 @@ public class GameTest extends TestCase {
             new Player(2, "Pietro"),
             new Player(3, "Rita")
     );
+    CommonGoals[] commonGoalsTest = new CommonGoals[2];
 
     @Test
     public void testGetCurrentPlayer() throws NoSuchElementException {
@@ -28,16 +29,26 @@ public class GameTest extends TestCase {
         Dashboard dashboard = new Dashboard(2);
         playersTest.addAll(player1);
         Game game1 = new Game(0, dashboard, playersTest);
-        game1.setCurrentPlayer(player1.get(1));
-        assertEquals(game1.getCurrentPlayer(), playersTest.get(1));
+        game1.setCurrentPlayer(player1.get(3));
+        assertEquals(game1.getCurrentPlayer(), playersTest.get(3));
     }
 
     @Test
-    void getCommonGoals() {
+    public void testGetCommonGoals() throws NoSuchElementException{
+        Dashboard dashboard = new Dashboard(2);
+        playersTest.addAll(player1);
+        Game game1 = new Game(0, dashboard, playersTest);
+        commonGoalsTest = game1.getCommonGoals();
+        assertEquals(game1.getCommonGoals(), commonGoalsTest);
     }
 
     @Test
-    void getCommonGoalsPoints() {
+    public void testGetCommonGoalsPoints() throws NoSuchElementException {
+        Dashboard dashboard = new Dashboard(2);
+        playersTest.addAll(player1);
+        Game game1 = new Game(0, dashboard, playersTest);
+        commonGoalsTest = game1.getCommonGoals();
+        //TODO
     }
 
     @Test

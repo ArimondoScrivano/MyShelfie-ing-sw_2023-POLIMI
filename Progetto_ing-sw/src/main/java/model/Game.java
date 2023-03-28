@@ -24,6 +24,8 @@ public class Game extends Observable {
         this.dashboard=dashboard;
         //Updating the Map of players
         this.players = new ArrayList<>(pl);
+        //Setting the first player
+        this.currentPlayer = pl.get(0);
         //Setting the commonGoals based on the number of players
         int numberOfPlayers = players.size();
         switch(numberOfPlayers){
@@ -72,7 +74,11 @@ public class Game extends Observable {
     }
     //Setting the new currentPlayer
     public void setCurrentPlayer(Player pl){
-        this.currentPlayer=pl;
+        if(players.indexOf(pl)!=players.size()){
+            this.currentPlayer=pl;
+        }else{
+            this.currentPlayer=players.get(0);
+        }
     }
 
     //Return the commonGoals array
@@ -80,11 +86,13 @@ public class Game extends Observable {
         return this.commonGoals;
     }
 
-    public Integer getCommonGoalsPoints(CommonGoals goal, int idCommonGoal){
+    public Integer getCommonGoalsPoints(CommonGoals goal, int idCommonGoal) throws ArrayIndexOutOfBoundsException{
         if(idCommonGoal==1){
-            return this.pointsCommonGoal_1.lastIndexOf(pointsCommonGoal_1);
+            //Return the last-1 element-->this will be removed if a commonGoal is completed
+            return pointsCommonGoal_1.get(pointsCommonGoal_1.size() - 1);
         }
-        return this.pointsCommonGoal_2.lastIndexOf(pointsCommonGoal_2);
+        //Return the last-1 element-->this will be removed if a commonGoal is completed
+        return pointsCommonGoal_2.get(pointsCommonGoal_2.size() - 1);
     }
 
     //TODO: settare i common goals in maniera più orientata agli oggetti
@@ -93,67 +101,35 @@ public class Game extends Observable {
         Random rand=new Random();
         //Random number between 0+1-11+1
         int id_1=rand.nextInt(12)+1;
-        int id_2;
-        do {
-            id_2 = rand.nextInt(12) + 1;
-        }while(id_2==id_1);
+        int id_2=rand.nextInt(12)+1;
+
+        while(id_1==id_2){
+            id_2=rand.nextInt(12) + 1;
+        }
 
         //Setting the commonGoals array with the id of the two commonGoals
-        switch(id_1){
-            case 1:
-                this.commonGoals[0] = new SixPairsEqualCommonGoals();
-            case 2:
-                this.commonGoals[0] = new diagonalEqualCommonGoals();
-            case 3:
-                this.commonGoals[0] = new CornersEqualsCommonGoals();
-            case 4:
-                this.commonGoals[0] = new fourRowsCommonGoals();
-            case 5:
-                this.commonGoals[0] = new FourVerticalCommonGoals();
-            case 6:
-                this.commonGoals[0] = new twoColumnsCommonGoals();
-            case 7:
-                this.commonGoals[0] = new subMatrix2CommonGoals();
-            case 8:
-                this.commonGoals[0] = new twoRowsAllDifferentCommonGoals();
-            case 9:
-                this.commonGoals[0] = new threeDisegualColumnsCommonGoals();
-            case 10:
-                this.commonGoals[0] = new equalXCommonGoals();
-            case 11:
-                this.commonGoals[0] = new eightEqualCommonGoals();
-            case 12:
-                this.commonGoals[0] = new fiveColumnsCommonGoals();
-        }
+        List<CommonGoals> temporaryCommonGoals = Arrays.asList(
+                new SixPairsEqualCommonGoals(),
+                new diagonalEqualCommonGoals(),
+                new CornersEqualsCommonGoals(),
+                new fourRowsCommonGoals(),
+                new FourVerticalCommonGoals(),
+                new twoColumnsCommonGoals(),
+                new subMatrix2CommonGoals(),
+                new twoRowsAllDifferentCommonGoals(),
+                new threeDisegualColumnsCommonGoals(),
+                new equalXCommonGoals(),
+                new eightEqualCommonGoals(),
+                new fiveColumnsCommonGoals()
+        );
 
-        switch(id_2){
-            case 1:
-                this.commonGoals[1] = new SixPairsEqualCommonGoals();
-            case 2:
-                this.commonGoals[1] = new diagonalEqualCommonGoals();
-            case 3:
-                this.commonGoals[1] = new CornersEqualsCommonGoals();
-            case 4:
-                this.commonGoals[1] = new fourRowsCommonGoals();
-            case 5:
-                this.commonGoals[1] = new FourVerticalCommonGoals();
-            case 6:
-                this.commonGoals[1] = new twoColumnsCommonGoals();
-            case 7:
-                this.commonGoals[1] = new subMatrix2CommonGoals();
-            case 8:
-                this.commonGoals[1] = new twoRowsAllDifferentCommonGoals();
-            case 9:
-                this.commonGoals[1] = new threeDisegualColumnsCommonGoals();
-            case 10:
-                this.commonGoals[1] = new equalXCommonGoals();
-            case 11:
-                this.commonGoals[1] = new eightEqualCommonGoals();
-            case 12:
-                this.commonGoals[1] = new fiveColumnsCommonGoals();
-        }
+        List<CommonGoals> commonGoalsList = new ArrayList<>();
+        commonGoalsList.add(0, temporaryCommonGoals.get(id_1));
+        commonGoalsList.add(1, temporaryCommonGoals.get(id_2));
+        commonGoals = commonGoalsList.toArray(commonGoals);
     }
 
+    //TODO: to common goals?
     public void updatePoints(Player pl, int points){
         pl.points+=points;
     }
