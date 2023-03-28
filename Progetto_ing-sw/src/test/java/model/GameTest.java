@@ -18,7 +18,7 @@ public class GameTest extends TestCase {
 
     @Test
     public void testGetCurrentPlayer() throws NoSuchElementException {
-        Dashboard dashboard = new Dashboard(2);
+        Dashboard dashboard = new Dashboard(2, new Bag());
         playersTest.addAll(player1);
         Game game1 = new Game(0, dashboard, playersTest);
         assertEquals(game1.getCurrentPlayer(), playersTest.get(0));
@@ -26,7 +26,7 @@ public class GameTest extends TestCase {
 
     @Test
     public void testSetCurrentPlayer() throws NoSuchElementException {
-        Dashboard dashboard = new Dashboard(2);
+        Dashboard dashboard = new Dashboard(2, new Bag());
         playersTest.addAll(player1);
         Game game1 = new Game(0, dashboard, playersTest);
         game1.setCurrentPlayer(player1.get(3));
@@ -35,7 +35,7 @@ public class GameTest extends TestCase {
 
     @Test
     public void testGetCommonGoals() throws NoSuchElementException{
-        Dashboard dashboard = new Dashboard(2);
+        Dashboard dashboard = new Dashboard(2, new Bag());
         playersTest.addAll(player1);
         Game game1 = new Game(0, dashboard, playersTest);
         commonGoalsTest = game1.getCommonGoals();
@@ -44,7 +44,7 @@ public class GameTest extends TestCase {
 
     @Test
     public void testGetCommonGoalsPoints() throws NoSuchElementException {
-        Dashboard dashboard = new Dashboard(2);
+        Dashboard dashboard = new Dashboard(2, new Bag());
         playersTest.addAll(player1);
         Game game1 = new Game(0, dashboard, playersTest);
         commonGoalsTest = game1.getCommonGoals();

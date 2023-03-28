@@ -126,7 +126,10 @@ public class Game extends Observable {
         List<CommonGoals> commonGoalsList = new ArrayList<>();
         commonGoalsList.add(0, temporaryCommonGoals.get(id_1));
         commonGoalsList.add(1, temporaryCommonGoals.get(id_2));
-        commonGoals = commonGoalsList.toArray(commonGoals);
+
+        for(int i = 0; i < commonGoalsList.size(); i++){
+            commonGoals=commonGoalsList.toArray(new CommonGoals[i]);
+        }
     }
 
     //TODO: to common goals?
