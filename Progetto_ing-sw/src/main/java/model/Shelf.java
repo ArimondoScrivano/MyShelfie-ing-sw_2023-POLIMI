@@ -1,5 +1,10 @@
 package model;
 
+import model.command.Command;
+import model.command.ConcreteCommand1;
+import model.command.ConcreteCommand2;
+import model.command.ConcreteCommand3;
+
 public class Shelf {
     //pattern command per tiles adiacenti
     protected Tile[][] tilesShelf;
@@ -11,7 +16,15 @@ public class Shelf {
     }
     //METHOD TO RETURN TRUE WHETHER ONE'S SHELF IS COMPLETED
     public boolean completeShelf(){
-        return false;
+        int i=0, j=0;
+        while(i<5){
+            while(j<6){
+                if(tilesShelf[i][j].getColor().compareTo(COLOR.BLANK)==0){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
     public void addTiles(Tile tiles[], int column){
         int tileTypes[][]=new int[6][7];

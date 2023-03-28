@@ -1,7 +1,7 @@
 package model;
 import java.util.ArrayList;
 import java.util.List;
-import org.json.*;
+import com.google.gson.*;
 
 public class PersonalGoal {
     int id;

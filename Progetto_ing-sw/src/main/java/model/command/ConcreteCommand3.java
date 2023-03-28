@@ -1,6 +1,9 @@
-package model;
+package model.command;
 
-public class ConcreteCommand3 implements Command{
+import model.Player;
+import model.command.Command;
+
+public class ConcreteCommand3 implements Command {
     //caso non limite
     public void adjacentTiles(int column, int row, int types[], Player myPlayer){
         int horizontalChains[]=new int[]{1};

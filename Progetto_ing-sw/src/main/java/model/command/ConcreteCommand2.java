@@ -1,6 +1,9 @@
-package model;
+package model.command;
 
-public class ConcreteCommand2 implements Command{
+import model.Player;
+import model.command.Command;
+
+public class ConcreteCommand2 implements Command {
     //caso limite 2: 4
     public void adjacentTiles(int column, int row, int[] types, Player myPlayer){
         int startLine=row+types.length-1;

@@ -1,5 +1,7 @@
 
-package model;
+package model.command;
+
+import model.Player;
 
 public interface Command {
     int[][] myShelf= new int[6][7];
