@@ -45,7 +45,7 @@ public class Player {
         return true;
     }
 
-    public void updatePointAdjacentTiles(){
+    /*public void updatePointAdjacentTiles(){
         int counter=1, t=1, i=0, j=0, c=7;
         boolean chainFinished=true;
         while(t<7){ //we analyse one type at a time.
@@ -152,5 +152,5 @@ public class Player {
                 }
             }
         } t++;
-    }
+    }*/
 }
