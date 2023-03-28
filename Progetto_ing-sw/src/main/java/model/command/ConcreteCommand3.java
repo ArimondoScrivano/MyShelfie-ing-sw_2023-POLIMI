@@ -47,41 +47,16 @@ public class ConcreteCommand3 implements Command {
                 for(j=0; j<7; j++){
                     chains[i]=verticalChains[i]+horizontalChains[i]-1;
                 }
-                convertPoints(myPlayer, oldChains, chains);
+                myPlayer.convertPoints(myPlayer, oldChains, chains);
             }
             i++;
         }if(!verticalChainFinished){
                 chains[startLine]=verticalChains[startLine]+horizontalChains[startLine]-1;
-            convertPoints(myPlayer, oldChains, chains);
+            myPlayer.convertPoints(myPlayer, oldChains, chains);
         }
         //sistemare i parametri che ho modificato
         //sono sulla posizione più bassa
         //vertical identificate con colonna+riga di inizio
-    }
-    public void convertPoints(Player myPlayer, int[]oldChains, int[] chains){
-        for(int j=0; j<100; j++){
-            if(oldChains[j]!=chains[j]){
-                if(chains[j]==3) myPlayer.points+=2;
-                if(oldChains[j]<3){
-                    if(chains[j]==4) myPlayer.points+=3;
-                    if(chains[j]==5) myPlayer.points+=5;
-                    if(chains[j]>=6) myPlayer.points+=8;
-                }
-                if(oldChains[j]==3){
-                    if(chains[j]==4) myPlayer.points+=1;
-                    if(chains[j]==5) myPlayer.points+=3;
-                    if(chains[j]>=6) myPlayer.points+=6;
-                }
-                if(oldChains[j]==4){
-                    if(chains[j]==5) myPlayer.points+=2;
-                    if(chains[j]>=6) myPlayer.points+=5;
-                }
-                if(oldChains[j]==5){
-                    if(chains[j]>=6) myPlayer.points+=3;
-                }
-                oldChains[j]=chains[j];
-            } chains[j]=1;
-        }
     }
 }
 //controllare prima catene orizzontali e implementare counter menre conto catena verticale, alla fine di catena verticale aggiungere con indicatore colonna
