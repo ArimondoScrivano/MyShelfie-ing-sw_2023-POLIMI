@@ -2,8 +2,8 @@ package model;
 
 public class ConcreteCommand2 implements Command{
     //caso limite 2: 4
-    public void adjacentTiles(int column, int row, int[] tiles, Player myPlayer){
-        int startLine=row+tiles.length-1;
+    public void adjacentTiles(int column, int row, int[] types, Player myPlayer){
+        int startLine=row+types.length-1;
         int i=startLine, j=0;
         int[] verticalChains=new int[]{1};
         int[] horizontalChains=new int[]{1};

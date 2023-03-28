@@ -2,14 +2,14 @@ package model;
 
 public class ConcreteCommand3 implements Command{
     //caso non limite
-    public void adjacentTiles(int column, int row, int tiles[], Player myPlayer){
+    public void adjacentTiles(int column, int row, int types[], Player myPlayer){
         int horizontalChains[]=new int[]{1};
         int verticalChains[]=new int[]{1};
-        int startLine=row-tiles.length+1;
+        int startLine=row-types.length+1;
         boolean verticalChainFinished=false;
         int i=startLine, j=0;
         while(i<5){ //parto dalla posizione più alta e le guardo tutte
-            myShelf[column][i]=tiles[j];
+            myShelf[column][i]=types[j];
             j++;
         }//mi trovo sulla posizione più alta.
         while(i<5){ //per ogni tessera aggiunta controllo quella sotto (aggiunta insieme ad essa per condizione del while)

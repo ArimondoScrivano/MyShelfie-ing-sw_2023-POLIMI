@@ -3,22 +3,23 @@ package model;
 
 public class ConcreteCommand1 implements Command{
     //caso limite 1: 0
-    public void adjacentTiles(int column, int row, int tiles[], Player myPlayer){
+    public void adjacentTiles(int column, int row, int types[], Player myPlayer){
         int counter=1;
         int horizontalChains[]= new int[]{1};
         int oldHorizontalChains[]=new int[]{0};
         int verticalChains[]= new int[]{1};
         int oldVerticalChains[]= new int[]{0};
         int i=row, index=0;
-        while(i>row+tiles.length){
-            myShelf[column][i]=tiles[index];
+        while(i>row-types.length){
+            myShelf[column][i]=types[index];
             index++;
             i--;
         } //mi trovo sulla posizione più alta
             while(column<=4){
                 if(myShelf[column][i]==myShelf[column+1][i]%10){
                     //la modifica di hc dipende dagli algoritmi  per column!=0
-                    horizontalChains[i]=oldHorizontalChains[i]+1; column++; myShelf[column][i]=10+tiles[tiles.length-1]; //marchio le tiles che conto
+                    horizontalChains[i]=oldHorizontalChains[i]+1; column++; myShelf[column][i]=10+types[types.length-1];
+                    //marchio le tiles che conto
                 }else{
                     break;
                 }
