@@ -37,7 +37,7 @@ public class Dashboard {
                 //Setting the tiles for the dashboard-->matrix 9x9 v2
                 this.tiles = new Tile[9][9];
                 //creating the matrix of tiles in the correct spot
-                int id=0;
+
                 for (int r=0; r< 9; r++){
                     for (int c=0; c<9; c++ ){
                         if(refillable[r][c].ordinal()<np){
@@ -57,15 +57,22 @@ public class Dashboard {
         this.players = np+1;
     }
 
-    public void updateDashboard(int [] tiles){
+    //TODO
+    public void updateDashboard(Tile[] tiles){
         //After the turn of a player update the dashboard
     }
 
-    public void refill(int np){
+    //TODO
+    public void setRefill(int np){
         //Checking if the dashboard has to be refilled
         refill=true;
         //Call of the refilling method
     }
+    //TODO
+    public void refillDashboard(){
+        //
+    }
+
 
     public Dashboard getDashboard(){
         return this;

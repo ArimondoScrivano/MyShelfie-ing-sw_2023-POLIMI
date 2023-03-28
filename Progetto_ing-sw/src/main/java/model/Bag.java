@@ -4,11 +4,13 @@ import java.util.*;
 public class Bag {
     private Map<Integer,Tile>  tilesInGame;
 
+    private boolean full;
     //it identifies if the bag is open (1) or not (0)
     private boolean state;
 
 
     public Bag(){
+        full=true;
         tilesInGame= new HashMap<>();
        for(int i=1; i< 133; i++) {
 
@@ -48,6 +50,13 @@ public class Bag {
        }
     }
 
+    //Check if the bag is empty
+    public void checkEmpty(){
+        if(tilesInGame.isEmpty()){
+            full=false;
+        }
+    }
+
     public void updateBag(List<Tile> tilesRemoved ){
 
      for (int i=0; i< tilesRemoved.size(); i++){
@@ -82,8 +91,9 @@ public class Bag {
                 id= rand.nextInt(132)+1;
             }
         }
-        Tile tilegiven= tilesInGame.get(id);
+        Tile tilegiven= new Tile(tilesInGame.get(id).getColor(),id);
         tilesInGame.remove(id,tilesInGame.get(id));
+        checkEmpty();
         return tilegiven;
 
     }
