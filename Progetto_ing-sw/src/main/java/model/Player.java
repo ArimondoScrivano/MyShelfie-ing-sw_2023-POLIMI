@@ -44,9 +44,12 @@ public class Player {
     }
 
     //RETURNS TRUE IF THE PLAYER'S SHELF CONTAINS ONE OF THE COMMON GOALS' PATTERNS
-    public boolean commonGoalCompleted(CommonGoals commonGoal){
-        commonGoal.Checker(myShelf.tilesShelf);
-        return true;
+    public boolean commonGoalCompleted(CommonGoals[] commonGoals, int id){
+        if(commonGoals[id].Checker(myShelf.tilesShelf)==1){
+            commonGoalsCompleted[id]=true;
+            return true;
+        }
+        return false;
     }
 
     public void convertPoints(Player myPlayer, int[]oldChains, int[] chains){

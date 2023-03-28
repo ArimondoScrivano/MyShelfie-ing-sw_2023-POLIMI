@@ -133,7 +133,7 @@ public class Game extends Observable {
 
     public void updatePointsCommonGoals(){
         for(int i=0; i<2; i++){
-            if(!currentPlayer.commonGoalsCompleted[i] && currentPlayer.commonGoalCompleted(commonGoals[i])){
+            if(!currentPlayer.commonGoalsCompleted[i] && currentPlayer.commonGoalCompleted(commonGoals, i)){
                 currentPlayer.points += getCommonGoalsPoints(commonGoals, i);
                 if(i==1){
                     pointsCommonGoal_1.remove(pointsCommonGoal_1.size() - 1);
