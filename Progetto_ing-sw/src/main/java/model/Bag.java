@@ -1,7 +1,6 @@
 package model;
 import java.util.*;
 
-
 public class Bag {
     private Map<Integer,Tile>  tilesInGame;
 
@@ -9,9 +8,44 @@ public class Bag {
     private boolean state;
 
 
-    public Bag(Map<Integer,Tile> tilesStartGame){
-        this.tilesInGame.putAll(tilesStartGame);
+    public Bag(){
+        tilesInGame= new HashMap<>();
+       for(int i=1; i< 133; i++) {
 
+
+           if (i<24) {
+               //case BLUE
+            Tile tiletoinsert= new Tile(COLOR.BLUE,i);
+            tilesInGame.put(i,tiletoinsert);
+
+           } else if (i<46) {
+               //case YELLOW
+               Tile tiletoinsert= new Tile(COLOR.YELLOW,i);
+               tilesInGame.put(i,tiletoinsert);
+
+           } else if (i<68) {
+               //case WHITE
+               Tile tiletoinsert= new Tile(COLOR.WHITE,i);
+               tilesInGame.put(i,tiletoinsert);
+
+           } else if (i<90) {
+               //case LIGHT-BLUE
+               Tile tiletoinsert= new Tile(COLOR.LIGHTBLUE,i);
+               tilesInGame.put(i,tiletoinsert);
+
+           } else if (i<112) {
+               //case VIOLET
+               Tile tiletoinsert= new Tile(COLOR.VIOLET,i);
+               tilesInGame.put(i,tiletoinsert);
+
+           }else {
+               //else case(GREEN-CASE)
+               Tile tiletoinsert= new Tile(COLOR.GREEN,i);
+               tilesInGame.put(i,tiletoinsert);
+
+           }
+
+       }
     }
 
     public void updateBag(List<Tile> tilesRemoved ){
@@ -33,6 +67,25 @@ public class Bag {
 
     public boolean getState(){
         return  this.state;
+    }
+
+
+    public Tile getRandomTile(){
+        Random rand= new Random();
+        int id;
+        int approved=0;
+        id= rand.nextInt(132)+1;
+        while(approved==0) {
+            if (tilesInGame.containsKey(id)) {
+                approved=1;
+            }else{
+                id= rand.nextInt(132)+1;
+            }
+        }
+        Tile tilegiven= tilesInGame.get(id);
+        tilesInGame.remove(id,tilesInGame.get(id));
+        return tilegiven;
+
     }
 
 }
