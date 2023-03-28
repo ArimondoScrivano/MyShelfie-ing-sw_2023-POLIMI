@@ -48,7 +48,8 @@ public class GameTest extends TestCase {
         playersTest.addAll(player1);
         Game game1 = new Game(0, dashboard, playersTest);
         commonGoalsTest = game1.getCommonGoals();
-        //TODO
+        assertEquals(8, game1.getCommonGoalsPoints(commonGoalsTest, 1));
+        assertEquals(8, game1.getCommonGoalsPoints(commonGoalsTest, 2));
     }
 
     @Test
