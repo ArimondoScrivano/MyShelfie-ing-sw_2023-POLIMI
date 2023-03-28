@@ -1,5 +1,11 @@
 package model;
+import java.io.IOException;
+import java.io.Reader;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.google.gson.*;
 
@@ -18,9 +24,18 @@ public class PersonalGoal {
         points.add(4, 9);
         points.add(5, 12);
     }
-    public int getPoints(){
+    public int getPoints() throws IOException {
         int counter=0;
         List<String> positions=new ArrayList();
+        //create a gson instance
+        Gson gson=new Gson();
+
+        //create a reader
+        Reader reader= Files.newBufferedReader(Paths.get("PersonalGoal1.json"));
+
+        JsonElement element;
+        element = gson.fromJson("C:\\Users\\maria\\OneDrive\\Desktop\\ProgettoIngSW", JsonElement.class);
+        System.out.println(element);
         //Object o= new JSONParser().parse(new FileReader(PersonalGoal.json));
         //JSONObject j= (JSONObject) o;
         //if(this.id.equals(j.get("id"))){

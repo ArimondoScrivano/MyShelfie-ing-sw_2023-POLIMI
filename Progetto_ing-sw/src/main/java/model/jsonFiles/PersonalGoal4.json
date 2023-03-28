@@ -1,0 +1,33 @@
+{
+  "id": 4,
+  "firstTile": [
+    0,
+    2,
+    4
+  ],
+  "secondTile": [
+    1,
+    4,
+    3
+  ],
+  "thirdTile": [
+    2,
+    2,
+    1
+  ],
+  "fourthTile": [
+    2,
+    4,
+    6
+  ],
+  "fifthTile": [
+    3,
+    3,
+    5
+  ],
+  "sixthTile": [
+    4,
+    0,
+    2
+  ]
+}
