@@ -86,7 +86,7 @@ public class Game extends Observable {
         return this.commonGoals;
     }
 
-    public Integer getCommonGoalsPoints(CommonGoals goal, int idCommonGoal) throws ArrayIndexOutOfBoundsException{
+    public int getCommonGoalsPoints(CommonGoals[] goal, int idCommonGoal) throws ArrayIndexOutOfBoundsException{
         if(idCommonGoal==1){
             //Return the last-1 element-->this will be removed if a commonGoal is completed
             return pointsCommonGoal_1.get(pointsCommonGoal_1.size() - 1);
@@ -95,7 +95,6 @@ public class Game extends Observable {
         return pointsCommonGoal_2.get(pointsCommonGoal_2.size() - 1);
     }
 
-    //TODO: settare i common goals in maniera più orientata agli oggetti
     public void setCommonGoals(){
         //Two random numbers to get the 2 id of the common_goals of the game
         Random rand=new Random();
@@ -132,14 +131,23 @@ public class Game extends Observable {
         }
     }
 
-    //TODO: to common goals?
-    public void updatePoints(Player pl, int points){
-        pl.points+=points;
+    public void updatePointsCommonGoals(){
+        for(int i=0; i<2; i++){
+            if(!currentPlayer.commonGoalsCompleted[i] && currentPlayer.commonGoalCompleted(commonGoals[i])){
+                currentPlayer.points += getCommonGoalsPoints(commonGoals, i);
+                if(i==1){
+                    pointsCommonGoal_1.remove(pointsCommonGoal_1.size() - 1);
+                }else{
+                    pointsCommonGoal_2.remove(pointsCommonGoal_2.size() - 1);
+                }
+            }
+        }
+
     }
 
     //The endgame token is taken by the current player if his shelf is completed
     public void endGameToken(){
-        if(getCurrentPlayer().shelfCompleted){
+        if(currentPlayer.shelfCompleted){
             //The endgame token value is 1
             getCurrentPlayer().points++;
             endGame=true;

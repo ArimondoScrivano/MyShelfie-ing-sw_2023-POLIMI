@@ -1,4 +1,7 @@
 package model;
+
+import model.cgoal.CommonGoals;
+
 public class Player {
     //INTEGER TO IDENTIFY THE PLAYER
     private int id;
@@ -12,6 +15,7 @@ public class Player {
     protected int points;
     //BOOLEAN WHICH IS TRUE WHETHER THE PLAYER'S SHELF IS FULL
     protected boolean shelfCompleted;
+    protected boolean[] commonGoalsCompleted;
 
     //INSTANCE CONSTRUCTOR FOR PLAYER CLASS
     public Player(int id, String name){
@@ -21,6 +25,7 @@ public class Player {
         this.myPersonalGoal=new PersonalGoal();
         this.points=0;
         this.shelfCompleted=false;
+        this.commonGoalsCompleted = new boolean[2];
     }
 
     //METHOD TO GET A PLAYER'S NAME
@@ -39,9 +44,8 @@ public class Player {
     }
 
     //RETURNS TRUE IF THE PLAYER'S SHELF CONTAINS ONE OF THE COMMON GOALS' PATTERNS
-    public boolean commonGoalCompleted(int idCommonGoal){
-        //checkCommonGoal(idCommonGoal, myShelf)? true : false;
-        //this.points=
+    public boolean commonGoalCompleted(CommonGoals commonGoal){
+        commonGoal.Checker(myShelf.tilesShelf);
         return true;
     }
 
