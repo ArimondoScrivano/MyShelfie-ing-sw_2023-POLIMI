@@ -1,14 +1,13 @@
+
 package model.cgoal;
+
+import junit.framework.TestCase;
 import model.COLOR;
 import model.Tile;
-import model.cgoal.*;
 import org.junit.jupiter.api.Test;
-import junit.framework.TestCase;
 
 public class CornersEqualsCommonGoalsTest extends TestCase {
     CommonGoals test1 = new CornersEqualsCommonGoals();
-    CommonGoals test2 = new diagonalEqualCommonGoals();
-    CommonGoals test3 = new eightEqualCommonGoals();
     CommonGoals test4 = new equalXCommonGoals();
     CommonGoals test5 = new fiveColumnsCommonGoals();
     CommonGoals test6 = new fourRowsCommonGoals();
@@ -33,7 +32,7 @@ public class CornersEqualsCommonGoalsTest extends TestCase {
         matrix[0][3] = a03;
         Tile a04 = new Tile(COLOR.LIGHTBLUE, 1);
         matrix[0][4] = a04;
-        Tile a10 = new Tile(COLOR.LIGHTBLUE, 1);
+        Tile a10 = new Tile(COLOR.BLUE, 1);
         matrix[1][0] = a10;
         Tile a11 = new Tile(COLOR.BLUE, 1);
         matrix[1][1] = a11;
@@ -73,19 +72,32 @@ public class CornersEqualsCommonGoalsTest extends TestCase {
         matrix[4][3] = a43;
         Tile a44 = new Tile(COLOR.GREEN, 1);
         matrix[4][4] = a44;
-        Tile a50 = new Tile(COLOR.GREEN, 1);
+        Tile a50 = new Tile(COLOR.YELLOW, 1);
         matrix[5][0] = a50;
-        Tile a51 = new Tile(COLOR.BLANK, 1);
+        Tile a51 = new Tile(COLOR.BLUE, 1);
         matrix[5][1] = a51;
         Tile a52 = new Tile(COLOR.GREEN, 1);
         matrix[5][2] = a52;
         Tile a53 = new Tile(COLOR.BLUE, 1);
         matrix[5][3] = a53;
-        Tile a54 = new Tile(COLOR.BLUE, 1);
+        Tile a54 = new Tile(COLOR.WHITE, 1);
         matrix[5][4] = a54;
+        assertEquals(0, this.test1.Checker(matrix));
+        matrix[0][0] = new Tile(COLOR.BLUE, 1);
+        assertEquals(0, this.test1.Checker(matrix));
+        matrix[0][4] = new Tile(COLOR.BLUE, 1);
+        assertEquals(0, this.test1.Checker(matrix));
+        matrix[5][0] = new Tile(COLOR.BLUE, 1);
+        assertEquals(0, this.test1.Checker(matrix));
+        matrix[5][4] = new Tile(COLOR.BLUE, 1);
+        assertEquals(1, this.test1.Checker(matrix));
 
-        assertEquals(0, test1.Checker(matrix));
-        assertEquals(0, test8.Checker(matrix));
+        for(int i = 0; i < 6; ++i) {
+            for(int j = 0; j < 5; ++j) {
+                matrix[i][j] = new Tile(COLOR.BLANK, 1);
+            }
+        }
+
+        assertEquals(0, this.test1.Checker(matrix));
     }
 }
-
