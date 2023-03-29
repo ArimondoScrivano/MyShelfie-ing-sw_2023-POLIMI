@@ -96,13 +96,13 @@ public class Dashboard {
                     if (c > 0 && !(this.tiles[r][c - 1].getColor().equals(COLOR.BLANK))) {
                         refill = false;
                         return;
-                    } else if (c < 9 && !(this.tiles[r][c + 1].getColor().equals(COLOR.BLANK))) {
+                    } else if (c < 8 && !(this.tiles[r][c + 1].getColor().equals(COLOR.BLANK))) {
                         refill = false;
                         return;
                     } else if (r > 0 && !(this.tiles[r - 1][c].getColor().equals(COLOR.BLANK))) {
                         refill = false;
                         return;
-                    } else if (r < 9 && !(this.tiles[r + 1][c].getColor().equals(COLOR.BLANK))) {
+                    } else if (r < 8 && !(this.tiles[r + 1][c].getColor().equals(COLOR.BLANK))) {
                         refill = false;
                         return;
                     }
