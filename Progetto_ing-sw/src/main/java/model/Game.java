@@ -99,11 +99,11 @@ public class Game extends Observable {
         //Two random numbers to get the 2 id of the common_goals of the game
         Random rand=new Random();
         //Random number between 0+1-11+1
-        int id_1=rand.nextInt(12)+1;
-        int id_2=rand.nextInt(12)+1;
+        int id_1=rand.nextInt(12);
+        int id_2=rand.nextInt(12);
 
         while(id_1==id_2){
-            id_2=rand.nextInt(12) + 1;
+            id_2=rand.nextInt(12);
         }
 
         //Setting the commonGoals array with the id of the two commonGoals
@@ -123,6 +123,7 @@ public class Game extends Observable {
         );
 
         List<CommonGoals> commonGoalsList = new ArrayList<>();
+        //Create the commonGoal list
         commonGoalsList.add(0, temporaryCommonGoals.get(id_1));
         commonGoalsList.add(1, temporaryCommonGoals.get(id_2));
 
@@ -131,6 +132,7 @@ public class Game extends Observable {
         }
     }
 
+    //Updating the points of the common Goal if completed from the current player
     public void updatePointsCommonGoals(){
         for(int i=0; i<2; i++){
             if(!currentPlayer.commonGoalsCompleted[i] && currentPlayer.commonGoalCompleted(commonGoals, i)){

@@ -43,7 +43,7 @@ public class GameTest extends TestCase {
     }
 
     @Test
-    public void testGetCommonGoalsPoints() throws NoSuchElementException {
+    public void testGetCommonGoalsPoints() throws NoSuchElementException, ArrayIndexOutOfBoundsException {
         Dashboard dashboard = new Dashboard(2, new Bag());
         playersTest.addAll(player1);
         Game game1 = new Game(0, dashboard, playersTest);
