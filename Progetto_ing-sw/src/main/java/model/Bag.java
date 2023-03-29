@@ -17,33 +17,33 @@ public class Bag {
 
            if (i<24) {
                //case BLUE
-            Tile tiletoinsert= new Tile(COLOR.BLUE,i);
-            tilesInGame.put(i,tiletoinsert);
+            Tile tileToInsert= new Tile(COLOR.BLUE,i);
+            tilesInGame.put(i,tileToInsert);
 
            } else if (i<46) {
                //case YELLOW
-               Tile tiletoinsert= new Tile(COLOR.YELLOW,i);
-               tilesInGame.put(i,tiletoinsert);
+               Tile tileToInsert= new Tile(COLOR.YELLOW,i);
+               tilesInGame.put(i,tileToInsert);
 
            } else if (i<68) {
                //case WHITE
-               Tile tiletoinsert= new Tile(COLOR.WHITE,i);
-               tilesInGame.put(i,tiletoinsert);
+               Tile tileToInsert= new Tile(COLOR.WHITE,i);
+               tilesInGame.put(i,tileToInsert);
 
            } else if (i<90) {
                //case LIGHT-BLUE
-               Tile tiletoinsert= new Tile(COLOR.LIGHTBLUE,i);
-               tilesInGame.put(i,tiletoinsert);
+               Tile tileToInsert= new Tile(COLOR.LIGHTBLUE,i);
+               tilesInGame.put(i,tileToInsert);
 
            } else if (i<112) {
                //case VIOLET
-               Tile tiletoinsert= new Tile(COLOR.VIOLET,i);
-               tilesInGame.put(i,tiletoinsert);
+               Tile tileToInsert= new Tile(COLOR.VIOLET,i);
+               tilesInGame.put(i,tileToInsert);
 
            }else {
                //else case(GREEN-CASE)
-               Tile tiletoinsert= new Tile(COLOR.GREEN,i);
-               tilesInGame.put(i,tiletoinsert);
+               Tile tileToInsert= new Tile(COLOR.GREEN,i);
+               tilesInGame.put(i,tileToInsert);
 
            }
 
@@ -59,15 +59,14 @@ public class Bag {
 
     public void updateBag(List<Tile> tilesRemoved ){
 
-     for (int i=0; i< tilesRemoved.size(); i++){
-         // the key in the map is the Tile - Id
-         tilesInGame.remove(tilesRemoved.get(i).getId(), tilesRemoved.get(i));
-         // insert of a blank tile
-         Tile blankTile = new Tile(COLOR.BLANK, tilesRemoved.get(i).getId());
-         tilesInGame.put(tilesRemoved.get(i).getId(),blankTile);
-
+        for (int i=0; i< tilesRemoved.size(); i++){
+             // the key in the map is the Tile - Id
+             tilesInGame.remove(tilesRemoved.get(i).getId(), tilesRemoved.get(i));
+             // insert of a blank tile
+             Tile blankTile = new Tile(COLOR.BLANK, tilesRemoved.get(i).getId());
+             tilesInGame.put(tilesRemoved.get(i).getId(),blankTile);
+        }
      }
-    }
 
     public void setState(boolean state) {
         this.state = state;
@@ -91,10 +90,10 @@ public class Bag {
                 id= rand.nextInt(132)+1;
             }
         }
-        Tile tilegiven= new Tile(tilesInGame.get(id).getColor(),id);
+        Tile tileGiven= new Tile(tilesInGame.get(id).getColor(),id);
         tilesInGame.remove(id,tilesInGame.get(id));
         checkEmpty();
-        return tilegiven;
+        return tileGiven;
 
     }
 
