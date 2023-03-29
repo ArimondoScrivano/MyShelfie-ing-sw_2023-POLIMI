@@ -2,6 +2,8 @@ package model;
 
 import model.cgoal.CommonGoals;
 
+import java.util.List;
+
 public class Player {
     //INTEGER TO IDENTIFY THE PLAYER
     private int id;
@@ -44,8 +46,8 @@ public class Player {
     }
 
     //RETURNS TRUE IF THE PLAYER'S SHELF CONTAINS ONE OF THE COMMON GOALS' PATTERNS
-    public boolean commonGoalCompleted(CommonGoals[] commonGoals, int id){
-        if(commonGoals[id].Checker(myShelf.tilesShelf)==1){
+    public boolean commonGoalCompleted(List<CommonGoals> commonGoals, int id){
+        if(commonGoals.get(id).Checker(myShelf.tilesShelf)==1){
             commonGoalsCompleted[id]=true;
             return true;
         }

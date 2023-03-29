@@ -1,6 +1,5 @@
 package model;
 
-
 import junit.framework.TestCase;
 import model.cgoal.CommonGoals;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,7 @@ public class GameTest extends TestCase {
             new Player(2, "Pietro"),
             new Player(3, "Rita")
     );
-    CommonGoals[] commonGoalsTest = new CommonGoals[2];
+    List<CommonGoals> commonGoalsTest = new ArrayList<>();
 
     @Test
     public void testGetCurrentPlayer() throws NoSuchElementException {
