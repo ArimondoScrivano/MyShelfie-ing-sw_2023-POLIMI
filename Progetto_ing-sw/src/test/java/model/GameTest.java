@@ -64,8 +64,13 @@ public class GameTest extends TestCase {
     }
 
     @Test
-    @Disabled
     public void testUpdatePointsCommonGoals() {
+        Dashboard dashboard = new Dashboard(2, new Bag());
+        playersTest.addAll(player1);
+        Game game1 = new Game(0, dashboard, playersTest);
+        commonGoalsTest = game1.getCommonGoals();
+        playersTest.get(0).shelfCompleted = true;
+        game1.updatePointsCommonGoals();
     }
 
     @Test
