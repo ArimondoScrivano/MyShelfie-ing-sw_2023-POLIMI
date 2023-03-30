@@ -78,13 +78,12 @@ public class Game extends Observable {
         return this.commonGoals;
     }
 
-    //TODO: cambio tipo ritorno, List<integer> al posto di int
     public List<Integer> getCommonGoalsPoints(List<CommonGoals> goal, int idCommonGoal) throws ArrayIndexOutOfBoundsException{
         if(idCommonGoal==1){
-            //Return the last-1 element-->this will be removed if a commonGoal is completed
+            //Return the points of the 1st common goal
             return pointsCommonGoal_1;
         }
-        //Return the last-1 element-->this will be removed if a commonGoal is completed
+        //Return the points of the 2nd common goal
         return pointsCommonGoal_2;
     }
 

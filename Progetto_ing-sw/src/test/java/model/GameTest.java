@@ -55,13 +55,17 @@ public class GameTest extends TestCase {
     }
 
     @Test
-    @Disabled
-    void setCommonGoals() {
+    public void testSetCommonGoals() {
+        Dashboard dashboard = new Dashboard(2, new Bag());
+        playersTest.addAll(player1);
+        Game game1 = new Game(0, dashboard, playersTest);
+        commonGoalsTest = game1.getCommonGoals();
+        assertNotSame(commonGoalsTest.get(0), commonGoalsTest.get(1));
     }
 
     @Test
     @Disabled
-    void updatePoints() {
+    public void testUpdatePointsCommonGoals() {
     }
 
     @Test
