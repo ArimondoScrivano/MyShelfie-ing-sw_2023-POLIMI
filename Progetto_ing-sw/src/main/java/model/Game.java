@@ -64,6 +64,7 @@ public class Game extends Observable {
     public Player getCurrentPlayer() {
         return this.currentPlayer;
     }
+
     //Setting the new currentPlayer
     public void setCurrentPlayer(Player pl){
         if(players.indexOf(pl)!=players.size()){
@@ -78,7 +79,8 @@ public class Game extends Observable {
         return this.commonGoals;
     }
 
-    public List<Integer> getCommonGoalsPoints(List<CommonGoals> goal, int idCommonGoal) throws ArrayIndexOutOfBoundsException{
+    //Get the reference to the list which contains the points for the common goals
+    public List<Integer> getCommonGoalsPoints(int idCommonGoal) throws ArrayIndexOutOfBoundsException{
         if(idCommonGoal==1){
             //Return the points of the 1st common goal
             return pointsCommonGoal_1;
@@ -87,6 +89,7 @@ public class Game extends Observable {
         return pointsCommonGoal_2;
     }
 
+    //Setting the common Goals for the game
     public void setCommonGoals(){
         //Two random numbers to get the 2 id of the common_goals of the game
         Random rand=new Random();
@@ -123,8 +126,8 @@ public class Game extends Observable {
     //Updating the points of the common Goal if completed from the current player
     public void updatePointsCommonGoals(){
         for(int i=0; i<2; i++){
-            if(!currentPlayer.commonGoalsCompleted[i] && currentPlayer.commonGoalCompleted(commonGoals, i)){
-                currentPlayer.points += getCommonGoalsPoints(commonGoals, i).get(getCommonGoalsPoints(commonGoals, i).size()-1);
+            if(!currentPlayer.getCommonGoalsCompleted()[i] && currentPlayer.commonGoalCompleted(commonGoals, i)){
+                currentPlayer.points += getCommonGoalsPoints(i).get(getCommonGoalsPoints(i).size()-1);
                 if(i==1){
                     pointsCommonGoal_1.remove(pointsCommonGoal_1.size() - 1);
                 }else{
@@ -132,15 +135,19 @@ public class Game extends Observable {
                 }
             }
         }
-
     }
 
     //The endgame token is taken by the current player if his shelf is completed
     public void endGameToken(){
-        if(currentPlayer.shelfCompleted){
+        if(currentPlayer.isShelfCompleted()){
             //The endgame token value is 1
             getCurrentPlayer().points++;
             endGame=true;
         }
+    }
+
+    //Get method for the endGame
+    public boolean getEndGame(){
+        return endGame;
     }
 }

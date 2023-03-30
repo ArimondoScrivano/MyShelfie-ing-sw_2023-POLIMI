@@ -16,8 +16,8 @@ public class Player {
     //NUMBER OF POINTS OF EACH PLAYER
     protected int points;
     //BOOLEAN WHICH IS TRUE WHETHER THE PLAYER'S SHELF IS FULL
-    protected boolean shelfCompleted;
-    protected boolean[] commonGoalsCompleted;
+    private boolean shelfCompleted;
+    private boolean[] commonGoalsCompleted;
 
     //INSTANCE CONSTRUCTOR FOR PLAYER CLASS
     public Player(int id, String name){
@@ -78,5 +78,17 @@ public class Player {
                 oldChains[j]=chains[j];
             } chains[j]=1;
         }
+    }
+
+    public boolean[] getCommonGoalsCompleted() {
+        return commonGoalsCompleted;
+    }
+
+    public boolean isShelfCompleted() {
+        return shelfCompleted;
+    }
+
+    public void setShelfCompleted(){
+        this.shelfCompleted = true;
     }
 }

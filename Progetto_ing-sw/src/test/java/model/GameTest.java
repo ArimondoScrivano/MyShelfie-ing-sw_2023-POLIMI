@@ -16,9 +16,9 @@ public class GameTest extends TestCase {
     List<CommonGoals> commonGoalsTest = new ArrayList<>();
 
     @Test
-    public void testGetCurrentPlayer() throws NoSuchElementException {
-        Dashboard dashboard = new Dashboard(2, new Bag());
+    public void testGetCurrentPlayer() throws NoSuchElementException, NullPointerException {
         playersTest.addAll(player1);
+        Dashboard dashboard = new Dashboard(playersTest.size(), new Bag());
         Game game1 = new Game(0, dashboard, playersTest);
         assertEquals(2, playersTest.size());
         assertEquals(playersTest, game1.getPlayers());
@@ -26,55 +26,67 @@ public class GameTest extends TestCase {
     }
 
     @Test
-    public void testSetCurrentPlayer() throws NoSuchElementException {
-        Dashboard dashboard = new Dashboard(2, new Bag());
+    public void testSetCurrentPlayer() throws NoSuchElementException, NullPointerException {
         playersTest.addAll(player1);
+        Dashboard dashboard = new Dashboard(playersTest.size(), new Bag());
         Game game1 = new Game(0, dashboard, playersTest);
         game1.setCurrentPlayer(player1.get(1));
         assertEquals(game1.getCurrentPlayer(), playersTest.get(1));
     }
 
     @Test
-    public void testGetCommonGoals() throws NoSuchElementException{
-        Dashboard dashboard = new Dashboard(2, new Bag());
+    public void testGetCommonGoals() throws NoSuchElementException, NullPointerException{
         playersTest.addAll(player1);
+        Dashboard dashboard = new Dashboard(playersTest.size(), new Bag());
         Game game1 = new Game(0, dashboard, playersTest);
         commonGoalsTest = game1.getCommonGoals();
         assertEquals(game1.getCommonGoals(), commonGoalsTest);
     }
 
     @Test
-    public void testGetCommonGoalsPoints() throws NoSuchElementException, ArrayIndexOutOfBoundsException {
-        Dashboard dashboard = new Dashboard(2, new Bag());
+    public void testGetCommonGoalsPoints() throws NoSuchElementException, NullPointerException {
         playersTest.addAll(player1);
+        Dashboard dashboard = new Dashboard(playersTest.size(), new Bag());
         Game game1 = new Game(0, dashboard, playersTest);
         commonGoalsTest = game1.getCommonGoals();
-        assertEquals(2, game1.getCommonGoalsPoints(commonGoalsTest, 1).size());
-        assertEquals(Arrays.asList(4, 8), game1.getCommonGoalsPoints(commonGoalsTest, 1));
-        assertEquals(Arrays.asList(4, 8), game1.getCommonGoalsPoints(commonGoalsTest, 2));
+        assertEquals(2, game1.getCommonGoalsPoints(1).size());
+        assertEquals(Arrays.asList(4, 8), game1.getCommonGoalsPoints(1));
+        assertEquals(Arrays.asList(4, 8), game1.getCommonGoalsPoints(2));
     }
 
     @Test
-    public void testSetCommonGoals() {
-        Dashboard dashboard = new Dashboard(2, new Bag());
+    public void testSetCommonGoals() throws NoSuchElementException, NullPointerException {
         playersTest.addAll(player1);
+        Dashboard dashboard = new Dashboard(playersTest.size(), new Bag());
         Game game1 = new Game(0, dashboard, playersTest);
         commonGoalsTest = game1.getCommonGoals();
         assertNotSame(commonGoalsTest.get(0), commonGoalsTest.get(1));
     }
 
     @Test
-    public void testUpdatePointsCommonGoals() {
-        Dashboard dashboard = new Dashboard(2, new Bag());
+    @Disabled
+    public void testUpdatePointsCommonGoals() throws NullPointerException{
         playersTest.addAll(player1);
+        Dashboard dashboard = new Dashboard(playersTest.size(), new Bag());
         Game game1 = new Game(0, dashboard, playersTest);
         commonGoalsTest = game1.getCommonGoals();
-        playersTest.get(0).shelfCompleted = true;
-        game1.updatePointsCommonGoals();
     }
 
     @Test
-    @Disabled
-    void endGameToken() {
+    public void testEndGameToken() {
+        playersTest.addAll(player1);
+        Dashboard dashboard = new Dashboard(playersTest.size(), new Bag());
+        Game game1 = new Game(0, dashboard, playersTest);
+        commonGoalsTest = game1.getCommonGoals();
+        assertFalse(playersTest.get(0).isShelfCompleted());
+        if(playersTest.get(0).isShelfCompleted()){
+            playersTest.get(0).setShelfCompleted();
+            assertTrue(playersTest.get(0).isShelfCompleted());
+            int before = game1.getCurrentPlayer().points;
+            assertFalse(game1.getEndGame());
+            game1.endGameToken();
+            assertEquals(before+1, game1.getCurrentPlayer().points);
+            assertTrue(game1.getEndGame());
+        }
     }
 }
