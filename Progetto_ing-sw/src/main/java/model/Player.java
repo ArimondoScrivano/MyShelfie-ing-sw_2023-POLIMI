@@ -2,6 +2,8 @@ package model;
 
 import model.cgoal.CommonGoals;
 
+import java.util.List;
+
 public class Player {
     //INTEGER TO IDENTIFY THE PLAYER
     private int id;
@@ -14,8 +16,8 @@ public class Player {
     //NUMBER OF POINTS OF EACH PLAYER
     protected int points;
     //BOOLEAN WHICH IS TRUE WHETHER THE PLAYER'S SHELF IS FULL
-    protected boolean shelfCompleted;
-    protected boolean[] commonGoalsCompleted;
+    private boolean shelfCompleted;
+    private boolean[] commonGoalsCompleted;
 
     //INSTANCE CONSTRUCTOR FOR PLAYER CLASS
     public Player(int id, String name){
@@ -44,8 +46,8 @@ public class Player {
     }
 
     //RETURNS TRUE IF THE PLAYER'S SHELF CONTAINS ONE OF THE COMMON GOALS' PATTERNS
-    public boolean commonGoalCompleted(CommonGoals[] commonGoals, int id){
-        if(commonGoals[id].Checker(myShelf.tilesShelf)==1){
+    public boolean commonGoalCompleted(List<CommonGoals> commonGoals, int id){
+        if(commonGoals.get(id).Checker(myShelf.tilesShelf)==1){
             commonGoalsCompleted[id]=true;
             return true;
         }
@@ -75,5 +77,17 @@ public class Player {
                 oldChains[j]=chains[j];
             } chains[j]=1;
         }
+    }
+
+    public boolean[] getCommonGoalsCompleted() {
+        return commonGoalsCompleted;
+    }
+
+    public boolean isShelfCompleted() {
+        return shelfCompleted;
+    }
+
+    public void setShelfCompleted(){
+        this.shelfCompleted = true;
     }
 }

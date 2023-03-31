@@ -19,6 +19,7 @@ import model.*;
                 && !matrix[0][4].getColor().equals(COLOR.BLANK)) {
             flag = 1;
         }
+
         if (!matrix[4][4].getColor().equals(COLOR.BLANK)
                 && !matrix[3][3].getColor().equals(COLOR.BLANK)
                 && !matrix[2][2].getColor().equals(COLOR.BLANK)
@@ -26,6 +27,8 @@ import model.*;
                 && !matrix[0][0].getColor().equals(COLOR.BLANK)) {
             flag = 1;
         }
+
+
 
         if (flag == 1) {
             return 1;

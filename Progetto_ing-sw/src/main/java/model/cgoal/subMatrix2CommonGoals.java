@@ -15,7 +15,7 @@ import model.*;
         int flag = 0;
         int count= 0;
 
-        // creating a support matrix so we can semplificate corner cases
+        // creating a support matrix so we can simplify corner cases
         Tile[][] matrixSupport= new Tile[8][7];
         for(int r= 0; r<8; r++) {
             for (int c = 0; c < 7; c++) {
