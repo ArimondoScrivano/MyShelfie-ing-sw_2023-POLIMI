@@ -10,7 +10,7 @@ public class Player {
     //PLAYER'S SHELF
     private Shelf myShelf;
     //THE PERSONAL GOAL IS CONNECTED TO THE PLAYER INSTANCE
-    private PersonalGoal myPersonalGoal;
+    PersonalGoal myPersonalGoal;
     //NUMBER OF POINTS OF EACH PLAYER
     protected int points;
     //BOOLEAN WHICH IS TRUE WHETHER THE PLAYER'S SHELF IS FULL
@@ -51,7 +51,6 @@ public class Player {
         }
         return false;
     }
-
     public void convertPoints(Player myPlayer, int[]oldChains, int[] chains){
         for(int j=0; j<100; j++){
             if(oldChains[j]!=chains[j]){

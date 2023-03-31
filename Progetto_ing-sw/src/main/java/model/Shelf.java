@@ -5,6 +5,8 @@ import model.command.ConcreteCommand1;
 import model.command.ConcreteCommand2;
 import model.command.ConcreteCommand3;
 
+import java.io.IOException;
+
 public class Shelf {
     //pattern command per tiles adiacenti
     protected Tile[][] tilesShelf;
@@ -26,7 +28,7 @@ public class Shelf {
         }
         return true;
     }
-    public void addTiles(Tile tiles[], int column){
+    public void addTiles(Tile tiles[], int column) throws IOException {
         int tileTypes[][]=new int[6][7];
         int[] types= new int[4];
         if(tiles.length>3) System.out.println("too many tiles picked.");
@@ -39,17 +41,16 @@ public class Shelf {
             System.out.println("not enough vacant spaces on the selected column."); //lanciare eccezione?
         }else{
             int j=5;
-            boolean updated=false;
             while(j>=0){
                 if(tileTypes[column][j]==0){
                     int firstLine=j;
-                    updated=true;
                     int i=0;
                     for(i=0; i<tiles.length; i++){
-                        tileTypes[column][j]=tiles[i].getColor().compareTo(COLOR.BLANK);
+                        tileTypes[column][j]=tiles[i].getColor().compareTo(COLOR.BLANK);//mi ritorna un int
                         types[i]=tiles[i].getColor().compareTo(COLOR.BLANK);
                         i++; j--;
-                    } if(i==tiles.length){ j=-1;}
+                    }myPlayer.myPersonalGoal.checkPersonalGoal(myPlayer, tileTypes);
+                    if(i==tiles.length){ j=+1;}//quando mi trovo sulla posizione i=tiles.lenght significa che la jè stata diminuita una volta di troppo
                     if(column==0) myCommand=new ConcreteCommand1();
                     if(column==4) myCommand=new ConcreteCommand2();
                     myCommand.adjacentTiles(column, firstLine, types, myPlayer);

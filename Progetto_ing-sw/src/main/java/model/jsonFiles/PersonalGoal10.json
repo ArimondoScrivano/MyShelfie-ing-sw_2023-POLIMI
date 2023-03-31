@@ -1,8 +1,2 @@
-{"id":10,
-"firstTile":[0,2,3],
-"secodTile":[1,1,2],
-"thirdTile":[1,4,1],
-"fourthTile":[3,3,6],
-"fifthTile":[3,5,5],
-"sixthTile":[4,0,4]
+{"layout": [23, 112, 141, 336, 355, 404]
 }
