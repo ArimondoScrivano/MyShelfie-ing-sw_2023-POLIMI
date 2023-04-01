@@ -4,13 +4,12 @@ import java.util.*;
 public class Bag {
     private Map<Integer,Tile>  tilesInGame;
 
-    private boolean full;
+
     //it identifies if the bag is open (1) or not (0)
     private boolean state;
 
 
     public Bag(){
-        full=true;
         tilesInGame= new HashMap<>();
        for(int i=1; i< 133; i++) {
 
@@ -50,10 +49,25 @@ public class Bag {
        }
     }
 
-    //Check if the bag is empty
-    public void checkEmpty(){
-        if(tilesInGame.isEmpty()){
-            full=false;
+    //Check if the bag is empty for a future refill, true if it's empty
+    //TODO
+    public boolean checkEmpty(int np){
+        int tilesToRefill;
+        if (np==2){
+            //tiles that we need for the refill with 2 players
+            tilesToRefill= 29;
+        } else if (np==3) {
+            //tiles that we need for the refill with 3 players
+            tilesToRefill= 37;
+        }else{
+            //tiles that we need for the refill with 4 players
+            tilesToRefill= 45;
+        }
+
+        if(tilesInGame.size()< tilesToRefill){
+            return true;
+        }else{
+            return false;
         }
     }
 
@@ -92,7 +106,6 @@ public class Bag {
         }
         Tile tileGiven= new Tile(tilesInGame.get(id).getColor(),id);
         tilesInGame.remove(id,tilesInGame.get(id));
-        checkEmpty();
         return tileGiven;
 
     }

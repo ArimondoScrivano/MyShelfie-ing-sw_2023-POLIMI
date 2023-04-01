@@ -116,22 +116,36 @@ public class Dashboard {
 
     //TODO
     public void refillDashboard(Bag bagInGame) {
+        if (!bagInGame.checkEmpty(players)) {
 
-        // scanning the dashboard cells
-        for (int r = 0; r < 9; r++) {
-            for (int c = 0; c < 9; c++) {
 
-                // if tail is BLANK, we get a random tail from the bag
-                if (this.tiles[r][c].getColor().equals(COLOR.BLANK)) {
-                    tiles[r][c] = bagInGame.getRandomTile();
+            // scanning the dashboard cells
+            for (int r = 0; r < 9; r++) {
+                for (int c = 0; c < 9; c++) {
+
+                    // if tail is BLANK, we get a random tail from the bag
+                    if (this.tiles[r][c].getColor().equals(COLOR.BLANK)) {
+                        tiles[r][c] = bagInGame.getRandomTile();
+                    }
                 }
             }
+        }else{
+            // In this case we don't have enough tiles
+            System.out.println("THE GAME IS OVER");
         }
     }
 
 
-    public Dashboard getDashboard() {
-        return this;
+    //This method returns a new matrix of tiles, copy of tiles. In this case we don't pass any reference
+    public Tile[][] getDashboard() {
+        Tile[][] tiles_copy = new Tile[9][9];
+        for (int r=0; r<9; r++){
+            for( int c=0; c<9; c++){
+                tiles_copy[r][c]=new Tile(tiles[r][c].getColor(),tiles[r][c].getId());
+            }
+        }
+        return tiles_copy;
+
     }
 
 }
