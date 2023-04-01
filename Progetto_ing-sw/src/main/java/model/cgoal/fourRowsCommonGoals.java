@@ -13,20 +13,29 @@ import model.*;
         int count = 0;
         int countExc = 0;
         int[] countEqualsTiles = new int[7];
-        for (int i = 0; i < 5; i++) {
+
+        //check the rows
+        for (int i = 0; i < 6; i++) {
+
             for (int w=0; w<7; w++) {
                 countEqualsTiles[w]=0;
             }
-            for (int j = 0; j < 6; j++) {
+
+            //check the specific row with index i
+            for (int j = 0; j < 5; j++) {
                 countEqualsTiles[matrix[i][j].getColor().compareTo(COLOR.BLANK)]++;
             }
+
+            //check in the array if we have more than different colored tiles
             for (int k = 1; k < 7; k++) {
                 if (countEqualsTiles[k] > 1) {
                     countExc++;
                 }
             }
+            // check if the row is compatible
             if (countExc < 4 && countEqualsTiles[0]==0) {
                 count++;
+                countExc=0;
             }
 
         }

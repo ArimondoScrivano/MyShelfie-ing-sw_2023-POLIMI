@@ -1,16 +1,25 @@
-
 package model.cgoal;
 
-import junit.framework.TestCase;
 import model.COLOR;
 import model.Tile;
 import org.junit.jupiter.api.Test;
 
-public class CornersEqualsCommonGoalsTest extends TestCase {
-    CommonGoals test1 = new CornersEqualsCommonGoals();
+import static org.junit.jupiter.api.Assertions.*;
+
+class fiveColumnsCommonGoalsTest {
+
+    CommonGoals test5 = new fiveColumnsCommonGoals();
+
     @Test
-    void Testchecker() {
+    void checker() {
         Tile[][] matrix = new Tile[6][5];
+        for(int i = 0; i < 6; ++i) {
+            for(int j = 0; j < 5; ++j) {
+                matrix[i][j] = new Tile(COLOR.BLANK, 1);
+            }
+        }
+
+        assertEquals(0, this.test5.Checker(matrix));
         Tile a00 = new Tile(COLOR.GREEN, 1);
         matrix[0][0] = a00;
         Tile a01 = new Tile(COLOR.GREEN, 1);
@@ -47,7 +56,7 @@ public class CornersEqualsCommonGoalsTest extends TestCase {
         matrix[3][1] = a31;
         Tile a32 = new Tile(COLOR.BLANK, 1);
         matrix[3][2] = a32;
-        Tile a33 = new Tile(COLOR.BLANK, 1);
+        Tile a33 = new Tile(COLOR.BLUE, 1);
         matrix[3][3] = a33;
         Tile a34 = new Tile(COLOR.BLANK, 1);
         matrix[3][4] = a34;
@@ -71,22 +80,6 @@ public class CornersEqualsCommonGoalsTest extends TestCase {
         matrix[5][3] = a53;
         Tile a54 = new Tile(COLOR.WHITE, 1);
         matrix[5][4] = a54;
-        assertEquals(0, this.test1.Checker(matrix));
-        matrix[0][0] = new Tile(COLOR.BLUE, 1);
-        assertEquals(0, this.test1.Checker(matrix));
-        matrix[0][4] = new Tile(COLOR.BLUE, 1);
-        assertEquals(0, this.test1.Checker(matrix));
-        matrix[5][0] = new Tile(COLOR.BLUE, 1);
-        assertEquals(0, this.test1.Checker(matrix));
-        matrix[5][4] = new Tile(COLOR.BLUE, 1);
-        assertEquals(1, this.test1.Checker(matrix));
-
-        for(int i = 0; i < 6; ++i) {
-            for(int j = 0; j < 5; ++j) {
-                matrix[i][j] = new Tile(COLOR.BLANK, 1);
-            }
-        }
-
-        assertEquals(0, this.test1.Checker(matrix));
+        assertEquals(1, this.test5.Checker(matrix));
     }
 }

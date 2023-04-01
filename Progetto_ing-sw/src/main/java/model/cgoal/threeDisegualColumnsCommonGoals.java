@@ -4,7 +4,7 @@ import model.Tile;
 import model.*;
 
 
-// 3 disegual columns
+// 3 disegual columns for 3 max different tiles
     //id=9
      public class threeDisegualColumnsCommonGoals implements CommonGoals {
 

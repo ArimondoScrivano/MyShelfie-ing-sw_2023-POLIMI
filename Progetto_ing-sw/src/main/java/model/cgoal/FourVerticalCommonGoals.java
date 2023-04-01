@@ -1,7 +1,10 @@
 package model.cgoal;
+import java.util.*;
 import model.COLOR;
 import model.Tile;
 import model.*;
+
+import java.util.ArrayList;
 
 
 //DONE
@@ -11,28 +14,88 @@ import model.*;
 
     @Override
     public int Checker(Tile[][] matrix) {
-        int flag=0;
-        for(int i=0; i<3; i++){
-            for (int j=0; j<5; j++){
+        int count = 0;
+        // we have to use a support matrix to avoid corner cases and so we can modify the elements
+        Tile[][] matrixSupport = new Tile[8][7];
+        for (int r = 0; r < 8; r++) {
+            for (int c = 0; c < 7; c++) {
 
-                if (!matrix[i][j].getColor().equals(COLOR.BLANK)
-                        && matrix[i][j].getColor().equals(matrix[i+1][j].getColor())
-                        && matrix[i][j].getColor().equals(matrix[i+2][j].getColor())
-                        && matrix[i][j].getColor().equals(matrix[i+3][j].getColor())){
-                    flag++;
+                if (r > 0 && r < 7 && c > 0 && c < 6) {
+                    matrixSupport[r][c] = new Tile(matrix[r - 1][c - 1].getColor(), 1);
+                } else {
+                    matrixSupport[r][c] = new Tile(COLOR.BLANK, 1);
                 }
+            }
+        }
 
+        for(int color=1; color< 7; color++){
+
+            for(int row=1; row<7; row++){
+                for(int col=1; col<6; col++){
+
+                    //check if the tile is the right color
+                    if(matrixSupport[row][col].getColor().compareTo(COLOR.BLANK)==color){
+                        System.out.println("HO TROVATO UN POTENZIALE GRUPPO A i:" +row + " j: " +col);
+                        List<Tile> groupFound = new ArrayList<>();
+                        matrixSupport[row][col]= new Tile(COLOR.BLANK, 1);
+                        groupFound.add(matrixSupport[row][col]);
+
+                        for(int index=0; index<groupFound.size(); index++ ){
+
+                            //search the correct tile
+                            for (int i = 1; i < 7; i++) {
+                                for (int j = 1; j < 6; j++) {
+                                    //found the correct tile
+                                if (matrixSupport[i][j].equals(groupFound.get(index))){
+
+                                    //check the adjacency
+                                    //upper-case
+                                   if (matrixSupport[i+1][j].getColor().compareTo(COLOR.BLANK)==color) {
+                                       matrixSupport[i + 1][j]= new Tile(COLOR.BLANK,1);
+                                       groupFound.add(matrixSupport[i + 1][j]);
+
+                                   }
+                                    //lower-case
+                                    if (matrixSupport[i-1][j].getColor().compareTo(COLOR.BLANK)==color) {
+                                        matrixSupport[i - 1][j]= new Tile(COLOR.BLANK,1);
+                                        groupFound.add(matrixSupport[i - 1][j]);
+
+                                    }
+                                    //right-case
+                                    if (matrixSupport[i][j +1].getColor().compareTo(COLOR.BLANK)==color) {
+                                        matrixSupport[i][j + 1]= new Tile(COLOR.BLANK,1);
+                                        groupFound.add(matrixSupport[i ][j+1]);
+
+                                    }
+                                    //left-case
+                                    if (matrixSupport[i][j - 1].getColor().compareTo(COLOR.BLANK)==color) {
+                                        matrixSupport[i][j - 1]= new Tile(COLOR.BLANK,1);
+                                        groupFound.add(matrixSupport[i][j-1]);
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                if (groupFound.size()>3){
+                    System.out.println("HO TROVATO UN GRUPPO VALIDO");
+                    count++;
+                }
 
             }
         }
-        if (flag> 3) {
-            return 1;
-        }else{
-            return 0;
-        }
-
 
     }
+}
+
+if (count > 3) {
+   return 1;
+  }
+  return 0;
+
+
+  }
+
 }
 
 

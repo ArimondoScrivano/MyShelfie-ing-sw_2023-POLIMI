@@ -13,14 +13,14 @@ import model.*;
         public int Checker(Tile[][] matrix) {int count = 0;
             int countExc = 0;
             int[] countEqualsTiles = new int[7];
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 6; i++) {
 
                 for (int w=0; w<7; w++) {
                     countEqualsTiles[w]=0;
                 }
 
                 countExc=0;
-                for (int j = 0; j < 6; j++) {
+                for (int j = 0; j < 5; j++) {
                     countEqualsTiles[matrix[i][j].getColor().compareTo(COLOR.BLANK)]++;
                 }
                 for (int k = 1; k < 7; k++) {
