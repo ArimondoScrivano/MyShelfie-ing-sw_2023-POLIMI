@@ -15,7 +15,6 @@ public class Dashboard {
 
 
     //Constructor given the number of players
-    //TODO
     public Dashboard(int np, Bag bagInGame) {
         //correct format
         np -= 1;
