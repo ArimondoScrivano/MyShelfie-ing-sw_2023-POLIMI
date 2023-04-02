@@ -35,7 +35,6 @@ import java.util.ArrayList;
 
                     //check if the tile is the right color
                     if(matrixSupport[row][col].getColor().compareTo(COLOR.BLANK)==color){
-                        System.out.println("HO TROVATO UN POTENZIALE GRUPPO A i:" +row + " j: " +col);
                         List<Tile> groupFound = new ArrayList<>();
                         matrixSupport[row][col]= new Tile(COLOR.BLANK, 1);
                         groupFound.add(matrixSupport[row][col]);
@@ -78,7 +77,6 @@ import java.util.ArrayList;
                         }
                     }
                 if (groupFound.size()>3){
-                    System.out.println("HO TROVATO UN GRUPPO VALIDO");
                     count++;
                 }
 
