@@ -60,6 +60,9 @@ public class Dashboard {
         return this.tiles;
     }
 
+    public TILETYPE[][] getRefillable() {
+        return this.refillable;
+    }
 
     //TODO
     public void updateDashboard(Tile[] pickedTiles, Bag bagInGame) {
@@ -67,7 +70,6 @@ public class Dashboard {
         // function gets the array composed of one-to-three tails picked by the player
 
         // then searches those tails on the dashboard
-        //TODO risolvere questione delle pick variabili
         for (int index = 0; index < 3; index++) {
 
             for (int r = 0; r < 9; r++) {
@@ -161,6 +163,7 @@ public class Dashboard {
 
     // method that picks a tile and return a new tile, with same color and id
     // equal to getDashboard, but single pick
+    // probably not useful
     public Tile pickTile(int r, int c) {
         // pickedTile to put into the shelf
         Tile pickedTile = new Tile(tiles[r][c].getColor(), tiles[r][c].getId());
