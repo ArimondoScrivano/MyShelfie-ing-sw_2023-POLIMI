@@ -10,7 +10,7 @@ import java.util.List;
 //DONE
 // diagonal equals tiles
 //id=2
- public class diagonalEqualCommonGoals extends CommonGoals {
+ public class diagonalEqualCommonGoals implements CommonGoals {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

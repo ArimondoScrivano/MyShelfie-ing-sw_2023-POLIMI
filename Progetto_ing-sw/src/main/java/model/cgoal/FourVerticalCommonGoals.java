@@ -10,7 +10,7 @@ import java.util.ArrayList;
 //DONE
 // 4 vertical tiles equals four times
 //id=5
- public class FourVerticalCommonGoals extends CommonGoals {
+ public class FourVerticalCommonGoals implements CommonGoals {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

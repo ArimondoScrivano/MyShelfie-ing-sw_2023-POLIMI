@@ -10,7 +10,7 @@ import java.util.List;
 //DONE
 //equals 4 corners
 //id=3
- public class CornersEqualsCommonGoals extends CommonGoals {
+ public class CornersEqualsCommonGoals implements CommonGoals {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

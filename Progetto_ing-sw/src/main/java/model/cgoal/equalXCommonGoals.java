@@ -10,7 +10,7 @@ import java.util.List;
 
 //equal "x"
 //id=10
- public class equalXCommonGoals extends CommonGoals {
+ public class equalXCommonGoals implements CommonGoals {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

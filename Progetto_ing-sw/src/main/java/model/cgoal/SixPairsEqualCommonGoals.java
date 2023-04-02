@@ -6,7 +6,7 @@ import java.util.*;
 
 // 6 pairs equal
 //id=1
- public class SixPairsEqualCommonGoals extends CommonGoals {
+ public class SixPairsEqualCommonGoals implements CommonGoals {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

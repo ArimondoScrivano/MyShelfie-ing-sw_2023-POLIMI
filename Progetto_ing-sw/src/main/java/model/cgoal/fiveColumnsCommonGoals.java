@@ -9,7 +9,7 @@ import java.util.List;
 //DONE
 // 5 Columns different highs
 //id=12
- public class fiveColumnsCommonGoals extends CommonGoals {
+ public class fiveColumnsCommonGoals implements CommonGoals {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

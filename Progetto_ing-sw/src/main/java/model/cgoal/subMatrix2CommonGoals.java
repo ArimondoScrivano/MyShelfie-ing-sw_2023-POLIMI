@@ -11,7 +11,7 @@ import java.util.List;
 
 //equalsubmatrix2*2
 //id=7
- public class subMatrix2CommonGoals extends CommonGoals {
+ public class subMatrix2CommonGoals implements CommonGoals {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

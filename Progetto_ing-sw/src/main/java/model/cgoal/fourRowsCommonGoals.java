@@ -10,7 +10,7 @@ import java.util.List;
 //DONE
 // 4 rows that have max 3 tiles egual
 //id=4
- public class fourRowsCommonGoals extends CommonGoals {
+ public class fourRowsCommonGoals implements CommonGoals {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

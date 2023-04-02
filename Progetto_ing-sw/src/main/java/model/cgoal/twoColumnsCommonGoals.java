@@ -12,7 +12,7 @@ import java.util.List;
 
 //2 columns All different tiles
 //id=6
- public class twoColumnsCommonGoals extends CommonGoals {
+ public class twoColumnsCommonGoals implements CommonGoals {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

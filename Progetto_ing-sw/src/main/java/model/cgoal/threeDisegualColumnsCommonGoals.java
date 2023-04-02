@@ -9,7 +9,7 @@ import java.util.List;
 
 // 3 disegual columns for 3 max different tiles
     //id=9
-     public class threeDisegualColumnsCommonGoals extends CommonGoals {
+     public class threeDisegualColumnsCommonGoals implements CommonGoals {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

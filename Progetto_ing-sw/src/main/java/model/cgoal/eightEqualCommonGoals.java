@@ -10,7 +10,7 @@ import java.util.List;
 //DONE
 //8 equal tiles random order
 //id=11
-public class eightEqualCommonGoals extends CommonGoals {
+public class eightEqualCommonGoals implements CommonGoals {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;
