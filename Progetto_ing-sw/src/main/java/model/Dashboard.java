@@ -42,7 +42,7 @@ public class Dashboard {
                 if (refillable[r][c].ordinal() < np) {
                     this.tiles[r][c] = bagInGame.getRandomTile();
 
-                } else if (refillable[r][c].equals(TILETYPE.BLK)) {
+                } else if (refillable[r][c].ordinal() >= np && refillable[r][c].ordinal() < 4) {
                     this.tiles[r][c] = new Tile(COLOR.BLANK, 0);
 
 
