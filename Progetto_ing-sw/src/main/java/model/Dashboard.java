@@ -54,12 +54,20 @@ public class Dashboard {
         this.players = np + 1;
     }
 
+
+    // method that returns tiles[][] ref.
+    public Tile[][] getTiles() {
+        return this.tiles;
+    }
+
+
     //TODO
     public void updateDashboard(Tile[] pickedTiles, Bag bagInGame) {
         // After the turn of a player update the dashboard
         // function gets the array composed of one-to-three tails picked by the player
 
         // then searches those tails on the dashboard
+        //TODO risolvere questione delle pick variabili
         for (int index = 0; index < 3; index++) {
 
             for (int r = 0; r < 9; r++) {
@@ -77,7 +85,6 @@ public class Dashboard {
     }
 
 
-    //TODO
     public void setRefill(Bag bagInGame) {
         // Checking if the dashboard has to be refilled
         // scanning dashboard's cells
@@ -112,11 +119,12 @@ public class Dashboard {
         refillDashboard(bagInGame);
     }
 
+
     public boolean getRefill() {
         return this.refill;
     }
 
-    //TODO
+
     public void refillDashboard(Bag bagInGame) {
         if (!bagInGame.checkEmpty(players) && getRefill()) {
 
@@ -151,15 +159,8 @@ public class Dashboard {
     }
 
 
-    // method that returns tiles[][] ref.
-    // provvisorio
-    public Tile[][] getTiles() {
-        return this.tiles;
-    }
-
-
     // method that picks a tile and return a new tile, with same color and id
-    // provvisorio
+    // equal to getDashboard, but single pick
     public Tile pickTile(int r, int c) {
         // pickedTile to put into the shelf
         Tile pickedTile = new Tile(tiles[r][c].getColor(), tiles[r][c].getId());
