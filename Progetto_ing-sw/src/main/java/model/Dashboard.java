@@ -65,7 +65,7 @@ public class Dashboard {
             for (int r = 0; r < 9; r++) {
                 for (int c = 0; c < 9; c++) {
 
-                    if (this.tiles[r][c].getId() == pickedTiles[index].getId()) {
+                    if (pickedTiles[index] != null && this.tiles[r][c].getId() == pickedTiles[index].getId()) {
 
                         this.tiles[r][c] = new Tile(COLOR.BLANK, 0);
                     }
