@@ -153,22 +153,17 @@ public class Dashboard {
 
 
     // method that returns tiles[][] ref.
+    // provvisorio
     public Tile[][] getTiles() {
         return this.tiles;
     }
 
 
     // method that picks a tile and return a new tile, with same color and id
+    // provvisorio
     public Tile pickTile(int r, int c) {
         // pickedTile to put into the shelf
         Tile pickedTile = new Tile(tiles[r][c].getColor(), tiles[r][c].getId());
-
-        // reset on the dashboard the tile that has been picked
-        // this.tiles[r][c].setColor(BLANK);  ?
-        // this.tiles[r][c].setId(0);   ?
-
-        // otherwise methods setRefill, refill and update can't work
-
         return pickedTile;
     }
 
