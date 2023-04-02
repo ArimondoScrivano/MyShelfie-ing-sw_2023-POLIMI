@@ -40,16 +40,15 @@ public class Dashboard {
         for (int r = 0; r < 9; r++) {
             for (int c = 0; c < 9; c++) {
                 if (refillable[r][c].ordinal() < np) {
-                    tiles[r][c] = bagInGame.getRandomTile();
+                    this.tiles[r][c] = bagInGame.getRandomTile();
 
                 } else if (refillable[r][c].equals(TILETYPE.BLK)) {
-                    tiles[r][c] = new Tile(COLOR.BLANK, 0);
+                    this.tiles[r][c] = new Tile(COLOR.BLANK, 0);
 
 
                 }
             }
         }
-
 
         this.refill = false;
         this.players = np + 1;
@@ -69,7 +68,7 @@ public class Dashboard {
                     if (this.tiles[r][c].equals(pickedTiles[index])) {
 
                         this.tiles[r][c] = new Tile(COLOR.BLANK, 0);
-                        //method equals should compare the status, so tail's color and id
+                        // method equals should compare the status, so tail's color and id
                     }
                 }
             }
@@ -77,6 +76,7 @@ public class Dashboard {
         // checking if dashboard needs to be refilled
         setRefill(bagInGame);
     }
+
 
     //TODO
     public void setRefill(Bag bagInGame) {
@@ -109,23 +109,26 @@ public class Dashboard {
 
         // if the function has not returned until this point, it means that there are no more adjacent tails
         // dashboard needs to be refilled
-        refill = true;      // il boolean refill è effettivamente utile?
+        refill = true;
         refillDashboard(bagInGame);
     }
 
+    public boolean getRefill() {
+        return this.refill;
+    }
 
     //TODO
     public void refillDashboard(Bag bagInGame) {
-        if (!bagInGame.checkEmpty(players)) {
+        if (!bagInGame.checkEmpty(players) && getRefill()) {
 
 
             // scanning the dashboard cells
             for (int r = 0; r < 9; r++) {
                 for (int c = 0; c < 9; c++) {
 
-                    // if tail is BLANK, we get a random tail from the bag
+                    // if tile is BLANK, we get a random tile from the bag
                     if (this.tiles[r][c].getColor().equals(COLOR.BLANK)) {
-                        tiles[r][c] = bagInGame.getRandomTile();
+                        this.tiles[r][c] = bagInGame.getRandomTile();
                     }
                 }
             }
@@ -146,6 +149,27 @@ public class Dashboard {
         }
         return tiles_copy;
 
+    }
+
+
+    // method that returns tiles[][] ref.
+    public Tile[][] getTiles() {
+        return this.tiles;
+    }
+
+
+    // method that picks a tile and return a new tile, with same color and id
+    public Tile pickTile(int r, int c) {
+        // pickedTile to put into the shelf
+        Tile pickedTile = new Tile(tiles[r][c].getColor(), tiles[r][c].getId());
+
+        // reset on the dashboard the tile that has been picked
+        // this.tiles[r][c].setColor(BLANK);  ?
+        // this.tiles[r][c].setId(0);   ?
+
+        // otherwise methods setRefill, refill and update can't work
+
+        return pickedTile;
     }
 
 }
