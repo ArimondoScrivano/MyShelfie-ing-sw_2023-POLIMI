@@ -1,12 +1,16 @@
 package model.cgoal;
 import model.Tile;
 import model.*;
+import java.lang.*;
+import java.util.*;
 
 //abstract class that has the strategy method
- public interface  CommonGoals{
+ public abstract class CommonGoals{
 
 
-    // the result is: 0 or 1.
-    public   int Checker(Tile[][] matrix);
+public abstract int getCurrent_point();
+
+    // the result is: 0 or the current point
+    public abstract   int Checker(Tile[][] matrix);
 
 }

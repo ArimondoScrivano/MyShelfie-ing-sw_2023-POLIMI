@@ -4,13 +4,21 @@ import model.COLOR;
 import model.Tile;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class subMatrix2CommonGoalsTest {
-    CommonGoals test9 = new subMatrix2CommonGoals();
+
 
     @Test
     void checker() {
+        List<Integer> l1= new ArrayList<>();
+        l1.add(1);
+        l1.add(2);
+        l1.add(3);
+        CommonGoals test9 = new subMatrix2CommonGoals(l1);
         Tile[][] matrix = new Tile[6][5];
         for(int i = 0; i < 6; ++i) {
             for(int j = 0; j < 5; ++j) {
@@ -18,7 +26,7 @@ class subMatrix2CommonGoalsTest {
             }
         }
 
-        assertEquals(0, this.test9.Checker(matrix));
+        assertEquals(0, test9.Checker(matrix));
         Tile a00 = new Tile(COLOR.GREEN, 1);
         matrix[0][0] = a00;
         Tile a01 = new Tile(COLOR.GREEN, 1);
@@ -79,7 +87,7 @@ class subMatrix2CommonGoalsTest {
         matrix[5][3] = a53;
         Tile a54 = new Tile(COLOR.WHITE, 1);
         matrix[5][4] = a54;
-        assertEquals(1, this.test9.Checker(matrix));
+        assertEquals(3, test9.Checker(matrix));
 
     }
 }
