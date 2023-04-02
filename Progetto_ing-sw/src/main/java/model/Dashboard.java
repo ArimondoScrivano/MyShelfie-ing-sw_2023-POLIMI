@@ -65,10 +65,9 @@ public class Dashboard {
             for (int r = 0; r < 9; r++) {
                 for (int c = 0; c < 9; c++) {
 
-                    if (this.tiles[r][c].equals(pickedTiles[index])) {
+                    if (this.tiles[r][c].getId() == pickedTiles[index].getId()) {
 
                         this.tiles[r][c] = new Tile(COLOR.BLANK, 0);
-                        // method equals should compare the status, so tail's color and id
                     }
                 }
             }
