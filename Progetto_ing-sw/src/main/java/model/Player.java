@@ -18,12 +18,13 @@ public class Player {
     //BOOLEAN WHICH IS TRUE WHETHER THE PLAYER'S SHELF IS FULL
     private boolean shelfCompleted;
     private boolean[] commonGoalsCompleted;
+    Tile[][] tiles=new Tile[6][5];
 
     //INSTANCE CONSTRUCTOR FOR PLAYER CLASS
     public Player(int id, String name){
         this.id=id;
         this.name=name;
-        this.myShelf=new Shelf();
+        this.myShelf=new Shelf(tiles, this);
         this.myPersonalGoal=new PersonalGoal();
         this.points=0;
         this.shelfCompleted=false;
@@ -44,6 +45,7 @@ public class Player {
     public PersonalGoal getPersonalGoal(){
         return this.myPersonalGoal;
     }
+    public int getPoints(){return points;}
 
     //RETURNS TRUE IF THE PLAYER'S SHELF CONTAINS ONE OF THE COMMON GOALS' PATTERNS
     public boolean commonGoalCompleted(List<CommonGoals> commonGoals, int id){
@@ -53,30 +55,24 @@ public class Player {
         }
         return false;
     }
-    public void convertPoints(Player myPlayer, int[]oldChains, int[] chains){
-        for(int j=0; j<100; j++){
-            if(oldChains[j]!=chains[j]){
-                if(chains[j]==3) myPlayer.points+=2;
-                if(oldChains[j]<3){
-                    if(chains[j]==4) myPlayer.points+=3;
-                    if(chains[j]==5) myPlayer.points+=5;
-                    if(chains[j]>=6) myPlayer.points+=8;
-                }
-                if(oldChains[j]==3){
-                    if(chains[j]==4) myPlayer.points+=1;
-                    if(chains[j]==5) myPlayer.points+=3;
-                    if(chains[j]>=6) myPlayer.points+=6;
-                }
-                if(oldChains[j]==4){
-                    if(chains[j]==5) myPlayer.points+=2;
-                    if(chains[j]>=6) myPlayer.points+=5;
-                }
-                if(oldChains[j]==5){
-                    if(chains[j]>=6) myPlayer.points+=3;
-                }
-                oldChains[j]=chains[j];
-            } chains[j]=1;
+    //salvare oldChain nella riga dell'adiacenza
+    public int convertPoints(Player myPlayer, int[] chains, int endline){
+        myPlayer.points=0;
+        if(chains[endline]==3){
+            myPlayer.points+=2;
         }
+        if(chains[endline]==4){
+            myPlayer.points+=3;
+        }
+        if(chains[endline]==5){
+            myPlayer.points+=5;
+        }
+        if(chains[endline]>=6){
+            myPlayer.points+=8;
+        }
+
+        //TODO SISTEMARE TIPO UML*/
+        return myPlayer.points;
     }
 
     public boolean[] getCommonGoalsCompleted() {
