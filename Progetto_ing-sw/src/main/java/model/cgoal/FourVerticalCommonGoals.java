@@ -11,6 +11,23 @@ import java.util.ArrayList;
 // 4 vertical tiles equals four times
 //id=5
  public class FourVerticalCommonGoals implements CommonGoals {
+    private List<Integer> points;
+    private int current_point;
+    private int indexCurrentPoint;
+
+    public FourVerticalCommonGoals (List<Integer> CommonGoalpoints){
+
+        this.points= new ArrayList<>();
+        this.points.addAll(CommonGoalpoints);
+        indexCurrentPoint=this.points.size()-1;
+        current_point= this.points.get(indexCurrentPoint);
+
+    }
+
+    @Override
+    public int getCurrent_point() {
+        return current_point;
+    }
 
     @Override
     public int Checker(Tile[][] matrix) {
@@ -35,7 +52,6 @@ import java.util.ArrayList;
 
                     //check if the tile is the right color
                     if(matrixSupport[row][col].getColor().compareTo(COLOR.BLANK)==color){
-                        System.out.println("HO TROVATO UN POTENZIALE GRUPPO A i:" +row + " j: " +col);
                         List<Tile> groupFound = new ArrayList<>();
                         matrixSupport[row][col]= new Tile(COLOR.BLANK, 1);
                         groupFound.add(matrixSupport[row][col]);
@@ -78,7 +94,6 @@ import java.util.ArrayList;
                         }
                     }
                 if (groupFound.size()>3){
-                    System.out.println("HO TROVATO UN GRUPPO VALIDO");
                     count++;
                 }
 
@@ -89,7 +104,18 @@ import java.util.ArrayList;
 }
 
 if (count > 3) {
-   return 1;
+    if (indexCurrentPoint==-1){
+        return 0;
+    }else{
+        int returnValue=current_point;
+        indexCurrentPoint= indexCurrentPoint-1;
+        if (indexCurrentPoint==-1){
+            current_point=0;
+        }else{
+            current_point= points.get(indexCurrentPoint);
+        }
+        return returnValue;
+    }
   }
   return 0;
 

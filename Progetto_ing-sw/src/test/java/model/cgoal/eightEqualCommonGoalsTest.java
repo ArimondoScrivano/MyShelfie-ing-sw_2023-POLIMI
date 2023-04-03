@@ -5,12 +5,20 @@ import model.Tile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class eightEqualCommonGoalsTest {
-    CommonGoals test3 = new eightEqualCommonGoals();
+
 
 
     @Test
     public void checker() {
+        List<Integer> l1= new ArrayList<>();
+        l1.add(1);
+        l1.add(2);
+        l1.add(3);
+        CommonGoals test3 = new eightEqualCommonGoals(l1);
         Tile[][] matrix = new Tile[6][5];
 
         int i;
@@ -21,7 +29,7 @@ class eightEqualCommonGoalsTest {
             }
         }
 
-        Assertions.assertEquals(0, this.test3.Checker(matrix));
+        Assertions.assertEquals(0, test3.Checker(matrix));
 
         for(i = 0; i < 6; ++i) {
             for(j = 0; j < 5; ++j) {
@@ -29,6 +37,6 @@ class eightEqualCommonGoalsTest {
             }
         }
 
-        Assertions.assertEquals(1, this.test3.Checker(matrix));
+        Assertions.assertEquals(3, test3.Checker(matrix));
     }
 }
