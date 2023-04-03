@@ -6,10 +6,18 @@ import model.COLOR;
 import model.Tile;
 import org.junit.jupiter.api.Test;
 
+import java.util.*;
+import java.lang.*;
 public class CornersEqualsCommonGoalsTest extends TestCase {
-    CommonGoals test1 = new CornersEqualsCommonGoals();
+
     @Test
-    void Testchecker() {
+ public  void testchecker() {
+        List<Integer> l1= new ArrayList<>();
+        l1.add(1);
+        l1.add(2);
+        l1.add(3);
+        CommonGoals test1 = new CornersEqualsCommonGoals(l1);
+
         Tile[][] matrix = new Tile[6][5];
         Tile a00 = new Tile(COLOR.GREEN, 1);
         matrix[0][0] = a00;
@@ -71,15 +79,19 @@ public class CornersEqualsCommonGoalsTest extends TestCase {
         matrix[5][3] = a53;
         Tile a54 = new Tile(COLOR.WHITE, 1);
         matrix[5][4] = a54;
-        assertEquals(0, this.test1.Checker(matrix));
+        assertEquals(0, test1.Checker(matrix));
         matrix[0][0] = new Tile(COLOR.BLUE, 1);
-        assertEquals(0, this.test1.Checker(matrix));
+        assertEquals(0, test1.Checker(matrix));
         matrix[0][4] = new Tile(COLOR.BLUE, 1);
-        assertEquals(0, this.test1.Checker(matrix));
+        assertEquals(0, test1.Checker(matrix));
         matrix[5][0] = new Tile(COLOR.BLUE, 1);
-        assertEquals(0, this.test1.Checker(matrix));
+        assertEquals(0, test1.Checker(matrix));
         matrix[5][4] = new Tile(COLOR.BLUE, 1);
-        assertEquals(1, this.test1.Checker(matrix));
+        assertEquals(3, test1.getCurrent_point());
+        assertEquals(3, test1.Checker(matrix));
+        assertEquals(2, test1.Checker(matrix));
+        assertEquals(1, test1.Checker(matrix));
+        assertEquals(0, test1.Checker(matrix));
 
         for(int i = 0; i < 6; ++i) {
             for(int j = 0; j < 5; ++j) {
@@ -87,6 +99,6 @@ public class CornersEqualsCommonGoalsTest extends TestCase {
             }
         }
 
-        assertEquals(0, this.test1.Checker(matrix));
+        assertEquals(0, test1.Checker(matrix));
     }
 }

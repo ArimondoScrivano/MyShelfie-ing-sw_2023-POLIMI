@@ -3,12 +3,32 @@ import model.COLOR;
 import model.Tile;
 import model.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 //DONE
 
 //equalsubmatrix2*2
 //id=7
  public class subMatrix2CommonGoals implements CommonGoals {
+    private List<Integer> points;
+    private int current_point;
+    private int indexCurrentPoint;
+
+    public subMatrix2CommonGoals (List<Integer> CommonGoalpoints){
+
+        this.points= new ArrayList<>();
+        this.points.addAll(CommonGoalpoints);
+        indexCurrentPoint=this.points.size()-1;
+        current_point= this.points.get(indexCurrentPoint);
+
+    }
+
+    @Override
+    public int getCurrent_point() {
+        return current_point;
+    }
 
     @Override
     public int Checker(Tile[][] matrix) {
@@ -59,7 +79,18 @@ import model.*;
             }
         }
         if(count>1){
-            return 1;
+            if (indexCurrentPoint==-1){
+                return 0;
+            }else{
+                int returnValue=current_point;
+                indexCurrentPoint= indexCurrentPoint-1;
+                if (indexCurrentPoint==-1){
+                    current_point=0;
+                }else{
+                    current_point= points.get(indexCurrentPoint);
+                }
+                return returnValue;
+            }
         }else {
             return 0;
         }

@@ -3,12 +3,33 @@ import model.COLOR;
 import model.Tile;
 import model.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 // 3 disegual columns for 3 max different tiles
     //id=9
      public class threeDisegualColumnsCommonGoals implements CommonGoals {
+    private List<Integer> points;
+    private int current_point;
+    private int indexCurrentPoint;
 
-        @Override
+    public threeDisegualColumnsCommonGoals(List<Integer> CommonGoalpoints){
+
+        this.points= new ArrayList<>();
+        this.points.addAll(CommonGoalpoints);
+        indexCurrentPoint=this.points.size()-1;
+        current_point= this.points.get(indexCurrentPoint);
+
+    }
+
+    @Override
+    public int getCurrent_point() {
+        return current_point;
+    }
+
+
+    @Override
         public int Checker(Tile[][] matrix) {
             int count = 0;
             int countExc = 0;
@@ -40,7 +61,18 @@ import model.*;
 
             }
             if (count > 2) {
-                return 1;
+                if (indexCurrentPoint==-1){
+                    return 0;
+                }else{
+                    int returnValue=current_point;
+                    indexCurrentPoint= indexCurrentPoint-1;
+                    if (indexCurrentPoint==-1){
+                        current_point=0;
+                    }else{
+                        current_point= points.get(indexCurrentPoint);
+                    }
+                    return returnValue;
+                }
             }else{
                 return 0;
 

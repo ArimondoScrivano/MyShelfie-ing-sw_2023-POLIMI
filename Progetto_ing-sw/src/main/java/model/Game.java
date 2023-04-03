@@ -100,21 +100,25 @@ public class Game extends Observable {
         while(id_1==id_2){
             id_2=rand.nextInt(12);
         }
+List<Integer>provaLista= new ArrayList<>();
+        provaLista.add(1);
+        provaLista.add(1);
+
 
         //Setting the commonGoals array with the id of the two commonGoals
         List<CommonGoals> temporaryCommonGoals = Arrays.asList(
-                new SixPairsEqualCommonGoals(),
-                new diagonalEqualCommonGoals(),
-                new CornersEqualsCommonGoals(),
-                new fourRowsCommonGoals(),
-                new FourVerticalCommonGoals(),
-                new twoColumnsCommonGoals(),
-                new subMatrix2CommonGoals(),
-                new twoRowsAllDifferentCommonGoals(),
-                new threeDisegualColumnsCommonGoals(),
-                new equalXCommonGoals(),
-                new eightEqualCommonGoals(),
-                new fiveColumnsCommonGoals()
+                new SixPairsEqualCommonGoals(provaLista),
+                new diagonalEqualCommonGoals(provaLista),
+                new CornersEqualsCommonGoals(provaLista),
+                new fourRowsCommonGoals(provaLista),
+                new FourVerticalCommonGoals(provaLista),
+                new twoColumnsCommonGoals(provaLista),
+                new subMatrix2CommonGoals(provaLista),
+                new twoRowsAllDifferentCommonGoals(provaLista),
+                new threeDisegualColumnsCommonGoals(provaLista),
+                new equalXCommonGoals(provaLista),
+                new eightEqualCommonGoals(provaLista),
+                new fiveColumnsCommonGoals(provaLista)
         );
 
         this.commonGoals = new ArrayList<>();
