@@ -4,10 +4,10 @@ public class Dashboard {
     //Dashboard model
     private Tile[][] tiles;
     //Setting the state of a tile
-    private TILETYPE[][] refillable;
+    private final TILETYPE[][] refillable;
     private boolean refill;
     //Number of players
-    private int players;
+    private int players;    // should I set this as final int ?
 
     public enum TILETYPE {
         TWO_PL, THREE_PL, FOUR_PL, BLK
@@ -61,6 +61,10 @@ public class Dashboard {
 
     public TILETYPE[][] getRefillable() {
         return this.refillable;
+    }
+
+    public int getPlayers() {
+        return this.players;
     }
 
     //TODO
@@ -127,7 +131,7 @@ public class Dashboard {
 
 
     public void refillDashboard(Bag bagInGame) {
-        if (!bagInGame.checkEmpty(players) && getRefill()) {
+        if (!bagInGame.checkEmpty(players)) {
 
 
             // scanning the dashboard cells
@@ -135,7 +139,7 @@ public class Dashboard {
                 for (int c = 0; c < 9; c++) {
 
                     // if tile is BLANK, we get a random tile from the bag
-                    if (this.tiles[r][c].getColor().equals(COLOR.BLANK)) {
+                    if (this.tiles[r][c].getColor().equals(COLOR.BLANK) && this.refillable[r][c].ordinal() < (this.players-1)) {
                         this.tiles[r][c] = bagInGame.getRandomTile();
                     }
                 }
@@ -166,6 +170,7 @@ public class Dashboard {
     public Tile pickTile(int r, int c) {
         // pickedTile to put into the shelf
         Tile pickedTile = new Tile(tiles[r][c].getColor(), tiles[r][c].getId());
+        this.tiles[r][c] = new Tile(COLOR.BLANK, 0);
         return pickedTile;
     }
 
