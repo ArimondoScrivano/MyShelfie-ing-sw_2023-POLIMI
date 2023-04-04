@@ -24,4 +24,17 @@ public class GameController {
         }*/
     }
 
+    public Player playerTurn(){
+        return currentGame.getCurrentPlayer();
+    }
+
+    public void pickTiles(){
+
+    }
+
+    public boolean tileAvailablePick(){
+        return true;
+    }
+
+    public void chooseColumnShelf(){}
 }

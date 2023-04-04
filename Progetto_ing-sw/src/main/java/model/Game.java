@@ -47,7 +47,6 @@ public class Game extends Observable {
 
         //Game just started-->no endgame yet
         this.endGame=false;
-
     }
 
     public List<Player> getPlayers(){
@@ -86,8 +85,6 @@ public class Game extends Observable {
         //Adding the common Goal points
         List<Integer>commonGoalPoints = new ArrayList<>(pointsCommonGoal);
         //Setting the points
-        //getCommonGoalsPoints(commonGoalPoints);
-
 
         //Setting the commonGoals array with the id of the two commonGoals
         List<CommonGoals> temporaryCommonGoals = Arrays.asList(
@@ -115,7 +112,7 @@ public class Game extends Observable {
     public void endGameToken(){
         if(currentPlayer.isShelfCompleted()){
             //The endgame token value is 1
-            getCurrentPlayer().points++;
+            getCurrentPlayer().setPointsEndGame();
             endGame=true;
         }
     }
