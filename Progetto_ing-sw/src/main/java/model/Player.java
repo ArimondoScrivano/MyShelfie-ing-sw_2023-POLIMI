@@ -56,7 +56,7 @@ public class Player {
         }
         return false;
     }
-    //salvare oldChain nella riga dell'adiacenza
+    //salvare oldChain nella riga dell'adiacenza.
     public void convertPoints(Tile[][] matrix) {
         this.points = 0;
         int count = 0;
