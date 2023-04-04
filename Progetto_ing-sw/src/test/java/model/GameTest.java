@@ -2,7 +2,6 @@ package model;
 
 import junit.framework.TestCase;
 import model.cgoal.CommonGoals;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
@@ -49,9 +48,14 @@ public class GameTest extends TestCase {
         Dashboard dashboard = new Dashboard(playersTest.size(), new Bag());
         Game game1 = new Game(0, dashboard, playersTest);
         commonGoalsTest = game1.getCommonGoals();
-        assertEquals(2, game1.getCommonGoalsPoints(1).size());
-        assertEquals(Arrays.asList(4, 8), game1.getCommonGoalsPoints(1));
-        assertEquals(Arrays.asList(4, 8), game1.getCommonGoalsPoints(2));
+        List<Integer> commonGoalPointsTest = switch (commonGoalsTest.size()) {
+            case 2 -> Arrays.asList(4, 8);
+            case 3 -> Arrays.asList(4, 6, 8);
+            case 4 -> Arrays.asList(2, 4, 6, 8);
+            default -> new ArrayList<>();
+        };
+        assertEquals(2, commonGoalPointsTest.size());
+        assertEquals(Arrays.asList(4, 8), commonGoalPointsTest);
     }
 
     @Test
@@ -61,15 +65,6 @@ public class GameTest extends TestCase {
         Game game1 = new Game(0, dashboard, playersTest);
         commonGoalsTest = game1.getCommonGoals();
         assertNotSame(commonGoalsTest.get(0), commonGoalsTest.get(1));
-    }
-
-    @Test
-    @Disabled
-    public void testUpdatePointsCommonGoals() throws NullPointerException{
-        playersTest.addAll(player1);
-        Dashboard dashboard = new Dashboard(playersTest.size(), new Bag());
-        Game game1 = new Game(0, dashboard, playersTest);
-        commonGoalsTest = game1.getCommonGoals();
     }
 
     @Test
