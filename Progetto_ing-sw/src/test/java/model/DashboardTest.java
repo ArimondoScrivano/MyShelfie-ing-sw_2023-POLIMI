@@ -117,19 +117,14 @@ public class DashboardTest extends TestCase {
 
             testFullDashboard.setRefill(testInGameBag);
 
+            // checking if refill is still false
             assertFalse(testFullDashboard.getRefill());
+            // checking if tails[][] has been modified
             assertEquals(prevTiles, testFullDashboard.getTiles());
         }
 
-        //TODO before i need to test the refillDashboard method
-
-        // case 2: dashboard not completely full/empty, but no refill needed
-
-
-        // case 3: dashboard not completely full/empty and needs to be refilled
-
-        // case 4: dashboard completely empty
-
+        // case 2: completely empty dashboard, needs refill
+        // tested within testRefillDashboard
 
     }
 
@@ -138,7 +133,7 @@ public class DashboardTest extends TestCase {
     public void testRefillDashboard() {
         // test if the dashboard is refilled in the correct way
 
-        // case1: completely empty dashboard
+        // case2: completely empty dashboard
         for (int np = 2; np < 5; np++) {
             Bag testInGameBag = new Bag();
             Dashboard testDashboard = new Dashboard(np, testInGameBag);
@@ -155,10 +150,9 @@ public class DashboardTest extends TestCase {
                 }
             }
 
-            // refill, assume setRefill() as correct method
             testDashboard.setRefill(testInGameBag);
 
-            // passes the test, so setRefill works and set refill = true
+            // passing test if setRefill set refill = true
             assertTrue(testDashboard.getRefill());
 
             // knowing refill == true
@@ -176,31 +170,6 @@ public class DashboardTest extends TestCase {
                 }
             }
             assertFalse(flag);
-        }
-
-        // case2: partly empty dashboard needs refill
-        for(int np = 2; np < 5; np++) {
-            Bag testInGameBag = new Bag();
-            Dashboard testDashboard = new Dashboard(np, testInGameBag);
-
-            // need to pick some random tails from the dashboard
-            // can try to make a loop that randomly pick one-to-#validtail from the dashboard
-            // and check everytime the refill
-
-            // pickedTiles <- #random number of tiles picked from dashboard during the match
-            Random random = new Random();
-            if(np == 2) {
-                int picksNumber = random.nextInt(29)+1;
-            } else if(np == 3) {
-                int picksNumber = random.nextInt(37)+1;
-            } else if(np == 4) {
-                int picksNumber = random.nextInt(45)+1;
-            }
-
-            //int pickedTiles = picksNumber; //why error? initialization due to condition?
-            // for each n in pickedTiles relate a random (valid) tile on the dashboard
-            //for(int counter = 1; counter < pickedTiles; counter++) {
-
         }
     }
 
