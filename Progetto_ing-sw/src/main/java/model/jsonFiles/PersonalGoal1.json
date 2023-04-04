@@ -1,2 +1,33 @@
-{"layout": [5, 132, 201, 254, 323, 416]
-}
+[{
+  "First":
+    {
+      "x": 0,
+      "y": 0,
+      "color": "VIOLET"
+    },
+  "Second":{
+    "x":1,
+    "y":3,
+    "color":"Yellow"
+  },
+  "Third":{
+    "x":2,
+    "y":5,
+    "color":"Light-blue"
+  },
+  "Fourth":{
+    "x":2,
+    "y":0,
+    "color":"Blue"
+  },
+  "Fifth":{
+    "x":3,
+    "y":2,
+    "color":"White"
+  },
+  "Sixth":{
+    "x":4,
+    "y":1,
+    "color":"Green"
+  }
+}]

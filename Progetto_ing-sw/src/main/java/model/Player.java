@@ -4,6 +4,7 @@ import model.cgoal.CommonGoals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Player {
     //INTEGER TO IDENTIFY THE PLAYER
@@ -23,10 +24,13 @@ public class Player {
 
     //INSTANCE CONSTRUCTOR FOR PLAYER CLASS
     public Player(int id, String name){
+        //Random rand= new Random();
+        //int personalGoalId= rand.nextInt(1, 12);
+        int personalGoalId=1;
         this.id=id;
         this.name=name;
         this.myShelf=new Shelf(tiles, this);
-        this.myPersonalGoal=new PersonalGoal();
+        this.myPersonalGoal=new PersonalGoal(personalGoalId);
         this.points=0;
         this.shelfCompleted=false;
         this.commonGoalsCompleted = new boolean[2];
