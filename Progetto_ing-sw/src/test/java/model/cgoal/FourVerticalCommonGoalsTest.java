@@ -89,6 +89,46 @@ class FourVerticalCommonGoalsTest {
         }
 
         assertEquals(0, test7.Checker(matrix));
+        matrix[0][0]=new Tile(COLOR.GREEN, 1);
+        matrix[1][0]=new Tile(COLOR.GREEN, 1);
+        matrix[2][0]=new Tile(COLOR.GREEN, 1);
+        matrix[3][0]=new Tile(COLOR.GREEN, 1);
+        matrix[4][0]=new Tile(COLOR.GREEN, 1);
+        matrix[5][0]=new Tile(COLOR.GREEN, 1);
+        matrix[5][1]=new Tile(COLOR.GREEN, 1);
+        matrix[5][2]=new Tile(COLOR.GREEN, 1);
+        matrix[5][3]=new Tile(COLOR.GREEN, 1);
+        matrix[5][4]=new Tile(COLOR.GREEN, 1);
+        matrix[4][4]=new Tile(COLOR.GREEN, 1);
+        matrix[3][4]=new Tile(COLOR.GREEN, 1);
+        matrix[2][4]=new Tile(COLOR.GREEN, 1);
+        matrix[1][4]=new Tile(COLOR.GREEN, 1);
+        matrix[0][4]=new Tile(COLOR.GREEN, 1);
+        matrix[0][1]=new Tile(COLOR.GREEN, 1);
+        matrix[0][2]=new Tile(COLOR.GREEN, 1);
+        matrix[0][3]=new Tile(COLOR.GREEN, 1);
+        matrix[0][4]=new Tile(COLOR.GREEN, 1);
 
+        assertEquals(0, test7.Checker(matrix));
+
+        matrix[1][1]=new Tile(COLOR.VIOLET, 1);
+        matrix[1][2]=new Tile(COLOR.VIOLET, 1);
+        matrix[1][3]=new Tile(COLOR.VIOLET, 1);
+        matrix[2][3]=new Tile(COLOR.VIOLET, 1);
+        matrix[2][1]=new Tile(COLOR.BLUE, 1);
+        matrix[2][2]=new Tile(COLOR.BLUE, 1);
+        matrix[3][2]=new Tile(COLOR.BLUE, 1);
+        matrix[3][3]=new Tile(COLOR.BLUE, 1);
+        matrix[3][1]=new Tile(COLOR.YELLOW, 1);
+        matrix[4][1]=new Tile(COLOR.YELLOW, 1);
+        matrix[4][2]=new Tile(COLOR.YELLOW, 1);
+        matrix[4][3]=new Tile(COLOR.YELLOW, 1);
+        assertEquals(2, test7.Checker(matrix));
+        assertEquals(1, test7.Checker(matrix));
+        assertEquals(0, test7.Checker(matrix));
+        assertEquals(0, test7.Checker(matrix));
     }
+
+
+
 }

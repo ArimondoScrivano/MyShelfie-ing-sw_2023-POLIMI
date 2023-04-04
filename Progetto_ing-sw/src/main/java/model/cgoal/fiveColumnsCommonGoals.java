@@ -32,7 +32,7 @@ import java.util.List;
     @Override
     public int Checker(Tile[][] matrix) {
         int flag = 0;
-
+        // Diagonal left to right (1)
         if (!matrix[4][0].getColor().equals(COLOR.BLANK)
                 && !matrix[3][1].getColor().equals(COLOR.BLANK)
                 && !matrix[2][2].getColor().equals(COLOR.BLANK)
@@ -40,7 +40,7 @@ import java.util.List;
                 && !matrix[0][4].getColor().equals(COLOR.BLANK)) {
             flag = 1;
         }
-
+        //Diagonal right to left (1)
         if (!matrix[4][4].getColor().equals(COLOR.BLANK)
                 && !matrix[3][3].getColor().equals(COLOR.BLANK)
                 && !matrix[2][2].getColor().equals(COLOR.BLANK)
@@ -49,7 +49,23 @@ import java.util.List;
             flag = 1;
         }
 
+        //Diagonal right to left (2)
+        if (matrix[5][4].getColor().equals(COLOR.BLANK)
+                && matrix[4][3].getColor().equals(COLOR.BLANK)
+                && matrix[3][2].getColor().equals(COLOR.BLANK)
+                && matrix[2][1].getColor().equals(COLOR.BLANK)
+                && !matrix[1][0].getColor().equals(COLOR.BLANK)) {
+            flag = 1;
+        }
 
+        // Diagonal left to right (2)
+        if (matrix[5][0].getColor().equals(COLOR.BLANK)
+                && matrix[4][1].getColor().equals(COLOR.BLANK)
+                && matrix[3][2].getColor().equals(COLOR.BLANK)
+                && matrix[2][1].getColor().equals(COLOR.BLANK)
+                && !matrix[1][0].getColor().equals(COLOR.BLANK)) {
+            flag = 1;
+        }
 
         if (flag == 1) {
             if (indexCurrentPoint==-1){
