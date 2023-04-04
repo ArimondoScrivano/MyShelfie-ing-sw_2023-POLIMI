@@ -30,6 +30,7 @@ public class Shelf {
     public void addTiles(Tile tiles[], int column) {
         int freeFirstSpot = 0;
         int flag = 0;
+        boolean firstSpotFound=false;
         int types[];
         if (tiles.length > 4) System.out.println("too many tiles picked.");
         if (tiles.length == 3) {
@@ -47,13 +48,18 @@ public class Shelf {
                 flag = 1;
             }
         }
-        for (int col = 1; col < 6; col++) {
-            if (!tilesShelf[col - 1][column].getColor().equals(COLOR.BLANK) && !tilesShelf[col][column].getColor().equals(COLOR.BLANK)) {
-                freeFirstSpot = col;
-            }
-        }
+        if(flag==0) System.out.println("too little room on this column");
+        int col=1;
 
         if (flag == 1) {
+            while(col<6){
+                if(tilesShelf[col-1][column].getColor().equals(COLOR.BLANK) && !(tilesShelf[col][column].getColor().equals(COLOR.BLANK))){
+                    freeFirstSpot=col-1;
+                    firstSpotFound=true;
+                    break;
+                }else{col++;}
+            }
+            if(!firstSpotFound) freeFirstSpot=5;
             for (int i = 0; i < tiles.length; i++) {
                 tilesShelf[freeFirstSpot - i][column] = new Tile(tiles[i].getColor(), tiles[i].getId());
             }

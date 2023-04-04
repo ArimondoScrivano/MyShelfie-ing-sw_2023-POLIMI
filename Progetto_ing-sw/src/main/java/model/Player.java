@@ -142,6 +142,7 @@ public class Player {
 
             }
         }
+        System.out.println("points "+this.points);
     }
 
 
