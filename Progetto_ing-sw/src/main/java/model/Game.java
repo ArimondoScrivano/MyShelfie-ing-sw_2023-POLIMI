@@ -13,8 +13,7 @@ public class Game extends Observable {
     static int MAX_PLAYERS=4;
     //Common goals
     private List<CommonGoals> commonGoals;
-    private List<Integer> pointsCommonGoal_1;
-    private List<Integer> pointsCommonGoal_2;
+    private List<Integer> pointsCommonGoal;
     private boolean endGame;
 
     public Game(int id, Dashboard dashboard, List<Player> pl){
@@ -30,31 +29,24 @@ public class Game extends Observable {
         int numberOfPlayers = players.size();
         switch (numberOfPlayers) {
             case 2 -> {
-                setCommonGoals();
                 //Setting the points for the commonGoals
-                this.pointsCommonGoal_1 = Arrays.asList(4, 8);
-                //2nd commonGoal
-                this.pointsCommonGoal_2 = Arrays.asList(4, 8);
+                this.pointsCommonGoal = Arrays.asList(4, 8);
+                setCommonGoals();
             }
             case 3 -> {
-                setCommonGoals();
                 //Setting the points for the commonGoals
-                this.pointsCommonGoal_1 = Arrays.asList(4, 6, 8);
-                //2nd commonGoal
-                this.pointsCommonGoal_2 = Arrays.asList(4, 6, 8);
+                this.pointsCommonGoal = Arrays.asList(4, 6, 8);
+                setCommonGoals();
             }
             case 4 -> {
-                setCommonGoals();
                 //Setting the points for the commonGoals
-                this.pointsCommonGoal_1 = Arrays.asList(2, 4, 6, 8);
-                //2nd commonGoal
-                this.pointsCommonGoal_2 = Arrays.asList(2, 4, 6, 8);
+                this.pointsCommonGoal = Arrays.asList(2, 4, 6, 8);
+                setCommonGoals();
             }
         }
 
         //Game just started-->no endgame yet
         this.endGame=false;
-
     }
 
     public List<Player> getPlayers(){
@@ -79,16 +71,6 @@ public class Game extends Observable {
         return this.commonGoals;
     }
 
-    //Get the reference to the list which contains the points for the common goals
-    public List<Integer> getCommonGoalsPoints(int idCommonGoal) throws ArrayIndexOutOfBoundsException{
-        if(idCommonGoal==1){
-            //Return the points of the 1st common goal
-            return pointsCommonGoal_1;
-        }
-        //Return the points of the 2nd common goal
-        return pointsCommonGoal_2;
-    }
-
     //Setting the common Goals for the game
     public void setCommonGoals(){
         //Two random numbers to get the 2 id of the common_goals of the game
@@ -100,25 +82,24 @@ public class Game extends Observable {
         while(id_1==id_2){
             id_2=rand.nextInt(12);
         }
-List<Integer>provaLista= new ArrayList<>();
-        provaLista.add(1);
-        provaLista.add(1);
-
+        //Adding the common Goal points
+        List<Integer>commonGoalPoints = new ArrayList<>(pointsCommonGoal);
+        //Setting the points
 
         //Setting the commonGoals array with the id of the two commonGoals
         List<CommonGoals> temporaryCommonGoals = Arrays.asList(
-                new SixPairsEqualCommonGoals(provaLista),
-                new diagonalEqualCommonGoals(provaLista),
-                new CornersEqualsCommonGoals(provaLista),
-                new fourRowsCommonGoals(provaLista),
-                new FourVerticalCommonGoals(provaLista),
-                new twoColumnsCommonGoals(provaLista),
-                new subMatrix2CommonGoals(provaLista),
-                new twoRowsAllDifferentCommonGoals(provaLista),
-                new threeDisegualColumnsCommonGoals(provaLista),
-                new equalXCommonGoals(provaLista),
-                new eightEqualCommonGoals(provaLista),
-                new fiveColumnsCommonGoals(provaLista)
+                new SixPairsEqualCommonGoals(commonGoalPoints),
+                new diagonalEqualCommonGoals(commonGoalPoints),
+                new CornersEqualsCommonGoals(commonGoalPoints),
+                new fourRowsCommonGoals(commonGoalPoints),
+                new FourVerticalCommonGoals(commonGoalPoints),
+                new twoColumnsCommonGoals(commonGoalPoints),
+                new subMatrix2CommonGoals(commonGoalPoints),
+                new twoRowsAllDifferentCommonGoals(commonGoalPoints),
+                new threeDisegualColumnsCommonGoals(commonGoalPoints),
+                new equalXCommonGoals(commonGoalPoints),
+                new eightEqualCommonGoals(commonGoalPoints),
+                new fiveColumnsCommonGoals(commonGoalPoints)
         );
 
         this.commonGoals = new ArrayList<>();
@@ -127,25 +108,11 @@ List<Integer>provaLista= new ArrayList<>();
         this.commonGoals.add(1, temporaryCommonGoals.get(id_2));
     }
 
-    //Updating the points of the common Goal if completed from the current player
-    public void updatePointsCommonGoals(){
-        for(int i=0; i<2; i++){
-            if(!currentPlayer.getCommonGoalsCompleted()[i] && currentPlayer.commonGoalCompleted(commonGoals, i)){
-                currentPlayer.points += getCommonGoalsPoints(i).get(getCommonGoalsPoints(i).size()-1);
-                if(i==1){
-                    pointsCommonGoal_1.remove(pointsCommonGoal_1.size() - 1);
-                }else{
-                    pointsCommonGoal_2.remove(pointsCommonGoal_2.size() - 1);
-                }
-            }
-        }
-    }
-
     //The endgame token is taken by the current player if his shelf is completed
     public void endGameToken(){
         if(currentPlayer.isShelfCompleted()){
             //The endgame token value is 1
-            getCurrentPlayer().points++;
+            getCurrentPlayer().setPointsEndGame();
             endGame=true;
         }
     }

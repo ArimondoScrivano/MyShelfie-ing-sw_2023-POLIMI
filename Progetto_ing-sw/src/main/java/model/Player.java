@@ -48,6 +48,10 @@ public class Player {
     }
     public int getPoints(){return points;}
 
+    public void setPointsEndGame(){
+        this.points++;
+    }
+
     //RETURNS TRUE IF THE PLAYER'S SHELF CONTAINS ONE OF THE COMMON GOALS' PATTERNS
     public boolean commonGoalCompleted(List<CommonGoals> commonGoals, int id){
         if(commonGoals.get(id).Checker(myShelf.tilesShelf)==1){

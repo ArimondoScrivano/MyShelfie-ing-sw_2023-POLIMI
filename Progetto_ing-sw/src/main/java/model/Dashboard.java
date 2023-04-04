@@ -4,10 +4,10 @@ public class Dashboard {
     //Dashboard model
     private Tile[][] tiles;
     //Setting the state of a tile
-    private TILETYPE[][] refillable;
+    private final TILETYPE[][] refillable;
     private boolean refill;
     //Number of players
-    private int players;
+    private int players;    // should I set this as final int ?
 
     public enum TILETYPE {
         TWO_PL, THREE_PL, FOUR_PL, BLK
@@ -15,7 +15,6 @@ public class Dashboard {
 
 
     //Constructor given the number of players
-    //TODO
     public Dashboard(int np, Bag bagInGame) {
         //correct format
         np -= 1;
@@ -40,19 +39,32 @@ public class Dashboard {
         for (int r = 0; r < 9; r++) {
             for (int c = 0; c < 9; c++) {
                 if (refillable[r][c].ordinal() < np) {
-                    tiles[r][c] = bagInGame.getRandomTile();
+                    this.tiles[r][c] = bagInGame.getRandomTile();
 
-                } else if (refillable[r][c].equals(TILETYPE.BLK)) {
-                    tiles[r][c] = new Tile(COLOR.BLANK, 0);
+                } else if (refillable[r][c].ordinal() >= np && refillable[r][c].ordinal() < 4) {
+                    this.tiles[r][c] = new Tile(COLOR.BLANK, 0);
 
 
                 }
             }
         }
 
-
         this.refill = false;
         this.players = np + 1;
+    }
+
+
+    // method that returns tiles[][] ref.
+    public Tile[][] getTiles() {
+        return this.tiles;
+    }
+
+    public TILETYPE[][] getRefillable() {
+        return this.refillable;
+    }
+
+    public int getPlayers() {
+        return this.players;
     }
 
     //TODO
@@ -66,10 +78,9 @@ public class Dashboard {
             for (int r = 0; r < 9; r++) {
                 for (int c = 0; c < 9; c++) {
 
-                    if (this.tiles[r][c].equals(pickedTiles[index])) {
+                    if (pickedTiles[index] != null && this.tiles[r][c].getId() == pickedTiles[index].getId()) {
 
                         this.tiles[r][c] = new Tile(COLOR.BLANK, 0);
-                        //method equals should compare the status, so tail's color and id
                     }
                 }
             }
@@ -78,7 +89,7 @@ public class Dashboard {
         setRefill(bagInGame);
     }
 
-    //TODO
+
     public void setRefill(Bag bagInGame) {
         // Checking if the dashboard has to be refilled
         // scanning dashboard's cells
@@ -109,12 +120,16 @@ public class Dashboard {
 
         // if the function has not returned until this point, it means that there are no more adjacent tails
         // dashboard needs to be refilled
-        refill = true;      // il boolean refill è effettivamente utile?
+        refill = true;
         refillDashboard(bagInGame);
     }
 
 
-    //TODO
+    public boolean getRefill() {
+        return this.refill;
+    }
+
+
     public void refillDashboard(Bag bagInGame) {
         if (!bagInGame.checkEmpty(players)) {
 
@@ -123,9 +138,9 @@ public class Dashboard {
             for (int r = 0; r < 9; r++) {
                 for (int c = 0; c < 9; c++) {
 
-                    // if tail is BLANK, we get a random tail from the bag
-                    if (this.tiles[r][c].getColor().equals(COLOR.BLANK)) {
-                        tiles[r][c] = bagInGame.getRandomTile();
+                    // if tile is BLANK, we get a random tile from the bag
+                    if (this.tiles[r][c].getColor().equals(COLOR.BLANK) && this.refillable[r][c].ordinal() < (this.players-1)) {
+                        this.tiles[r][c] = bagInGame.getRandomTile();
                     }
                 }
             }
@@ -146,6 +161,17 @@ public class Dashboard {
         }
         return tiles_copy;
 
+    }
+
+
+    // method that picks a tile and return a new tile, with same color and id
+    // equal to getDashboard, but single pick
+    // probably not useful
+    public Tile pickTile(int r, int c) {
+        // pickedTile to put into the shelf
+        Tile pickedTile = new Tile(tiles[r][c].getColor(), tiles[r][c].getId());
+        this.tiles[r][c] = new Tile(COLOR.BLANK, 0);
+        return pickedTile;
     }
 
 }
