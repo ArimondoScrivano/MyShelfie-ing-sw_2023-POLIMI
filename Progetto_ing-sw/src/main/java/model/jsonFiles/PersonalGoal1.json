@@ -1,33 +1,51 @@
-[{
-  "First":
-    {
+[
+  {
+    "position": "First",
+    "tile": {
       "x": 0,
       "y": 0,
-      "color": "VIOLET"
-    },
-  "Second":{
-    "x":1,
-    "y":3,
-    "color":"Yellow"
+      "color": "Violet"
+    }
   },
-  "Third":{
-    "x":2,
-    "y":5,
-    "color":"Light-blue"
+  {
+    "position":"Second",
+    "tile":{
+      "x": 1,
+      "y": 3,
+      "color": "Yellow"
+    }
   },
-  "Fourth":{
-    "x":2,
-    "y":0,
-    "color":"Blue"
+  {
+    "position":"Third",
+    "tile":{
+      "x": 2,
+      "y": 5,
+      "color": "Lightblue"
+    }
   },
-  "Fifth":{
-    "x":3,
-    "y":2,
-    "color":"White"
+
+  {
+    "position":"Fourth",
+    "tile":{
+      "x":2,
+      "y":0,
+      "color":"Blue"
+    }
   },
-  "Sixth":{
-    "x":4,
-    "y":1,
-    "color":"Green"
+  {
+    "position":"Fifth",
+    "tile":{
+      "x":3,
+      "y":2,
+      "color":"White"
+    }
+  },
+  {
+    "position":"Sixth",
+    "tile":{
+      "x":4,
+      "y":1,
+      "color":"Green"
+    }
   }
-}]
+]
