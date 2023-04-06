@@ -24,9 +24,8 @@ public class Player {
 
     //INSTANCE CONSTRUCTOR FOR PLAYER CLASS
     public Player(int id, String name){
-        //Random rand= new Random();
-        //int personalGoalId= rand.nextInt(1, 12);
-        int personalGoalId=1;
+        Random rand= new Random();
+        int personalGoalId= rand.nextInt(1, 12);
         this.id=id;
         this.name=name;
         this.myShelf=new Shelf(tiles, this);

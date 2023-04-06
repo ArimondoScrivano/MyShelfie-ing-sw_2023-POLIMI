@@ -1,6 +1,5 @@
 package model;
 
-import model.COLOR;
 
 public class TileLayout {
     private int x;
