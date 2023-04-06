@@ -1,2 +1,51 @@
-{"layout": [52, 114, 131, 233, 356, 445]
-}
+[
+  {
+    "position": "First",
+    "tile": {
+      "x": 0,
+      "y": 5,
+      "color": "Yellow"
+    }
+  },
+  {
+    "position":"Second",
+    "tile":{
+      "x": 1,
+      "y": 1,
+      "color": "Lightblue"
+    }
+  },
+  {
+    "position":"Third",
+    "tile":{
+      "x": 1,
+      "y": 3,
+      "color": "Blue"
+    }
+  },
+
+  {
+    "position":"Fourth",
+    "tile":{
+      "x":2,
+      "y":3,
+      "color":"White"
+    }
+  },
+  {
+    "position":"Fifth",
+    "tile":{
+      "x":3,
+      "y":5,
+      "color":"Green"
+    }
+  },
+  {
+    "position":"Sixth",
+    "tile":{
+      "x":4,
+      "y":4,
+      "color":"Violet"
+    }
+  }
+]

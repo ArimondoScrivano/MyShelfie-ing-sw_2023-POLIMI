@@ -19,8 +19,8 @@
     "position":"Third",
     "tile":{
       "x": 2,
-      "y": 5,
-      "color": "Lightblue"
+      "y": 0,
+      "color": "Blue"
     }
   },
 
@@ -28,8 +28,8 @@
     "position":"Fourth",
     "tile":{
       "x":2,
-      "y":0,
-      "color":"Blue"
+      "y":5,
+      "color":"Lightblue"
     }
   },
   {
