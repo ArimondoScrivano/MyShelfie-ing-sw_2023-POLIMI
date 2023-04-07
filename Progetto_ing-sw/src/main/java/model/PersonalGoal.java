@@ -2,7 +2,6 @@ package model;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,8 +31,7 @@ public class PersonalGoal {
                 .create();
         //Read from file json and construct the personal goal
         try {
-            int i=1;
-            FileReader reader = new FileReader("Progetto_ing-sw/src/main/java/model/jsonFiles/PersonalGoal"+id+".json");
+            FileReader reader = new FileReader("src/main/java/model/jsonFiles/PersonalGoal"+this.id+".json");
             //as a list
             Type layoutListType=new TypeToken<ArrayList<Layout>>(){}.getType();
             List<Layout> layouts = gson.fromJson(reader, layoutListType);
