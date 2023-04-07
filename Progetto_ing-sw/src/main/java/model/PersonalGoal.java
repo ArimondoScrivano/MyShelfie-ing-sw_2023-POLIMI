@@ -19,9 +19,9 @@ public class PersonalGoal {
     public PersonalGoal(int id){
         //Initializing the layout
         this.id=id;
-        this.layout=new Tile[5][6];
-        for(int i=0; i<5; i++){
-            for(int j=0; j<6; j++){
+        this.layout=new Tile[6][5];
+        for(int i=0; i<6; i++){
+            for(int j=0; j<5; j++){
                 this.layout[i][j]=new Tile(COLOR.BLANK, 0);
             }
         }
@@ -31,7 +31,7 @@ public class PersonalGoal {
                 .create();
         //Read from file json and construct the personal goal
         try {
-            FileReader reader = new FileReader("src/main/java/model/jsonFiles/PersonalGoal"+this.id+".json");
+            FileReader reader = new FileReader("Progetto_ing-sw/src/main/java/model/jsonFiles/PersonalGoal1.json");
             //as a list
             Type layoutListType=new TypeToken<ArrayList<Layout>>(){}.getType();
             List<Layout> layouts = gson.fromJson(reader, layoutListType);
@@ -40,9 +40,9 @@ public class PersonalGoal {
                 this.layout[l.getTile().getX()][l.getTile().getY()]=new Tile(l.getTile().convert(), this.id);
             }
             for(Tile[] t : this.layout){
-                System.out.println("new row");
+                System.out.println("new Row");
                 for(Tile t1 : t){
-                    System.out.println(t1.getColor());
+                    System.out.print(t1.getColor()+" ");
                 }
             }
 
