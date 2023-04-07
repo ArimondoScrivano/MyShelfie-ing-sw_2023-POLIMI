@@ -12,12 +12,14 @@ import com.google.gson.reflect.TypeToken;
 
 public class PersonalGoal {
     private int id;
+    private int index=0;
 
     private Tile[][] layout;
     private List<Integer> points;
     //METHOD TO RETURN GOAL POINTS
     public PersonalGoal(int id){
         //Initializing the layout
+        this.id=id;
         this.layout=new Tile[5][6];
         for(int i=0; i<5; i++){
             for(int j=0; j<6; j++){
@@ -31,7 +33,7 @@ public class PersonalGoal {
         //Read from file json and construct the personal goal
         try {
             int i=1;
-            FileReader reader = new FileReader("Progetto_ing-sw/src/main/java/model/jsonFiles/PersonalGoal"+i+".json");
+            FileReader reader = new FileReader("Progetto_ing-sw/src/main/java/model/jsonFiles/PersonalGoal"+id+".json");
             //as a list
             Type layoutListType=new TypeToken<ArrayList<Layout>>(){}.getType();
             List<Layout> layouts = gson.fromJson(reader, layoutListType);
@@ -64,14 +66,25 @@ public class PersonalGoal {
         return layout;
     }
 
-    public List<Integer> getPoints() {
-        return points;
+    public List<Integer> getPoints() {return points;}
+
+    public int getAdditionalPoints(){
+        int additionalPoints=0;
+        if(index==0){
+            index++;
+            return points.get(index-1);
+        }else{
+            additionalPoints=points.get(index)-points.get(index-1);
+            index++;
+            return additionalPoints;
+        }
     }
 
     //Da implementare in player
-    public int checkPersonalGoal(Player myPlayer, int[][] tileTypes) throws IOException {
+    /*public int checkPersonalGoal(Player myPlayer, int[][] tileTypes) throws IOException {
         //Creare indice come attributo della classe che identifica il punteggio del personal goal
 
         return 0;
-    }
+    }*/
+
 }

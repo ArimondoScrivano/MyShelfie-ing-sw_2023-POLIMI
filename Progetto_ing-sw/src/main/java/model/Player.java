@@ -2,6 +2,7 @@ package model;
 
 import model.cgoal.CommonGoals;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -159,5 +160,22 @@ public class Player {
 
     public void setShelfCompleted(){
         this.shelfCompleted = true;
+    }
+    public int checkPersonalGoal(int freeFirstSpot, int column) throws IOException {
+        //Creare indice come attributo della classe che identifica il punteggio del personal goal
+        Tile[][] layout= new Tile[5][6];
+        layout=myPersonalGoal.getLayout();
+        Tile[][] myLayout= new Tile[5][6];
+        myLayout=myShelf.tilesShelf;
+        int i=freeFirstSpot;
+        int additionalPoints=0;
+        while(!(myLayout[i][column].getColor().equals(COLOR.BLANK))){
+            if(myLayout[i][column].getColor().equals(layout[i][column].getColor())){
+                additionalPoints+=myPersonalGoal.getAdditionalPoints();
+                i--;
+            }else{i--;}
+        }
+        points+=additionalPoints;
+        return 0;
     }
 }

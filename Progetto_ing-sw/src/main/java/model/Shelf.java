@@ -64,16 +64,9 @@ public class Shelf {
                 tilesShelf[freeFirstSpot - i][column] = new Tile(tiles[i].getColor(), tiles[i].getId());
             }
         }
-        myPlayer.convertPoints(tilesShelf);
-        int[][] matrixSupport = new int[6][5];
-        for (int r = 0; r < 6; r++) {
-            for (int c = 0; c < 5; c++) {
-                matrixSupport[r][c] = this.tilesShelf[r][c].getColor().compareTo(COLOR.BLANK);
-            }
-        }
 
         try {
-            myPlayer.myPersonalGoal.checkPersonalGoal(this.myPlayer, matrixSupport);
+            myPlayer.checkPersonalGoal(freeFirstSpot, column);
         } catch (IOException e) {
 
         }
