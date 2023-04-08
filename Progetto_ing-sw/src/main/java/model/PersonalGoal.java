@@ -31,7 +31,7 @@ public class PersonalGoal {
                 .create();
         //Read from file json and construct the personal goal
         try {
-            FileReader reader = new FileReader("Progetto_ing-sw/src/main/java/model/jsonFiles/PersonalGoal1.json");
+            FileReader reader = new FileReader("src/main/java/model/jsonFiles/PersonalGoal"+id+".json");
             //as a list
             Type layoutListType=new TypeToken<ArrayList<Layout>>(){}.getType();
             List<Layout> layouts = gson.fromJson(reader, layoutListType);
@@ -69,8 +69,8 @@ public class PersonalGoal {
     public int getAdditionalPoints(){
         int additionalPoints=0;
         if(index==0){
-            index++;
-            return points.get(index-1);
+            additionalPoints+=points.get(index);
+            return additionalPoints;
         }else{
             additionalPoints=points.get(index)-points.get(index-1);
             index++;

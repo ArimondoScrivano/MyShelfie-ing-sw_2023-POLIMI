@@ -36,5 +36,7 @@ public class GameController {
         return true;
     }
 
-    public void chooseColumnShelf(){}
+    public void chooseColumnShelf(){} //rita
+    public void columnAvailable(){} //rita
+    public void chooseOrder(){} //rita
 }

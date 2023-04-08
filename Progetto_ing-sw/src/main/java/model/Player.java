@@ -13,7 +13,7 @@ public class Player {
     //PLAYER'S NICKNAME
     private String name;
     //PLAYER'S SHELF
-    private Shelf myShelf;
+    protected Shelf myShelf;
     //THE PERSONAL GOAL IS CONNECTED TO THE PLAYER INSTANCE
     PersonalGoal myPersonalGoal;
     //NUMBER OF POINTS OF EACH PLAYER
@@ -29,11 +29,18 @@ public class Player {
         int personalGoalId= rand.nextInt(1, 12);
         this.id=id;
         this.name=name;
+        for(int i=0; i<6; i++){
+            for(int j=0; j<5; j++){
+                tiles[i][j]=new Tile(COLOR.BLANK, 1);
+            }
+        }
         this.myShelf=new Shelf(tiles, this);
         this.myPersonalGoal=new PersonalGoal(personalGoalId);
         this.points=0;
         this.shelfCompleted=false;
         this.commonGoalsCompleted = new boolean[2];
+        commonGoalsCompleted[0]=false;
+        commonGoalsCompleted[1]=false;
     }
 
     //METHOD TO GET A PLAYER'S NAME
@@ -165,11 +172,15 @@ public class Player {
         //Creare indice come attributo della classe che identifica il punteggio del personal goal
         Tile[][] layout= new Tile[5][6];
         layout=myPersonalGoal.getLayout();
-        Tile[][] myLayout= new Tile[5][6];
-        myLayout=myShelf.tilesShelf;
+        Tile[][] myLayout= new Tile[6][5];
+        for(int row=0; row<6; row++){
+            for(int col=0; col<5; col++){
+                myLayout[row][col]=myShelf.tilesShelf[row][col];
+            }
+        }
         int i=freeFirstSpot;
         int additionalPoints=0;
-        while(!(myLayout[i][column].getColor().equals(COLOR.BLANK))){
+        while(!(myLayout[i][column].getColor().equals(COLOR.BLANK))&&i>=0){
             if(myLayout[i][column].getColor().equals(layout[i][column].getColor())){
                 additionalPoints+=myPersonalGoal.getAdditionalPoints();
                 i--;

@@ -3,7 +3,6 @@ package model;
 import java.io.IOException;
 
 public class Shelf {
-    //pattern command per tiles adiacenti
     protected Tile[][] tilesShelf;
     int[][] tileTypes = new int[6][5];
     Player myPlayer;
@@ -64,6 +63,7 @@ public class Shelf {
                 tilesShelf[freeFirstSpot - i][column] = new Tile(tiles[i].getColor(), tiles[i].getId());
             }
         }
+        myPlayer.convertPoints(tilesShelf);
 
         try {
             myPlayer.checkPersonalGoal(freeFirstSpot, column);

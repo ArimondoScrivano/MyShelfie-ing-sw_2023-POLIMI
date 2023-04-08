@@ -2,8 +2,8 @@
   {
     "position": "First",
     "tile": {
-      "x": 0,
-      "y": 3,
+      "x": 3,
+      "y": 0,
       "color": "Violet"
     }
   },
@@ -27,24 +27,24 @@
   {
     "position":"Fourth",
     "tile":{
-      "x":3,
-      "y":4,
+      "x":4,
+      "y":3,
       "color":"White"
     }
   },
   {
     "position":"Fifth",
     "tile":{
-      "x":3,
-      "y":5,
+      "x":5,
+      "y":3,
       "color":"Yellow"
     }
   },
   {
     "position":"Sixth",
     "tile":{
-      "x":4,
-      "y":0,
+      "x":0,
+      "y":4,
       "color":"Blue"
     }
   }
