@@ -5,6 +5,8 @@ import model.Shelf;
 import model.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 //TODO:controller
 public class GameController {
@@ -14,14 +16,17 @@ public class GameController {
     //UI userInterface;
     //Chat currentChat;
 
-    //Constructor
-    public GameController(Game currentGame /*, UI userInterface*/) {
-        this.currentGame = currentGame;
-        //this.userInterface=userInterface;
+    //Constructor of the game
+    public GameController() {
+        //List of players from the pre-game
+        List<Player> playersList = new ArrayList<>();
+        Dashboard dashboard = new Dashboard(playersList.size(), new Bag());
+        this.currentGame = new Game(0, dashboard, playersList);
     }
 
     @Deprecated
     public void createPlayer(){
+        //To implement from the pre-match?
         /*if(currentGame.players.size()< Game.MAX_PLAYERS){
             Add player to the game
         }*/
@@ -88,4 +93,15 @@ public class GameController {
         }
         return chosenTiles;
     } //rita
+
+    public Player checkWinner(){
+        //Searching the player with the most points
+        Player winner=currentGame.getPlayers().get(0);
+        for(Player p : currentGame.getPlayers()){
+            if(winner.getPoints()<=p.getPoints()){
+                winner=p;
+            }
+        }
+        return winner;
+    }
 }
