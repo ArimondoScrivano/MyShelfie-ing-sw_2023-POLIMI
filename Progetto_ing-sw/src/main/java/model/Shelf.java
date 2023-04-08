@@ -13,6 +13,10 @@ public class Shelf {
         this.tilesShelf = tilesShelf;
     }
 
+    public Tile[][] getTilesShelf(){
+        return tilesShelf;
+    }
+
     //METHOD TO RETURN TRUE WHETHER ONE'S SHELF IS COMPLETED
     public boolean completeShelf() {
         int i = 0, j = 0;
