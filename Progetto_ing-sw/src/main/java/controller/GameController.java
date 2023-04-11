@@ -39,7 +39,7 @@ public class GameController {
             currentGame.setCurrentPlayer(currentGame.getPlayers().get(0));
         }else{
             int flag=0;
-            for(int i =0; i< currentGame.getPlayers().size(); i++){
+            for(int i =0; i< currentGame.getPlayers().size() -1 ; i++){
                 if(currentGame.getPlayers().get(i).equals(currentGame.getCurrentPlayer())){
                     flag=i+1;
                 }
