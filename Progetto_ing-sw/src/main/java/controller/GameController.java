@@ -32,7 +32,23 @@ public class GameController {
         }*/
     }
 
+    // this method is intended as modify and pick the next player
+    public void pickNextPlayer(){
+        // this is a control for the end of the list
+        if(currentGame.getPlayers().get(currentGame.getPlayers().size()-1).equals(playerTurn())){
+            currentGame.setCurrentPlayer(currentGame.getPlayers().get(0));
+        }else{
+            int flag=0;
+            for(int i =0; i< currentGame.getPlayers().size(); i++){
+                if(currentGame.getPlayers().get(i).equals(currentGame.getCurrentPlayer())){
+                    flag=i+1;
+                }
+            }
+            currentGame.setCurrentPlayer(currentGame.getPlayers().get(flag));
+        }
+    }
     public Player playerTurn(){
+
         return currentGame.getCurrentPlayer();
     }
 

@@ -57,13 +57,10 @@ public class Game extends Observable {
         return this.currentPlayer;
     }
 
-    //Setting the new currentPlayer
+    //Setting the new currentPlayer at the "next iteration" of the match
     public void setCurrentPlayer(Player pl){
-        if(players.indexOf(pl)!=players.size()){
             this.currentPlayer=pl;
-        }else{
-            this.currentPlayer=players.get(0);
-        }
+
     }
 
     //Return the commonGoals array
