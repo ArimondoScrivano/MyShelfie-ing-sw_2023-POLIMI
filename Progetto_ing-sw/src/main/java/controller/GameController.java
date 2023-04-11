@@ -32,8 +32,11 @@ public class GameController {
         }*/
     }
 
-    // this method is intended as modify and pick the next player
+    // this method is intended as modify and pick the next player when the current player finished his turn
     public void pickNextPlayer(){
+        //CHECK IF THE OLD CURRENT PLAYER HAS COMPLETED SOME COMMON GOALS
+        checkPoints();
+
         // this is a control for the end of the list
         if(currentGame.getPlayers().get(currentGame.getPlayers().size()-1).equals(playerTurn())){
             currentGame.setCurrentPlayer(currentGame.getPlayers().get(0));
@@ -109,6 +112,33 @@ public class GameController {
         }
         return chosenTiles;
     } //rita
+
+    public void checkPoints(){
+        //check first common goal
+        if (currentGame.getCurrentPlayer().getCommonGoalsCompleted()[0]== false){
+            int partialSum= currentGame.getCommonGoals().get(0).Checker(currentGame.getCurrentPlayer().getShelf().getTilesShelf());
+            if (partialSum>0){
+                currentGame.getCurrentPlayer().setPoints(partialSum);
+                currentGame.getCurrentPlayer().setCommonGoalsCompleted(0);
+            }
+        }
+        //check second common goal
+        if (currentGame.getCurrentPlayer().getCommonGoalsCompleted()[1]== false){
+            int partialSecondSum= currentGame.getCommonGoals().get(1).Checker(currentGame.getCurrentPlayer().getShelf().getTilesShelf());
+            if (partialSecondSum>0){
+                currentGame.getCurrentPlayer().setPoints(partialSecondSum);
+                currentGame.getCurrentPlayer().setCommonGoalsCompleted(0);
+            }
+        }
+
+
+    }
+
+    //TODO
+public boolean GameFinished(){
+        return false;
+}
+
 
     public Player checkWinner(){
         //Searching the player with the most points

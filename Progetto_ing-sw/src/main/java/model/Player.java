@@ -63,14 +63,8 @@ public class Player {
         this.points++;
     }
 
-    //RETURNS TRUE IF THE PLAYER'S SHELF CONTAINS ONE OF THE COMMON GOALS' PATTERNS
-    public boolean commonGoalCompleted(List<CommonGoals> commonGoals, int id){
-        if(commonGoals.get(id).Checker(myShelf.tilesShelf)==1){
-            commonGoalsCompleted[id]=true;
-            return true;
-        }
-        return false;
-    }
+
+
     //salvare oldChain nella riga dell'adiacenza.
     public void convertPoints(Tile[][] matrix) {
         this.points = 0;
@@ -156,9 +150,20 @@ public class Player {
         System.out.println("points "+this.points);
     }
 
+    // set the new score thanks to the Common Goal
+public void setPoints(int points){
+        this.points= this.points + points;
+}
+
+    public void setCommonGoalsCompleted(int indexCompleted) {
+        this.commonGoalsCompleted[indexCompleted]= true;
+    }
 
     public boolean[] getCommonGoalsCompleted() {
-        return commonGoalsCompleted;
+        boolean[] arrayOfCommonGoals= new boolean[2];
+        arrayOfCommonGoals[0]= commonGoalsCompleted[0];
+        arrayOfCommonGoals[1]= commonGoalsCompleted[1];
+        return arrayOfCommonGoals;
     }
 
     public boolean isShelfCompleted() {
@@ -168,6 +173,8 @@ public class Player {
     public void setShelfCompleted(){
         this.shelfCompleted = true;
     }
+
+    // check between the turn, NOT AT THE END
     public int checkPersonalGoal(int freeFirstSpot, int column) throws IOException {
         //Creare indice come attributo della classe che identifica il punteggio del personal goal
         Tile[][] layout= new Tile[5][6];
