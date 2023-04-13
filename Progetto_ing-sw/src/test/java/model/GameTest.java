@@ -2,7 +2,6 @@ package model;
 
 import junit.framework.TestCase;
 import model.cgoal.CommonGoals;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
@@ -111,12 +110,5 @@ public class GameTest extends TestCase {
             assertEquals(before+1, game1.getCurrentPlayer().getPoints());
             assertTrue(game1.getEndGame());
         }
-    }
-
-    //TODO
-    @Test
-    @Disabled
-    public void testGetEndGame(){
-
     }
 }
