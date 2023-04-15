@@ -68,7 +68,15 @@ public class GameController {
         try {
             int tilesToPick = System.in.read();
             // switch case
+            // Q1: There is a better way than use switch case depending on choice's number ?
             switch (tilesToPick) {
+                // Q2: Maybe I can use a loop
+                // while(true) {
+                //      try { take input }
+                //      catch { exception -> System.err.println("Choose not valid")}
+                // To permit user retry, for every chose he makes
+
+                // Q3: Can I simplify the input mechanism? For example taking more inputs together ?
                 case 1: {
                     // 1st pick
                     System.out.println("Insert row of the 1st tile to pick: ");
@@ -183,22 +191,22 @@ public class GameController {
         // invoke tileAvailablePick
         // IF (true) -> I can pick the selected tiles and return an array that contains them
         if(tileAvailablePick(rowNumbers, columnNumbers)) {
-            Tile[] tilesPicked = new Tile[] {};
+            Tile[] tilesPicked = new Tile[3];
             for(int i = 0; i < rowNumbers.size(); i++) {
                 // ATTENTION: to use an array we need to be sure that methods that receive it make check to avoid errors
                 // maybe is it better to use a list to return the tiles?
                 tilesPicked[i] = currentGame.getDashboard().pickTile(rowNumbers.get(i), columnNumbers.get(i));
 
-                // need to update dashboard after player's pick
-                currentGame.getDashboard().updateDashboard(tilesPicked); // probably NOT USEFUL, talk to others
-
-                // need to check if dashboard needs to be refilled
-                // NB1: do we need to insert Bag in game
-                //     NB2: do we need to separate setRefill and RefillDashboard?
-                // currentGame.getDashboard().setRefill();
-                return tilesPicked;
             }
-        } else { // IF (false) -> message of notAvailableTiles, invoke pickTiles again
+            // need to update dashboard after player's pick
+            currentGame.getDashboard().updateDashboard(tilesPicked); // probably NOT USEFUL, talk to others
+
+            // need to check if dashboard needs to be refilled
+            // NB1: do we need to insert Bag in game
+            //     NB2: do we need to separate setRefill and RefillDashboard?
+            // currentGame.getDashboard().setRefill();
+        }
+        else { // IF (false) -> message of notAvailableTiles, invoke pickTiles again
             System.out.println("Selected tiles are not available. Please try again by selecting valid tiles.");
         }
         return pickTiles();
