@@ -54,9 +54,20 @@ public class Dashboard {
     }
 
 
-    // method that returns tiles[][] ref.
+    // method that returns tiles ref.
     public Tile[][] getTiles() {
         return this.tiles;
+    }
+
+    //This method returns a new matrix of tiles, copy of tiles. In this case we don't pass any reference
+    public Tile[][] getTilesCopy() {
+        Tile[][] tiles_copy = new Tile[9][9];
+        for (int r=0; r<9; r++){
+            for( int c=0; c<9; c++){
+                tiles_copy[r][c]=new Tile(tiles[r][c].getColor(),tiles[r][c].getId());
+            }
+        }
+        return tiles_copy;
     }
 
     public TILETYPE[][] getRefillable() {
@@ -67,28 +78,9 @@ public class Dashboard {
         return this.players;
     }
 
-    //TODO
-    public void updateDashboard(Tile[] pickedTiles, Bag bagInGame) {
-        // After the turn of a player update the dashboard
-        // function gets the array composed of one-to-three tails picked by the player
-
-        // then searches those tails on the dashboard
-        for (int index = 0; index < 3; index++) {
-
-            for (int r = 0; r < 9; r++) {
-                for (int c = 0; c < 9; c++) {
-
-                    if (pickedTiles[index] != null && this.tiles[r][c].getId() == pickedTiles[index].getId()) {
-
-                        this.tiles[r][c] = new Tile(COLOR.BLANK, 0);
-                    }
-                }
-            }
-        }
-        // checking if dashboard needs to be refilled
-        setRefill(bagInGame);
+    public boolean getRefill() {
+        return this.refill;
     }
-
 
     public void setRefill(Bag bagInGame) {
         // Checking if the dashboard has to be refilled
@@ -125,13 +117,8 @@ public class Dashboard {
     }
 
 
-    public boolean getRefill() {
-        return this.refill;
-    }
-
-
     public void refillDashboard(Bag bagInGame) {
-        if (!bagInGame.checkEmpty(players)) {
+        if (!bagInGame.checkEmpty(players) && getRefill()) {
 
 
             // scanning the dashboard cells
@@ -151,16 +138,25 @@ public class Dashboard {
     }
 
 
-    //This method returns a new matrix of tiles, copy of tiles. In this case we don't pass any reference
-    public Tile[][] getDashboard() {
-        Tile[][] tiles_copy = new Tile[9][9];
-        for (int r=0; r<9; r++){
-            for( int c=0; c<9; c++){
-                tiles_copy[r][c]=new Tile(tiles[r][c].getColor(),tiles[r][c].getId());
+    public void updateDashboard(Tile[] pickedTiles) {   // ATTENTION: Parameter Bag bagInGame necessary if we need to call setRefill in this method**
+        // After the turn of a player update the dashboard
+        // function gets the array composed of one-to-three tails picked by the player
+
+        // then searches those tails on the dashboard
+        for (int index = 0; index < pickedTiles.length; index++) {
+
+            for (int r = 0; r < 9; r++) {
+                for (int c = 0; c < 9; c++) {
+
+                    if (pickedTiles[index] != null && this.tiles[r][c].getId() == pickedTiles[index].getId()) {
+
+                        this.tiles[r][c] = new Tile(COLOR.BLANK, 0);
+                    }
+                }
             }
         }
-        return tiles_copy;
-
+        // checking if dashboard needs to be refilled
+        // setRefill(bagInGame);        **ATTENTION: not necessary only if setRefill is called in controller pickTiles()
     }
 
 
@@ -170,8 +166,10 @@ public class Dashboard {
     public Tile pickTile(int r, int c) {
         // pickedTile to put into the shelf
         Tile pickedTile = new Tile(tiles[r][c].getColor(), tiles[r][c].getId());
-        this.tiles[r][c] = new Tile(COLOR.BLANK, 0);
+        this.tiles[r][c] = new Tile(COLOR.BLANK, 0); // is updateDashboard actually necessary?
         return pickedTile;
     }
 
 }
+
+// Should I have methods    pickTile()   |   refillDashboard    |    updateDashboard     here?
