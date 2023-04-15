@@ -55,6 +55,11 @@ public class GameController {
         return currentGame.getCurrentPlayer();
     }
 
+
+    // Q0: maybe I can put in the View a method that ask player for pick a single tile
+    //      and controller manage how many times this function is call? Make checks, etc.?
+    //      In this way I can use the while(true) loop that needs a return ?
+
     // v1 : player enters the number of tiles picked, before choosing
     public Tile[] pickTiles() throws IOException {
         // create two list to pass to tileAvailablePick method
@@ -137,7 +142,7 @@ public class GameController {
                         int r1 = System.in.read();
                         rowNumbers.add(r1);
                     } catch (IOException e) {
-                        System.out.println("Row chosen for the 1st pick is not valid!");
+                        System.err.println("Row chosen for the 1st pick is not valid!");
                     }
 
                     System.out.println("Insert column of the 1st tile to pick:");
@@ -202,7 +207,7 @@ public class GameController {
             currentGame.getDashboard().updateDashboard(tilesPicked); // probably NOT USEFUL, talk to others
 
             // need to check if dashboard needs to be refilled
-            // NB1: do we need to insert Bag in game
+            // NB1: do we need to insert Bag in game or should I get bag as parameter?
             //     NB2: do we need to separate setRefill and RefillDashboard?
             // currentGame.getDashboard().setRefill();
         }
