@@ -21,7 +21,7 @@ public class DashboardTest extends TestCase {
             Tile[][] testTiles = testDashboard.getTiles();
             boolean flag = false;
 
-            // check that
+            // check
             for (int r = 0; r < 9; r++) {
                 for (int c = 0; c < 9; c++) {
 
@@ -44,15 +44,15 @@ public class DashboardTest extends TestCase {
     // IMPORTANT: it's fundamental that the array pickedTiles passed as parameter in updateDashboard
     // is completely initialized.
     public void testUpdateDashboard() {
-        for(int np = 2; np < 5; np++) {
+        for (int np = 2; np < 5; np++) {
             Bag testBagInGame = new Bag();
             Dashboard testDashboard = new Dashboard(np, testBagInGame);
 
-            Tile[] pickedTiles = new Tile[] {null, null, null};
+            Tile[] pickedTiles = new Tile[3];
 
             Random random = new Random();
             // one-to-three pick
-            int counter = random.nextInt(3)+1;
+            int counter = random.nextInt(3) + 1;
 
             // array for saving random picks positions
             int[] position = new int[6];
@@ -70,14 +70,14 @@ public class DashboardTest extends TestCase {
 
                     // saving tile position
                     position[i] = r;
-                    position[i+1] = c;
+                    position[i + 1] = c;
                     i += 2;
 
                     index++;
                 } // else has been selected a non valid tile
             }
 
-            testDashboard.updateDashboard(pickedTiles, testBagInGame);
+            testDashboard.updateDashboard(pickedTiles);
 
             // testing in the random tiles chose by the player have been updated
 
@@ -99,13 +99,12 @@ public class DashboardTest extends TestCase {
     }
 
 
-    //TODO
     @Test
     public void testSetRefill() {
         // need to test if SetRefill call refillDashboard everytime it needs
 
         // case1: dashboard is full and don't need a refill
-        for(int np = 2; np < 5; np++) {
+        for (int np = 2; np < 5; np++) {
             Bag testInGameBag = new Bag();
             Dashboard testFullDashboard = new Dashboard(np, testInGameBag);
 
@@ -128,7 +127,7 @@ public class DashboardTest extends TestCase {
 
     }
 
-    //TODO
+
     @Test
     public void testRefillDashboard() {
         // test if the dashboard is refilled in the correct way
@@ -175,7 +174,7 @@ public class DashboardTest extends TestCase {
 
 
     @Test
-    public void testGetDashboard() {
+    public void testGetTilesCopy() {
 
         for (int np = 2; np < 5; np++) {
             Bag testInGameBag = new Bag();
@@ -183,8 +182,8 @@ public class DashboardTest extends TestCase {
             for (int r = 0; r < 9; r++) {
                 for (int c = 0; c < 9; c++) {
 
-                    assertEquals(dashboardTest.getTiles()[r][c].getColor(), dashboardTest.getDashboard()[r][c].getColor());
-                    assertEquals(dashboardTest.getTiles()[r][c].getId(), dashboardTest.getDashboard()[r][c].getId());
+                    assertEquals(dashboardTest.getTiles()[r][c].getColor(), dashboardTest.getTilesCopy()[r][c].getColor());
+                    assertEquals(dashboardTest.getTiles()[r][c].getId(), dashboardTest.getTilesCopy()[r][c].getId());
 
                 }
             }
@@ -207,6 +206,5 @@ public class DashboardTest extends TestCase {
             }
         }
     }
-
 
 }
