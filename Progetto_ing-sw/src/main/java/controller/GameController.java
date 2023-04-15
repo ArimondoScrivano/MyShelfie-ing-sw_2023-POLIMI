@@ -1,5 +1,6 @@
 package controller;
 
+import model.Dashboard;
 import model.Game;
 import model.Shelf;
 import model.*;
@@ -54,11 +55,157 @@ public class GameController {
         return currentGame.getCurrentPlayer();
     }
 
-    public void pickTiles(){
+    // v1 : player enters the number of tiles picked, before choosing
+    public Tile[] pickTiles() throws IOException {
+        // create two list to pass to tileAvailablePick method
+        // LIST R
+        List<Integer> rowNumbers = new ArrayList<Integer>();
+        // LIST C
+        List<Integer> columnNumbers = new ArrayList<Integer>();
 
+        // Player enters how many tiles wants to pick
+        System.out.println("How many tiles do you want to pick? [1 to 3]");
+        try {
+            int tilesToPick = System.in.read();
+            // switch case
+            switch (tilesToPick) {
+                case 1: {
+                    // 1st pick
+                    System.out.println("Insert row of the 1st tile to pick: ");
+                    try{
+                        int r1 = System.in.read();
+                        rowNumbers.add(r1);
+                    } catch (IOException e) {
+                        System.out.println("Row chosen for the 1st pick is not valid!");
+                    }
+
+                    System.out.println("Insert column of the 1st tile to pick:");
+                    try{
+                        int c1 = System.in.read();
+                        columnNumbers.add(c1);
+                    } catch (IOException e) {
+                        System.out.println("Column chosen for the 1st pick is not valid!");
+                    }
+                }
+                case 2: {
+                    // 1st pick
+                    System.out.println("Insert row of the 1st tile to pick: ");
+                    try{
+                        int r1 = System.in.read();
+                        rowNumbers.add(r1);
+                    } catch (IOException e) {
+                        System.out.println("Row chosen for the 1st pick is not valid!");
+                    }
+
+                    System.out.println("Insert column of the 1st tile to pick:");
+                    try{
+                        int c1 = System.in.read();
+                        columnNumbers.add(c1);
+                    } catch (IOException e) {
+                        System.out.println("Column chosen for the 1st pick is not valid!");
+                    }
+
+                    // 2nd pick
+                    System.out.println("Insert row of the 2nd tile to pick: ");
+                    try{
+                        int r2 = System.in.read();
+                        rowNumbers.add(r2);
+                    } catch (IOException e) {
+                        System.out.println("Row chosen for the 2nd pick is not valid!");
+                    }
+
+                    System.out.println("Insert column of the 2nd tile to pick:");
+                    try{
+                        int c2 = System.in.read();
+                        columnNumbers.add(c2);
+                    } catch (IOException e) {
+                        System.out.println("Column chosen for the 2nd pick is not valid!");
+                    }
+                }
+                case 3: {
+                    // 1st pick
+                    System.out.println("Insert row of the 1st tile to pick: ");
+                    try{
+                        int r1 = System.in.read();
+                        rowNumbers.add(r1);
+                    } catch (IOException e) {
+                        System.out.println("Row chosen for the 1st pick is not valid!");
+                    }
+
+                    System.out.println("Insert column of the 1st tile to pick:");
+                    try{
+                        int c1 = System.in.read();
+                        columnNumbers.add(c1);
+                    } catch (IOException e) {
+                        System.out.println("Column chosen for the 1st pick is not valid!");
+                    }
+
+                    // 2nd pick
+                    System.out.println("Insert row of the 2nd tile to pick: ");
+                    try{
+                        int r2 = System.in.read();
+                        rowNumbers.add(r2);
+                    } catch (IOException e) {
+                        System.out.println("Row chosen for the 2nd pick is not valid!");
+                    }
+
+                    System.out.println("Insert column of the 2nd tile to pick:");
+                    try{
+                        int c2 = System.in.read();
+                        columnNumbers.add(c2);
+                    } catch (IOException e) {
+                        System.out.println("Column chosen for the 2nd pick is not valid!");
+                    }
+
+                    // 3rd pick
+                    System.out.println("Insert row of the 3rd tile to pick: ");
+                    try{
+                        int r3 = System.in.read();
+                        rowNumbers.add(r3);
+                    } catch (IOException e) {
+                        System.out.println("Row chosen for the 3rd pick is not valid!");
+                    }
+
+                    System.out.println("Insert column of the 3rd tile to pick:");
+                    try{
+                        int c3 = System.in.read();
+                        columnNumbers.add(c3);
+                    } catch (IOException e) {
+                        System.out.println("Column chosen for the 3rd pick is not valid!");
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("The number of chosen tiles is not valid!");
+        }
+
+        // if no exception has been thrown
+        // invoke tileAvailablePick
+        // IF (true) -> I can pick the selected tiles and return an array that contains them
+        if(tileAvailablePick(rowNumbers, columnNumbers)) {
+            Tile[] tilesPicked = new Tile[] {};
+            for(int i = 0; i < rowNumbers.size(); i++) {
+                // ATTENTION: to use an array we need to be sure that methods that receive it make check to avoid errors
+                // maybe is it better to use a list to return the tiles?
+                tilesPicked[i] = currentGame.getDashboard().pickTile(rowNumbers.get(i), columnNumbers.get(i));
+
+                // need to update dashboard after player's pick
+                currentGame.getDashboard().updateDashboard(tilesPicked); // probably NOT USEFUL, talk to others
+
+                // need to check if dashboard needs to be refilled
+                // NB1: do we need to insert Bag in game
+                //     NB2: do we need to separate setRefill and RefillDashboard?
+                // currentGame.getDashboard().setRefill();
+                return tilesPicked;
+            }
+        } else { // IF (false) -> message of notAvailableTiles, invoke pickTiles again
+            System.out.println("Selected tiles are not available. Please try again by selecting valid tiles.");
+        }
+        return pickTiles();
     }
 
-    public boolean tileAvailablePick(){
+
+    public boolean tileAvailablePick(List<Integer> rowsList, List<Integer> columnsList){
         return true;
     }
 
@@ -89,6 +236,7 @@ public class GameController {
         }
         return available;
     } //rita
+
     public Tile[] chooseOrder(Tile[] chosenTiles) throws IOException {
         String position= new String();
         Tile helper;
@@ -112,29 +260,27 @@ public class GameController {
         return chosenTiles;
     } //rita
 
-    public void checkPoints(){
+    public void checkPoints() {
         //check first common goal
-        if (currentGame.getCurrentPlayer().getCommonGoalsCompleted()[0]== false){
-            int partialSum= currentGame.getCommonGoals().get(0).Checker(currentGame.getCurrentPlayer().getShelf().getTilesShelf());
-            if (partialSum>0){
+        if (currentGame.getCurrentPlayer().getCommonGoalsCompleted()[0] == false) {
+            int partialSum = currentGame.getCommonGoals().get(0).Checker(currentGame.getCurrentPlayer().getShelf().getTilesShelf());
+            if (partialSum > 0) {
                 currentGame.getCurrentPlayer().setPoints(partialSum);
                 currentGame.getCurrentPlayer().setCommonGoalsCompleted(0);
             }
         }
         //check second common goal
-        if (currentGame.getCurrentPlayer().getCommonGoalsCompleted()[1]== false){
-            int partialSecondSum= currentGame.getCommonGoals().get(1).Checker(currentGame.getCurrentPlayer().getShelf().getTilesShelf());
-            if (partialSecondSum>0){
+        if (currentGame.getCurrentPlayer().getCommonGoalsCompleted()[1] == false) {
+            int partialSecondSum = currentGame.getCommonGoals().get(1).Checker(currentGame.getCurrentPlayer().getShelf().getTilesShelf());
+            if (partialSecondSum > 0) {
                 currentGame.getCurrentPlayer().setPoints(partialSecondSum);
                 currentGame.getCurrentPlayer().setCommonGoalsCompleted(0);
             }
         }
-
-
     }
 
     //TODO
-public boolean GameFinished(){
+    public boolean GameFinished(){
         return false;
 }
 
