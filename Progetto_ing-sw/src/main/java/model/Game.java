@@ -49,6 +49,10 @@ public class Game extends Observable {
         this.endGame=false;
     }
 
+    public Dashboard getDashboard() {
+        return this.dashboard;
+    }
+
     public List<Player> getPlayers(){
         return this.players;
     }
