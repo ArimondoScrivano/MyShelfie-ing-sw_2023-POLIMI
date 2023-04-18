@@ -1,6 +1,7 @@
 package view;
 
 import model.*;
+import model.cgoal.CommonGoals;
 
 import java.io.InputStreamReader;
 import java.util.Arrays;
@@ -77,50 +78,80 @@ public class TextualUI extends Observable implements View {
 
 
         //Printing the dashboard state
+        System.out.println("Current Dashboard");
         Tile[][] copy=current_game.getDashboard().getTilesCopy();
         String copyColor = new String();
         for(int i=0; i<9; i++){
             for(int j=0; j<9; j++){
                 int color=copy[i][j].getColor().compareTo(COLOR.BLANK);
-                switch(color){
-                    case 0:
-                        //Blank
-                        copyColor="\033[40m\u001B[30m* ";
-                        break;
-                    case 1:
-                        //Green
-                        copyColor="\033[42m\u001B[32m* ";
-                        break;
-                    case 2:
-                        //Yellow
-                        copyColor="\033[43m\u001B[33m* ";
-                        break;
-                    case 3:
-                        //White
-                        copyColor="\033[47m\u001B[00m* ";
-                        break;
-                    case 4:
-                        //Lightblue
-                        copyColor="\033[46m\u001B[36m* ";
-                        break;
-                    case 5:
-                        //Violet
-                        copyColor="\033[45m\u001B[35m* ";
-                        break;
-                    case 6:
-                        //Blue
-                        copyColor="\033[44m\u001B[34m* ";
-                        break;
-                }
-                System.out.print(copyColor);
+                copyColor = convertColorInString(copyColor, color);
             }
             System.out.println();
 
         }
         //Printing the layout of the common goal card
         System.out.println("\u001B[00mCOMMON GOAL CARDS");
+        for(CommonGoals cg : current_game.getCommonGoals()){
+            //Printing the common goal card
+            //TODO: common goal layout missing
+        }
 
+        //TODO: output non corretto
         //Printing the shelf and the personal goal card associated to the player
+        for(Player p : current_game.getPlayers()){
+            System.out.println(p.getName()+"'s shelf");
+            for(int i=0; i<6; i++){
+                for(int j=0; j<5; j++){
+                    int color=p.getShelf().getTilesShelf()[i][j].getColor().compareTo(COLOR.BLANK);
+                    copyColor = convertColorInString(copyColor, color);
+                }
+                System.out.println();
+            }
+
+            System.out.println("Personal Goal");
+            for(int i=0; i<6; i++){
+                for(int j=0; j<5; j++){
+                    int color=p.getPersonalGoal().getLayout()[i][j].getColor().compareTo(COLOR.BLANK);
+                    copyColor = convertColorInString(copyColor, color);
+                }
+                System.out.println();
+            }
+        }
+    }
+
+    private String convertColorInString(String copyColor, int color) {
+        switch(color){
+            case 0:
+                //Blank
+                copyColor="\u001B[40m\t";
+                break;
+            case 1:
+                //Green
+                copyColor="\u001B[42m\t";
+                break;
+            case 2:
+                //Yellow
+                copyColor="\u001B[43m\t";
+                break;
+            case 3:
+                //White
+                copyColor="\u001B[47m\t";
+                break;
+            case 4:
+                //Lightblue
+                copyColor="\u001B[46m\t";
+                break;
+            case 5:
+                //Violet
+                copyColor="\u001B[45m\t";
+                break;
+            case 6:
+                //Blue
+                copyColor="\u001B[44m\t";
+                break;
+        }
+        System.out.print(copyColor);
+        return copyColor;
     }
 
     public static void main(String[] args){
