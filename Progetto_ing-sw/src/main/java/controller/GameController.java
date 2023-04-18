@@ -5,12 +5,14 @@ import model.Game;
 import model.Shelf;
 import model.*;
 
-import java.awt.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class GameController {
+public class GameController implements Observer {
     //Model
     Game currentGame;
     //View
@@ -425,5 +427,10 @@ public class GameController {
             }
         }
         return winner;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }
