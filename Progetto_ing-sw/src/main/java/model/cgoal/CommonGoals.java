@@ -8,9 +8,11 @@ import java.util.*;
  public interface  CommonGoals{
 
 
-public  int getCurrent_point();
+    public int getCurrent_point();
 
     // the result is: 0 or the current point
-    public    int Checker(Tile[][] matrix);
+    public int Checker(Tile[][] matrix);
+
+    public void printLayout();
 
 }

@@ -1,16 +1,14 @@
 package model.cgoal;
 import model.COLOR;
 import model.Tile;
-import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-//DONE
 
-//2 rows of  All different tiles
+//2 rows of all different tiles
 //id=8
-     public class twoRowsAllDifferentCommonGoals implements CommonGoals {
+public class twoRowsAllDifferentCommonGoals implements CommonGoals {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;
@@ -70,5 +68,17 @@ import java.util.List;
             }
         }
 
+    @Override
+    public void printLayout() {
+        System.out.println("------------------\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "------------------\n");
     }
+
+}
 

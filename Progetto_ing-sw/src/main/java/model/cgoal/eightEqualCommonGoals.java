@@ -1,13 +1,12 @@
 package model.cgoal;
 import model.COLOR;
 import model.Tile;
-import model.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
-//DONE
 //8 equal tiles random order
 //id=11
 public class eightEqualCommonGoals implements CommonGoals {
@@ -59,5 +58,16 @@ public class eightEqualCommonGoals implements CommonGoals {
         }
         return 0;
     }
+
+    @Override
+    public void printLayout() {
+        System.out.println("""
+                
+                """);
     }
+    public static void main(String[] args){
+        CommonGoals cg = new eightEqualCommonGoals(Arrays.asList(0,1,2));
+        cg.printLayout();
+    }
+}
 

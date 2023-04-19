@@ -1,15 +1,12 @@
 package model.cgoal;
 import model.COLOR;
 import model.Tile;
-import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-//DONE
-
-//equalsubmatrix2*2
+//equal sub-matrix 2x2
 //id=7
  public class subMatrix2CommonGoals implements CommonGoals {
     private List<Integer> points;
@@ -95,6 +92,18 @@ import java.util.List;
             return 0;
         }
 
+    }
+
+    @Override
+    public void printLayout() {
+        System.out.println("------------------\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "------------------\n");
     }
 }
 

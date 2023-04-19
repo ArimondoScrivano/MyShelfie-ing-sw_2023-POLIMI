@@ -1,12 +1,9 @@
 package model.cgoal;
 import model.COLOR;
 import model.Tile;
-import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
-//DONE
 
 //equal "x"
 //id=10
@@ -61,5 +58,17 @@ import java.util.List;
             }
         }
         return 0;
+    }
+
+    @Override
+    public void printLayout() {
+        System.out.println("------------------\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "------------------\n");
     }
 }

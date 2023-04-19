@@ -1,14 +1,12 @@
 package model.cgoal;
 import model.COLOR;
 import model.Tile;
-import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-//DONE
-// 4 rows that have max 3 tiles egual
+// 4 rows that have max 3 tiles equal
 //id=4
  public class fourRowsCommonGoals implements CommonGoals {
     private List<Integer> points;
@@ -76,6 +74,18 @@ import java.util.List;
         }else{
             return 0;
         }
+    }
+
+    @Override
+    public void printLayout() {
+        System.out.println("------------------\s" +
+                "|                 |\s" +
+                "|                 |\s" +
+                "|                 |\s" +
+                "|                 |\s" +
+                "|                 |\s" +
+                "|                 |\s" +
+                "------------------\s");
     }
 }
 

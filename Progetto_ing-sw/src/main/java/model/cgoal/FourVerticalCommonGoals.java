@@ -1,13 +1,12 @@
 package model.cgoal;
 import java.util.*;
-import model.COLOR;
-import model.Tile;
+
 import model.*;
+import view.TextualUI;
 
 import java.util.ArrayList;
 
 
-//DONE
 // 4 vertical tiles equals four times
 //id=5
  public class FourVerticalCommonGoals implements CommonGoals {
@@ -122,6 +121,19 @@ if (count > 3) {
 
   }
 
+    @Override
+    public void printLayout() {
+        System.out.println("""
+                ┌──┐
+                │==│
+                ├──┤
+                │==│
+                ├──┤\tx4
+                │==│
+                ├──┤
+                │==│
+                └──┘""");
+    }
 }
 
 

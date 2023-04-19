@@ -1,14 +1,9 @@
 package model.cgoal;
 import model.COLOR;
 import model.Tile;
-import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
-//DONE
-
-
 
 //2 columns All different tiles
 //id=6
@@ -71,6 +66,18 @@ import java.util.List;
         }else{
             return 0;
         }
+    }
+
+    @Override
+    public void printLayout() {
+        System.out.println("------------------\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "------------------\n");
     }
 }
 

@@ -1,13 +1,12 @@
 package model.cgoal;
 import model.COLOR;
 import model.Tile;
-import model.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
-//DONE
 //equals 4 corners
 //id=3
  public class CornersEqualsCommonGoals implements CommonGoals {
@@ -53,4 +52,21 @@ import java.util.List;
         }else{
             return 0;
         }
-    }}
+    }
+
+    @Override
+    public void printLayout() {
+        System.out.println("""
+                ┌──┬─────────────┬──┐
+                │==│             │==│
+                ├──┘             └──┤
+                │                   │
+                │                   │
+                │                   │
+                │                   │
+                ├──┐             ┌──┤
+                │==│             │==│
+                └──┴─────────────┴──┘
+                """);
+    }
+}

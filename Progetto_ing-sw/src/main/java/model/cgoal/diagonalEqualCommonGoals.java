@@ -1,13 +1,12 @@
 package model.cgoal;
 import model.COLOR;
 import model.Tile;
-import model.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
-//DONE
 // diagonal equals tiles
 //id=2
  public class diagonalEqualCommonGoals implements CommonGoals {
@@ -86,4 +85,18 @@ import java.util.List;
 
     }
 
+    @Override
+    public void printLayout() {
+        System.out.println("""
+                ┌──┐
+                │==│
+                └──┼──┐
+                   │==│
+                   └──┼──┐
+                      │==│
+                      └──┼──┐
+                         │==│
+                         └──┘
+                """);
+    }
 }

@@ -1,15 +1,15 @@
 package model.cgoal;
 import model.COLOR;
 import model.Tile;
-import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-// 3 disegual columns for 3 max different tiles
-    //id=9
-     public class threeDisegualColumnsCommonGoals implements CommonGoals {
+// 3 dis equal columns for 3 max different tiles
+//id=9
+
+public class threeDisegualColumnsCommonGoals implements CommonGoals {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;
@@ -78,5 +78,17 @@ import java.util.List;
 
             }
         }
+
+    @Override
+    public void printLayout() {
+        System.out.println("------------------\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "------------------\n");
     }
+}
 

@@ -94,9 +94,9 @@ public class TextualUI extends Observable implements View {
         for(CommonGoals cg : current_game.getCommonGoals()){
             //Printing the common goal card
             //TODO: common goal layout missing
+            cg.printLayout();
         }
 
-        //TODO: output non corretto
         //Printing the shelf and the personal goal card associated to the player
         for(Player p : current_game.getPlayers()){
             System.out.println(p.getName()+"'s shelf");
@@ -123,31 +123,31 @@ public class TextualUI extends Observable implements View {
         switch(color){
             case 0:
                 //Blank
-                copyColor="\u001B[40m\t";
+                copyColor="\u001B[40m\t\u001B[00m";
                 break;
             case 1:
                 //Green
-                copyColor="\u001B[42m\t";
+                copyColor="\u001B[42m\t\u001B[00m";
                 break;
             case 2:
                 //Yellow
-                copyColor="\u001B[43m\t";
+                copyColor="\u001B[43m\t\u001B[00m";
                 break;
             case 3:
                 //White
-                copyColor="\u001B[47m\t";
+                copyColor="\u001B[47m\t\u001B[00m";
                 break;
             case 4:
                 //Lightblue
-                copyColor="\u001B[46m\t";
+                copyColor="\u001B[46m\t\u001B[00m";
                 break;
             case 5:
                 //Violet
-                copyColor="\u001B[45m\t";
+                copyColor="\u001B[45m\t\u001B[00m";
                 break;
             case 6:
                 //Blue
-                copyColor="\u001B[44m\t";
+                copyColor="\u001B[44m\t\u001B[00m";
                 break;
         }
         System.out.print(copyColor);

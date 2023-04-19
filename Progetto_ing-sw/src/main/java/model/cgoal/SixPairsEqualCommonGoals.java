@@ -1,7 +1,6 @@
 package model.cgoal;
 import model.COLOR;
 import model.Tile;
-import model.*;
 import java.util.*;
 
 // 6 pairs equal
@@ -117,4 +116,16 @@ import java.util.*;
 
 
     }
+
+    @Override
+    public void printLayout() {
+        System.out.println("------------------\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "|                 |\n" +
+                "------------------\n");
     }
+}

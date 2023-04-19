@@ -1,12 +1,10 @@
 package model.cgoal;
 import model.COLOR;
 import model.Tile;
-import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-//DONE
 // 5 Columns different highs
 //id=12
  public class fiveColumnsCommonGoals implements CommonGoals {
@@ -85,5 +83,17 @@ import java.util.List;
         }
 
 
+    }
+
+    @Override
+    public void printLayout() {
+        System.out.println("------------------\s" +
+                "|                 |\s" +
+                "|                 |\s" +
+                "|                 |\s" +
+                "|                 |\s" +
+                "|                 |\s" +
+                "|                 |\s" +
+                "------------------\s");
     }
 }
