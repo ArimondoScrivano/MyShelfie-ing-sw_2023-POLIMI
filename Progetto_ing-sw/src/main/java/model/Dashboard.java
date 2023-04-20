@@ -14,9 +14,9 @@ public class Dashboard {
     }
 
 
-    //Constructor given the number of players
+    // CONSTRUCTOR (takes as parameters number of players and tile's bag)
     public Dashboard(int np, Bag bagInGame) {
-        //correct format
+
         np -= 1;
 
 
@@ -43,8 +43,6 @@ public class Dashboard {
 
                 } else if (refillable[r][c].ordinal() >= np && refillable[r][c].ordinal() < 4) {
                     this.tiles[r][c] = new Tile(COLOR.BLANK, 0);
-
-
                 }
             }
         }
@@ -54,20 +52,20 @@ public class Dashboard {
     }
 
 
-    // method that returns tiles ref.
+    // method that returns tiles matrix's ref.
     public Tile[][] getTiles() {
         return this.tiles;
     }
 
-    //This method returns a new matrix of tiles, copy of tiles. In this case we don't pass any reference
+    //This method returns a copy of tiles matrix.
     public Tile[][] getTilesCopy() {
-        Tile[][] tiles_copy = new Tile[9][9];
-        for (int r=0; r<9; r++){
-            for( int c=0; c<9; c++){
-                tiles_copy[r][c]=new Tile(tiles[r][c].getColor(),tiles[r][c].getId());
+        Tile[][] tilesCopy = new Tile[9][9];
+        for (int r = 0; r < 9; r++){
+            for( int c = 0; c < 9; c++){
+                tilesCopy[r][c]= new Tile(tiles[r][c].getColor(), tiles[r][c].getId());
             }
         }
-        return tiles_copy;
+        return tilesCopy;
     }
 
     public TILETYPE[][] getRefillable() {
@@ -120,15 +118,13 @@ public class Dashboard {
     public void refillDashboard(Bag bagInGame) {
         if (!bagInGame.checkEmpty(players) && getRefill()) {
 
-
             // scanning the dashboard cells
             for (int r = 0; r < 9; r++) {
                 for (int c = 0; c < 9; c++) {
 
                     // if tile is BLANK, we get a random tile from the bag
-                    if (this.tiles[r][c].getColor().equals(COLOR.BLANK) && this.refillable[r][c].ordinal() < (this.players-1)) {
+                    if (this.tiles[r][c].getColor().equals(COLOR.BLANK) && this.refillable[r][c].ordinal() < (this.players-1))
                         this.tiles[r][c] = bagInGame.getRandomTile();
-                    }
                 }
             }
         }else{
@@ -165,9 +161,8 @@ public class Dashboard {
     // probably not useful
     public Tile pickTile(int r, int c) {
         // pickedTile to put into the shelf
-        Tile pickedTile = new Tile(tiles[r][c].getColor(), tiles[r][c].getId());
-        this.tiles[r][c] = new Tile(COLOR.BLANK, 0); // is updateDashboard actually necessary?
-        return pickedTile;
+        //this.tiles[r][c] = new Tile(COLOR.BLANK, 0); // removed because this action is done by updateDashboard
+        return new Tile(tiles[r][c].getColor(), tiles[r][c].getId());
     }
 
 }
