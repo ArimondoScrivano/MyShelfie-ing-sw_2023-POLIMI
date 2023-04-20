@@ -21,7 +21,7 @@ public class DashboardTest extends TestCase {
             Tile[][] testTiles = testDashboard.getTiles();
             boolean flag = false;
 
-            // check
+            // check if there are tiles not initialized
             for (int r = 0; r < 9; r++) {
                 for (int c = 0; c < 9; c++) {
 
@@ -34,15 +34,144 @@ public class DashboardTest extends TestCase {
                 }
             }
 
+            // checking if valid tiles are correctly initialized (not BLANK)
+            boolean blankFlag = false;
+            boolean zeroId = false;
+            for (int r = 0; r < 9; r++) {
+                for (int c = 0; c < 9; c++) {
+                    if (testDashboard.getRefillable()[r][c].ordinal() < np-1
+                            && testDashboard.getTiles()[r][c].getColor() == COLOR.BLANK) {
+                        blankFlag = true;
+                    }
+                    if (testDashboard.getRefillable()[r][c].ordinal() < np-1
+                            && testDashboard.getTiles()[r][c].getId() == 0) {
+                        zeroId = true;
+                    }
+                }
+            }
+            assertFalse(blankFlag);
+            assertFalse(zeroId);
+
+            // checking if invalid tiles are correctly initialized (all BLANK)
+            boolean checkBlank = true;
+            boolean checkZeroId = true;
+            for (int r = 0; r < 9; r++) {
+                for (int c = 0; c < 9; c++) {
+                    if (testDashboard.getRefillable()[r][c].ordinal() >= np-1
+                            && testDashboard.getRefillable()[r][c].ordinal() < 4
+                            && testDashboard.getTiles()[r][c].getColor() != COLOR.BLANK) {
+                        checkBlank = false;
+                    }
+                    if (testDashboard.getRefillable()[r][c].ordinal() >= np-1
+                            && testDashboard.getRefillable()[r][c].ordinal() < 4
+                            && testDashboard.getTiles()[r][c].getId() != 0) {
+                        checkZeroId = false;
+                    }
+                }
+            }
+            assertTrue(checkBlank);
+            assertTrue(checkZeroId);
+
             // checking boolean refill initialization
             assertFalse(testDashboard.getRefill());
         }
     }
 
+    @Test
+    public void testGetTilesCopy() {
+
+        for (int np = 2; np < 5; np++) {
+            Bag testInGameBag = new Bag();
+            Dashboard dashboardTest = new Dashboard(np, testInGameBag);
+            for (int r = 0; r < 9; r++) {
+                for (int c = 0; c < 9; c++) {
+
+                    assertEquals(dashboardTest.getTiles()[r][c].getColor(), dashboardTest.getTilesCopy()[r][c].getColor());
+                    assertEquals(dashboardTest.getTiles()[r][c].getId(), dashboardTest.getTilesCopy()[r][c].getId());
+
+                }
+            }
+        }
+    }
+
 
     @Test
-    // IMPORTANT: it's fundamental that the array pickedTiles passed as parameter in updateDashboard
-    // is completely initialized.
+    public void testSetRefill() {
+        // need to test if SetRefill call refillDashboard everytime it needs
+
+        // std case1: dashboard is full and don't need a refill
+        for (int np = 2; np < 5; np++) {
+            Bag testInGameBag = new Bag();
+            Dashboard testFullDashboard = new Dashboard(np, testInGameBag);
+
+            // check if refill is correctly initialized
+            assertFalse(testFullDashboard.getRefill());
+
+            // saving initial tiles[][]
+            Tile[][] prevTiles = testFullDashboard.getTiles();
+
+            testFullDashboard.setRefill(testInGameBag);
+
+            // checking if refill is still false
+            assertFalse(testFullDashboard.getRefill());
+            // checking if tails[][] has been modified
+            assertEquals(prevTiles, testFullDashboard.getTiles());
+        }
+
+        // std case 2: completely empty dashboard, needs refill
+        // tested within testRefillDashboard
+
+    }
+
+
+    @Test
+    public void testRefillDashboard() {
+        // test if the dashboard is refilled in the correct way
+
+        //  std case2: completely empty dashboard
+        for (int np = 2; np < 5; np++) {
+            Bag testInGameBag = new Bag();
+            Dashboard testDashboard = new Dashboard(np, testInGameBag);
+
+            // empty dashboard's tiles
+            for (int r = 0; r < 9; r++) {
+                for (int c = 0; c < 9; c++) {
+
+                    if (!(testDashboard.getTiles()[r][c].getColor().equals(COLOR.BLANK))) {
+                        testDashboard.pickTile(r, c);
+                        Tile[] pickedTiles = new Tile[] {testDashboard.getTiles()[r][c]};
+                        testDashboard.updateDashboard(pickedTiles);
+                        assertEquals(COLOR.BLANK, testDashboard.getTiles()[r][c].getColor());
+                        assertEquals(0, testDashboard.getTiles()[r][c].getId());
+                    }
+                }
+            }
+
+            testDashboard.setRefill(testInGameBag);
+
+            // passing test if setRefill set refill = true
+            assertTrue(testDashboard.getRefill());
+
+            // knowing refill == true
+            boolean flag = false;
+            // need to check if every BLANK tile in the dashboard has been replaced by a valid one
+            for (int r = 0; r < 9; r++) {
+                for (int c = 0; c < 9; c++) {
+                    // if tile is set with default values
+                    if (testDashboard.getTiles()[r][c].getColor() == COLOR.BLANK
+                            && testDashboard.getTiles()[r][c].getId() == 0) {
+                        // if tile is valid (not BLK)
+                        if (testDashboard.getRefillable()[r][c].ordinal() < (np - 1))
+                            flag = true;
+                    }
+                }
+            }
+            assertFalse(flag);
+        }
+    }
+
+
+    @Test
     public void testUpdateDashboard() {
         for (int np = 2; np < 5; np++) {
             Bag testBagInGame = new Bag();
@@ -87,105 +216,19 @@ public class DashboardTest extends TestCase {
             }
 
             if (counter == 2) {
+                assertEquals(COLOR.BLANK, testDashboard.getTiles()[position[0]][position[1]].getColor());
+                assertEquals(0, testDashboard.getTiles()[position[0]][position[1]].getId());
                 assertEquals(COLOR.BLANK, testDashboard.getTiles()[position[2]][position[3]].getColor());
                 assertEquals(0, testDashboard.getTiles()[position[2]][position[3]].getId());
             }
 
             if (counter == 3) {
+                assertEquals(COLOR.BLANK, testDashboard.getTiles()[position[0]][position[1]].getColor());
+                assertEquals(0, testDashboard.getTiles()[position[0]][position[1]].getId());
+                assertEquals(COLOR.BLANK, testDashboard.getTiles()[position[2]][position[3]].getColor());
+                assertEquals(0, testDashboard.getTiles()[position[2]][position[3]].getId());
                 assertEquals(COLOR.BLANK, testDashboard.getTiles()[position[4]][position[5]].getColor());
                 assertEquals(0, testDashboard.getTiles()[position[4]][position[5]].getId());
-            }
-        }
-    }
-
-
-    @Test
-    public void testSetRefill() {
-        // need to test if SetRefill call refillDashboard everytime it needs
-
-        // case1: dashboard is full and don't need a refill
-        for (int np = 2; np < 5; np++) {
-            Bag testInGameBag = new Bag();
-            Dashboard testFullDashboard = new Dashboard(np, testInGameBag);
-
-            // check if refill is correctly initialized
-            assertFalse(testFullDashboard.getRefill());
-
-            // saving initial tiles[][]
-            Tile[][] prevTiles = testFullDashboard.getTiles();
-
-            testFullDashboard.setRefill(testInGameBag);
-
-            // checking if refill is still false
-            assertFalse(testFullDashboard.getRefill());
-            // checking if tails[][] has been modified
-            assertEquals(prevTiles, testFullDashboard.getTiles());
-        }
-
-        // case 2: completely empty dashboard, needs refill
-        // tested within testRefillDashboard
-
-    }
-
-
-    @Test
-    public void testRefillDashboard() {
-        // test if the dashboard is refilled in the correct way
-
-        // case2: completely empty dashboard
-        for (int np = 2; np < 5; np++) {
-            Bag testInGameBag = new Bag();
-            Dashboard testDashboard = new Dashboard(np, testInGameBag);
-
-            // empty dashboard's tiles
-            for (int r = 0; r < 9; r++) {
-                for (int c = 0; c < 9; c++) {
-
-                    if (!(testDashboard.getTiles()[r][c].getColor().equals(COLOR.BLANK))) {
-                        testDashboard.pickTile(r, c);
-                        assertEquals(COLOR.BLANK, testDashboard.getTiles()[r][c].getColor());
-                        assertEquals(0, testDashboard.getTiles()[r][c].getId());
-                    }
-                }
-            }
-
-            testDashboard.setRefill(testInGameBag);
-
-            // passing test if setRefill set refill = true
-            assertTrue(testDashboard.getRefill());
-
-            // knowing refill == true
-            boolean flag = false;
-            // need to check if every BLANK tile in the dashboard has been replaced by a valid one
-            for (int r = 0; r < 9; r++) {
-                for (int c = 0; c < 9; c++) {
-                    // if tile is set with default values
-                    if (testDashboard.getTiles()[r][c].getColor() == COLOR.BLANK
-                            && testDashboard.getTiles()[r][c].getId() == 0) {
-                        // if tile is valid (not BLK)
-                        if (testDashboard.getRefillable()[r][c].ordinal() < (np - 1))
-                            flag = true;
-                    }
-                }
-            }
-            assertFalse(flag);
-        }
-    }
-
-
-    @Test
-    public void testGetTilesCopy() {
-
-        for (int np = 2; np < 5; np++) {
-            Bag testInGameBag = new Bag();
-            Dashboard dashboardTest = new Dashboard(np, testInGameBag);
-            for (int r = 0; r < 9; r++) {
-                for (int c = 0; c < 9; c++) {
-
-                    assertEquals(dashboardTest.getTiles()[r][c].getColor(), dashboardTest.getTilesCopy()[r][c].getColor());
-                    assertEquals(dashboardTest.getTiles()[r][c].getId(), dashboardTest.getTilesCopy()[r][c].getId());
-
-                }
             }
         }
     }
