@@ -64,9 +64,10 @@ public class TextualUI extends Observable implements View {
     //Showing the actual state of the game
     @Override
     public void showMatchInfo(Game current_game) {
+        clearUI();
         //TODO: Showing this print only at the beginning of the game
-        System.out.println("""
-                \u001B[33m .----------------.  .----------------.              .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.\s
+        System.out.println(ColorUI.YELLOW_TEXT + """
+                .----------------.  .----------------.              .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.\s
                 | .--------------. || .--------------. |            | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
                 | | ____    ____ | || |  ____  ____  | |            | |    _______   | || |  ____  ____  | || |  _________   | || |   _____      | || |  _________   | || |     _____    | || |  _________   | |
                 | ||_   \\  /   _|| || | |_  _||_  _| | |            | |   /  ___  |  | || | |_   ||   _| | || | |_   ___  |  | || |  |_   _|     | || | |_   ___  |  | || |    |_   _|   | || | |_   ___  |  | |
@@ -76,27 +77,27 @@ public class TextualUI extends Observable implements View {
                 | ||_____||_____|| || |   |______|   | |            | |  |_______.'  | || | |____||____| | || | |_________|  | || |  |________|  | || | |_____|      | || |    |_____|   | || | |_________|  | |
                 | |              | || |              | |            | |              | || |              | || |              | || |              | || |              | || |              | || |              | |
                 | '--------------' || '--------------' |            | '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
-                 '----------------'  '----------------'              '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'\s\u001B[00m""");
+                 '----------------'  '----------------'              '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'\s"""+ColorUI.RESET);
 
 
+        clearUI();
         //Printing the dashboard state
-        System.out.println("\u001B[31mCurrent Dashboard\u001B[00m");
+        System.out.println(ColorUI.RED_TEXT+"Current Dashboard"+ColorUI.RESET);
         Tile[][] copy=current_game.getDashboard().getTilesCopy();
-        String copyColor = new String();
+        String copyColor = "";
         for(int i=0; i<9; i++){
             for(int j=0; j<9; j++){
                 int color=copy[i][j].getColor().compareTo(COLOR.BLANK);
-                copyColor = convertColorInString(copyColor, color);
+                copyColor = convertColorInStringTiles(copyColor, color);
             }
             System.out.println();
-
         }
 
         //Printing the layout of the common goal card
-        System.out.println("\u001B[34mCOMMON GOAL CARDS\u001B[00m");
+        System.out.println(ColorUI.BLUE_TEXT+"COMMON GOAL CARDS"+ColorUI.RESET);
         for(CommonGoals cg : current_game.getCommonGoals()){
             if(cg.equals(current_game.getCommonGoals().get(0))){
-                System.out.println("\u001B[31mFirst Common Goal\u001B[00m");
+                System.out.println(ColorUI.RED_TEXT+"First Common Goal"+ColorUI.RESET);
                 //Printing the common goal card
                 cg.printLayout();
                 //Printing the available points
@@ -110,7 +111,7 @@ public class TextualUI extends Observable implements View {
                     }
                 }
             }else{
-                System.out.println("\n\u001B[31mSecond Common Goal\u001B[00m");
+                System.out.println(ColorUI.RED_TEXT+"\nSecond Common Goal"+ColorUI.RESET);
                 //Printing the common goal card
                 cg.printLayout();
                 //Printing the available points
@@ -133,7 +134,7 @@ public class TextualUI extends Observable implements View {
             for(int i=0; i<6; i++){
                 for(int j=0; j<5; j++){
                     int color=p.getShelf().getTilesShelf()[i][j].getColor().compareTo(COLOR.BLANK);
-                    copyColor = convertColorInString(copyColor, color);
+                    copyColor = convertColorInStringTiles(copyColor, color);
                 }
                 System.out.println();
             }
@@ -142,7 +143,7 @@ public class TextualUI extends Observable implements View {
             for(int i=0; i<6; i++){
                 for(int j=0; j<5; j++){
                     int color=p.getPersonalGoal().getLayout()[i][j].getColor().compareTo(COLOR.BLANK);
-                    copyColor = convertColorInString(copyColor, color);
+                    copyColor = convertColorInStringTiles(copyColor, color);
                 }
                 System.out.println();
             }
@@ -150,32 +151,38 @@ public class TextualUI extends Observable implements View {
     }
 
     //Function that convert the color
-    private String convertColorInString(String copyColor, int color) {
+    private String convertColorInStringTiles(String copyColor, int color) {
         switch (color) {
             case 0 ->
                 //Blank
-                    copyColor = "\u001B[40m\t\u001B[00m";
+                    copyColor = ColorUI.BLANK_BG+"\t"+ColorUI.RESET;
             case 1 ->
                 //Green
-                    copyColor = "\u001B[42m\t\u001B[00m";
+                    copyColor = ColorUI.GREEN_BG+"\t"+ColorUI.RESET;
             case 2 ->
                 //Yellow
-                    copyColor = "\u001B[43m\t\u001B[00m";
+                    copyColor = ColorUI.YELLOW_BG+"\t"+ColorUI.RESET;
             case 3 ->
                 //White
-                    copyColor = "\u001B[47m\t\u001B[00m";
+                    copyColor = ColorUI.WHITE_BG+"\t"+ColorUI.RESET;
             case 4 ->
                 //Lightblue
-                    copyColor = "\u001B[46m\t\u001B[00m";
+                    copyColor = ColorUI.LIGHTBLUE_BG+"\t"+ColorUI.RESET;
             case 5 ->
                 //Violet
-                    copyColor = "\u001B[45m\t\u001B[00m";
+                    copyColor = ColorUI.VIOLET_BG+"\t"+ColorUI.RESET;
             case 6 ->
                 //Blue
-                    copyColor = "\u001B[44m\t\u001B[00m";
+                    copyColor = ColorUI.BLUE_BG+"\t"+ColorUI.RESET;
         }
         System.out.print(copyColor);
         return copyColor;
+    }
+
+    //Clearing the UI
+    public void clearUI(){
+        System.out.println("\033[H\033[2J");
+        System.out.flush();
     }
 
     public static void main(String[] args){
