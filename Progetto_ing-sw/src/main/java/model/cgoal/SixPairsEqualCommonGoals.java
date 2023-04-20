@@ -10,10 +10,10 @@ import java.util.*;
     private int current_point;
     private int indexCurrentPoint;
 
-    public SixPairsEqualCommonGoals  (List<Integer> CommonGoalpoints){
+    public SixPairsEqualCommonGoals  (List<Integer> CommonGoalPoints){
 
         this.points= new ArrayList<>();
-        this.points.addAll(CommonGoalpoints);
+        this.points.addAll(CommonGoalPoints);
         indexCurrentPoint=this.points.size()-1;
         current_point= this.points.get(indexCurrentPoint);
 
@@ -113,19 +113,22 @@ import java.util.*;
             }
         }
         return 0;
+    }
 
-
+    @Override
+    public List<Integer> getScoreList() {
+        return this.points;
     }
 
     @Override
     public void printLayout() {
-        System.out.println("------------------\n" +
-                "|                 |\n" +
-                "|                 |\n" +
-                "|                 |\n" +
-                "|                 |\n" +
-                "|                 |\n" +
-                "|                 |\n" +
-                "------------------\n");
+        System.out.println("""
+                ┌──┐
+                │==│
+                ├──┤
+                │==│
+                └──┘
+                 X6
+                """);
     }
 }

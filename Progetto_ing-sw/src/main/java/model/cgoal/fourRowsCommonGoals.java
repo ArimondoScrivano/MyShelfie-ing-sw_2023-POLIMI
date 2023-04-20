@@ -13,10 +13,10 @@ import java.util.List;
     private int current_point;
     private int indexCurrentPoint;
 
-    public fourRowsCommonGoals (List<Integer> CommonGoalpoints){
+    public fourRowsCommonGoals (List<Integer> CommonGoalPoints){
 
         this.points= new ArrayList<>();
-        this.points.addAll(CommonGoalpoints);
+        this.points.addAll(CommonGoalPoints);
         indexCurrentPoint=this.points.size()-1;
         current_point= this.points.get(indexCurrentPoint);
 
@@ -77,15 +77,20 @@ import java.util.List;
     }
 
     @Override
+    public List<Integer> getScoreList() {
+        return this.points;
+    }
+
+    @Override
     public void printLayout() {
-        System.out.println("------------------\s" +
-                "|                 |\s" +
-                "|                 |\s" +
-                "|                 |\s" +
-                "|                 |\s" +
-                "|                 |\s" +
-                "|                 |\s" +
-                "------------------\s");
+        System.out.println("""
+                        ┌──┬──┬──┬──┬──┐
+                        └──┴──┴──┴──┴──┘
+                        \t      ┌──┐
+                        \tMAX 3 │≠≠│
+                        \t      └──┘
+                        \t    X4
+                        """);
     }
 }
 

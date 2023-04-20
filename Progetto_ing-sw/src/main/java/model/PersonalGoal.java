@@ -39,12 +39,13 @@ public class PersonalGoal {
             for(Layout l: layouts){
                 this.layout[l.getTile().getX()][l.getTile().getY()]=new Tile(l.getTile().convert(), this.id);
             }
+            /*Layout printing test
             for(Tile[] t : this.layout){
                 System.out.println("new Row");
                 for(Tile t1 : t){
                     System.out.print(t1.getColor()+" ");
                 }
-            }
+            }*/
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

@@ -3,7 +3,6 @@ import model.COLOR;
 import model.Tile;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -15,10 +14,10 @@ import java.util.List;
     private int indexCurrentPoint;
 
 
-    public diagonalEqualCommonGoals(List<Integer> CommonGoalpoints){
+    public diagonalEqualCommonGoals(List<Integer> CommonGoalPoints){
 
         this.points= new ArrayList<>();
-        this.points.addAll(CommonGoalpoints);
+        this.points.addAll(CommonGoalPoints);
         indexCurrentPoint=this.points.size()-1;
         current_point= this.points.get(indexCurrentPoint);
 
@@ -81,8 +80,11 @@ import java.util.List;
         }else{
             return 0;
         }
+    }
 
-
+    @Override
+    public List<Integer> getScoreList() {
+        return this.points;
     }
 
     @Override

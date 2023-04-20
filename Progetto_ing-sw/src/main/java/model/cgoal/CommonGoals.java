@@ -13,6 +13,8 @@ import java.util.*;
     // the result is: 0 or the current point
     public int Checker(Tile[][] matrix);
 
+    public List<Integer> getScoreList();
+
     public void printLayout();
 
 }

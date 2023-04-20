@@ -3,7 +3,6 @@ import model.COLOR;
 import model.Tile;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -14,10 +13,10 @@ public class eightEqualCommonGoals implements CommonGoals {
     private int current_point;
     private int indexCurrentPoint;
 
-    public eightEqualCommonGoals(List<Integer> CommonGoalpoints){
+    public eightEqualCommonGoals(List<Integer> CommonGoalPoints){
 
         this.points= new ArrayList<>();
-        this.points.addAll(CommonGoalpoints);
+        this.points.addAll(CommonGoalPoints);
         indexCurrentPoint=this.points.size()-1;
         current_point= this.points.get(indexCurrentPoint);
 
@@ -60,14 +59,23 @@ public class eightEqualCommonGoals implements CommonGoals {
     }
 
     @Override
+    public List<Integer> getScoreList() {
+        return this.points;
+    }
+
+    @Override
     public void printLayout() {
         System.out.println("""
-                
+                    ┌──┐   ┌──┐
+                    │==│   │==│
+                    └──┘   └──┘
+                ┌──┐   ┌──┐   ┌──┐
+                │==│   │==│   │==│
+                └──┘   └──┘   └──┘
+                ┌──┐   ┌──┐   ┌──┐
+                │==│   │==│   │==│
+                └──┘   └──┘   └──┘
                 """);
-    }
-    public static void main(String[] args){
-        CommonGoals cg = new eightEqualCommonGoals(Arrays.asList(0,1,2));
-        cg.printLayout();
     }
 }
 

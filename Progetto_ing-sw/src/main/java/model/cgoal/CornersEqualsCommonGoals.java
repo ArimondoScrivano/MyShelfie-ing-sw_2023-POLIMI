@@ -3,7 +3,6 @@ import model.COLOR;
 import model.Tile;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -52,6 +51,11 @@ import java.util.List;
         }else{
             return 0;
         }
+    }
+
+    @Override
+    public List<Integer> getScoreList() {
+        return this.points;
     }
 
     @Override

@@ -5,20 +5,18 @@ import model.Tile;
 import java.util.ArrayList;
 import java.util.List;
 
-// 5 Columns different highs
+// 5 Columns different height
 //id=12
  public class fiveColumnsCommonGoals implements CommonGoals {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;
 
-    public fiveColumnsCommonGoals(List<Integer> CommonGoalpoints){
-
+    public fiveColumnsCommonGoals(List<Integer> CommonGoalPoints){
         this.points= new ArrayList<>();
-        this.points.addAll(CommonGoalpoints);
+        this.points.addAll(CommonGoalPoints);
         indexCurrentPoint=this.points.size()-1;
         current_point= this.points.get(indexCurrentPoint);
-
     }
 
     @Override
@@ -86,14 +84,19 @@ import java.util.List;
     }
 
     @Override
+    public List<Integer> getScoreList() {
+        return this.points;
+    }
+
+    @Override
     public void printLayout() {
-        System.out.println("------------------\s" +
-                "|                 |\s" +
-                "|                 |\s" +
-                "|                 |\s" +
-                "|                 |\s" +
-                "|                 |\s" +
-                "|                 |\s" +
-                "------------------\s");
+        System.out.println("""
+                ┌──┐
+                ├──┼──┐
+                ├──┼──┼──┐
+                ├──┼──┼──┼──┐
+                ├──┼──┼──┼──┼──┐
+                └──┴──┴──┴──┴──┘
+                """);
     }
 }

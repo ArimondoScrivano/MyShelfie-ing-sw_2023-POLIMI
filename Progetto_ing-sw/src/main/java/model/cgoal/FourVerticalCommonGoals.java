@@ -1,8 +1,6 @@
 package model.cgoal;
 import java.util.*;
-
 import model.*;
-import view.TextualUI;
 
 import java.util.ArrayList;
 
@@ -14,10 +12,10 @@ import java.util.ArrayList;
     private int current_point;
     private int indexCurrentPoint;
 
-    public FourVerticalCommonGoals (List<Integer> CommonGoalpoints){
+    public FourVerticalCommonGoals (List<Integer> CommonGoalPoints){
 
         this.points= new ArrayList<>();
-        this.points.addAll(CommonGoalpoints);
+        this.points.addAll(CommonGoalPoints);
         indexCurrentPoint=this.points.size()-1;
         current_point= this.points.get(indexCurrentPoint);
 
@@ -43,7 +41,6 @@ import java.util.ArrayList;
                 }
             }
         }
-
         for(int color=1; color< 7; color++){
 
             for(int row=1; row<7; row++){
@@ -61,65 +58,69 @@ import java.util.ArrayList;
                             for (int i = 1; i < 7; i++) {
                                 for (int j = 1; j < 6; j++) {
                                     //found the correct tile
-                                if (matrixSupport[i][j].equals(groupFound.get(index))){
+                                    if (matrixSupport[i][j].equals(groupFound.get(index))){
 
-                                    //check the adjacency
-                                    //upper-case
-                                   if (matrixSupport[i+1][j].getColor().compareTo(COLOR.BLANK)==color) {
-                                       matrixSupport[i + 1][j]= new Tile(COLOR.BLANK,1);
-                                       groupFound.add(matrixSupport[i + 1][j]);
+                                        //check the adjacency
+                                        //upper-case
+                                        if (matrixSupport[i+1][j].getColor().compareTo(COLOR.BLANK)==color) {
+                                            matrixSupport[i + 1][j]= new Tile(COLOR.BLANK,1);
+                                            groupFound.add(matrixSupport[i + 1][j]);
 
-                                   }
-                                    //lower-case
-                                    if (matrixSupport[i-1][j].getColor().compareTo(COLOR.BLANK)==color) {
-                                        matrixSupport[i - 1][j]= new Tile(COLOR.BLANK,1);
-                                        groupFound.add(matrixSupport[i - 1][j]);
+                                        }
+                                        //lower-case
+                                        if (matrixSupport[i-1][j].getColor().compareTo(COLOR.BLANK)==color) {
+                                            matrixSupport[i - 1][j]= new Tile(COLOR.BLANK,1);
+                                            groupFound.add(matrixSupport[i - 1][j]);
 
-                                    }
-                                    //right-case
-                                    if (matrixSupport[i][j +1].getColor().compareTo(COLOR.BLANK)==color) {
-                                        matrixSupport[i][j + 1]= new Tile(COLOR.BLANK,1);
-                                        groupFound.add(matrixSupport[i ][j+1]);
+                                        }
+                                        //right-case
+                                        if (matrixSupport[i][j +1].getColor().compareTo(COLOR.BLANK)==color) {
+                                            matrixSupport[i][j + 1]= new Tile(COLOR.BLANK,1);
+                                            groupFound.add(matrixSupport[i ][j+1]);
 
-                                    }
-                                    //left-case
-                                    if (matrixSupport[i][j - 1].getColor().compareTo(COLOR.BLANK)==color) {
-                                        matrixSupport[i][j - 1]= new Tile(COLOR.BLANK,1);
-                                        groupFound.add(matrixSupport[i][j-1]);
+                                        }
+                                        //left-case
+                                        if (matrixSupport[i][j - 1].getColor().compareTo(COLOR.BLANK)==color) {
+                                            matrixSupport[i][j - 1]= new Tile(COLOR.BLANK,1);
+                                            groupFound.add(matrixSupport[i][j-1]);
 
+                                        }
                                     }
                                 }
                             }
                         }
+                        if (groupFound.size()>3){
+                            count++;
+                        }
+
                     }
-                if (groupFound.size()>3){
-                    count++;
                 }
 
             }
         }
 
-    }
-}
 
-if (count > 3) {
-    if (indexCurrentPoint==-1){
-        return 0;
-    }else{
-        int returnValue=current_point;
-        indexCurrentPoint= indexCurrentPoint-1;
-        if (indexCurrentPoint==-1){
-            current_point=0;
-        }else{
-            current_point= points.get(indexCurrentPoint);
+        if (count > 3) {
+            if (indexCurrentPoint==-1){
+                return 0;
+            }else{
+                int returnValue=current_point;
+                indexCurrentPoint= indexCurrentPoint-1;
+                if (indexCurrentPoint==-1){
+                    current_point=0;
+                }else{
+                    current_point= points.get(indexCurrentPoint);
+                }
+                return returnValue;
+            }
         }
-        return returnValue;
+        return 0;
     }
-  }
-  return 0;
 
-
-  }
+    @Override
+    public List<Integer> getScoreList() {
+        return this.points;
+    }
 
     @Override
     public void printLayout() {

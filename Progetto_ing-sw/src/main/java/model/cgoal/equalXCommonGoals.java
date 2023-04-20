@@ -12,13 +12,12 @@ import java.util.List;
     private int current_point;
     private int indexCurrentPoint;
 
-    public equalXCommonGoals(List<Integer> CommonGoalpoints){
+    public equalXCommonGoals(List<Integer> CommonGoalPoints){
 
         this.points= new ArrayList<>();
-        this.points.addAll(CommonGoalpoints);
+        this.points.addAll(CommonGoalPoints);
         indexCurrentPoint=this.points.size()-1;
         current_point= this.points.get(indexCurrentPoint);
-
     }
 
     @Override
@@ -61,14 +60,20 @@ import java.util.List;
     }
 
     @Override
+    public List<Integer> getScoreList() {
+        return this.points;
+    }
+
+    @Override
     public void printLayout() {
-        System.out.println("------------------\n" +
-                "|                 |\n" +
-                "|                 |\n" +
-                "|                 |\n" +
-                "|                 |\n" +
-                "|                 |\n" +
-                "|                 |\n" +
-                "------------------\n");
+        System.out.println("""
+                ┌──┐  ┌──┐
+                │==│  │==│
+                └──┼──┼──┘
+                   │==│
+                ┌──┼──┼──┐
+                │==│  │==│
+                └──┘  └──┘
+                """);
     }
 }
