@@ -15,25 +15,38 @@ import java.util.Observer;
 public class GameController implements Observer {
     //Model
     Game currentGame;
+    private int NumPlayers;
     //View
     //UI userInterface;
     //Chat currentChat;
 
     //Constructor of the game
-    public GameController() {
+    public GameController(int NumPlayers) {
+        this.NumPlayers= NumPlayers;
         //List of players from the pre-game
         List<Player> playersList = new ArrayList<>();
-        Dashboard dashboard = new Dashboard(playersList.size(), new Bag());
-        this.currentGame = new Game(0, dashboard, playersList);
+        Dashboard dashboard = new Dashboard(NumPlayers, new Bag());
+        this.currentGame = new Game(0, dashboard, playersList,NumPlayers);
     }
 
-    @Deprecated
-    public void createPlayer(){
-        //To implement from the pre-match?
-        /*if(currentGame.players.size()< Game.MAX_PLAYERS){
-            Add player to the game
-        }*/
+    public void createPlayer(int id_new, String np){
+        Player NewPlayer= new Player(id_new, np);
+        currentGame.getPlayers().add(NewPlayer);
     }
+
+    public int getNumPlayers() {
+        return this.NumPlayers;
+    }
+
+
+    public boolean isFull(){
+        if(currentGame.getPlayers().size()==NumPlayers){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 
     // this method is intended as modify and pick the next player when the current player finished his turn
     public void pickNextPlayer(){

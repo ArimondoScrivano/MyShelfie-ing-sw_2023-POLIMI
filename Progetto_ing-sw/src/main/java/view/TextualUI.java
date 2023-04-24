@@ -40,7 +40,7 @@ public class TextualUI extends Observable implements View {
         Scanner in = new Scanner(new InputStreamReader(System.in));
         System.out.println("Choose the connection method:");
         String input = in.nextLine();
-        if(input.equals("RMI")){
+        if(input.equals("Network/RMI")){
             System.out.println("RMI connection chose");
             //TODO:RMI CONNECTION
         } else if (input.equals("Socket")) {
@@ -192,6 +192,6 @@ public class TextualUI extends Observable implements View {
                 new Player(1, "Lorenzo")
         );
         System.out.println();
-        UI.showMatchInfo(new Game(0, new Dashboard(2, new Bag()), pl));
+        //UI.showMatchInfo(new Game(0, new Dashboard(2, new Bag()), pl));
     }
 }

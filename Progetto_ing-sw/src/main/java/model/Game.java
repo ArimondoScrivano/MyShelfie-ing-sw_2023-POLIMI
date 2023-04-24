@@ -6,6 +6,8 @@ public class Game extends Observable {
     //Number of game
     private int id;
     //Dashboard reference
+
+    private int numberOfPlayers;
     private final Dashboard dashboard;
     //Players
     private List<Player> players;
@@ -16,7 +18,7 @@ public class Game extends Observable {
     private List<Integer> pointsCommonGoal;
     private boolean endGame;
 
-    public Game(int id, Dashboard dashboard, List<Player> pl){
+    public Game(int id, Dashboard dashboard, List<Player> pl, int numberOfPlayers){
         //Setting the number of the game
         this.id=id;
         //Setting the reference to the dashboard
@@ -26,8 +28,8 @@ public class Game extends Observable {
         //Setting the first player
         this.currentPlayer = pl.get(0);
         //Setting the commonGoals based on the number of players
-        int numberOfPlayers = players.size();
-        switch (numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
+        switch (this.numberOfPlayers) {
             case 2 -> {
                 //Setting the points for the commonGoals
                 this.pointsCommonGoal = Arrays.asList(4, 8);
