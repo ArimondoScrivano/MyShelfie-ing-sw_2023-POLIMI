@@ -31,7 +31,7 @@ public class GameTest extends TestCase {
     public void testGetCurrentPlayer() throws NoSuchElementException, NullPointerException {
         playersTest.addAll(player1);
         Dashboard dashboard = new Dashboard(playersTest.size(), new Bag());
-        Game game1 = new Game(0, dashboard, playersTest);
+        Game game1 = new Game(0, dashboard, playersTest, playersTest.size());
         assertEquals(2, playersTest.size());
         assertEquals(playersTest, game1.getPlayers());
         assertEquals(game1.getCurrentPlayer(), playersTest.get(0));
@@ -41,7 +41,7 @@ public class GameTest extends TestCase {
     public void testSetCurrentPlayer() throws NoSuchElementException, NullPointerException {
         playersTest.addAll(player1);
         Dashboard dashboard = new Dashboard(playersTest.size(), new Bag());
-        Game game1 = new Game(0, dashboard, playersTest);
+        Game game1 = new Game(0, dashboard, playersTest, playersTest.size());
         game1.setCurrentPlayer(player1.get(1));
         assertEquals(game1.getCurrentPlayer(), playersTest.get(1));
     }
@@ -50,7 +50,7 @@ public class GameTest extends TestCase {
     public void testGetCommonGoals() throws NoSuchElementException, NullPointerException{
         playersTest.addAll(player1);
         Dashboard dashboard = new Dashboard(playersTest.size(), new Bag());
-        Game game1 = new Game(0, dashboard, playersTest);
+        Game game1 = new Game(0, dashboard, playersTest, playersTest.size());
         commonGoalsTest = game1.getCommonGoals();
         assertEquals(game1.getCommonGoals(), commonGoalsTest);
     }
@@ -59,7 +59,7 @@ public class GameTest extends TestCase {
     public void testGetCommonGoalsPoints() throws NoSuchElementException, NullPointerException {
         playersTest.addAll(player1);
         Dashboard dashboard = new Dashboard(playersTest.size(), new Bag());
-        Game game1 = new Game(0, dashboard, playersTest);
+        Game game1 = new Game(0, dashboard, playersTest, playersTest.size());
         commonGoalsTest = game1.getCommonGoals();
         List<Integer> commonGoalPointsTest = switch (playersTest.size()) {
             case 2 -> Arrays.asList(4, 8);
@@ -88,7 +88,7 @@ public class GameTest extends TestCase {
     public void testSetCommonGoals() throws NoSuchElementException, NullPointerException {
         playersTest.addAll(player1);
         Dashboard dashboard = new Dashboard(playersTest.size(), new Bag());
-        Game game1 = new Game(0, dashboard, playersTest);
+        Game game1 = new Game(0, dashboard, playersTest, playersTest.size());
         commonGoalsTest = game1.getCommonGoals();
         assertNotSame(commonGoalsTest.get(0), commonGoalsTest.get(1));
     }
@@ -97,7 +97,7 @@ public class GameTest extends TestCase {
     public void testEndGameToken() {
         playersTest.addAll(player1);
         Dashboard dashboard = new Dashboard(playersTest.size(), new Bag());
-        Game game1 = new Game(0, dashboard, playersTest);
+        Game game1 = new Game(0, dashboard, playersTest, playersTest.size());
         commonGoalsTest = game1.getCommonGoals();
         assertFalse(playersTest.get(0).isShelfCompleted());
 
