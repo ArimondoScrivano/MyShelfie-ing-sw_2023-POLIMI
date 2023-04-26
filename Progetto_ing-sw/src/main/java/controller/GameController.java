@@ -14,7 +14,7 @@ import java.util.Observer;
 
 public class GameController implements Observer {
     //Model
-    Game currentGame;
+   private Game currentGame;
     private int NumPlayers;
     //View
     //UI userInterface;
@@ -38,7 +38,12 @@ public class GameController implements Observer {
         return this.NumPlayers;
     }
 
-
+public int getPlayersFilled(){
+        return currentGame.getPlayers().size();
+}
+public List<Player> getPlayersList(){
+        return this.currentGame.getPlayers();
+    }
     public boolean isFull(){
         if(currentGame.getPlayers().size()==NumPlayers){
             return true;
@@ -444,6 +449,12 @@ public class GameController implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+// todo
+        //when the player_turn changes, it notifies the network interface
+    }
 
+
+    public Tile[][] getDashboardTiles(){
+        return currentGame.getDashboardMatrix();
     }
 }

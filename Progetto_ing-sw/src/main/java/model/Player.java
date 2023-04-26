@@ -196,4 +196,9 @@ public void setPoints(int points){
         points+=additionalPoints;
         return 0;
     }
+
+    public Tile[][] getShelfMatrix(){
+        return this.myShelf.getTilesShelf();
+    }
+
 }

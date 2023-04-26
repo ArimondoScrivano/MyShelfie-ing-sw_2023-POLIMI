@@ -54,9 +54,13 @@ public class Game extends Observable {
     public Dashboard getDashboard() {
         return this.dashboard;
     }
-
+    public Tile[][] getDashboardMatrix(){
+        return dashboard.getTilesCopy();
+    }
     public List<Player> getPlayers(){
-        return this.players;
+        List<Player> players_copy= new ArrayList<>();
+        players_copy.addAll(this.players);
+        return players_copy;
     }
 
     public Player getCurrentPlayer() {
