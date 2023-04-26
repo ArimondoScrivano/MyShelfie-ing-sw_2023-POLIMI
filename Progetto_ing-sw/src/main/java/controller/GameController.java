@@ -4,6 +4,7 @@ import model.Dashboard;
 import model.Game;
 import model.Shelf;
 import model.*;
+import model.cgoal.CommonGoals;
 
 
 import java.io.IOException;
@@ -43,6 +44,10 @@ public int getPlayersFilled(){
 }
 public List<Player> getPlayersList(){
         return this.currentGame.getPlayers();
+    }
+
+    public List<CommonGoals> getCommonGoals(){
+        return currentGame.getCommonGoals();
     }
     public boolean isFull(){
         if(currentGame.getPlayers().size()==NumPlayers){

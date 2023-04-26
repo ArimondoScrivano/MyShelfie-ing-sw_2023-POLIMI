@@ -48,6 +48,10 @@ public class Player {
         return this.name;
     }
 
+    public int getId(){
+        return this.id;
+    }
+
     //METHOD TO GET THE SITUATION OF A PLAYER'S SHELF
     public Shelf getShelf(){
         return this.myShelf;

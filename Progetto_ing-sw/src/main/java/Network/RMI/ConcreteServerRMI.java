@@ -3,7 +3,9 @@ import java.util.*;
 import controller.*;
 
 import controller.GameController;
+import model.PersonalGoal;
 import model.Tile;
+import model.cgoal.CommonGoals;
 
 import java.util.List;
 
@@ -32,8 +34,10 @@ public class ConcreteServerRMI implements Server_RMI {
     }
 
     @Override
-    public void addPlayer(int index, String name) {
-        Lobby.get(index).createPlayer(Lobby.get(index).getPlayersFilled(), name);
+    public int  addPlayer(int index, String name) {
+        int IndexPlayer=Lobby.get(index).getPlayersFilled();
+        Lobby.get(index).createPlayer(IndexPlayer, name);
+        return IndexPlayer;
     }
 
     @Override
@@ -42,17 +46,21 @@ public class ConcreteServerRMI implements Server_RMI {
     }
 
     @Override
-    public Tile[][] getMyShelfie(int index, String playerName) {
-        for (int i = 0; i < Lobby.get(index).getPlayersFilled(); i++) {
-            if (Lobby.get(index).getPlayersList().get(i).getName().equals(playerName)) {
-                return Lobby.get(index).getPlayersList().get(i).getShelfMatrix();
-            }
+    public Tile[][] getMyShelfie(int index, String playerName, int playerId) {
+        return Lobby.get(index).getPlayersList().get(playerId).getShelfMatrix();
+    }
+
+
+      public PersonalGoal getMyPersonalGoal(int index, int playerId){
+          return Lobby.get(index).getPlayersList().get(playerId).getPersonalGoal();
         }
-        //no player found---ERROR---
-        System.out.println("An error has occurred");
-      return null;
+
+public List<CommonGoals> getCommonGoals(int index){
+        return Lobby.get(index).getCommonGoals();
+}
+
 
 
     }
 
-}
+
