@@ -7,7 +7,7 @@ import controller.*;
 // This class is server side for The RMI connection with the client
 
 public interface Server_RMI extends Remote{
- public  GameController createLobby(int numPlayers);
- public GameController joinLobby();
+ public int createLobby(int numPlayers);
+ public int joinLobby();
 
 }

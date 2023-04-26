@@ -10,23 +10,24 @@ public class ConcreteServerRMI implements Server_RMI{
     private List<GameController> Lobby;
 
 
-    public  GameController createLobby(int numPlayers){
+    public int  createLobby(int numPlayers){
         GameController controller=  new GameController(numPlayers);
         Lobby.add(controller);
-        return controller;
+        int indexLobby= Lobby.indexOf(controller);
+        return indexLobby;
     }
 
-    public GameController joinLobby(){
+    public int  joinLobby(){
 
         for (int i =0; i< Lobby.size(); i++){
             if (!Lobby.get(i).isFull()){
-                return Lobby.get(i);
+                return i;
             }
         }
         //if there are no free games, it will create a 2 player lobby
         GameController controller=  new GameController(2);
         Lobby.add(controller);
-        return controller;
+        return Lobby.indexOf(controller);
     }
 
 
