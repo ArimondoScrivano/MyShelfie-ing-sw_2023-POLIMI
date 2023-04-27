@@ -384,6 +384,7 @@ public List<Player> getPlayersList(){
         int counter=0;
         while(i>=0){
             if(tilesShelf[i][chosenColumn].getColor().equals(COLOR.BLANK)) counter++;
+            i--;
         }
         if(chosenTiles.length>counter){
             available=false;
