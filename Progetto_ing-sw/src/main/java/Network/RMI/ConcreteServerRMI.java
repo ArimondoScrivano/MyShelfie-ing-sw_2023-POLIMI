@@ -59,6 +59,9 @@ public List<CommonGoals> getCommonGoals(int index){
         return Lobby.get(index).getCommonGoals();
 }
 
+public int myPoints(int index, int plaayerId){
+        return Lobby.get(index).getPlayersList().get(plaayerId).getPoints();
+}
 
 
     }
