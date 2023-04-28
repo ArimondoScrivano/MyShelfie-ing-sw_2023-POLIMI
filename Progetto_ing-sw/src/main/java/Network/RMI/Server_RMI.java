@@ -8,7 +8,7 @@ import controller.*;
 import model.cgoal.CommonGoals;
 
 // This class is server side for The RMI connection with the client
-
+//TODO: associare il client observer al server observable quando inzia/joina una partita
 public interface Server_RMI extends Remote{
  public int createLobby(int numPlayers);
  public int joinLobby();

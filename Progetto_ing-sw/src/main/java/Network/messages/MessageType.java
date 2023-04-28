@@ -2,7 +2,7 @@ package Network.messages;
 
 public enum MessageType {
 
-    GAME_STARTING, SOMETHINGCHANGED }
+    GAME_STARTING, SOMETHINGCHANGED, GAME_ENDING } //verify GAME_ENDING's concrete value
 
    /*
     //Lobby

@@ -68,7 +68,7 @@ public class GameController  extends Observable implements Observer {
     public void createPlayer(int id_new, String np){
         Player NewPlayer= new Player(id_new, np);
         currentGame.getPlayers().add(NewPlayer);
-        //MessageType m= MessageType.SOMETHINGCHANGED;
+        MessageType m= MessageType.SOMETHINGCHANGED;
         //notify(id, m);
     }
 
@@ -96,7 +96,6 @@ public List<Player> getPlayersList(){
     }
 
     public void started(){
-            //create a notify message
         MessageType m= MessageType.GAME_STARTING;
         //notify(id, m);
 
@@ -105,6 +104,8 @@ public List<Player> getPlayersList(){
     public void ended(){
         setEnd(1);
         //create a notify message
+        MessageType m= MessageType.GAME_ENDING;
+        //notify(id, m);
     }
 
 
@@ -319,6 +320,8 @@ public List<Player> getPlayersList(){
 
     public void pickTiles(Tile[] tilesPicked){
         currentGame.updateDashboard(tilesPicked);
+        MessageType m= MessageType.SOMETHINGCHANGED;
+        //notify(id, m);
 
     }
 
@@ -447,6 +450,8 @@ public List<Player> getPlayersList(){
 
     public void chooseColumnShelf(int column, Tile[] tiles, Shelf myShelf){
         myShelf.addTiles(tiles, column);
+        MessageType m= MessageType.SOMETHINGCHANGED;
+        //notify(id, m);
         if(playerTurn().isShelfCompleted()){
             playerTurn().setLastRound(true);
         }
@@ -502,6 +507,8 @@ public List<Player> getPlayersList(){
             if (partialSum > 0) {
                 currentGame.getCurrentPlayer().setPoints(partialSum);
                 currentGame.getCurrentPlayer().setCommonGoalsCompleted(0);
+                MessageType m= MessageType.SOMETHINGCHANGED;
+                //notify(id, m);
             }
         }
         //check second common goal
@@ -510,6 +517,8 @@ public List<Player> getPlayersList(){
             if (partialSecondSum > 0) {
                 currentGame.getCurrentPlayer().setPoints(partialSecondSum);
                 currentGame.getCurrentPlayer().setCommonGoalsCompleted(0);
+                MessageType m= MessageType.SOMETHINGCHANGED;
+                //notify(id, m);
             }
         }
     }
