@@ -1,5 +1,8 @@
 package controller;
 
+import Network.RMI.ConcreteServerRMI;
+import Network.messages.Message;
+import Network.messages.MessageType;
 import model.Dashboard;
 import model.Game;
 import model.Shelf;
@@ -13,17 +16,49 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class GameController implements Observer {
+//TODO: scrivere i messaggi per i metodi del controller che modificano qualcosa del models
+
+public class GameController  extends Observable implements Observer {
     //Model
    private Game currentGame;
     private int NumPlayers;
+    private int id;
+
+    // 0 if the game is NOT ended or 1 if the Game Ended
+    private int end;
+
+
+    //it must become an interface
+    private ConcreteServerRMI myserver;
     //View
     //UI userInterface;
     //Chat currentChat;
 
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId(){
+        return id;
+    }
+    public void setEnd(int end) {
+        this.end = end;
+    }
+
+    public ConcreteServerRMI getMyserver(){
+        return myserver;
+    }
+
+    public int getEnd(){
+        return end;
+    }
     //Constructor of the game
-    public GameController(int NumPlayers) {
+    public GameController(int NumPlayers, ConcreteServerRMI serverCreator) {
         this.NumPlayers= NumPlayers;
+        this.end=0;
+        this.myserver= serverCreator;
+        id=0;
         //List of players from the pre-game
         List<Player> playersList = new ArrayList<>();
         Dashboard dashboard = new Dashboard(NumPlayers, new Bag());
@@ -33,6 +68,8 @@ public class GameController implements Observer {
     public void createPlayer(int id_new, String np){
         Player NewPlayer= new Player(id_new, np);
         currentGame.getPlayers().add(NewPlayer);
+        //MessageType m= MessageType.SOMETHINGCHANGED;
+        //notify(id, m);
     }
 
     public int getNumPlayers() {
@@ -51,10 +88,23 @@ public List<Player> getPlayersList(){
     }
     public boolean isFull(){
         if(currentGame.getPlayers().size()==NumPlayers){
+            started();
             return true;
         }else {
             return false;
         }
+    }
+
+    public void started(){
+            //create a notify message
+        MessageType m= MessageType.GAME_STARTING;
+        //notify(id, m);
+
+    }
+
+    public void ended(){
+        setEnd(1);
+        //create a notify message
     }
 
 
@@ -62,10 +112,20 @@ public List<Player> getPlayersList(){
     public void pickNextPlayer(){
         //CHECK IF THE OLD CURRENT PLAYER HAS COMPLETED SOME COMMON GOALS
         checkPoints();
+        int flagPreviusDone=0;
+        //check finish
+        if(playerTurn().isShelfCompleted()){
+            playerTurn().setLastRound(true);
+        }
+        //check if the last turn ended
+        if(playerTurn().isLastRound()){
+            flagPreviusDone=1;
+        }
 
         // this is a control for the end of the list
         if(currentGame.getPlayers().get(currentGame.getPlayers().size()-1).equals(playerTurn())){
             currentGame.setCurrentPlayer(currentGame.getPlayers().get(0));
+
         }else{
             int flag=0;
             for(int i =0; i< currentGame.getPlayers().size() -1 ; i++){
@@ -74,6 +134,16 @@ public List<Player> getPlayersList(){
                 }
             }
             currentGame.setCurrentPlayer(currentGame.getPlayers().get(flag));
+        }
+        //check if the last turn ended
+        if(playerTurn().isLastRound()){
+            ended();
+        }
+
+        //check if is the last Turn
+        //check if the last turn ended
+        if(flagPreviusDone==1){
+            playerTurn().setLastRound(true);
         }
     }
     public Player playerTurn(){
@@ -249,6 +319,7 @@ public List<Player> getPlayersList(){
 
     public void pickTiles(Tile[] tilesPicked){
         currentGame.updateDashboard(tilesPicked);
+
     }
 
 
@@ -376,6 +447,11 @@ public List<Player> getPlayersList(){
 
     public void chooseColumnShelf(int column, Tile[] tiles, Shelf myShelf){
         myShelf.addTiles(tiles, column);
+        if(playerTurn().isShelfCompleted()){
+            playerTurn().setLastRound(true);
+        }
+        pickNextPlayer();
+
     } //rita
     public boolean columnAvailable(Tile[] chosenTiles, Shelf myShelf, int selectedCol) {
         boolean available=true;
@@ -460,9 +536,6 @@ public List<Player> getPlayersList(){
 // todo
         //when the player_turn changes, it notifies the network interface
     }
-
-
-
 
 
     public Tile[][] getDashboardTiles(){

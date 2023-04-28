@@ -1,6 +1,10 @@
 package Network.messages;
 
 public enum MessageType {
+
+    GAME_STARTING, SOMETHINGCHANGED }
+
+   /*
     //Lobby
     LOGIN, LOGIN_REPLY, N_PLAYER_REQUEST, N_PLAYER_REPLY,
     LOBBY,
@@ -28,4 +32,6 @@ public enum MessageType {
     WIN_MESSAGE,
     //Message to the other players
     LOSE_MESSAGE
-}
+
+    */
+

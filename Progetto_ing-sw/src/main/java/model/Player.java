@@ -21,10 +21,20 @@ public class Player {
     //BOOLEAN WHICH IS TRUE WHETHER THE PLAYER'S SHELF IS FULL
     private boolean shelfCompleted;
     private boolean[] commonGoalsCompleted;
+    private boolean lastRound;
     Tile[][] tiles=new Tile[6][5];
+
+    public void setLastRound(boolean lastRound) {
+        this.lastRound = lastRound;
+    }
+
+    public boolean isLastRound() {
+        return lastRound;
+    }
 
     //INSTANCE CONSTRUCTOR FOR PLAYER CLASS
     public Player(int id, String name){
+        lastRound=false;
         Random rand= new Random();
         int personalGoalId= rand.nextInt(1, 12);
         this.id=id;

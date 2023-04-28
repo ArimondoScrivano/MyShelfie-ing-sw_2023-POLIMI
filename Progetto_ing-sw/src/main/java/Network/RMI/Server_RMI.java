@@ -1,6 +1,8 @@
 package Network.RMI;
 import java.util.*;
 import java.rmi.*;
+
+import Network.messages.Message;
 import model.*;
 import controller.*;
 import model.cgoal.CommonGoals;
@@ -22,5 +24,9 @@ public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoo
  public boolean columnAvailable(int index, Tile[] tiles, Shelf myShelf, int selectedCol);
 
  public void insertTiles ( int index, Tile[] tilesToInsert, Shelf myShelf, int columnPicked);
+ public String checkWinner(int index, int id);
+
+ public void notify(int index, Message m);
+
 
 }
