@@ -66,7 +66,7 @@ public class TextualUI extends Observable implements View {
     @Override
     public void showMatchInfo(Game current_game) {
         clearUI();
-        //TODO: Showing this print only at the beginning of the game
+        //TODO: Showing this print only at the beginning of the game-->lobby
         System.out.println(ColorUI.YELLOW_TEXT + """
                 .----------------.  .----------------.              .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.\s
                 | .--------------. || .--------------. |            | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
