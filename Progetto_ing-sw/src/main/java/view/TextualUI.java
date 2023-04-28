@@ -192,6 +192,6 @@ public class TextualUI extends Observable implements View {
                 new Player(1, "Lorenzo")
         );
         System.out.println();
-        //UI.showMatchInfo(new Game(0, new Dashboard(2, new Bag()), pl));
+        UI.showMatchInfo(new Game(0, new Dashboard(2, new Bag()), pl, pl.size()));
     }
 }
