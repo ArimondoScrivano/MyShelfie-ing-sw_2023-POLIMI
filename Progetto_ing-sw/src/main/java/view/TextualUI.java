@@ -35,6 +35,7 @@ public class TextualUI extends Observable implements View {
         }
     }
 
+    //Asking the connection type to the player
     @Override
     public void askConnection() {
         Scanner in = new Scanner(new InputStreamReader(System.in));
