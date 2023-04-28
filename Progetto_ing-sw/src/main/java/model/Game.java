@@ -1,8 +1,10 @@
 package model;
 import model.cgoal.*;
+
+import java.io.Serializable;
 import java.util.*;
 
-public class Game extends Observable {
+public class Game extends Observable implements Serializable {
     //Number of game
     private int id;
     //Dashboard reference
