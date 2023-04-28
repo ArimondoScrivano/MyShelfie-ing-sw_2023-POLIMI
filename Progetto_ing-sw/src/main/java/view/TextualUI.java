@@ -13,7 +13,7 @@ public class TextualUI extends Observable implements View {
 
     //Game state
     private enum State{
-        WAITING, TILES_PICK, COLUMN_CHOICE, ENDGAME_STARTED, GAME_FINISHED
+        WAITING, TILES_PICK, COLUMN_CHOICE, GAME_FINISHED
     }
 
     private State state = State.WAITING;
@@ -35,6 +35,7 @@ public class TextualUI extends Observable implements View {
         }
     }
 
+    //Asking the connection type to the player
     @Override
     public void askConnection() {
         Scanner in = new Scanner(new InputStreamReader(System.in));
@@ -192,6 +193,6 @@ public class TextualUI extends Observable implements View {
                 new Player(1, "Lorenzo")
         );
         System.out.println();
-        //UI.showMatchInfo(new Game(0, new Dashboard(2, new Bag()), pl));
+        //UI.showMatchInfo(new Game(0, new Dashboard(2, new Bag()), pl, pl.size()));
     }
 }

@@ -31,7 +31,7 @@ public class PersonalGoal {
                 .create();
         //Read from file json and construct the personal goal
         try {
-            FileReader reader = new FileReader("src/main/java/model/jsonFiles/PersonalGoal"+this.id+".json");
+            FileReader reader = new FileReader("src/main/resources/jsonFiles/PersonalGoal"+this.id+".json");
             //as a list
             Type layoutListType=new TypeToken<ArrayList<Layout>>(){}.getType();
             List<Layout> layouts = gson.fromJson(reader, layoutListType);
@@ -39,13 +39,6 @@ public class PersonalGoal {
             for(Layout l: layouts){
                 this.layout[l.getTile().getX()][l.getTile().getY()]=new Tile(l.getTile().convert(), this.id);
             }
-            /*Layout printing test
-            for(Tile[] t : this.layout){
-                System.out.println("new Row");
-                for(Tile t1 : t){
-                    System.out.print(t1.getColor()+" ");
-                }
-            }*/
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -78,12 +71,4 @@ public class PersonalGoal {
             return additionalPoints;
         }
     }
-
-    //Da implementare in player
-    /*public int checkPersonalGoal(Player myPlayer, int[][] tileTypes) throws IOException {
-        //Creare indice come attributo della classe che identifica il punteggio del personal goal
-
-        return 0;
-    }*/
-
 }
