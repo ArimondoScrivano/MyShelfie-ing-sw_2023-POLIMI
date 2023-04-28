@@ -1,4 +1,4 @@
-package Network.RMI.messages;
+package Network.messages;
 
 import java.io.Serializable;
 

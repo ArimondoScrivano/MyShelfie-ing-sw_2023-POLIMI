@@ -50,8 +50,8 @@ public class Observable<Event extends Enum<Event>> {
             clearChanged();
         }
 
-        for (int i = arrLocal.length-1; i>=0; i--)
-            ((Observer)arrLocal[i]).update();
+        /*for (int i = arrLocal.length-1; i>=0; i--)
+            ((Observer)arrLocal[i]).update();*/
     }
 
     protected synchronized void setChanged() {

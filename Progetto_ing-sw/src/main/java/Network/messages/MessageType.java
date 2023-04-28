@@ -1,4 +1,4 @@
-package Network.RMI.messages;
+package Network.messages;
 
 public enum MessageType {
     //Lobby

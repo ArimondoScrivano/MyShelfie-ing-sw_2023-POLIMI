@@ -1,6 +1,6 @@
 package util;
 
-import Network.RMI.messages.Message;
+import Network.messages.Message;
 
 public interface Observer{
     void update(Message message);
