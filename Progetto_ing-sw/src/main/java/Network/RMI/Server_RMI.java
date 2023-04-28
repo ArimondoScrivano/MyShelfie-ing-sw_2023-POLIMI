@@ -17,4 +17,10 @@ public Tile[][] getMyShelfie(int index, String playerName, int playerId);
 public PersonalGoal getMyPersonalGoal(int index, int playerId);
 
 public List<CommonGoals> getCommonGoals(int index);
+public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoord);
+
+ public boolean columnAvailable(int index, Tile[] tiles, Shelf myShelf, int selectedCol);
+
+ public void insertTiles ( int index, Tile[] tilesToInsert, Shelf myShelf, int columnPicked);
+
 }

@@ -53,6 +53,10 @@ public class Game extends Observable implements Serializable {
         this.endGame=false;
     }
 
+    public void updateDashboard(Tile[] tiles){
+        getDashboard().updateDashboard(tiles);
+    }
+
     public Dashboard getDashboard() {
         return this.dashboard;
     }

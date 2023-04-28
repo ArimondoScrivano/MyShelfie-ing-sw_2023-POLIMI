@@ -50,18 +50,18 @@ public class Bag {
     }
 
     //Check if the bag is empty for a future refill, true if it's empty
-    //TODO
-    public boolean checkEmpty(int np){
+
+    public boolean checkEmpty(int np, int remainTiles){
         int tilesToRefill;
         if (np==2){
             //tiles that we need for the refill with 2 players
-            tilesToRefill= 29;
+            tilesToRefill= 29-remainTiles;
         } else if (np==3) {
             //tiles that we need for the refill with 3 players
-            tilesToRefill= 37;
+            tilesToRefill= 37- remainTiles;
         }else{
             //tiles that we need for the refill with 4 players
-            tilesToRefill= 45;
+            tilesToRefill= 45- remainTiles;
         }
 
         if(tilesInGame.size()< tilesToRefill){

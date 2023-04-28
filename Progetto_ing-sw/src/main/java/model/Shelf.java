@@ -14,7 +14,13 @@ public class Shelf {
     }
 
     public Tile[][] getTilesShelf(){
-        return tilesShelf;
+        Tile[][] tilesCopy= new Tile[6][5];
+        for(int row=0; row<6; row++){
+            for(int col=0; col<5; col++) {
+                tilesCopy[row][col]= new Tile(tilesShelf[row][col].getColor(),tilesShelf[row][col].getId());
+            }
+            }
+        return tilesCopy;
     }
 
     //METHOD TO RETURN TRUE WHETHER ONE'S SHELF IS COMPLETED
