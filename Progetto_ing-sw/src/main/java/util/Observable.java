@@ -1,17 +1,20 @@
 package util;
 
+import Network.messages.Message;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Observable<Event extends Enum<Event>> {
+public class Observable{
     private boolean changed = false;
     private List<Observer> obs=new ArrayList<>();
 
-
+    //Construct the object without the observer
     public Observable() {
         obs = new ArrayList<>();
     }
 
+    //Adding observers
     public synchronized void addObserver(Observer o) {
         if (o == null)
             throw new NullPointerException();
@@ -20,11 +23,13 @@ public class Observable<Event extends Enum<Event>> {
         }
     }
 
+    //Deleting observer
     public synchronized void deleteObserver(Observer o) {
         obs.remove(o);
     }
 
-    public void notifyObservers(Event arg) {
+    //Notify observers if the object is changed
+    public void notifyObservers(Message message) {
         /*
          * a temporary array buffer, used as a snapshot of the state of
          * current Observers.
@@ -50,10 +55,11 @@ public class Observable<Event extends Enum<Event>> {
             clearChanged();
         }
 
-        /*for (int i = arrLocal.length-1; i>=0; i--)
-            ((Observer)arrLocal[i]).update();*/
+        for (int i = arrLocal.length-1; i>=0; i--)
+            ((Observer)arrLocal[i]).update(message);
     }
 
+    //Setting the change
     protected synchronized void setChanged() {
         changed = true;
     }
