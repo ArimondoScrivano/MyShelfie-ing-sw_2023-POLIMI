@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Dashboard {
     //Dashboard model
     private Tile[][] tiles;
@@ -7,8 +10,8 @@ public class Dashboard {
     private final TILETYPE[][] refillable;
     private boolean refill;
     //Number of players
-    private int players;    // should I set this as final int ?
-
+    private int players;
+    private Bag bagInGame;
     public enum TILETYPE {
         TWO_PL, THREE_PL, FOUR_PL, BLK
     }
@@ -16,7 +19,7 @@ public class Dashboard {
 
     // CONSTRUCTOR (takes as parameters number of players and tile's bag)
     public Dashboard(int np, Bag bagInGame) {
-
+        this.bagInGame= bagInGame;
         np -= 1;
 
 
@@ -80,6 +83,45 @@ public class Dashboard {
         return this.refill;
     }
 
+
+
+    public void setRefill() {
+        int flag = 0;
+
+        // we have to use a support matrix to avoid corner cases and so we can modify the elements
+        Tile[][] matrixSupport = new Tile[10][10];
+        for (int r = 0; r < 10; r++) {
+            for (int c = 0; c < 10; c++) {
+
+                if (r > 0 && r < 8 && c > 0 && c < 8) {
+                    matrixSupport[r][c] = new Tile(tiles[r - 1][c - 1].getColor(), 1);
+                } else {
+                    matrixSupport[r][c] = new Tile(COLOR.BLANK, 1);
+                }
+            }
+        }
+
+        for(int row=1; row<9 && flag==0; row++){
+            for(int col=1; col<9 && flag==0; col++){
+
+                if(!matrixSupport[row][col].getColor().equals(COLOR.BLANK)
+                   &&( !matrixSupport[row+1][col].getColor().equals(COLOR.BLANK)
+                        || !matrixSupport[row-1][col].getColor().equals(COLOR.BLANK)
+                        || !matrixSupport[row][col+1].getColor().equals(COLOR.BLANK)
+                        || !matrixSupport[row][col-1].getColor().equals(COLOR.BLANK)
+                )){
+                    flag=1;
+
+                }
+            }
+        }
+        if(flag==0){
+            refillDashboard();
+        }
+
+    }
+
+    /*----------------------------DEPRECATED-----------------------------------------------
     public void setRefill(Bag bagInGame) {
         // Checking if the dashboard has to be refilled
         // scanning dashboard's cells
@@ -111,12 +153,24 @@ public class Dashboard {
         // if the function has not returned until this point, it means that there are no more adjacent tails
         // dashboard needs to be refilled
         refill = true;
-        refillDashboard(bagInGame);
+        refillDashboard();
     }
+   //------------------------------------------DEPRECATED------------------------------------------
+     */
 
 
-    public void refillDashboard(Bag bagInGame) {
-        if (!bagInGame.checkEmpty(players) && getRefill()) {
+    public void refillDashboard() {
+        int countTiles=0;
+        for(int row=0; row<9; row++){
+            for(int col=0; col<9; col++){
+                if(!tiles[row][col].getColor().equals(COLOR.BLANK)){
+                    countTiles++;
+                }
+            }
+        }
+
+
+        if (!bagInGame.checkEmpty(players,countTiles)) {
 
             // scanning the dashboard cells
             for (int r = 0; r < 9; r++) {
@@ -134,11 +188,8 @@ public class Dashboard {
     }
 
 
-    public void updateDashboard(Tile[] pickedTiles) {   // ATTENTION: Parameter Bag bagInGame necessary if we need to call setRefill in this method**
-        // After the turn of a player update the dashboard
-        // function gets the array composed of one-to-three tails picked by the player
+    public void updateDashboard(Tile[] pickedTiles) {
 
-        // then searches those tails on the dashboard
         for (int index = 0; index < pickedTiles.length; index++) {
 
             for (int r = 0; r < 9; r++) {
@@ -152,7 +203,7 @@ public class Dashboard {
             }
         }
         // checking if dashboard needs to be refilled
-        // setRefill(bagInGame);        **ATTENTION: not necessary only if setRefill is called in controller pickTiles()
+        setRefill();
     }
 
 

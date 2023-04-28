@@ -82,12 +82,14 @@ public List<Player> getPlayersList(){
     }
 
 
+
+    //---------------------------------@DEPRECATED-------------------------------------------
     // Q0: maybe I can put in the View a method that ask player for pick a single tile
     //      and controller manage how many times this function is call? Make checks, etc.?
     //      In this way I can use the while(true) loop that needs a return ?
 
     // v1 : player enters the number of tiles picked, before choosing
-    public Tile[] pickTiles() throws IOException {
+ /*   public Tile[] pickTiles() throws IOException {
         // create two list to pass to tileAvailablePick method
         // LIST R
         List<Integer> rowNumbers = new ArrayList<Integer>();
@@ -242,6 +244,13 @@ public List<Player> getPlayersList(){
         }
         return pickTiles();
     }
+        //---------------------------------@DEPRECATED-------------------------------------------
+*/
+
+    public void pickTiles(Tile[] tilesPicked){
+        currentGame.updateDashboard(tilesPicked);
+    }
+
 
 
     public boolean tileAvailablePick(List<Integer> rowsList, List<Integer> columnsList){
@@ -368,16 +377,9 @@ public List<Player> getPlayersList(){
     public void chooseColumnShelf(int column, Tile[] tiles, Shelf myShelf){
         myShelf.addTiles(tiles, column);
     } //rita
-    public boolean columnAvailable(Tile[] chosenTiles, Shelf myShelf)throws IOException {
-        //il metodo riceve come parametro la shelf del giocatore che sta prendendo tessere e il numero di tessere scelte
+    public boolean columnAvailable(Tile[] chosenTiles, Shelf myShelf, int selectedCol) {
         boolean available=true;
-        int chosenColumn=0;
-        try{
-            chosenColumn=System.in.read();
-            chosenColumn--; //l'utente umano digita "1" riferendosi alla colonna con numerazione 0
-        }catch (IOException e){
-            System.out.println("I had problems reading your choice");
-        }
+        int chosenColumn=selectedCol-1;
         Tile[][] tilesShelf= new Tile[6][5];
         tilesShelf= myShelf.getTilesShelf();
         int i=5;
@@ -458,6 +460,9 @@ public List<Player> getPlayersList(){
 // todo
         //when the player_turn changes, it notifies the network interface
     }
+
+
+
 
 
     public Tile[][] getDashboardTiles(){

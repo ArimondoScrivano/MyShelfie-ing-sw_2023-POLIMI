@@ -1,9 +1,11 @@
 package Network.RMI;
+import java.io.IOException;
 import java.util.*;
 import controller.*;
 
 import controller.GameController;
 import model.PersonalGoal;
+import model.Shelf;
 import model.Tile;
 import model.cgoal.CommonGoals;
 
@@ -55,13 +57,29 @@ public class ConcreteServerRMI implements Server_RMI {
           return Lobby.get(index).getPlayersList().get(playerId).getPersonalGoal();
         }
 
-public List<CommonGoals> getCommonGoals(int index){
+    public List<CommonGoals> getCommonGoals(int index){
         return Lobby.get(index).getCommonGoals();
 }
 
-public int myPoints(int index, int playerId){
+    public int myPoints(int index, int playerId){
         return Lobby.get(index).getPlayersList().get(playerId).getPoints();
 }
+
+    public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoord){
+        return Lobby.get(index).tileAvailablePick(xCoord, yCoord);
+    }
+
+    public boolean columnAvailable(int index, Tile[] tiles, Shelf myShelf, int selectedCol) {
+        //TODO
+         Lobby.get(index).pickTiles(tiles);
+        return Lobby.get(index).columnAvailable(tiles, myShelf, selectedCol);
+
+    }
+
+    public void insertTiles ( int index, Tile[] tilesToInsert, Shelf myShelf, int columnPicked){
+        Lobby.get(index).chooseColumnShelf(columnPicked,tilesToInsert,myShelf);
+    }
+
 
 
     }
