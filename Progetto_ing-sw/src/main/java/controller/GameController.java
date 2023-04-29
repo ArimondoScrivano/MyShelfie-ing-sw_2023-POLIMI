@@ -11,14 +11,11 @@ import model.cgoal.CommonGoals;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 //TODO: scrivere i messaggi per i metodi del controller che modificano qualcosa del models
 
-public class GameController  extends Observable implements Observer {
+public class GameController  extends Observable {
     //Model
    private Game currentGame;
     private int NumPlayers;
@@ -27,9 +24,6 @@ public class GameController  extends Observable implements Observer {
     // 0 if the game is NOT ended or 1 if the Game Ended
     private int end;
 
-
-    //it must become an interface
-    private ConcreteServerRMI myserver;
     //View
     //UI userInterface;
     //Chat currentChat;
@@ -46,18 +40,16 @@ public class GameController  extends Observable implements Observer {
         this.end = end;
     }
 
-    public ConcreteServerRMI getMyserver(){
-        return myserver;
-    }
 
     public int getEnd(){
         return end;
     }
     //Constructor of the game
-    public GameController(int NumPlayers, ConcreteServerRMI serverCreator) {
+    public GameController(int NumPlayers, Observer serverCreator) {
+        super();
+        this.addObserver(serverCreator);
         this.NumPlayers= NumPlayers;
         this.end=0;
-        this.myserver= serverCreator;
         id=0;
         //List of players from the pre-game
         List<Player> playersList = new ArrayList<>();
@@ -68,8 +60,10 @@ public class GameController  extends Observable implements Observer {
     public void createPlayer(int id_new, String np){
         Player NewPlayer= new Player(id_new, np);
         currentGame.getPlayers().add(NewPlayer);
-        MessageType m= MessageType.SOMETHINGCHANGED;
-        //notify(id, m);
+
+        if(currentGame.getPlayers().size()==NumPlayers) {
+            started();
+        }
     }
 
     public int getNumPlayers() {
@@ -95,9 +89,19 @@ public List<Player> getPlayersList(){
         }
     }
 
+
+    public void somethingChanged(){
+        MessageType m= MessageType.SOMETHINGCHANGED;
+        Message msg= new Message(id, m);
+        notifyObservers();
+
+    }
+
+
     public void started(){
         MessageType m= MessageType.GAME_STARTING;
-        //notify(id, m);
+        Message msg= new Message(id, m);
+        notifyObservers();
 
     }
 
@@ -105,7 +109,8 @@ public List<Player> getPlayersList(){
         setEnd(1);
         //create a notify message
         MessageType m= MessageType.GAME_ENDING;
-        //notify(id, m);
+        Message msg= new Message(id,m);
+        notifyObservers();
     }
 
 
@@ -146,6 +151,8 @@ public List<Player> getPlayersList(){
         if(flagPreviusDone==1){
             playerTurn().setLastRound(true);
         }
+
+        somethingChanged();
     }
     public Player playerTurn(){
 
@@ -153,175 +160,9 @@ public List<Player> getPlayersList(){
     }
 
 
-
-    //---------------------------------@DEPRECATED-------------------------------------------
-    // Q0: maybe I can put in the View a method that ask player for pick a single tile
-    //      and controller manage how many times this function is call? Make checks, etc.?
-    //      In this way I can use the while(true) loop that needs a return ?
-
-    // v1 : player enters the number of tiles picked, before choosing
- /*   public Tile[] pickTiles() throws IOException {
-        // create two list to pass to tileAvailablePick method
-        // LIST R
-        List<Integer> rowNumbers = new ArrayList<Integer>();
-        // LIST C
-        List<Integer> columnNumbers = new ArrayList<Integer>();
-
-        // Player enters how many tiles wants to pick
-        System.out.println("How many tiles do you want to pick? [1 to 3]");
-        try {
-            int tilesToPick = System.in.read();
-            // switch case
-            // Q1: There is a better way than use switch case depending on choice's number ?
-            switch (tilesToPick) {
-                // Q2: Maybe I can use a loop
-                // while(true) {
-                //      try { take input }
-                //      catch { exception -> System.err.println("Choose not valid")}
-                // To permit user retry, for every chose he makes
-
-                // Q3: Can I simplify the input mechanism? For example taking more inputs together ?
-                case 1: {
-                    // 1st pick
-                    System.out.println("Insert row of the 1st tile to pick: ");
-                    try{
-                        int r1 = System.in.read();
-                        rowNumbers.add(r1);
-                    } catch (IOException e) {
-                        System.out.println("Row chosen for the 1st pick is not valid!");
-                    }
-
-                    System.out.println("Insert column of the 1st tile to pick:");
-                    try{
-                        int c1 = System.in.read();
-                        columnNumbers.add(c1);
-                    } catch (IOException e) {
-                        System.out.println("Column chosen for the 1st pick is not valid!");
-                    }
-                }
-                case 2: {
-                    // 1st pick
-                    System.out.println("Insert row of the 1st tile to pick: ");
-                    try{
-                        int r1 = System.in.read();
-                        rowNumbers.add(r1);
-                    } catch (IOException e) {
-                        System.out.println("Row chosen for the 1st pick is not valid!");
-                    }
-
-                    System.out.println("Insert column of the 1st tile to pick:");
-                    try{
-                        int c1 = System.in.read();
-                        columnNumbers.add(c1);
-                    } catch (IOException e) {
-                        System.out.println("Column chosen for the 1st pick is not valid!");
-                    }
-
-                    // 2nd pick
-                    System.out.println("Insert row of the 2nd tile to pick: ");
-                    try{
-                        int r2 = System.in.read();
-                        rowNumbers.add(r2);
-                    } catch (IOException e) {
-                        System.out.println("Row chosen for the 2nd pick is not valid!");
-                    }
-
-                    System.out.println("Insert column of the 2nd tile to pick:");
-                    try{
-                        int c2 = System.in.read();
-                        columnNumbers.add(c2);
-                    } catch (IOException e) {
-                        System.out.println("Column chosen for the 2nd pick is not valid!");
-                    }
-                }
-                case 3: {
-                    // 1st pick
-                    System.out.println("Insert row of the 1st tile to pick: ");
-                    try{
-                        int r1 = System.in.read();
-                        rowNumbers.add(r1);
-                    } catch (IOException e) {
-                        System.err.println("Row chosen for the 1st pick is not valid!");
-                    }
-
-                    System.out.println("Insert column of the 1st tile to pick:");
-                    try{
-                        int c1 = System.in.read();
-                        columnNumbers.add(c1);
-                    } catch (IOException e) {
-                        System.out.println("Column chosen for the 1st pick is not valid!");
-                    }
-
-                    // 2nd pick
-                    System.out.println("Insert row of the 2nd tile to pick: ");
-                    try{
-                        int r2 = System.in.read();
-                        rowNumbers.add(r2);
-                    } catch (IOException e) {
-                        System.out.println("Row chosen for the 2nd pick is not valid!");
-                    }
-
-                    System.out.println("Insert column of the 2nd tile to pick:");
-                    try{
-                        int c2 = System.in.read();
-                        columnNumbers.add(c2);
-                    } catch (IOException e) {
-                        System.out.println("Column chosen for the 2nd pick is not valid!");
-                    }
-
-                    // 3rd pick
-                    System.out.println("Insert row of the 3rd tile to pick: ");
-                    try{
-                        int r3 = System.in.read();
-                        rowNumbers.add(r3);
-                    } catch (IOException e) {
-                        System.out.println("Row chosen for the 3rd pick is not valid!");
-                    }
-
-                    System.out.println("Insert column of the 3rd tile to pick:");
-                    try{
-                        int c3 = System.in.read();
-                        columnNumbers.add(c3);
-                    } catch (IOException e) {
-                        System.out.println("Column chosen for the 3rd pick is not valid!");
-                    }
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("The number of chosen tiles is not valid!");
-        }
-
-        // if no exception has been thrown
-        // invoke tileAvailablePick
-        // IF (true) -> I can pick the selected tiles and return an array that contains them
-        if(tileAvailablePick(rowNumbers, columnNumbers)) {
-            Tile[] tilesPicked = new Tile[3];
-            for(int i = 0; i < rowNumbers.size(); i++) {
-                // ATTENTION: to use an array we need to be sure that methods that receive it make check to avoid errors
-                // maybe is it better to use a list to return the tiles?
-                tilesPicked[i] = currentGame.getDashboard().pickTile(rowNumbers.get(i), columnNumbers.get(i));
-
-            }
-            // need to update dashboard after player's pick
-            currentGame.getDashboard().updateDashboard(tilesPicked); // probably NOT USEFUL, talk to others
-
-            // need to check if dashboard needs to be refilled
-            // NB1: do we need to insert Bag in game or should I get bag as parameter?
-            //     NB2: do we need to separate setRefill and RefillDashboard?
-            // currentGame.getDashboard().setRefill();
-        }
-        else { // IF (false) -> message of notAvailableTiles, invoke pickTiles again
-            System.out.println("Selected tiles are not available. Please try again by selecting valid tiles.");
-        }
-        return pickTiles();
-    }
-        //---------------------------------@DEPRECATED-------------------------------------------
-*/
-
     public void pickTiles(Tile[] tilesPicked){
         currentGame.updateDashboard(tilesPicked);
-        MessageType m= MessageType.SOMETHINGCHANGED;
-        //notify(id, m);
+      somethingChanged();
 
     }
 
@@ -334,15 +175,15 @@ public List<Player> getPlayersList(){
         //row == x variable
             int FlagDifferentlineOr = 0;
             //check  vertical line
-            for (int index = 0; index < columnsList.size(); index++) {
-                if (columnsList.get(index) != columnsList.get(0)) {
+            for (int index = 0; index < columnsList.size() && FlagDifferentlineOr==0; index++) {
+                if (!Objects.equals(columnsList.get(index), columnsList.get(0))) {
                     FlagDifferentlineOr = 1;
                 }
             }
             int FlagDifferentlineVer = 0;
                 //check  orizontal line
-                for (int index = 0; index < rowsList.size(); index++) {
-                    if (rowsList.get(index) != rowsList.get(0)) {
+                for (int index = 0; index < rowsList.size() && FlagDifferentlineVer==0; index++) {
+                    if (!Objects.equals(rowsList.get(index), rowsList.get(0))) {
                         FlagDifferentlineVer = 1;
                     }
                 }
@@ -439,19 +280,13 @@ public List<Player> getPlayersList(){
                     }else{
                         return false;
                     }
-
-
                 }
-
             }
-
-
     }
 
     public void chooseColumnShelf(int column, Tile[] tiles, Shelf myShelf){
         myShelf.addTiles(tiles, column);
-        MessageType m= MessageType.SOMETHINGCHANGED;
-        //notify(id, m);
+        somethingChanged();
         if(playerTurn().isShelfCompleted()){
             playerTurn().setLastRound(true);
         }
@@ -477,6 +312,9 @@ public List<Player> getPlayersList(){
         return available;
     } //rita
 
+
+    /*---------------------------------------------------------------------------------------------------
+    //no usage
     public Tile[] chooseOrder(Tile[] chosenTiles) throws IOException {
         String position= new String();
         Tile helper;
@@ -499,6 +337,8 @@ public List<Player> getPlayersList(){
         }
         return chosenTiles;
     } //rita
+//-------------------------------------------------------------------------------------------------------------------------
+*/
 
     public void checkPoints() {
         //check first common goal
@@ -507,8 +347,6 @@ public List<Player> getPlayersList(){
             if (partialSum > 0) {
                 currentGame.getCurrentPlayer().setPoints(partialSum);
                 currentGame.getCurrentPlayer().setCommonGoalsCompleted(0);
-                MessageType m= MessageType.SOMETHINGCHANGED;
-                //notify(id, m);
             }
         }
         //check second common goal
@@ -517,16 +355,10 @@ public List<Player> getPlayersList(){
             if (partialSecondSum > 0) {
                 currentGame.getCurrentPlayer().setPoints(partialSecondSum);
                 currentGame.getCurrentPlayer().setCommonGoalsCompleted(0);
-                MessageType m= MessageType.SOMETHINGCHANGED;
-                //notify(id, m);
             }
         }
+        somethingChanged();
     }
-
-    //TODO
-    public boolean GameFinished(){
-        return false;
-}
 
 
     public Player checkWinner(){
@@ -540,11 +372,6 @@ public List<Player> getPlayersList(){
         return winner;
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-// todo
-        //when the player_turn changes, it notifies the network interface
-    }
 
 
     public Tile[][] getDashboardTiles(){

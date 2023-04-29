@@ -10,10 +10,9 @@ import model.PersonalGoal;
 import model.Shelf;
 import model.Tile;
 import model.cgoal.CommonGoals;
-
 import java.util.List;
 
-public class ConcreteServerRMI implements Server_RMI {
+public class ConcreteServerRMI extends Observable implements Server_RMI, Observer {
     private List<GameController> Lobby;
 private List<Message> LobbyMessage;
 
@@ -39,9 +38,11 @@ private List<Message> LobbyMessage;
     }
 
     @Override
-    public int  addPlayer(int index, String name) {
+    public int  addPlayer(int index, String name, Observer Player) {
         int IndexPlayer=Lobby.get(index).getPlayersFilled();
         Lobby.get(index).createPlayer(IndexPlayer, name);
+        //We added the player in the Observer List
+        addObserver(Player);
         return IndexPlayer;
     }
 
@@ -91,12 +92,16 @@ private List<Message> LobbyMessage;
         return "YOU LOST";
     }
 
+    public int getCurrentPlayer( int index){
+        return Lobby.get(index).playerTurn().getId();
+    }
     @Override
-    public void notify(int index, Message m) {
-
+    public void update(Observable o, Object message) {
         // NOTIFY ALL THE CLIENTS IN THE INDEX LOBBY
+        if(message instanceof Message){
+            notifyObservers(message);
 
-
+        }
     }
 }
 
