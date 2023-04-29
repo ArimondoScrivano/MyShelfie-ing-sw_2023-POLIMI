@@ -24,11 +24,6 @@ public class GameController  extends Observable {
     // 0 if the game is NOT ended or 1 if the Game Ended
     private int end;
 
-    //View
-    //UI userInterface;
-    //Chat currentChat;
-
-
     public void setId(int id) {
         this.id = id;
     }

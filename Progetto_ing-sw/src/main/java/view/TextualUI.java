@@ -68,15 +68,14 @@ public class TextualUI extends Observable implements View {
 
     //Showing the actual state of the game
     @Override
-    public void showMatchInfo(Game current_game) {
+    public void showMatchInfo(Tile[][] copy, int np, List<CommonGoals> commonGoals, Tile[][] myShelf, PersonalGoal pg) {
         clearUI();
         //Printing the dashboard state
         out.println(ColorUI.RED_TEXT+"Current Dashboard"+ColorUI.RESET);
-        Tile[][] copy=current_game.getDashboard().getTilesCopy();
         String copyColor = "";
         //First row
         //TODO:CHECKING IF IT WORKS
-        switch(current_game.getPlayers().size()){
+        switch(np){
             case 2:
                 for(int i=0; i<9; i++){
                     if(i==0){
@@ -105,8 +104,8 @@ public class TextualUI extends Observable implements View {
         //Printing the layout of the common goal card
         out.println(ColorUI.BLUE_TEXT+"COMMON GOAL CARDS"+ColorUI.RESET);
 
-        for(CommonGoals cg : current_game.getCommonGoals()){
-            if(cg.equals(current_game.getCommonGoals().get(0))){
+        for(CommonGoals cg : commonGoals){
+            if(cg.equals(commonGoals.get(0))){
                 out.println(ColorUI.RED_TEXT+"First Common Goal"+ColorUI.RESET);
                 //Printing the common goal card
                 cg.printLayout();
@@ -139,24 +138,21 @@ public class TextualUI extends Observable implements View {
 
         //TODO: Rendere più visibile la shelf e dividere i quadrati della shelf in personal goal, da implementare la parte di visione del solo personal goal del giocatore connesso e non la visione complessiva
         //Printing the shelf and the personal goal card associated to the player
-        for(Player p : current_game.getPlayers()){
-            out.println(p.getName()+"'s shelf");
-            for(int i=0; i<6; i++){
-                for(int j=0; j<5; j++){
-                    int color=p.getShelf().getTilesShelf()[i][j].getColor().compareTo(COLOR.BLANK);
-                    copyColor = convertColorInStringTiles(copyColor, color);
-                }
-                out.println();
+        for(int i=0; i<6; i++){
+            for(int j=0; j<5; j++){
+                int color=myShelf[i][j].getColor().compareTo(COLOR.BLANK);
+                copyColor = convertColorInStringTiles(copyColor, color);
             }
+            out.println();
+        }
 
-            out.println("Personal Goal");
-            for(int i=0; i<6; i++){
-                for(int j=0; j<5; j++){
-                    int color=p.getPersonalGoal().getLayout()[i][j].getColor().compareTo(COLOR.BLANK);
-                    copyColor = convertColorInStringTiles(copyColor, color);
-                }
-                out.println();
+        out.println("Personal Goal");
+        for(int i=0; i<6; i++){
+            for(int j=0; j<5; j++){
+                int color=pg.getLayout()[i][j].getColor().compareTo(COLOR.BLANK);
+                copyColor = convertColorInStringTiles(copyColor, color);
             }
+            out.println();
         }
     }
 
@@ -193,15 +189,5 @@ public class TextualUI extends Observable implements View {
     public void clearUI(){
         out.println("\033[H\033[2J");
         out.flush();
-    }
-
-    public static void main(String[] args){
-        TextualUI UI = new TextualUI();
-        List<Player> pl = Arrays.asList(
-                new Player(0, "Arimondo"),
-                new Player(1, "Lorenzo")
-        );
-        System.out.println();
-        //UI.showMatchInfo(new Game(0, new Dashboard(2, new Bag()), pl, pl.size()));
     }
 }

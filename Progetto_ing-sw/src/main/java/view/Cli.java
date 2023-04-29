@@ -4,6 +4,8 @@ import model.Game;
 
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Cli{
@@ -23,19 +25,18 @@ public class Cli{
 
     }
 
-    public boolean askNewGame(){
-        out.println("Do you want to create a new game?");
-        return in.nextLine().equals("Yes");
-    }
-
     //Asking the nickname
     public String askNickname() {
-        out.println("Choose your nickname:");
-        String input = in.nextLine();
+        out.println("Choose your nickname: ");
         //Checking if the name is not the same as other players in game
-        //TODO:after the binding the player is in the lobby, so i will check if the other players have the name that i chose
-        return input;
+        return in.nextLine();
     }
+
+    public boolean askNewGame(){
+        out.println("Do you want to create a new game?[Y/N]");
+        return in.nextLine().equals("Y");
+    }
+
 
     public int askNumberOfPlayers(){
         out.println("Select the number of players between 2 and 4");
@@ -45,5 +46,36 @@ public class Cli{
         }while(numberOfPlayers<=4 && numberOfPlayers>=2);
 
         return numberOfPlayers;
+    }
+
+    //Asking the number of tiles to pick
+    public int askNumberOfTiles(){
+        int numberOfTile;
+        do{
+            out.println("Chose the number of tiles that you want to pick: ");
+            numberOfTile=in.nextInt();
+        }while(numberOfTile>=1 && numberOfTile<=3);
+        return numberOfTile;
+    }
+
+    //Coordinate delle tiles da prendere
+    public List<Integer> askTilesToPick(int numberOfTile){
+        //Se 3 tile da prendere -->lista con 6 elementi
+        List<Integer> tilesToPick = new ArrayList<>();
+        out.println("Choose the tiles to pick using x and y coordinates: ");
+        for(int i=0; i<numberOfTile; i++){
+            if(i%2==0){
+                out.println("Chose the x coordinate of the tile that you want to pick: ");
+                tilesToPick.add(in.nextInt());
+            }else{
+                out.println("Chose the y coordinate of the tile that you want to pick: ");
+                tilesToPick.add(in.nextInt());
+            }
+        }
+        return tilesToPick;
+    }
+    public int askColumn(){
+        out.println("Choose the column to insert the tiles chosen: ");
+        return in.nextInt()+1;
     }
 }

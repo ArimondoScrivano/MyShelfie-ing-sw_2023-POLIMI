@@ -1,6 +1,12 @@
 package view;
 
 import model.Game;
+import model.PersonalGoal;
+import model.Shelf;
+import model.Tile;
+import model.cgoal.CommonGoals;
+
+import java.util.List;
 
 public interface View {
     //Request RMI or Socket connection
@@ -8,5 +14,5 @@ public interface View {
     //Request nickname
     void askNickname();
     //Showing info
-    void showMatchInfo(Game current_game);
+    void showMatchInfo(Tile[][] copy, int np, List<CommonGoals> commonGoals, Tile[][] myShelf, PersonalGoal pg);
 }

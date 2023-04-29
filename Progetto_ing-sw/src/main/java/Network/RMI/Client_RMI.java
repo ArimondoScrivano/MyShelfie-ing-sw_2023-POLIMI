@@ -52,7 +52,7 @@ public class Client_RMI  {
         }
     }
 
-    public void addPlayer(int index, String name, Observer Player) {
+    public void addPlayer(String name) {
         try {
             this.myId = server.addPlayer(LobbyReference, name);
         } catch (Exception e) {
@@ -61,8 +61,7 @@ public class Client_RMI  {
     }
 
     //TODO
-
-    public boolean isItMyTourn(){
+    public boolean isItMyTurn(){
         int currentPlayer;
         try{
             currentPlayer=server.getCurrentPlayer(LobbyReference);
@@ -142,7 +141,7 @@ public class Client_RMI  {
             System.out.println("ERROR, BAD CONNECTION");
         }
     }
-    public String checkWinner(int index, int id) {
+    public String checkWinner() {
         try {
             return server.checkWinner(LobbyReference, myId);
         } catch (Exception e) {
