@@ -31,6 +31,10 @@ public class Client_RMI  {
 
     }
 
+    public Server_RMI getServer() {
+        return server;
+    }
+
 
     public void createLobby(int numPL) {
         try {
