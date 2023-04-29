@@ -12,7 +12,7 @@ import model.cgoal.CommonGoals;
 public interface Server_RMI extends Remote, Observer {
  public int createLobby(int numPlayers) throws RemoteException;
  public int joinLobby() throws RemoteException;
- public int addPlayer(int index, String name, Observer Player) throws RemoteException;
+ public int addPlayer(int index, String name) throws RemoteException;
  public Tile[][] getDashboard(int index) throws RemoteException;
 public Tile[][] getMyShelfie(int index, String playerName, int playerId) throws RemoteException;
 public Shelf getMyShelfieREF(int index, String playerName, int playerId) throws RemoteException;

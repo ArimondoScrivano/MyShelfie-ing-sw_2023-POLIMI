@@ -42,7 +42,7 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
     }
 
     @Override
-    public int  addPlayer(int index, String name, Observer Player) throws RemoteException {
+    public int  addPlayer(int index, String name) throws RemoteException {
         int IndexPlayer=Lobby.get(index).getPlayersFilled();
         Lobby.get(index).createPlayer(IndexPlayer, name);
         //We added the player in the Observer List
@@ -100,6 +100,10 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
     public int getCurrentPlayer( int index) throws RemoteException {
         return Lobby.get(index).playerTurn().getId();
     }
+
+
+
+    //TODO
     @Override
     public void update(Observable o, Object message) {
         // NOTIFY ALL THE CLIENTS IN THE INDEX LOBBY

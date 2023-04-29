@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Client_RMI implements Observer {
+public class Client_RMI  {
     // it indicates the Game where the player is
     private int LobbyReference;
     private String playerName;
@@ -30,10 +30,6 @@ public class Client_RMI implements Observer {
 
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        // si notifica il client in modi da decidere postumi
-    }
 
     public void createLobby(int numPL) {
         try {
@@ -53,7 +49,7 @@ public class Client_RMI implements Observer {
 
     public void addPlayer(int index, String name, Observer Player) {
         try {
-            this.myId = server.addPlayer(LobbyReference, name, this);
+            this.myId = server.addPlayer(LobbyReference, name);
         } catch (Exception e) {
             System.out.println("ERROR, BAD CONNECTION");
         }
