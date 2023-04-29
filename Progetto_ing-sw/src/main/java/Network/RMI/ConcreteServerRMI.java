@@ -1,12 +1,11 @@
 package Network.RMI;
-import java.io.IOException;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
 import Network.messages.Message;
 import Network.messages.MessageType;
-import controller.*;
 
 import controller.GameController;
 import model.PersonalGoal;
@@ -88,7 +87,7 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
         int y=1;
         for(int i=0; i<tilesToPick; i++){
 
-            returnedTiles[i]= new Tile(Lobby.get(index).getDashboardTiles()[xCoord[x]][yCoord[y]]);
+            returnedTiles[i]= new Tile(Lobby.get(index).getDashboardTiles()[xCoord.get(x)][yCoord.get(y)].getColor(), Lobby.get(index).getDashboardTiles()[xCoord.get(x)][yCoord.get(y)].getId());
             x++;
             y=y+2;
         }

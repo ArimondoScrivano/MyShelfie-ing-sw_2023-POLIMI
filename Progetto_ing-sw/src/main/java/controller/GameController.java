@@ -295,7 +295,7 @@ public List<Player> getPlayersList(){
     public boolean columnAvailable(Tile[] chosenTiles, Shelf myShelf, int selectedCol) {
         boolean available=true;
         int chosenColumn=selectedCol-1;
-        Tile[][] tilesShelf= new Tile[6][5];
+        Tile[][] tilesShelf;
         tilesShelf= myShelf.getTilesShelf();
         int i=5;
         int counter=0;
@@ -310,34 +310,6 @@ public List<Player> getPlayersList(){
         }
         return available;
     } //rita
-
-
-    /*---------------------------------------------------------------------------------------------------
-    //no usage
-    public Tile[] chooseOrder(Tile[] chosenTiles) throws IOException {
-        String position= new String();
-        Tile helper;
-        for(int i=0; i<chosenTiles.length; i++){
-            System.out.println("In which position do you want to place the "+chosenTiles[i].getColor()+" tile?");
-            position= String.valueOf(System.in.read());
-            if(position.equals("first")||position.equals("FIRST")||position.equals("First")){
-                helper=chosenTiles[0];
-                chosenTiles[0]=chosenTiles[i];
-                chosenTiles[i]=helper;
-            }if(position.equals("second")||position.equals("SECOND")||position.equals("Second")){
-                helper=chosenTiles[1];
-                chosenTiles[1]=chosenTiles[i];
-                chosenTiles[i]=helper;
-            }if(position.equals("third")||position.equals("THIRD")||position.equals("Third")){
-                helper=chosenTiles[2];
-                chosenTiles[2]=chosenTiles[i];
-                chosenTiles[i]=helper;
-            }
-        }
-        return chosenTiles;
-    } //rita
-//-------------------------------------------------------------------------------------------------------------------------
-*/
 
     public void checkPoints() {
         //check first common goal

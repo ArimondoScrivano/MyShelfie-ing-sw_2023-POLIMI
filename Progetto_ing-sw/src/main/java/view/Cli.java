@@ -78,4 +78,8 @@ public class Cli{
         out.println("Choose the column to insert the tiles chosen: ");
         return in.nextInt()+1;
     }
+
+    public void displayPoints(int myPoint){
+        out.println("Your points: "+ myPoint);
+    }
 }
