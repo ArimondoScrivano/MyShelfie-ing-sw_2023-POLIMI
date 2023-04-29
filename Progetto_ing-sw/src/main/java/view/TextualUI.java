@@ -4,6 +4,7 @@ import model.*;
 import model.cgoal.CommonGoals;
 
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
@@ -11,44 +12,28 @@ import java.util.Scanner;
 
 public class TextualUI extends Observable implements View {
 
-    //Game state
-    private enum State{
-        WAITING, TILES_PICK, COLUMN_CHOICE, GAME_FINISHED
-    }
+    //Output stream
+    private final PrintStream out;
+    //Input stream
+    private final Scanner in = new Scanner(new InputStreamReader(System.in));
 
-    private State state = State.WAITING;
-
-    private final Object lock = new Object();
-
-    //Getter method for the state
-    private State getState(){
-        synchronized (lock){
-            return state;
-        }
-    }
-
-    //Setter method for the state
-    private void setState(State state) {
-        synchronized (lock) {
-            this.state = state;
-            lock.notifyAll();
-        }
+    public TextualUI() {
+        out = System.out;
     }
 
     //Asking the connection type to the player
     @Override
-    public void askConnection() {
-        Scanner in = new Scanner(new InputStreamReader(System.in));
-        System.out.println("Choose the connection method:");
+    public void askConnection(){
+        out.println("Choose the connection method:");
         String input = in.nextLine();
         if(input.equals("Network/RMI")){
-            System.out.println("RMI connection chose");
+            out.println("RMI connection chose");
             //TODO:RMI CONNECTION
         } else if (input.equals("Socket")) {
-            System.out.println("Socket connection chose");
+            out.println("Socket connection chose");
             //TODO: Socket connection
         }else{
-            System.out.println("I don't know how to use this connection method :(");
+            out.println("I don't know how to use this connection method :(");
             askConnection();
         }
     }
@@ -57,17 +42,15 @@ public class TextualUI extends Observable implements View {
     @Override
     public void askNickname() {
         Scanner in = new Scanner(new InputStreamReader(System.in));
-        System.out.println("Choose your nickname:");
+        out.println("Choose your nickname:");
         String input = in.nextLine();
         //Checking if the name is not the same as other players in game
     }
 
-    //Showing the actual state of the game
-    @Override
-    public void showMatchInfo(Game current_game) {
+    //Initialize the game
+    public void init(){
         clearUI();
-        //TODO: Showing this print only at the beginning of the game-->lobby
-        System.out.println(ColorUI.YELLOW_TEXT + """
+        out.println(ColorUI.YELLOW_TEXT + """
                 .----------------.  .----------------.              .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.\s
                 | .--------------. || .--------------. |            | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
                 | | ____    ____ | || |  ____  ____  | |            | |    _______   | || |  ____  ____  | || |  _________   | || |   _____      | || |  _________   | || |     _____    | || |  _________   | |
@@ -80,49 +63,75 @@ public class TextualUI extends Observable implements View {
                 | '--------------' || '--------------' |            | '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
                  '----------------'  '----------------'              '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'\s"""+ColorUI.RESET);
 
+        out.println("Welcome to MY SHELFIE game");
+    }
 
+    //Showing the actual state of the game
+    @Override
+    public void showMatchInfo(Game current_game) {
         clearUI();
         //Printing the dashboard state
-        System.out.println(ColorUI.RED_TEXT+"Current Dashboard"+ColorUI.RESET);
+        out.println(ColorUI.RED_TEXT+"Current Dashboard"+ColorUI.RESET);
         Tile[][] copy=current_game.getDashboard().getTilesCopy();
         String copyColor = "";
+        //First row
+        //TODO:CHECKING IF IT WORKS
+        switch(current_game.getPlayers().size()){
+            case 2:
+                for(int i=0; i<9; i++){
+                    if(i==0){
+                        continue;
+                    }
+                    out.print(i+1 + "\t");
+                }
+                break;
+            case 3:
+            case 4:
+                for(int i=0; i<9; i++){
+                    out.print(i+1 + "\t");
+                }
+                break;
+        }
+
         for(int i=0; i<9; i++){
             for(int j=0; j<9; j++){
+                out.println(i+1+"\t");
                 int color=copy[i][j].getColor().compareTo(COLOR.BLANK);
                 copyColor = convertColorInStringTiles(copyColor, color);
             }
-            System.out.println();
+            out.println();
         }
 
         //Printing the layout of the common goal card
-        System.out.println(ColorUI.BLUE_TEXT+"COMMON GOAL CARDS"+ColorUI.RESET);
+        out.println(ColorUI.BLUE_TEXT+"COMMON GOAL CARDS"+ColorUI.RESET);
+
         for(CommonGoals cg : current_game.getCommonGoals()){
             if(cg.equals(current_game.getCommonGoals().get(0))){
-                System.out.println(ColorUI.RED_TEXT+"First Common Goal"+ColorUI.RESET);
+                out.println(ColorUI.RED_TEXT+"First Common Goal"+ColorUI.RESET);
                 //Printing the common goal card
                 cg.printLayout();
                 //Printing the available points
-                System.out.println("Points available");
+                out.println("Points available");
                 //Printing the available points in reverse order
                 for(int i=cg.getScoreList().size()-1; i>=0; i--){
                     if(i==0){
-                        System.out.println(cg.getScoreList().get(i));
+                        out.println(cg.getScoreList().get(i));
                     }else{
-                        System.out.print(cg.getScoreList().get(i)+", ");
+                        out.print(cg.getScoreList().get(i)+", ");
                     }
                 }
             }else{
-                System.out.println(ColorUI.RED_TEXT+"\nSecond Common Goal"+ColorUI.RESET);
+                out.println(ColorUI.RED_TEXT+"\nSecond Common Goal"+ColorUI.RESET);
                 //Printing the common goal card
                 cg.printLayout();
                 //Printing the available points
-                System.out.println("Points available");
+                out.println("Points available");
                 //Printing the available points in reverse order
                 for(int i=cg.getScoreList().size()-1; i>=0; i--){
                     if(i==0){
-                        System.out.println(cg.getScoreList().get(i));
+                        out.println(cg.getScoreList().get(i));
                     }else{
-                        System.out.print(cg.getScoreList().get(i)+", ");
+                        out.print(cg.getScoreList().get(i)+", ");
                     }
                 }
             }
@@ -131,22 +140,22 @@ public class TextualUI extends Observable implements View {
         //TODO: Rendere più visibile la shelf e dividere i quadrati della shelf in personal goal, da implementare la parte di visione del solo personal goal del giocatore connesso e non la visione complessiva
         //Printing the shelf and the personal goal card associated to the player
         for(Player p : current_game.getPlayers()){
-            System.out.println(p.getName()+"'s shelf");
+            out.println(p.getName()+"'s shelf");
             for(int i=0; i<6; i++){
                 for(int j=0; j<5; j++){
                     int color=p.getShelf().getTilesShelf()[i][j].getColor().compareTo(COLOR.BLANK);
                     copyColor = convertColorInStringTiles(copyColor, color);
                 }
-                System.out.println();
+                out.println();
             }
 
-            System.out.println("Personal Goal");
+            out.println("Personal Goal");
             for(int i=0; i<6; i++){
                 for(int j=0; j<5; j++){
                     int color=p.getPersonalGoal().getLayout()[i][j].getColor().compareTo(COLOR.BLANK);
                     copyColor = convertColorInStringTiles(copyColor, color);
                 }
-                System.out.println();
+                out.println();
             }
         }
     }
@@ -176,14 +185,14 @@ public class TextualUI extends Observable implements View {
                 //Blue
                     copyColor = ColorUI.BLUE_BG+"\t"+ColorUI.RESET;
         }
-        System.out.print(copyColor);
+        out.print(copyColor);
         return copyColor;
     }
 
     //Clearing the UI
     public void clearUI(){
-        System.out.println("\033[H\033[2J");
-        System.out.flush();
+        out.println("\033[H\033[2J");
+        out.flush();
     }
 
     public static void main(String[] args){
