@@ -5,6 +5,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
 import Network.messages.Message;
+import Network.messages.MessageType;
 import controller.*;
 
 import controller.GameController;
@@ -16,14 +17,17 @@ import java.util.List;
 
 public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI, Observer {
     private List<GameController> Lobby;
+    private List<Message> LobbyMessage;
 
     protected ConcreteServerRMI() throws RemoteException {
         Lobby= new ArrayList<>();
+        LobbyMessage= new ArrayList<>();
     }
 
     public int createLobby(int numPlayers) throws RemoteException {
         GameController controller = new GameController(numPlayers, this);
         Lobby.add(controller);
+        LobbyMessage.add(new Message(Lobby.indexOf(controller), MessageType.LOBBYCREATED ));
         controller.setId(Lobby.indexOf(controller));
         return Lobby.indexOf(controller);
     }
@@ -109,9 +113,18 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
         // NOTIFY ALL THE CLIENTS IN THE INDEX LOBBY
         if(message instanceof Message){
             // bisogna comunicare ai players che è successo qualcosa;
+            LobbyMessage.add(((Message) message).getName(), (Message) message);
 
         }
     }
+
+    public Message getMyMessage(int index) throws RemoteException{
+        return LobbyMessage.get(index);
+    }
+
+
+
+
 }
 
 

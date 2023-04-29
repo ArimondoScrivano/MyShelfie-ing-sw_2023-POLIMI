@@ -5,7 +5,7 @@ import java.io.Serializable;
 public  class Message implements Serializable {
     private static final long serialVersionUID = 382104422531955291L;
 
-    //Player name
+    //LOBBY ID
     private int name;
     //MessageType related to the event
     private  MessageType messageType;

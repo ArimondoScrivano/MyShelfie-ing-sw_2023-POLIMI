@@ -1,5 +1,6 @@
 package Network.RMI;
 
+import Network.messages.Message;
 import model.PersonalGoal;
 import model.Shelf;
 import model.Tile;
@@ -156,8 +157,14 @@ public class Client_RMI  {
 
     }
 
+public Message notifyme(){
+        try{
+            return server.getMyMessage(LobbyReference);
+        } catch (RemoteException e) {
+            System.out.println("ERROR BAD CONNECTION");
+            return null;
+        }
 
-
-
+}
 
 }
