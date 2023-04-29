@@ -123,6 +123,20 @@ public class Client_RMI  {
         }
 
     }
+    public Tile[] getSelectedTiles(int tilesToPick, List<Integer> xCoord, List<Integer> yCoord){
+        try{
+            return server.getSelectedTiles(LobbyReference,tilesToPick, xCoord, yCoord);
+
+        } catch (Exception e) {
+            System.out.println("ERROR, BAD CONNECTION");
+            return null;
+        }
+    }
+
+
+
+
+
 
     public boolean columnAvailable(Tile[] tiles, int selectedCol){
         try{

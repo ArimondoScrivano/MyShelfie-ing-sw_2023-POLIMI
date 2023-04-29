@@ -20,6 +20,7 @@ public PersonalGoal getMyPersonalGoal(int index, int playerId) throws RemoteExce
 
 public List<CommonGoals> getCommonGoals(int index) throws RemoteException;
 public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoord) throws RemoteException;
+ public Tile[] getSelectedTiles(int index,int tilesToPick, List<Integer> xCoord, List<Integer> yCoord) throws RemoteException;
 
  public boolean columnAvailable(int index, Tile[] tiles, Shelf myShelf, int selectedCol) throws RemoteException;
 
