@@ -122,6 +122,10 @@ public List<Player> getPlayersList(){
         //check finish
         if(playerTurn().isShelfCompleted()){
             playerTurn().setLastRound(true);
+            if(!currentGame.getEndGame()){
+                currentGame.setEndGameTrue();
+                playerTurn().setPointsEndGame();
+            }
         }
         //check if the last turn ended
         if(playerTurn().isLastRound()){
@@ -342,7 +346,7 @@ public List<Player> getPlayersList(){
 
     public void checkPoints() {
         //check first common goal
-        if (currentGame.getCurrentPlayer().getCommonGoalsCompleted()[0] == false) {
+        if (!currentGame.getCurrentPlayer().getCommonGoalsCompleted()[0]) {
             int partialSum = currentGame.getCommonGoals().get(0).Checker(currentGame.getCurrentPlayer().getShelf().getTilesShelf());
             if (partialSum > 0) {
                 currentGame.getCurrentPlayer().setPoints(partialSum);
@@ -350,7 +354,7 @@ public List<Player> getPlayersList(){
             }
         }
         //check second common goal
-        if (currentGame.getCurrentPlayer().getCommonGoalsCompleted()[1] == false) {
+        if (!currentGame.getCurrentPlayer().getCommonGoalsCompleted()[1]) {
             int partialSecondSum = currentGame.getCommonGoals().get(1).Checker(currentGame.getCurrentPlayer().getShelf().getTilesShelf());
             if (partialSecondSum > 0) {
                 currentGame.getCurrentPlayer().setPoints(partialSecondSum);

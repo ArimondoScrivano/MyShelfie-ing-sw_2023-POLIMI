@@ -18,6 +18,8 @@ public class Game extends Observable implements Serializable {
     //Common goals
     private List<CommonGoals> commonGoals;
     private List<Integer> pointsCommonGoal;
+
+    // token first player done
     private boolean endGame;
 
     public Game(int id, Dashboard dashboard, List<Player> pl, int numberOfPlayers){
@@ -133,4 +135,10 @@ public class Game extends Observable implements Serializable {
     public boolean getEndGame(){
         return endGame;
     }
+
+    public void setEndGameTrue(){
+        this.endGame= true;
+    }
+
+
 }
