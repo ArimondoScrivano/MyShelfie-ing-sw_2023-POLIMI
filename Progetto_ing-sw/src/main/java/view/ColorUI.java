@@ -13,12 +13,12 @@ public enum ColorUI {
     //Background colors
     //Used for the tiles
     BLANK_BG("\u001B[40m"),
-    GREEN_BG("\u001B[42m"),
-    YELLOW_BG("\u001B[43m"),
-    WHITE_BG("\u001B[47m"),
-    LIGHTBLUE_BG("\u001B[46m"),
-    VIOLET_BG("\u001B[45m"),
-    BLUE_BG("\u001B[44m");
+    GREEN_BG("\u001B[102m"),
+    YELLOW_BG("\u001B[103m"),
+    WHITE_BG("\u001B[107m"),
+    LIGHTBLUE_BG("\u001B[46;1m"),
+    VIOLET_BG("\u001B[105m"),
+    BLUE_BG("\u001B[104;1m");
 
     private final String code;
 

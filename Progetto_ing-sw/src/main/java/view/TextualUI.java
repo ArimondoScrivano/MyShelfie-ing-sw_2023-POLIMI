@@ -64,6 +64,9 @@ public class TextualUI extends Observable implements View {
                  '----------------'  '----------------'              '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'\s"""+ColorUI.RESET);
 
         out.println("Welcome to MY SHELFIE game");
+        for(int i=0; i<ColorUI.values().length; i++){
+            out.println(ColorUI.values()[i]+"\t"+ColorUI.RESET);
+        }
     }
 
     //Showing the actual state of the game
@@ -189,5 +192,10 @@ public class TextualUI extends Observable implements View {
     public void clearUI(){
         out.println("\033[H\033[2J");
         out.flush();
+    }
+
+    public static void main (String[] args){
+        TextualUI ui = new TextualUI();
+        ui.init();
     }
 }
