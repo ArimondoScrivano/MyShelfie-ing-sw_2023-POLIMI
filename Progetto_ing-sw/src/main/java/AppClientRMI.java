@@ -59,6 +59,43 @@ public class AppClientRMI {
             }
             //Check if i won
             client.checkWinner();
+        }else{
+            //TODO: no new game created
+            //No new game created
+            //Research for a game
+            //client.joinLobby();
+            while(!client.notifyme().getMessageType().equals(MessageType.GAME_ENDING)){
+                view.showMatchInfo(client.getDashboard(), 2, client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
+                //Game flow
+                if(client.isItMyTurn()){
+                    int numberOfTilesToPick=cli.askNumberOfTiles();
+                    List<Integer> tilesToPick;
+                    List<Integer> xCoord = new ArrayList<>();
+                    List<Integer> yCoord = new ArrayList<>();
+                    int column;
+                    do{
+                        do{
+                            tilesToPick=cli.askTilesToPick(numberOfTilesToPick);
+                            for(int i=0; i<tilesToPick.size(); i++){
+                                if(i%2==0){
+                                    xCoord.add(tilesToPick.get(i));
+                                }else{
+                                    yCoord.add(tilesToPick.get(i));
+                                }
+                            }
+                        }while(client.pickableTiles(xCoord, yCoord));
+
+                        //Choosing the column to insert the tiles
+                        column = cli.askColumn();
+                    }while(!client.columnAvailable(client.getSelectedTiles(numberOfTilesToPick, xCoord, yCoord), column));
+
+                    //Inserting the tiles
+                    client.insertTiles(client.getSelectedTiles(numberOfTilesToPick, xCoord, yCoord), column);
+                    //Displaying the points
+                    cli.displayPoints(client.myPoints());
+                }
+            }
+
         }
     }
 }
