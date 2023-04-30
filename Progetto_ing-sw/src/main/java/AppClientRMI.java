@@ -3,13 +3,14 @@ import Network.messages.MessageType;
 import view.Cli;
 import view.TextualUI;
 
+import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AppClientRMI {
-    public static void main(String[] args) throws NotBoundException, RemoteException {
+    public static void main(String[] args) throws NotBoundException, RemoteException, MalformedURLException {
         Cli cli = new Cli();
         String playerName;
         TextualUI view = new TextualUI();

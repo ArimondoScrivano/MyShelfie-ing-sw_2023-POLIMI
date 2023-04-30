@@ -2,15 +2,14 @@ package Network.RMI;
 
 import Network.messages.Message;
 import model.PersonalGoal;
-import model.Shelf;
 import model.Tile;
 import model.cgoal.CommonGoals;
+
+import java.net.MalformedURLException;
 import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 public class Client_RMI  {
     // it indicates the Game where the player is
@@ -19,20 +18,18 @@ public class Client_RMI  {
     private int myId;
     private Server_RMI server;
 
-    public Client_RMI(String name) throws RemoteException, NotBoundException {
+    public Client_RMI(String name) throws RemoteException, NotBoundException, MalformedURLException {
         this.LobbyReference = 0;
         this.playerName = name;
         this.myId = 0;
 
+        Remote lookup = Naming.lookup("rmi://localhost:16000/server");
+
         // ci si deve legare al registry e utilizzare l'istanza della classe ServerRMI (server)
-        Registry registry= LocateRegistry.getRegistry("127.0.0.1", 9000);
-        String remoteObjectName = "server";
-        this.server = (Server_RMI) registry.lookup(remoteObjectName);
+        /*Registry registry= LocateRegistry.getRegistry("127.0.0.1", 9000);
+        String remoteObjectName = "server";*/
+        this.server = (Server_RMI) lookup;
 
-    }
-
-    public Server_RMI getServer() {
-        return server;
     }
 
 

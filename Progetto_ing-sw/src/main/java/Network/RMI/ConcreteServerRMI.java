@@ -19,6 +19,7 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
     private List<Message> LobbyMessage;
 
     protected ConcreteServerRMI() throws RemoteException {
+        super();
         Lobby= new ArrayList<>();
         LobbyMessage= new ArrayList<>();
     }

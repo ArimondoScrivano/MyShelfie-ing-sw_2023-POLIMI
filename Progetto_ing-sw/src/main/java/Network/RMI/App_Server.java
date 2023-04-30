@@ -1,15 +1,16 @@
 package Network.RMI;
-// package Server;
+
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-import controller.*;
+
 public class App_Server {
 
     public static void main(String [] args) {
         try {
+            Registry registry = LocateRegistry.createRegistry(16000);
+            registry.rebind("server", new ConcreteServerRMI());
 
-            System.out.println("Server is booting....");
+            /*System.out.println("Server is booting....");
 
             System.setProperty("java.rmi.server.hostname","127.0.0.1");
 
@@ -17,12 +18,17 @@ public class App_Server {
             // We create objects from ConcreteServerRMI.java class and share them using
             Server_RMI server= new ConcreteServerRMI();
 
+            System.out.println("Server created");
             // Get the RMI registry.
-            Registry registry = LocateRegistry.getRegistry("127.0.0.1", 9000);
+            //Registry registry = LocateRegistry.getRegistry("127.0.0.1", 9000);
+            System.out.println("Registry located");
 
             // Registered the exported object in rmi registry so that client can
             // lookup in this registry and call the object methods.
-            registry.bind("server", server);
+            registry.rebind("server", server);
+            //registry.bind("server", server);
+
+            System.out.println("Binding");*/
 
         } catch (Exception e) {
 
