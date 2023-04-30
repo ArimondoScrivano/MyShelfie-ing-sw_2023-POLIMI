@@ -10,8 +10,10 @@ public class App_Server {
         try {
 
             System.out.println("Server is booting....");
+
             System.setProperty("java.rmi.server.hostname","127.0.0.1");
 
+            System.out.println("Server is setting property....");
             // We create objects from ConcreteServerRMI.java class and share them using
             Server_RMI server= new ConcreteServerRMI();
 
@@ -23,7 +25,8 @@ public class App_Server {
             registry.bind("server", server);
 
         } catch (Exception e) {
-            System.out.println("Server error" + e);
+
+            System.out.println("    qualcosa è andato storto " + e);
 
         }
 

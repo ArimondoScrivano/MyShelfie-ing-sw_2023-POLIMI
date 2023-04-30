@@ -14,7 +14,7 @@ import model.Tile;
 import model.cgoal.CommonGoals;
 import java.util.List;
 
-public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI, Observer {
+public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI{
     private List<GameController> Lobby;
     private List<Message> LobbyMessage;
 
@@ -117,17 +117,8 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
         return Lobby.get(index).playerTurn().getId();
     }
 
-
-
-    //TODO
-    @Override
-    public void update(Observable o, Object message) {
-        // NOTIFY ALL THE CLIENTS IN THE INDEX LOBBY
-        if(message instanceof Message){
-            // bisogna comunicare ai players che è successo qualcosa;
-            LobbyMessage.add(((Message) message).getName(), (Message) message);
-
-        }
+    public void setMessage( Message message){
+        LobbyMessage.add(((Message) message).getName(), (Message) message);
     }
 
     public Message getMyMessage(int index) throws RemoteException{

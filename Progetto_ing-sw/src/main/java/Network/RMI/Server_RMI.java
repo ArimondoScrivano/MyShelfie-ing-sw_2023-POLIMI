@@ -1,14 +1,13 @@
 package Network.RMI;
 import java.util.*;
 import java.rmi.*;
-
 import Network.messages.Message;
 import model.*;
 import controller.*;
 import model.cgoal.CommonGoals;
 
 // This class is server side for The RMI connection with the client
-public interface Server_RMI extends Remote, Observer {
+public interface Server_RMI extends Remote{
  public int createLobby(int numPlayers) throws RemoteException;
  public int joinLobby() throws RemoteException;
  public int addPlayer(int index, String name) throws RemoteException;
@@ -29,7 +28,8 @@ public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoo
 
 public int getCurrentPlayer( int index) throws RemoteException;
 
- public void update(Observable o, Object message);
+public void setMessage( Message message) throws RemoteException;
+
 
  public Message getMyMessage(int index) throws RemoteException;
 }

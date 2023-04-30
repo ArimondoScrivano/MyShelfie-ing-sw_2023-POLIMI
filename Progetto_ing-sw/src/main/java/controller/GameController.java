@@ -1,6 +1,7 @@
 package controller;
 
 import Network.RMI.ConcreteServerRMI;
+import Network.RMI.Server_RMI;
 import Network.messages.Message;
 import Network.messages.MessageType;
 import model.Dashboard;
@@ -11,6 +12,7 @@ import model.cgoal.CommonGoals;
 
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.*;
 
 //TODO: scrivere i messaggi per i metodi del controller che modificano qualcosa del models
@@ -20,7 +22,7 @@ public class GameController  extends Observable {
    private Game currentGame;
     private int NumPlayers;
     private int id;
-
+    private Server_RMI myserver;
     // 0 if the game is NOT ended or 1 if the Game Ended
     private int end;
 
@@ -40,9 +42,9 @@ public class GameController  extends Observable {
         return end;
     }
     //Constructor of the game
-    public GameController(int NumPlayers, Observer serverCreator) {
+    public GameController(int NumPlayers, Server_RMI serverCreator) {
         super();
-        this.addObserver(serverCreator);
+        this.myserver= serverCreator;
         this.NumPlayers= NumPlayers;
         this.end=0;
         id=0;
@@ -88,15 +90,23 @@ public List<Player> getPlayersList(){
     public void somethingChanged(){
         MessageType m= MessageType.SOMETHINGCHANGED;
         Message msg= new Message(id, m);
-        notifyObservers();
-
+        try {
+            myserver.setMessage(msg);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
     public void started(){
         MessageType m= MessageType.GAME_STARTING;
         Message msg= new Message(id, m);
-        notifyObservers();
+        try {
+            myserver.setMessage(msg);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
 
     }
 
@@ -105,7 +115,11 @@ public List<Player> getPlayersList(){
         //create a notify message
         MessageType m= MessageType.GAME_ENDING;
         Message msg= new Message(id,m);
-        notifyObservers();
+        try {
+            myserver.setMessage(msg);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
