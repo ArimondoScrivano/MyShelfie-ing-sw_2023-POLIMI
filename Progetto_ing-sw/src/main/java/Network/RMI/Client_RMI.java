@@ -25,7 +25,7 @@ public class Client_RMI  {
         this.myId = 0;
 
         // ci si deve legare al registry e utilizzare l'istanza della classe ServerRMI (server)
-        Registry registry= LocateRegistry.getRegistry();
+        Registry registry= LocateRegistry.getRegistry("127.0.0.1", 9000);
         String remoteObjectName = "server";
         this.server = (Server_RMI) registry.lookup(remoteObjectName);
 
