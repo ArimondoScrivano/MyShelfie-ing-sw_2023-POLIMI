@@ -15,6 +15,7 @@ public class AppClientRMI {
         String playerName;
         TextualUI view = new TextualUI();
 
+        view.init();
         //Asking the nickname
         playerName=cli.askNickname();
         //Creating the client
@@ -22,11 +23,12 @@ public class AppClientRMI {
         if(cli.askNewGame()){
             //New game to create
             int numberOfPlayers=cli.askNumberOfPlayers();
-            client.createLobby(numberOfPlayers);
+            client.createLobby(numberOfPlayers, playerName);
+            System.out.println("LobbyReference: "+client.getLobbyReference());
             client.addPlayer(playerName);
             //Waiting for other players
-
-            while(!client.notifyme().getMessageType().equals(MessageType.GAME_ENDING)){
+            //TODO: method that wait for the lobby to be full
+            while(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)){
                 view.showMatchInfo(client.getDashboard(), numberOfPlayers, client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
                 //Game flow
                 if(client.isItMyTurn()){
@@ -60,11 +62,11 @@ public class AppClientRMI {
             //Check if i won
             client.checkWinner();
         }else{
-            //TODO: no new game created
+            //TODO: no new game created and method that return the number of players in game for the client
             //No new game created
             //Research for a game
             //client.joinLobby();
-            while(!client.notifyme().getMessageType().equals(MessageType.GAME_ENDING)){
+            while(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)){
                 view.showMatchInfo(client.getDashboard(), 2, client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
                 //Game flow
                 if(client.isItMyTurn()){

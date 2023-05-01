@@ -2,13 +2,14 @@ package model.cgoal;
 import model.COLOR;
 import model.Tile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 // 4 rows that have max 3 tiles equal
 //id=4
- public class fourRowsCommonGoals implements CommonGoals {
+ public class fourRowsCommonGoals implements CommonGoals, Serializable {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

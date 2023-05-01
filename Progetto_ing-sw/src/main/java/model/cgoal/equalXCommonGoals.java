@@ -2,12 +2,13 @@ package model.cgoal;
 import model.COLOR;
 import model.Tile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 //equal "x"
 //id=10
- public class equalXCommonGoals implements CommonGoals {
+ public class equalXCommonGoals implements CommonGoals, Serializable {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

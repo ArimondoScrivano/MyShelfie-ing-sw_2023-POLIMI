@@ -2,6 +2,7 @@ package model.cgoal;
 import model.COLOR;
 import model.Tile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
 // 3 dis equal columns for 3 max different tiles
 //id=9
 
-public class threeDisegualColumnsCommonGoals implements CommonGoals {
+public class threeDisegualColumnsCommonGoals implements CommonGoals, Serializable {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

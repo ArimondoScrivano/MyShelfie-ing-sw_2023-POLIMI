@@ -33,19 +33,25 @@ public class Client_RMI  {
     }
 
 
-    public void createLobby(int numPL) {
+    public void createLobby(int numPL, String creatorLobby) {
         try {
-            this.LobbyReference = server.createLobby(numPL);
+            this.LobbyReference = server.createLobby(numPL, creatorLobby);
         } catch (Exception e) {
-            System.out.println("ERROR, BAD CONNECTION");
+            //System.out.println("ERROR, BAD CONNECTION");
+            e.printStackTrace();
         }
+    }
+
+    public int getLobbyReference(){
+        return this.LobbyReference;
     }
 
     public void joinLobby() {
         try {
             this.LobbyReference = server.joinLobby();
         }catch (Exception e){
-            System.out.println("ERROR, BAD CONNECTION");
+            //System.out.println("ERROR, BAD CONNECTION");
+            e.printStackTrace();
         }
     }
 
@@ -53,7 +59,8 @@ public class Client_RMI  {
         try {
             this.myId = server.addPlayer(LobbyReference, name);
         } catch (Exception e) {
-            System.out.println("ERROR, BAD CONNECTION");
+            //System.out.println("ERROR, BAD CONNECTION");
+            e.printStackTrace();
         }
     }
 
@@ -63,7 +70,8 @@ public class Client_RMI  {
         try{
             currentPlayer=server.getCurrentPlayer(LobbyReference);
         }catch (Exception e){
-            System.out.println("ERROR, BAD CONNECTION");
+            //System.out.println("ERROR, BAD CONNECTION");
+            e.printStackTrace();
             return false;
         }
         if(currentPlayer== myId){
@@ -76,7 +84,8 @@ public class Client_RMI  {
         try {
             return server.getDashboard(LobbyReference);
         } catch (Exception e) {
-            System.out.println("ERROR, BAD CONNECTION");
+            //System.out.println("ERROR, BAD CONNECTION");
+            e.printStackTrace();
             return null;
         }
     }
@@ -86,7 +95,8 @@ public class Client_RMI  {
             try{
                 return server.getMyShelfie(LobbyReference, playerName, myId);
             } catch (Exception e) {
-                System.out.println("ERROR, BAD CONNECTION");
+                //System.out.println("ERROR, BAD CONNECTION");
+                e.printStackTrace();
                 return null;
             }
     }
@@ -96,7 +106,8 @@ public class Client_RMI  {
             try {
                 return server.getMyPersonalGoal(LobbyReference, myId);
             }catch (Exception e){
-                System.out.println("ERROR, BAD CONNECTION");
+                //System.out.println("ERROR, BAD CONNECTION");
+                e.printStackTrace();
                 return null;
             }
 
@@ -107,7 +118,8 @@ public class Client_RMI  {
         try {
             return server.getCommonGoals(LobbyReference);
         } catch (Exception e) {
-            System.out.println("ERROR, BAD CONNECTION");
+            //System.out.println("ERROR, BAD CONNECTION");
+            e.printStackTrace();
             return null;
         }
     }
@@ -115,7 +127,8 @@ public class Client_RMI  {
         try{
             return server.pickableTiles(LobbyReference, xCoord, yCoord);
         } catch (Exception e) {
-            System.out.println("ERROR, BAD CONNECTION");
+            //System.out.println("ERROR, BAD CONNECTION");
+            e.printStackTrace();
             return false;
         }
 
@@ -125,7 +138,8 @@ public class Client_RMI  {
             return server.getSelectedTiles(LobbyReference,tilesToPick, xCoord, yCoord);
 
         } catch (Exception e) {
-            System.out.println("ERROR, BAD CONNECTION");
+            //System.out.println("ERROR, BAD CONNECTION");
+            e.printStackTrace();
             return null;
         }
     }
@@ -139,7 +153,8 @@ public class Client_RMI  {
         try{
             return  server.columnAvailable(LobbyReference, tiles, server.getMyShelfieREF(LobbyReference,playerName, myId), selectedCol);
         } catch (Exception e){
-            System.out.println("ERROR, BAD CONNECTION");
+            //System.out.println("ERROR, BAD CONNECTION");
+            e.printStackTrace();
             return false;
         }
 
@@ -149,14 +164,16 @@ public class Client_RMI  {
         try {
             server.insertTiles(LobbyReference, tilesToInsert, server.getMyShelfieREF(LobbyReference,playerName, myId), columnPicked);
         } catch (Exception e) {
-            System.out.println("ERROR, BAD CONNECTION");
+            //System.out.println("ERROR, BAD CONNECTION");
+            e.printStackTrace();
         }
     }
     public String checkWinner() {
         try {
             return server.checkWinner(LobbyReference, myId);
         } catch (Exception e) {
-            System.out.println("ERROR, BAD CONNECTION");
+            //System.out.println("ERROR, BAD CONNECTION");
+            e.printStackTrace();
             return "ERROR";
         }
     }
@@ -165,20 +182,22 @@ public class Client_RMI  {
         try{
             return server.myPoints(LobbyReference, myId);
         } catch (Exception e) {
-            System.out.println("ERROR, BAD CONNECTION");
+            //System.out.println("ERROR, BAD CONNECTION");
+            e.printStackTrace();
             return -1;
         }
 
     }
 
-public Message notifyme(){
+    public Message notifyMe(){
         try{
             return server.getMyMessage(LobbyReference);
         } catch (RemoteException e) {
-            System.out.println("ERROR BAD CONNECTION");
+            //System.out.println("ERROR BAD CONNECTION");
+            e.printStackTrace();
             return null;
         }
 
-}
+    }
 
 }

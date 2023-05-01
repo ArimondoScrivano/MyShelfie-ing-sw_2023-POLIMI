@@ -2,13 +2,14 @@ package model.cgoal;
 import model.COLOR;
 import model.Tile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 //equals 4 corners
 //id=3
- public class CornersEqualsCommonGoals implements CommonGoals {
+ public class CornersEqualsCommonGoals implements CommonGoals, Serializable {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

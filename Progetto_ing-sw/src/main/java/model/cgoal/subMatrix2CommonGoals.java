@@ -2,13 +2,14 @@ package model.cgoal;
 import model.COLOR;
 import model.Tile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 //equal sub-matrix 2x2
 //id=7
- public class subMatrix2CommonGoals implements CommonGoals {
+ public class subMatrix2CommonGoals implements CommonGoals, Serializable {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

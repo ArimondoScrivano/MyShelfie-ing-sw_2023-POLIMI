@@ -1,11 +1,13 @@
 package model.cgoal;
 import model.COLOR;
 import model.Tile;
+
+import java.io.Serializable;
 import java.util.*;
 
 // 6 pairs equal
 //id=1
- public class SixPairsEqualCommonGoals implements CommonGoals {
+ public class SixPairsEqualCommonGoals implements CommonGoals, Serializable {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

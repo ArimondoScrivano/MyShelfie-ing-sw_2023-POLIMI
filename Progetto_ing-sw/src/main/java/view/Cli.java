@@ -43,7 +43,7 @@ public class Cli{
         int numberOfPlayers;
         do{
             numberOfPlayers = in.nextInt();
-        }while(numberOfPlayers<=4 && numberOfPlayers>=2);
+        }while(numberOfPlayers>4 && numberOfPlayers<2);
 
         return numberOfPlayers;
     }

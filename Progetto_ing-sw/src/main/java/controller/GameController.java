@@ -22,7 +22,7 @@ public class GameController  extends Observable {
    private Game currentGame;
     private int NumPlayers;
     private int id;
-    private Server_RMI myserver;
+    private Server_RMI myServer;
     // 0 if the game is NOT ended or 1 if the Game Ended
     private int end;
 
@@ -42,9 +42,22 @@ public class GameController  extends Observable {
         return end;
     }
     //Constructor of the game
+    public GameController(int NumPlayers, Server_RMI serverCreator, String creatorLobby) {
+        super();
+        this.myServer= serverCreator;
+        this.NumPlayers= NumPlayers;
+        this.end=0;
+        id=0;
+        //List of players from the pre-game
+        List<Player> playersList = new ArrayList<>(NumPlayers);
+        playersList.add(new Player(0, creatorLobby));
+        Dashboard dashboard = new Dashboard(NumPlayers, new Bag());
+        this.currentGame = new Game(0, dashboard, playersList,NumPlayers);
+    }
+
     public GameController(int NumPlayers, Server_RMI serverCreator) {
         super();
-        this.myserver= serverCreator;
+        this.myServer= serverCreator;
         this.NumPlayers= NumPlayers;
         this.end=0;
         id=0;
@@ -91,7 +104,7 @@ public List<Player> getPlayersList(){
         MessageType m= MessageType.SOMETHINGCHANGED;
         Message msg= new Message(id, m);
         try {
-            myserver.setMessage(msg);
+            myServer.setMessage(msg);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -102,7 +115,7 @@ public List<Player> getPlayersList(){
         MessageType m= MessageType.GAME_STARTING;
         Message msg= new Message(id, m);
         try {
-            myserver.setMessage(msg);
+            myServer.setMessage(msg);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -116,7 +129,7 @@ public List<Player> getPlayersList(){
         MessageType m= MessageType.GAME_ENDING;
         Message msg= new Message(id,m);
         try {
-            myserver.setMessage(msg);
+            myServer.setMessage(msg);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

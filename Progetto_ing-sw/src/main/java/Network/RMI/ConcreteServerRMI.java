@@ -24,8 +24,8 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
         LobbyMessage= new ArrayList<>();
     }
 
-    public int createLobby(int numPlayers) throws RemoteException {
-        GameController controller = new GameController(numPlayers, this);
+    public int createLobby(int numPlayers, String creatorLobby) throws RemoteException {
+        GameController controller = new GameController(numPlayers, this, creatorLobby);
         Lobby.add(controller);
         LobbyMessage.add(new Message(Lobby.indexOf(controller), MessageType.LOBBYCREATED ));
         controller.setId(Lobby.indexOf(controller));

@@ -2,12 +2,13 @@ package model.cgoal;
 import model.COLOR;
 import model.Tile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 // 5 Columns different height
 //id=12
- public class fiveColumnsCommonGoals implements CommonGoals {
+ public class fiveColumnsCommonGoals implements CommonGoals, Serializable {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

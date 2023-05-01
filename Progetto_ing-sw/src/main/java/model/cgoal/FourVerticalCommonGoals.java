@@ -1,4 +1,5 @@
 package model.cgoal;
+import java.io.Serializable;
 import java.util.*;
 import model.*;
 
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 
 // 4 vertical tiles equals four times
 //id=5
- public class FourVerticalCommonGoals implements CommonGoals {
+ public class FourVerticalCommonGoals implements CommonGoals, Serializable {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;

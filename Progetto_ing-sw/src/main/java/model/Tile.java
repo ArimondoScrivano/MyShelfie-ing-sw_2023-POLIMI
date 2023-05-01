@@ -1,6 +1,8 @@
 package model;
 
-public class Tile {
+import java.io.Serializable;
+
+public class Tile implements Serializable {
    private COLOR color;
    private int id;
 

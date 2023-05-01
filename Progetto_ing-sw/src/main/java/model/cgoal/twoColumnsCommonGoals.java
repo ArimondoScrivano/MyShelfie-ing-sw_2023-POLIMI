@@ -2,12 +2,13 @@ package model.cgoal;
 import model.COLOR;
 import model.Tile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 //2 columns All different tiles
 //id=6
- public class twoColumnsCommonGoals implements CommonGoals {
+ public class twoColumnsCommonGoals implements CommonGoals, Serializable {
     private List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;
