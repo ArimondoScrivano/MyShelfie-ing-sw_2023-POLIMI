@@ -49,7 +49,6 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
     public int  addPlayer(int index, String name) throws RemoteException {
         int IndexPlayer=Lobby.get(index).getPlayersFilled();
         Lobby.get(index).createPlayer(IndexPlayer, name);
-        //We added the player in the Observer List
         return IndexPlayer;
     }
 
@@ -119,7 +118,7 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
     }
 
     public void setMessage( Message message){
-        LobbyMessage.add(((Message) message).getName(), (Message) message);
+        LobbyMessage.add(message.getName(), message);
     }
 
     public Message getMyMessage(int index) throws RemoteException{

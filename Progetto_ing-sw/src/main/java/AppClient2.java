@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppClientRMI {
+public class AppClient2 {
     public static void main(String[] args) throws NotBoundException, RemoteException, MalformedURLException {
         Cli cli = new Cli();
         String playerName;
