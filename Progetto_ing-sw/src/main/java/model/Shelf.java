@@ -39,47 +39,23 @@ public class Shelf implements Serializable {
 
     public void addTiles(Tile tiles[], int column) {
         int freeFirstSpot = 0;
-        int flag = 0;
-        boolean firstSpotFound=false;
-        int types[];
-        if (tiles.length > 4) System.out.println("too many tiles picked.");
-        if (tiles.length == 3) {
-            if (tilesShelf[2][column].getColor().equals(COLOR.BLANK)) {
-                flag = 1;
-            }
-        }
-        if (tiles.length == 2) {
-            if (tilesShelf[1][column].getColor().equals(COLOR.BLANK)) {
-                flag = 1;
-            }
-        }
-        if (tiles.length == 1) {
-            if (tilesShelf[0][column].getColor().equals(COLOR.BLANK)) {
-                flag = 1;
-            }
-        }
-        if(flag==0) System.out.println("too little room on this column");
-        int col=1;
 
-        if (flag == 1) {
-            while(col<6){
-                if(tilesShelf[col-1][column].getColor().equals(COLOR.BLANK) && !(tilesShelf[col][column].getColor().equals(COLOR.BLANK))){
-                    freeFirstSpot=col-1;
-                    firstSpotFound=true;
-                    break;
-                }else{col++;}
+        for(int row=5; row>-1; row--){
+            if(tilesShelf[row][column].getColor().equals(COLOR.BLANK)){
+                freeFirstSpot=row;
             }
-            if(!firstSpotFound) freeFirstSpot=5;
-            for (int i = 0; i < tiles.length; i++) {
-                tilesShelf[freeFirstSpot - i][column] = new Tile(tiles[i].getColor(), tiles[i].getId());
-            }
+        }
+        int insert=0;
+        for(int j=freeFirstSpot; j>-1; j-- ){
+            tilesShelf[freeFirstSpot][column]= new Tile(tiles[insert].getColor(),tiles[insert].getId());
+            insert++;
         }
         myPlayer.convertPoints(tilesShelf);
 
         try {
             myPlayer.checkPersonalGoal(freeFirstSpot, column);
         } catch (IOException e) {
-
+                    e.printStackTrace();
         }
     }
 }

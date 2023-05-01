@@ -162,7 +162,6 @@ public class Player implements Serializable {
 
             }
         }
-        System.out.println("points "+this.points);
     }
 
     // set the new score thanks to the Common Goal

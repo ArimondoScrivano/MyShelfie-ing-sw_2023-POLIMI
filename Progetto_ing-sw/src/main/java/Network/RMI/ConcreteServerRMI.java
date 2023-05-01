@@ -93,9 +93,11 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
     }
 
     public boolean columnAvailable(int index, Tile[] tiles, Shelf myShelf, int selectedCol) throws RemoteException{
-        //TODO
-         Lobby.get(index).pickTiles(tiles);
-        return Lobby.get(index).columnAvailable(tiles, myShelf, selectedCol);
+         if(Lobby.get(index).columnAvailable(tiles, myShelf, selectedCol)) {
+             Lobby.get(index).pickTiles(tiles);
+             return true;
+        }
+        return false;
 
     }
 

@@ -283,23 +283,25 @@ public List<Player> getPlayersList(){
         pickNextPlayer();
 
     } //rita
-    public boolean columnAvailable(Tile[] chosenTiles, Shelf myShelf, int selectedCol) {
-        boolean available=true;
-        int chosenColumn=selectedCol-1;
-        Tile[][] tilesShelf;
-        tilesShelf= myShelf.getTilesShelf();
-        int i=5;
-        int counter=0;
-        while(i>=0){
-            if(tilesShelf[i][chosenColumn].getColor().equals(COLOR.BLANK)) counter++;
-            i--;
+    public boolean columnAvailable(Tile[] tiles, Shelf myShelf, int column) {
+        boolean flag = false;
+       Tile[][] tilesShelf= myShelf.getTilesShelf();
+        if (tiles.length == 3) {
+            if (tilesShelf[2][column].getColor().equals(COLOR.BLANK)) {
+                flag = true;
+            }
         }
-        if(chosenTiles.length>counter){
-            available=false;
-        }else {
-            chooseColumnShelf(chosenColumn, chosenTiles, myShelf);
+        if (tiles.length == 2) {
+            if (tilesShelf[1][column].getColor().equals(COLOR.BLANK)) {
+                flag = true;
+            }
         }
-        return available;
+        if (tiles.length == 1) {
+            if (tilesShelf[0][column].getColor().equals(COLOR.BLANK)) {
+                flag = true;
+            }
+        }
+        return flag;
     } //rita
 
     public void checkPoints() {
