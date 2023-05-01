@@ -81,7 +81,7 @@ public class GameController  extends Observable {
     }
 
 public int getPlayersFilled(){
-        return currentGame.getPlayers().size();
+        return currentGame.getPlayers().size()-1;
 }
 public List<Player> getPlayersList(){
         return this.currentGame.getPlayers();

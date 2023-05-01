@@ -69,9 +69,7 @@ public class Game extends Observable implements Serializable {
         return dashboard.getTilesCopy();
     }
     public List<Player> getPlayers(){
-        List<Player> players_copy= new ArrayList<>();
-        players_copy.addAll(this.players);
-        return players_copy;
+        return players ;
     }
 
     public Player getCurrentPlayer() {
