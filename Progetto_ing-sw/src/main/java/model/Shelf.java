@@ -1,8 +1,9 @@
 package model;
 
 import java.io.IOException;
+import java.io.Serializable;
 
-public class Shelf {
+public class Shelf implements Serializable {
     protected Tile[][] tilesShelf;
     int[][] tileTypes = new int[6][5];
     Player myPlayer;

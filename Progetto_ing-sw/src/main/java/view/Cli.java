@@ -54,7 +54,7 @@ public class Cli{
         do{
             out.println("Chose the number of tiles that you want to pick: ");
             numberOfTile=in.nextInt();
-        }while(numberOfTile>=1 && numberOfTile<=3);
+        }while(numberOfTile<1 && numberOfTile>3);
         return numberOfTile;
     }
 
@@ -63,7 +63,7 @@ public class Cli{
         //Se 3 tile da prendere -->lista con 6 elementi
         List<Integer> tilesToPick = new ArrayList<>();
         out.println("Choose the tiles to pick using x and y coordinates: ");
-        for(int i=0; i<numberOfTile; i++){
+        for(int i=0; i<numberOfTile*2; i++){
             if(i%2==0){
                 out.println("Chose the x coordinate of the tile that you want to pick: ");
                 tilesToPick.add(in.nextInt());

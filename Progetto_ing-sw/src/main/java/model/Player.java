@@ -3,11 +3,12 @@ package model;
 import model.cgoal.CommonGoals;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Player {
+public class Player implements Serializable {
     //INTEGER TO IDENTIFY THE PLAYER
     private int id;
     //PLAYER'S NICKNAME
