@@ -24,23 +24,25 @@ public class Dashboard {
 
 
         this.refillable = new TILETYPE[][] {
-                {TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.THREE_PL, TILETYPE.FOUR_PL, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK},
-                {TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.FOUR_PL, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK},
-                {TILETYPE.BLK, TILETYPE.BLK, TILETYPE.THREE_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.THREE_PL, TILETYPE.BLK, TILETYPE.BLK},
-                {TILETYPE.BLK, TILETYPE.FOUR_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.THREE_PL},
-                {TILETYPE.FOUR_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.FOUR_PL},
-                {TILETYPE.THREE_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.FOUR_PL, TILETYPE.BLK},
-                {TILETYPE.BLK, TILETYPE.BLK, TILETYPE.THREE_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.THREE_PL, TILETYPE.BLK, TILETYPE.BLK},
-                {TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.FOUR_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK},
-                {TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.FOUR_PL, TILETYPE.THREE_PL, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK}
+                {TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK},
+                {TILETYPE.BLK,TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.THREE_PL, TILETYPE.FOUR_PL, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK,TILETYPE.BLK},
+                {TILETYPE.BLK,TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.FOUR_PL, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK,TILETYPE.BLK},
+                {TILETYPE.BLK,TILETYPE.BLK, TILETYPE.BLK, TILETYPE.THREE_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.THREE_PL, TILETYPE.BLK, TILETYPE.BLK,TILETYPE.BLK},
+                {TILETYPE.BLK,TILETYPE.BLK, TILETYPE.FOUR_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.THREE_PL,TILETYPE.BLK},
+                {TILETYPE.BLK,TILETYPE.FOUR_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.FOUR_PL,TILETYPE.BLK},
+                {TILETYPE.BLK,TILETYPE.THREE_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.FOUR_PL, TILETYPE.BLK,TILETYPE.BLK},
+                {TILETYPE.BLK,TILETYPE.BLK, TILETYPE.BLK, TILETYPE.THREE_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.THREE_PL, TILETYPE.BLK, TILETYPE.BLK,TILETYPE.BLK},
+                {TILETYPE.BLK,TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.FOUR_PL, TILETYPE.TWO_PL, TILETYPE.TWO_PL, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK,TILETYPE.BLK},
+                {TILETYPE.BLK,TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.FOUR_PL, TILETYPE.THREE_PL, TILETYPE.BLK, TILETYPE.BLK, TILETYPE.BLK,TILETYPE.BLK},
+                {TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK,TILETYPE.BLK}
         };
 
 
-        this.tiles = new Tile[9][9];
+        this.tiles = new Tile[11][11];
         //creating the matrix of tiles in the correct spot
 
-        for (int r = 0; r < 9; r++) {
-            for (int c = 0; c < 9; c++) {
+        for (int r = 0; r < 11; r++) {
+            for (int c = 0; c < 11; c++) {
                 if (refillable[r][c].ordinal() < np) {
                     this.tiles[r][c] = bagInGame.getRandomTile();
 
@@ -62,9 +64,9 @@ public class Dashboard {
 
     //This method returns a copy of tiles matrix.
     public Tile[][] getTilesCopy() {
-        Tile[][] tilesCopy = new Tile[9][9];
-        for (int r = 0; r < 9; r++){
-            for( int c = 0; c < 9; c++){
+        Tile[][] tilesCopy = new Tile[11][11];
+        for (int r = 0; r < 11; r++){
+            for( int c = 0; c < 11; c++){
                 tilesCopy[r][c]= new Tile(tiles[r][c].getColor(), tiles[r][c].getId());
             }
         }
@@ -89,20 +91,10 @@ public class Dashboard {
         int flag = 0;
 
         // we have to use a support matrix to avoid corner cases and so we can modify the elements
-        Tile[][] matrixSupport = new Tile[10][10];
-        for (int r = 0; r < 10; r++) {
-            for (int c = 0; c < 10; c++) {
+        Tile[][] matrixSupport = getTilesCopy();
 
-                if (r > 0 && r < 8 && c > 0 && c < 8) {
-                    matrixSupport[r][c] = new Tile(tiles[r - 1][c - 1].getColor(), 1);
-                } else {
-                    matrixSupport[r][c] = new Tile(COLOR.BLANK, 1);
-                }
-            }
-        }
-
-        for(int row=1; row<9 && flag==0; row++){
-            for(int col=1; col<9 && flag==0; col++){
+        for(int row=1; row<10 && flag==0; row++){
+            for(int col=1; col<10 && flag==0; col++){
 
                 if(!matrixSupport[row][col].getColor().equals(COLOR.BLANK)
                    &&( !matrixSupport[row+1][col].getColor().equals(COLOR.BLANK)
@@ -121,42 +113,6 @@ public class Dashboard {
 
     }
 
-    /*----------------------------DEPRECATED-----------------------------------------------
-    public void setRefill(Bag bagInGame) {
-        // Checking if the dashboard has to be refilled
-        // scanning dashboard's cells
-        for (int r = 0; r < 9; r++) {
-
-            for (int c = 0; c < 9; c++) {
-
-                // analyzing only the tiles not picked (!= BLANK)
-                // if there is at least one adjacent tail with COLOR != BLANK, the dashboard doesn't need to be refilled
-                if (!(this.tiles[r][c].getColor().equals(COLOR.BLANK))) {
-
-                    if (c > 0 && !(this.tiles[r][c - 1].getColor().equals(COLOR.BLANK))) {
-                        refill = false;
-                        return;
-                    } else if (c < 8 && !(this.tiles[r][c + 1].getColor().equals(COLOR.BLANK))) {
-                        refill = false;
-                        return;
-                    } else if (r > 0 && !(this.tiles[r - 1][c].getColor().equals(COLOR.BLANK))) {
-                        refill = false;
-                        return;
-                    } else if (r < 8 && !(this.tiles[r + 1][c].getColor().equals(COLOR.BLANK))) {
-                        refill = false;
-                        return;
-                    }
-                }
-            }
-        }
-
-        // if the function has not returned until this point, it means that there are no more adjacent tails
-        // dashboard needs to be refilled
-        refill = true;
-        refillDashboard();
-    }
-   //------------------------------------------DEPRECATED------------------------------------------
-     */
 
 
     public void refillDashboard() {

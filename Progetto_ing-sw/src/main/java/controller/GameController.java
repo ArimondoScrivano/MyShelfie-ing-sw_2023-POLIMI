@@ -194,8 +194,83 @@ public List<Player> getPlayersList(){
 
 
 
-    public boolean tileAvailablePick(List<Integer> rowsList, List<Integer> columnsList){
+    public boolean tileAvailablePick(List<Integer> xCord, List<Integer> yCord){
 
+        //checking if the player selected blk tiles
+        for(int i=0; i<xCord.size(); i++){
+            if(currentGame.getDashboardMatrix()[xCord.get(i)][yCord.get(i)].getColor().equals(COLOR.BLANK)){
+                return false;
+            }
+        }
+
+        //check one tile picked
+        if(xCord.size()==1){
+            if(currentGame.getDashboardMatrix()[xCord.get(0)+1][yCord.get(0)].getColor().equals(COLOR.BLANK)
+                || currentGame.getDashboardMatrix()[xCord.get(0)-1][yCord.get(0)].getColor().equals(COLOR.BLANK)
+                || currentGame.getDashboardMatrix()[xCord.get(0)][yCord.get(0)+1].getColor().equals(COLOR.BLANK)
+                || currentGame.getDashboardMatrix()[xCord.get(0)][yCord.get(0)-1].getColor().equals(COLOR.BLANK)){
+                return true;
+            }else{
+                return false;
+            }
+
+        }else {
+            for(int i=0; i<xCord.size(); i++){
+                if(!currentGame.getDashboardMatrix()[xCord.get(i)+1][yCord.get(i)].getColor().equals(COLOR.BLANK)
+                        && !currentGame.getDashboardMatrix()[xCord.get(i)-1][yCord.get(i)].getColor().equals(COLOR.BLANK)
+                        && !currentGame.getDashboardMatrix()[xCord.get(i)][yCord.get(i)+1].getColor().equals(COLOR.BLANK)
+                        && !currentGame.getDashboardMatrix()[xCord.get(i)][yCord.get(i)-1].getColor().equals(COLOR.BLANK)){
+                    return false;
+
+                }
+            }
+            //check the line adjacency of the selected Tiles
+            if (xCord.size()==2){
+                //check  vertical line
+                if(xCord.get(0).equals(xCord.get(1))){
+                    if(yCord.get(0)== yCord.get(1) +1
+                       || yCord.get(0)== yCord.get(1) -1){
+                        return true;
+                    }
+                }
+                //check horizontal line
+                if(yCord.get(0).equals(yCord.get(1))){
+                    if(xCord.get(0)== xCord.get(1) +1
+                            || xCord.get(0)== xCord.get(1) -1){
+                        return true;
+                    }
+                }
+                return false;
+
+            }else{
+                //check  vertical line
+                if(xCord.get(0).equals(xCord.get(1)) && xCord.get(0).equals(xCord.get(2))) {
+                    //1-2-3 <---< 3-2-1 <---< 3-1-2 <---< 2-1-3 <---< 1-3-2 <---< 2-3-1
+                    if((yCord.get(0)== yCord.get(1)-1 && yCord.get(0)== yCord.get(2)-2)
+                        || (yCord.get(0)== yCord.get(1)+1 && yCord.get(0)== yCord.get(2)+2)
+                        || (yCord.get(0)== yCord.get(1)+2 && yCord.get(0)== yCord.get(2)+1)
+                        || (yCord.get(0)== yCord.get(1)+1 && yCord.get(0)== yCord.get(2)-1)
+                        || (yCord.get(0)== yCord.get(1)-2 && yCord.get(0)== yCord.get(2)-1)
+                        || (yCord.get(0)== yCord.get(1)-1 && yCord.get(0)== yCord.get(2)+1)){
+                        return true;
+                }
+                }
+                //check  Horizontal line
+                if(yCord.get(0).equals(yCord.get(1)) && yCord.get(0).equals(yCord.get(2))) {
+                    //1-2-3 <---< 3-2-1 <---< 3-1-2 <---< 2-1-3 <---< 1-3-2 <---< 2-3-1
+                    if((xCord.get(0)== xCord.get(1)-1 && xCord.get(0)== xCord.get(2)-2)
+                            || (xCord.get(0)== xCord.get(1)+1 && xCord.get(0)== xCord.get(2)+2)
+                            || (xCord.get(0)== xCord.get(1)+2 && xCord.get(0)== xCord.get(2)+1)
+                            || (xCord.get(0)== xCord.get(1)+1 && xCord.get(0)== xCord.get(2)-1)
+                            || (xCord.get(0)== xCord.get(1)-2 && xCord.get(0)== xCord.get(2)-1)
+                            || (xCord.get(0)== xCord.get(1)-1 && xCord.get(0)== xCord.get(2)+1)){
+                        return true;
+                    }
+                }
+
+            }
+        return false;
+        }
 
     }
 
