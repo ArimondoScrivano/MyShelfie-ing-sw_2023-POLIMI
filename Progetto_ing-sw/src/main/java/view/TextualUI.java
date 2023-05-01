@@ -79,9 +79,9 @@ public class TextualUI extends Observable implements View {
         }
         out.print("\n");
         //Dashboard print
-        for(int i=0; i<9; i++){
+        for(int i=0; i<11; i++){
             out.print(i);
-            for(int j=0; j<9; j++){
+            for(int j=0; j<11; j++){
                 int color=copy[i][j].getColor().compareTo(COLOR.BLANK);
                 copyColor = convertColorInStringTiles(copyColor, color);
             }
@@ -125,6 +125,9 @@ public class TextualUI extends Observable implements View {
 
         //TODO: Rendere più visibile la shelf e dividere i quadrati della shelf in personal goal, da implementare la parte di visione del solo personal goal del giocatore connesso e non la visione complessiva
         //Printing the shelf and the personal goal card associated to the player
+        for(int i=0; i<6; i++){
+            out.print(" "+i+1+"\t");
+        }
         for(int i=0; i<6; i++){
             for(int j=0; j<5; j++){
                 int color=myShelf[i][j].getColor().compareTo(COLOR.BLANK);
