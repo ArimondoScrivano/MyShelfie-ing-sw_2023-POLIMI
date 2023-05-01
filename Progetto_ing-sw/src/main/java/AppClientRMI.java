@@ -20,16 +20,25 @@ public class AppClientRMI {
         playerName=cli.askNickname();
         //Creating the client
         Client_RMI client = new Client_RMI(playerName);
-        if(cli.askNewGame()){
+        if(cli.askNewGame()) {
             //New game to create
-            int numberOfPlayers=cli.askNumberOfPlayers();
+            int numberOfPlayers = cli.askNumberOfPlayers();
             client.createLobby(numberOfPlayers, playerName);
-            System.out.println("LobbyReference: "+client.getLobbyReference());
+            System.out.println("LobbyReference: " + client.getLobbyReference());
             client.addPlayer(playerName);
+        }else {
+            client.joinLobby();
+            System.out.println("LobbyReference: " + client.getLobbyReference());
+            client.addPlayer(playerName);
+        }
             //Waiting for other players
-            //TODO: method that wait for the lobby to be full
+            System.out.println("Waiting for the other players to join");
+            while(client.notifyMe().getMessageType().equals(MessageType.LOBBYCREATED)){
+
+            }
+            System.out.println("Starting the game. HAVE FUN");
             while(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)){
-                view.showMatchInfo(client.getDashboard(), numberOfPlayers, client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
+                view.showMatchInfo(client.getDashboard(),  client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
                 //Game flow
                 if(client.isItMyTurn()){
                     int numberOfTilesToPick=cli.askNumberOfTiles();
