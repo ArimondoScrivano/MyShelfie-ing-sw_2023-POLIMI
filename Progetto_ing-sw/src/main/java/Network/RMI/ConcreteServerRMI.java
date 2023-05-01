@@ -84,12 +84,10 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
     public Tile[] getSelectedTiles(int index,int tilesToPick, List<Integer> xCoord, List<Integer> yCoord) throws RemoteException {
         Tile[] returnedTiles= new Tile[tilesToPick];
         int x=0;
-        int y=1;
         for(int i=0; i<tilesToPick; i++){
 
-            returnedTiles[i]= new Tile(Lobby.get(index).getDashboardTiles()[xCoord.get(x)][yCoord.get(y)].getColor(), Lobby.get(index).getDashboardTiles()[xCoord.get(x)][yCoord.get(y)].getId());
+            returnedTiles[i]= new Tile(Lobby.get(index).getDashboardTiles()[xCoord.get(x)][yCoord.get(x)].getColor(), Lobby.get(index).getDashboardTiles()[xCoord.get(x)][yCoord.get(x)].getId());
             x++;
-            y=y+2;
         }
         return returnedTiles;
     }
