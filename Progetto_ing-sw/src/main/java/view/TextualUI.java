@@ -68,29 +68,11 @@ public class TextualUI extends Observable implements View {
 
     //Showing the actual state of the game
     @Override
-    public void showMatchInfo(Tile[][] copy, int np, List<CommonGoals> commonGoals, Tile[][] myShelf, PersonalGoal pg) {
+    public void showMatchInfo(Tile[][] copy, List<CommonGoals> commonGoals, Tile[][] myShelf, PersonalGoal pg) {
         clearUI();
         //Printing the dashboard state
         out.println(ColorUI.RED_TEXT+"Current Dashboard"+ColorUI.RESET);
         String copyColor = "";
-        //First row
-        //TODO:CHECKING IF IT WORKS
-        /*switch(np){
-            case 2:
-                for(int i=0; i<9; i++){
-                    if(i==0){
-                        continue;
-                    }
-                    out.print(i+1 + "\t");
-                }
-                break;
-            case 3:
-            case 4:
-                for(int i=0; i<9; i++){
-                    out.print(i+1 + "\t");
-                }
-                break;
-        }*/
 
         //Dashboard print
         for(int i=0; i<9; i++){

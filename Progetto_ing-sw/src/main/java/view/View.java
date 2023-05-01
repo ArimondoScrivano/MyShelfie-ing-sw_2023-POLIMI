@@ -14,5 +14,5 @@ public interface View {
     //Request nickname
     void askNickname();
     //Showing info
-    void showMatchInfo(Tile[][] copy, int np, List<CommonGoals> commonGoals, Tile[][] myShelf, PersonalGoal pg);
+    void showMatchInfo(Tile[][] copy, List<CommonGoals> commonGoals, Tile[][] myShelf, PersonalGoal pg);
 }
