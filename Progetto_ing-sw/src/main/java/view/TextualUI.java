@@ -5,7 +5,6 @@ import model.cgoal.CommonGoals;
 
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Scanner;
@@ -74,8 +73,14 @@ public class TextualUI extends Observable implements View {
         out.println(ColorUI.RED_TEXT+"Current Dashboard"+ColorUI.RESET);
         String copyColor = "";
 
+        //First row
+        for(int i=0; i<11; i++){
+            out.print("  "+i+"\t");
+        }
+        out.print("\n");
         //Dashboard print
         for(int i=0; i<9; i++){
+            out.print(i);
             for(int j=0; j<9; j++){
                 int color=copy[i][j].getColor().compareTo(COLOR.BLANK);
                 copyColor = convertColorInStringTiles(copyColor, color);

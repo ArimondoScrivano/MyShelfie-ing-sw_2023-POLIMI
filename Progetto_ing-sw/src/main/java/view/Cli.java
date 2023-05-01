@@ -1,7 +1,5 @@
 package view;
 
-import model.Game;
-
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -9,7 +7,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Cli{
-
     //Output stream
     private final PrintStream out;
     //Input stream
@@ -19,7 +16,7 @@ public class Cli{
         this.out = System.out;
     }
 
-    //TODO
+    //TODO: when we have the socket connection method
     //Asking the connection method
     public void askConnection() {
 
@@ -40,21 +37,22 @@ public class Cli{
 
     public int askNumberOfPlayers(){
         out.println("Select the number of players between 2 and 4");
-        int numberOfPlayers;
-        do{
-            numberOfPlayers = in.nextInt();
-        }while(numberOfPlayers>4 && numberOfPlayers<2);
-
+        int numberOfPlayers=in.nextInt();
+        while(numberOfPlayers<2 || numberOfPlayers>4){
+            System.out.println(ColorUI.RED_TEXT+"You must choose a number of players between 2 and 4! Retry"+ColorUI.RESET);
+            numberOfPlayers=in.nextInt();
+        }
         return numberOfPlayers;
     }
 
     //Asking the number of tiles to pick
     public int askNumberOfTiles(){
-        int numberOfTile;
-        do{
-            out.println("Chose the number of tiles that you want to pick: ");
+        out.println("Chose the number of tiles that you want to pick: ");
+        int numberOfTile=in.nextInt();
+        while(numberOfTile<1 || numberOfTile>3){
+            out.println(ColorUI.RED_TEXT+"You must choose a number between 1 and 3! Retry"+ColorUI.RESET);
             numberOfTile=in.nextInt();
-        }while(numberOfTile<1 && numberOfTile>3);
+        }
         return numberOfTile;
     }
 
@@ -66,20 +64,33 @@ public class Cli{
         for(int i=0; i<numberOfTile*2; i++){
             if(i%2==0){
                 out.println("Chose the x coordinate of the tile that you want to pick: ");
-                tilesToPick.add(in.nextInt());
+                int x=in.nextInt();
+                //Check if the value is between 1 and 10
+                while(x<0 || x>11){
+                    out.println(ColorUI.RED_TEXT+"You must choose a number between 1 and 10! Retry"+ColorUI.RESET);
+                    x=in.nextInt();
+                }
+                tilesToPick.add(x);
             }else{
                 out.println("Chose the y coordinate of the tile that you want to pick: ");
-                tilesToPick.add(in.nextInt());
+                int y=in.nextInt();
+                //Check if the value is between 1 and 10
+                while(y<0 || y>11){
+                    out.println(ColorUI.RED_TEXT+"You must choose a number between 1 and 10! Retry"+ColorUI.RESET);
+                    y=in.nextInt();
+                }
+                tilesToPick.add(y);
             }
         }
         return tilesToPick;
     }
+
     public int askColumn(){
         out.println("Choose the column to insert the tiles chosen: ");
         return in.nextInt()+1;
     }
 
     public void displayPoints(int myPoint){
-        out.println("Your points: "+ myPoint);
+        out.println("Current points: "+ myPoint);
     }
 }
