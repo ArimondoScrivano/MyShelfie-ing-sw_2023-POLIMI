@@ -49,7 +49,7 @@ public class GameController  extends Observable {
         this.end=0;
         id=0;
         //List of players from the pre-game
-        List<Player> playersList = new ArrayList<>(NumPlayers);
+        List<Player> playersList = new ArrayList<>();
         playersList.add(new Player(0, creatorLobby));
         Dashboard dashboard = new Dashboard(NumPlayers, new Bag());
         this.currentGame = new Game(0, dashboard, playersList,NumPlayers);
@@ -69,7 +69,7 @@ public class GameController  extends Observable {
 
     public void createPlayer(int id_new, String np){
         Player NewPlayer= new Player(id_new, np);
-        currentGame.getPlayers().add(NewPlayer);
+        currentGame.getPlayers().add(id_new,NewPlayer);
 
         if(currentGame.getPlayers().size()==NumPlayers) {
             started();
@@ -81,7 +81,7 @@ public class GameController  extends Observable {
     }
 
 public int getPlayersFilled(){
-        return currentGame.getPlayers().size()-1;
+        return currentGame.getPlayers().size();
 }
 public List<Player> getPlayersList(){
         return this.currentGame.getPlayers();

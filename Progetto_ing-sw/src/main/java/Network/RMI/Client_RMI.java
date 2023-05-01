@@ -36,6 +36,7 @@ public class Client_RMI  {
     public void createLobby(int numPL, String creatorLobby) {
         try {
             this.LobbyReference = server.createLobby(numPL, creatorLobby);
+            this.myId=0;
         } catch (Exception e) {
             //System.out.println("ERROR, BAD CONNECTION");
             e.printStackTrace();

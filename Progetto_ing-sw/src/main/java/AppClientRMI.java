@@ -29,7 +29,8 @@ public class AppClientRMI {
             //Lobby creation
             client.createLobby(numberOfPlayers, playerName);
             System.out.println("Your lobby reference is " + client.getLobbyReference());
-            client.addPlayer(playerName);
+            System.out.println(client.notifyMe().getMessageType());
+            //client.addPlayer(playerName);
         }else {
             //Join a lobby
             client.joinLobby();
@@ -38,10 +39,10 @@ public class AppClientRMI {
         }
 
         //Waiting for other players
-        support=client.notifyMe();
         int flagDisplay=0;
-        while(support.getMessageType().equals(MessageType.LOBBYCREATED)){
-            support=client.notifyMe();
+        System.out.println(client.notifyMe().getMessageType());
+        while(client.notifyMe().getMessageType().equals(MessageType.LOBBYCREATED)){
+
             if(flagDisplay==0){
                 System.out.println(ColorUI.YELLOW_TEXT+"Waiting for the other players to join"+ColorUI.RESET);
                 flagDisplay++;
@@ -51,10 +52,11 @@ public class AppClientRMI {
 
         System.out.println(ColorUI.YELLOW_TEXT+"Starting the game. HAVE FUN"+ColorUI.RESET);
         while(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)){
-            view.showMatchInfo(client.getDashboard(), client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
-            cli.displayPoints(client.myPoints());
+
             //Game flow
             if(client.isItMyTurn()){
+                view.showMatchInfo(client.getDashboard(), client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
+                cli.displayPoints(client.myPoints());
                 flagDisplay=0;
                 int numberOfTilesToPick;
                 List<Integer> tilesToPick;
