@@ -186,15 +186,15 @@ public List<Player> getPlayersList(){
     }
 
 
-    public void pickTiles(Tile[] tilesPicked){
-        currentGame.updateDashboard(tilesPicked);
+    public void pickTiles(List<Integer> xCord, List<Integer> yCord){
+        currentGame.updateDashboard(xCord,yCord);
       somethingChanged();
 
     }
 
 
 
-    public boolean tileAvailablePick(List<Integer> xCord, List<Integer> yCord){
+    public boolean tileAvailablePick(List<Integer> yCord, List<Integer> xCord){
 
         //checking if the player selected blk tiles
         for(int i=0; i<xCord.size(); i++){
@@ -274,29 +274,35 @@ public List<Player> getPlayersList(){
 
     }
 
-    public void chooseColumnShelf(int column, Tile[] tiles, Shelf myShelf){
-        myShelf.addTiles(tiles, column);
-        somethingChanged();
+    public void insertTiles( List<Integer> xCoord, List<Integer> yCoord, int column){
+        Shelf shelfToModify= currentGame.getCurrentPlayer().getShelf();
+        Tile[] tilesPicked= new Tile[xCoord.size()];
+        for(int i=0; i< xCoord.size(); i++){
+            tilesPicked[i]= currentGame.getDashboard().getTiles()[yCoord.get(i)][xCoord.get(i)];
+        }
+        currentGame.addTiles(shelfToModify, tilesPicked,column);
+
         if(playerTurn().isShelfCompleted()){
             playerTurn().setLastRound(true);
         }
         pickNextPlayer();
+        somethingChanged();
 
     } //rita
-    public boolean columnAvailable(Tile[] tiles, Shelf myShelf, int column) {
+    public boolean columnAvailable(int numTiles, Shelf myShelf, int column) {
         boolean flag = false;
        Tile[][] tilesShelf= myShelf.getTilesShelf();
-        if (tiles.length == 3) {
+        if (numTiles == 3) {
             if (tilesShelf[2][column].getColor().equals(COLOR.BLANK)) {
                 flag = true;
             }
         }
-        if (tiles.length == 2) {
+        if (numTiles == 2) {
             if (tilesShelf[1][column].getColor().equals(COLOR.BLANK)) {
                 flag = true;
             }
         }
-        if (tiles.length == 1) {
+        if (numTiles== 1) {
             if (tilesShelf[0][column].getColor().equals(COLOR.BLANK)) {
                 flag = true;
             }

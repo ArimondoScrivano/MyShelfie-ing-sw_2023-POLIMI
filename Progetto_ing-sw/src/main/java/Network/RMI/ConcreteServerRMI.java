@@ -81,7 +81,7 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
         return Lobby.get(index).tileAvailablePick(xCoord, yCoord);
     }
 
-    public Tile[] getSelectedTiles(int index,int tilesToPick, List<Integer> xCoord, List<Integer> yCoord) throws RemoteException {
+    public Tile[] getSelectedTiles(int index,int tilesToPick, List<Integer> yCoord, List<Integer> xCoord) throws RemoteException {
         Tile[] returnedTiles= new Tile[tilesToPick];
         int x=0;
         for(int i=0; i<tilesToPick; i++){
@@ -92,17 +92,22 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
         return returnedTiles;
     }
 
-    public boolean columnAvailable(int index, Tile[] tiles, Shelf myShelf, int selectedCol) throws RemoteException{
-         if(Lobby.get(index).columnAvailable(tiles, myShelf, selectedCol)) {
-             Lobby.get(index).pickTiles(tiles);
-             return true;
-        }
-        return false;
+    public boolean columnAvailable(int index, int numTiles, Shelf myShelf, int selectedCol) throws RemoteException{
+             return Lobby.get(index).columnAvailable(numTiles, myShelf, selectedCol);
+
 
     }
 
-    public void insertTiles ( int index, Tile[] tilesToInsert, Shelf myShelf, int columnPicked) throws RemoteException {
-        Lobby.get(index).chooseColumnShelf(columnPicked,tilesToInsert,myShelf);
+    //this method removes the tiles from the dashboard
+    public void finalPick(int index, List<Integer> xCord, List<Integer> yCord)throws RemoteException{
+        Lobby.get(index).pickTiles(xCord,yCord);
+    }
+
+
+
+//This method adds the tiles in the shelf
+    public void insertTiles ( int LobbyReference, List<Integer> xCoord, List<Integer>  yCoord, int column) throws RemoteException {
+        Lobby.get(LobbyReference).insertTiles(xCoord,yCoord,column);
     }
 
 

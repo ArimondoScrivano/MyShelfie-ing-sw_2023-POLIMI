@@ -21,9 +21,9 @@ public List<CommonGoals> getCommonGoals(int index) throws RemoteException;
 public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoord) throws RemoteException;
  public Tile[] getSelectedTiles(int index,int tilesToPick, List<Integer> xCoord, List<Integer> yCoord) throws RemoteException;
 
- public boolean columnAvailable(int index, Tile[] tiles, Shelf myShelf, int selectedCol) throws RemoteException;
-
- public void insertTiles ( int index, Tile[] tilesToInsert, Shelf myShelf, int columnPicked) throws RemoteException;
+ public boolean columnAvailable(int index, int numTiles, Shelf myShelf, int selectedCol) throws RemoteException;
+ public void finalPick(int index, List<Integer> xCord, List<Integer> yCord)throws RemoteException;
+ public void insertTiles ( int LobbyReference, List<Integer> xCoord, List<Integer>  yCoord, int column) throws RemoteException;
  public String checkWinner(int index, int id) throws RemoteException;
 
 public int getCurrentPlayer( int index) throws RemoteException;

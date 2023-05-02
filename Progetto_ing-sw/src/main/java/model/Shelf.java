@@ -5,7 +5,6 @@ import java.io.Serializable;
 
 public class Shelf implements Serializable {
     protected Tile[][] tilesShelf;
-    int[][] tileTypes = new int[6][5];
     Player myPlayer;
 
     //CONSTRUCTOR FOR THE SHELF CLASS
@@ -32,12 +31,14 @@ public class Shelf implements Serializable {
                 if (tilesShelf[i][j].getColor().compareTo(COLOR.BLANK) == 0) {
                     return false;
                 }
+                i++;
+                j++;
             }
         }
         return true;
     }
 
-    public void addTiles(Tile tiles[], int column) {
+    public void addTiles(Tile[] tiles, int column) {
         int freeFirstSpot = 0;
 
         for(int row=5; row>-1; row--){

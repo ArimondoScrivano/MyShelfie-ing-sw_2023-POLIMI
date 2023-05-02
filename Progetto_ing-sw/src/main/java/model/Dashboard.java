@@ -144,19 +144,11 @@ public class Dashboard {
     }
 
 
-    public void updateDashboard(Tile[] pickedTiles) {
+    public void updateDashboard(List<Integer> yCord, List<Integer> xCord) {
 
-        for (int index = 0; index < pickedTiles.length; index++) {
+        for (int index = 0; index < yCord.size(); index++) {
 
-            for (int r = 1; r < 11; r++) {
-                for (int c = 1; c < 11; c++) {
-
-                    if ( this.tiles[r][c].getId() == pickedTiles[index].getId()) {
-
-                        this.tiles[r][c] = new Tile(COLOR.BLANK, 0);
-                    }
-                }
-            }
+           tiles[xCord.get(index)][yCord.get(index)]= new Tile(COLOR.BLANK,0);
         }
         // checking if dashboard needs to be refilled
         setRefill();

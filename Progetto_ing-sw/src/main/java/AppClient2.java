@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppClient2 {
+public class AppClient2{
     public static void main(String[] args) throws NotBoundException, RemoteException, MalformedURLException {
         Cli cli = new Cli();
         String playerName;
@@ -79,10 +79,11 @@ public class AppClient2 {
 
                     //Choosing the column to insert the tiles
                     column = cli.askColumn();
-                }while(!client.columnAvailable(client.getSelectedTiles(numberOfTilesToPick, xCoord, yCoord), column));
-
+                }while(!client.columnAvailable(numberOfTilesToPick, column));
                 //Inserting the tiles
-                client.insertTiles(client.getSelectedTiles(numberOfTilesToPick, xCoord, yCoord), column);
+                client.insertTiles(xCoord,yCoord,column);
+                //removing the tiles from the dashboard
+                client.FinalPick(numberOfTilesToPick,xCoord,yCoord);
                 //Printing the shelf updated
                 view.printShelf(client.getMyShelfie());
                 //Displaying the points

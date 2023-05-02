@@ -58,15 +58,20 @@ public class Game extends Observable implements Serializable {
         this.endGame=false;
     }
 
-    public void updateDashboard(Tile[] tiles){
-        getDashboard().updateDashboard(tiles);
+    public void updateDashboard(List<Integer> xCord,List<Integer> yCord ){
+        getDashboard().updateDashboard(xCord,yCord);
     }
+
+    public void addTiles(Shelf shelfToModify, Tile[] tilesPicked, int column){
+        shelfToModify.addTiles(tilesPicked,column);
+    }
+
 
     public Dashboard getDashboard() {
         return this.dashboard;
     }
     public Tile[][] getDashboardMatrix(){
-        return dashboard.getTilesCopy();
+        return dashboard.getTiles();
     }
     public List<Player> getPlayers(){
         return players ;

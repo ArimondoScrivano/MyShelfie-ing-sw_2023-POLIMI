@@ -134,25 +134,12 @@ public class Client_RMI  {
         }
 
     }
-    public Tile[] getSelectedTiles(int tilesToPick, List<Integer> xCoord, List<Integer> yCoord){
+
+
+
+    public boolean columnAvailable(int numTiles, int selectedCol){
         try{
-            return server.getSelectedTiles(LobbyReference,tilesToPick, xCoord, yCoord);
-
-        } catch (Exception e) {
-            //System.out.println("ERROR, BAD CONNECTION");
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-
-
-
-
-    public boolean columnAvailable(Tile[] tiles, int selectedCol){
-        try{
-            return  server.columnAvailable(LobbyReference, tiles, server.getMyShelfieREF(LobbyReference,playerName, myId), selectedCol);
+            return  server.columnAvailable(LobbyReference, numTiles, server.getMyShelfieREF(LobbyReference,playerName, myId), selectedCol);
         } catch (Exception e){
             //System.out.println("ERROR, BAD CONNECTION");
             e.printStackTrace();
@@ -161,9 +148,20 @@ public class Client_RMI  {
 
     }
 
-    public void insertTiles ( Tile[] tilesToInsert, int columnPicked){
+    public void FinalPick(int tilesToPick, List<Integer> xCord,List<Integer> yCord ){
+        try{
+            server.finalPick(LobbyReference,xCord, yCord);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+    public void insertTiles ( List<Integer> xCoord, List<Integer> yCoord, int column){
         try {
-            server.insertTiles(LobbyReference, tilesToInsert, server.getMyShelfieREF(LobbyReference,playerName, myId), columnPicked);
+            server.insertTiles(LobbyReference, xCoord,yCoord,column);
         } catch (Exception e) {
             //System.out.println("ERROR, BAD CONNECTION");
             e.printStackTrace();
