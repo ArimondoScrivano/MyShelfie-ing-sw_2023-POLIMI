@@ -67,6 +67,8 @@ public class AppClientRMI {
                     //Asking the number of tiles to pick
                     numberOfTilesToPick=cli.askNumberOfTiles();
                     do{
+                        xCoord.clear();
+                        yCoord.clear();
                         tilesToPick=cli.askTilesToPick(numberOfTilesToPick);
                         for(int i=0; i<tilesToPick.size(); i++){
                             if(i%2==0){
@@ -75,7 +77,7 @@ public class AppClientRMI {
                                 yCoord.add(tilesToPick.get(i));
                             }
                         }
-                    }while(client.pickableTiles(xCoord, yCoord));
+                    }while(!client.pickableTiles(xCoord, yCoord));
 
                     //Choosing the column to insert the tiles
                     column = cli.askColumn();
