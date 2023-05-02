@@ -2,6 +2,8 @@ package controller;
 
 import Network.RMI.ConcreteServerRMI;
 import Network.RMI.Server_RMI;
+import Network.SOCKET.ConcreteSocketServer;
+import Network.SOCKET.SocketServer;
 import Network.messages.Message;
 import Network.messages.MessageType;
 import model.Dashboard;
@@ -23,6 +25,7 @@ public class GameController  extends Observable {
     private int NumPlayers;
     private int id;
     private Server_RMI myServer;
+    private ConcreteSocketServer mySocketServer;
     // 0 if the game is NOT ended or 1 if the Game Ended
     private int end;
 
@@ -60,6 +63,18 @@ public class GameController  extends Observable {
         this.myServer= serverCreator;
         this.NumPlayers= NumPlayers;
         this.end=0;
+        id=0;
+        //List of players from the pre-game
+        List<Player> playersList = new ArrayList<>();
+        Dashboard dashboard = new Dashboard(NumPlayers, new Bag());
+        this.currentGame = new Game(0, dashboard, playersList,NumPlayers);
+    }
+
+    public GameController(int NumPlayers, ConcreteSocketServer serverCreator) {
+        this.NumPlayers= NumPlayers;
+        this.end=0;
+        this.mySocketServer= serverCreator;
+        this.myServer=null; //mutual exclusion
         id=0;
         //List of players from the pre-game
         List<Player> playersList = new ArrayList<>();
