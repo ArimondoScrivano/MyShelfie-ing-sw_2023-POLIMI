@@ -12,18 +12,20 @@ import com.google.gson.reflect.TypeToken;
 
 public class PersonalGoal implements Serializable {
     private int id;
-    private int index=0;
+    private int index;
 
     private Tile[][] layout;
     private List<Integer> points;
+
     //METHOD TO RETURN GOAL POINTS
-    public PersonalGoal(int id){
+    public PersonalGoal(int id) {
         //Initializing the layout
-        this.id=id;
-        this.layout=new Tile[6][5];
-        for(int i=0; i<6; i++){
-            for(int j=0; j<5; j++){
-                this.layout[i][j]=new Tile(COLOR.BLANK, 0);
+        this.index = -1;
+        this.id = id;
+        this.layout = new Tile[6][5];
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                this.layout[i][j] = new Tile(COLOR.BLANK, 0);
             }
         }
 
@@ -32,13 +34,14 @@ public class PersonalGoal implements Serializable {
                 .create();
         //Read from file json and construct the personal goal
         try {
-            FileReader reader = new FileReader("Progetto_ing-sw/src/main/resources/jsonFiles/PersonalGoal"+this.id+".json");
+            FileReader reader = new FileReader("Progetto_ing-sw/src/main/resources/jsonFiles/PersonalGoal" + this.id + ".json");
             //as a list
-            Type layoutListType=new TypeToken<ArrayList<Layout>>(){}.getType();
+            Type layoutListType = new TypeToken<ArrayList<Layout>>() {
+            }.getType();
             List<Layout> layouts = gson.fromJson(reader, layoutListType);
 
-            for(Layout l: layouts){
-                this.layout[l.getTile().getX()][l.getTile().getY()]=new Tile(l.getTile().convert(), this.id);
+            for (Layout l : layouts) {
+                this.layout[l.getTile().getX()][l.getTile().getY()] = new Tile(l.getTile().convert(), this.id);
             }
 
         } catch (FileNotFoundException e) {
@@ -46,9 +49,9 @@ public class PersonalGoal implements Serializable {
         }
 
         //Personal goal's id
-        this.id=id;
+        this.id = id;
         //Initializing the points' list
-        this.points=Arrays.asList(1,2,4,6,9,12);
+        this.points = Arrays.asList(1, 2, 4, 6, 9, 12);
     }
 
     public int getId() {
@@ -59,17 +62,12 @@ public class PersonalGoal implements Serializable {
         return layout;
     }
 
-    public List<Integer> getPoints() {return points;}
-
-    public int getAdditionalPoints(){
-        int additionalPoints=0;
-        if(index==0){
-            additionalPoints+=points.get(index);
-            return additionalPoints;
-        }else{
-            additionalPoints=points.get(index)-points.get(index-1);
-            index++;
-            return additionalPoints;
+    public int getPoints() {
+        this.index++;
+        if (index == points.size()) {
+            return 0;
         }
+        return points.get(index);
     }
+
 }

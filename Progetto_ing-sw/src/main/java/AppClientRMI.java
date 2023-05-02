@@ -29,7 +29,6 @@ public class AppClientRMI {
             //Lobby creation
             client.createLobby(numberOfPlayers, playerName);
             System.out.println("Your lobby reference is " + client.getLobbyReference());
-            System.out.println(client.notifyMe().getMessageType());
             //client.addPlayer(playerName);
         }else {
             //Join a lobby
@@ -55,6 +54,7 @@ public class AppClientRMI {
 
             //Game flow
             if(client.isItMyTurn()){
+                System.out.println(ColorUI.BLUE_TEXT+playerName+" is your turn!"+ColorUI.RESET);;
                 view.showMatchInfo(client.getDashboard(), client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
                 cli.displayPoints(client.myPoints());
                 flagDisplay=0;
