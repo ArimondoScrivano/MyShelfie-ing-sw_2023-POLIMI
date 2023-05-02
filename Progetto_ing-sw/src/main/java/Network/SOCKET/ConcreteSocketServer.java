@@ -2,6 +2,7 @@ package Network.SOCKET;
 
 import Network.RMI.ConcreteServerRMI;
 import controller.GameController;
+import model.Dashboard;
 import model.PersonalGoal;
 import model.Shelf;
 import model.Tile;
@@ -36,7 +37,7 @@ public class ConcreteSocketServer {
             e.printStackTrace();
         }
     }
-    public void admitPlayers(){ //per ogni nuovo player
+    public void addPlayer(){ //azioni fatte per ogni nuovo client
         try{
             Socket soc; //gestore della singola comunicazione
             soc= s.accept();
@@ -44,12 +45,6 @@ public class ConcreteSocketServer {
             out=new PrintWriter(soc.getOutputStream(), true);
             OutputStream outputStream= soc.getOutputStream();
             oos=new ObjectOutputStream(outputStream); //canale di passaggio degli oggetti per ogni client che si connette
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-    public void readMessage(){ //trovare un modo per inviare il PlayerIndex
-        try{
             clientMessage=in.readLine();
             String myResponse="myResponse";
             if(clientMessage.equals("START")){
@@ -80,7 +75,10 @@ public class ConcreteSocketServer {
         }catch(IOException e){
             e.printStackTrace();
         }
-        createLobby(numOfPlayers);
+        int lobbyIndex=createLobby(numOfPlayers);
+        Lobby.get(lobbyIndex).addInputStream(in); //sarà nell'indice 0
+        Lobby.get(lobbyIndex).addOutputStream(out);
+        Lobby.get(lobbyIndex).addObjectStream(oos);
     }
     public void joinGame(){
         try{
@@ -88,6 +86,9 @@ public class ConcreteSocketServer {
             String playerName=in.readLine();
             int lobbyIndex=joinLobby();
             int playerIndex=addPlayer(lobbyIndex, playerName);
+            Lobby.get(lobbyIndex).addInputStream(in);
+            Lobby.get(lobbyIndex).addOutputStream(out);
+            Lobby.get(lobbyIndex).addObjectStream(oos);
             out.println("you are the second player. "); //modificare in base al playerIndex
         }catch(IOException e){
             e.printStackTrace();
@@ -121,36 +122,79 @@ public class ConcreteSocketServer {
     }
     public void getDashboard(int index){ //originariamente di tipo Tile[][]
         try{
-            oos.writeObject(Lobby.get(index).getDashboardTiles()); //implementare la ricezione lato client
-            //tenere una lista di output stream
+            List<ObjectOutputStream> players;
+            players=Lobby.get(index).getObjectStream();
+            for(int i=0; i<players.size(); i++){
+                players.get(i).writeObject(Lobby.get(index).getDashboardTiles());
+            }
+             //implementare la ricezione lato client
         }catch(IOException e){
             e.printStackTrace();
         }
     }
-    public Tile[][] getMyShelfie(int index, String playerName, int playerId){
-        Tile[][] matrix =new Tile[6][5];
-        return matrix;
+    public void getMyShelfie(int index, int playerId){
+       //sistemare perché è un po' brutto
+        try{
+            Lobby.get(index).getObjectStream().get(playerId).writeObject(Lobby.get(index).getPlayersList().get(playerId).getShelfMatrix());
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
-    public PersonalGoal getMyPersonalGoal(int index, int playerId){
-        PersonalGoal myPersonalGoal=new PersonalGoal(2);
-        return myPersonalGoal;
+    public void getMyPersonalGoal(int index, int playerId){
+        try{
+            Lobby.get(index).getObjectStream().get(playerId).writeObject(Lobby.get(index).getPlayersList().get(playerId).getPersonalGoal());
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
-    public List<CommonGoals> getCommonGoals(int index){
-        List<CommonGoals> commonGoals= new ArrayList<>();
-        return commonGoals;
+    public void getCommonGoals(int index){
+        try{
+            List<ObjectOutputStream> players;
+            players=Lobby.get(index).getObjectStream();
+            for(int i=0; i<players.size(); i++){
+                players.get(i).writeObject(Lobby.get(index).getCommonGoals());
+            }
+            //implementare la ricezione lato client
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
-    public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoord){
-        return false;
+    public void pickableTiles(int index, int playerIndex, List<Integer> xCoord, List<Integer> yCoord){
+        String myResponse;
+        boolean pickable=Lobby.get(index).tileAvailablePick(xCoord, yCoord);
+        if(pickable){
+            myResponse="TRUE";
+        }else{
+            myResponse="FALSE";
+        }
+        Lobby.get(index).getOutputStream(playerIndex).println(myResponse);
+
     }
 
-    public boolean columnAvailable(int index, Tile[] tiles, Shelf myShelf, int selectedCol){
-        return false;
+    public void columnAvailable(int index, int numTiles, Shelf myShelf, int selectedCol, int playerIndex){ //in caso di server socket le funzioni avranno un parametro in più
+        String myResponse;
+        boolean available=Lobby.get(index).columnAvailable(numTiles, myShelf, selectedCol);
+        if(available){
+            myResponse="TRUE";
+        }else{
+            myResponse="FALSE";
+        }
+        Lobby.get(index).getOutputStream(playerIndex).println(myResponse);
+
     }
 
-    public void insertTiles ( int index, Tile[] tilesToInsert, Shelf myShelf, int columnPicked){}
-    public String checkWinner(int index, int id){
-        return "ciao";
+    public void insertTiles ( int LobbyReference, List<Integer> xCoord, List<Integer>  yCoord, int column){
+        Lobby.get(LobbyReference).insertTiles(xCoord,yCoord,column); //da verificare se trova il giocatore giusto
+    }
+    public void checkWinner(int index, int id){
+        String myResponse;
+        if(Lobby.get(index).checkWinner().getId()== id){
+            myResponse= "YOU WON";
+        }else{
+            myResponse= "YOU LOST";
+        }
+        Lobby.get(index).getOutputStream(id).println(myResponse);
     }
 }

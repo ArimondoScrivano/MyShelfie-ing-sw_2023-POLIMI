@@ -13,8 +13,12 @@ import model.*;
 import model.cgoal.CommonGoals;
 
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.rmi.RemoteException;
+import java.security.Principal;
 import java.util.*;
 
 //TODO: scrivere i messaggi per i metodi del controller che modificano qualcosa del models
@@ -27,6 +31,9 @@ public class GameController  extends Observable {
     private Server_RMI myServer;
     private ConcreteSocketServer mySocketServer;
     // 0 if the game is NOT ended or 1 if the Game Ended
+    List<BufferedReader> playerInputStreams=new ArrayList<>();
+    List<PrintWriter> playerOutputStreams=new ArrayList<>();
+    List<ObjectOutputStream> playerOOS=new ArrayList<>();
     private int end;
 
     public void setId(int id) {
@@ -61,6 +68,10 @@ public class GameController  extends Observable {
     public GameController(int NumPlayers, Server_RMI serverCreator) {
         super();
         this.myServer= serverCreator;
+        this.mySocketServer=null;
+        playerInputStreams=null;
+        playerOutputStreams=null;
+        playerOOS=null;
         this.NumPlayers= NumPlayers;
         this.end=0;
         id=0;
@@ -78,8 +89,29 @@ public class GameController  extends Observable {
         id=0;
         //List of players from the pre-game
         List<Player> playersList = new ArrayList<>();
+        //creare la lista di input streams
+        playerInputStreams=new ArrayList<>();
+        //creare la lista di output streams
+        playerOutputStreams=new ArrayList<>();
+        //creare la lista di output object streams
+        playerOOS=new ArrayList<>();
         Dashboard dashboard = new Dashboard(NumPlayers, new Bag());
         this.currentGame = new Game(0, dashboard, playersList,NumPlayers);
+    }
+    public void addInputStream(BufferedReader inputStream){
+        playerInputStreams.add(inputStream);
+    }
+    public void addOutputStream(PrintWriter outputStream){
+        playerOutputStreams.add(outputStream);
+    }
+    public PrintWriter getOutputStream(int index){
+        return playerOutputStreams.get(index);
+    }
+    public void addObjectStream(ObjectOutputStream oos){
+        playerOOS.add(oos);
+    }
+    public List<ObjectOutputStream> getObjectStream(){
+        return this.playerOOS;
     }
 
     public void createPlayer(int id_new, String np){
