@@ -1,8 +1,5 @@
 package model;
 
-import model.cgoal.CommonGoals;
-
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,8 +69,6 @@ public class Player implements Serializable {
     }
 
 
-
-    //salvare oldChain nella riga dell'adiacenza.
     public void convertPoints(Tile[][] matrix) {
         this.points = 0;
         int count = 0;
@@ -158,7 +153,7 @@ public class Player implements Serializable {
     }
 
     // set the new score thanks to the Common Goal
-public void setPoints(int points){
+    public void setPoints(int points){
         this.points= this.points + points;
 }
 
@@ -179,13 +174,16 @@ public void setPoints(int points){
     }
 
 
-    public void checkPersonalGoal(int freeFirstSpot, int column) throws IOException {
+    public void checkPersonalGoal(int freeFirstSpot, int tilesToInsert, int column){
         Tile[][] layout= myPersonalGoal.getLayout();
-        Tile[][] myLayout= new Tile[6][5];
-        myLayout= getShelf().getTilesShelf();
-
-        if (layout[freeFirstSpot][column].getColor().equals(myLayout[freeFirstSpot][column].getColor())){
-            setPoints((myPersonalGoal.getPoints()));
+        Tile[][] myLayout=getShelf().getTilesShelf();
+        int i=0;
+        while(i<tilesToInsert){
+            if(layout[freeFirstSpot+tilesToInsert][column].getColor().equals(myLayout[freeFirstSpot+tilesToInsert][column].getColor())){
+                setPoints(myPersonalGoal.getPoints());
+                freeFirstSpot--;
+                i++;
+            }
         }
     }
 

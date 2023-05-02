@@ -62,12 +62,18 @@ public class PersonalGoal implements Serializable {
         return layout;
     }
 
+    //TODO: check if it works
     public int getPoints() {
         this.index++;
         if (index == points.size()) {
             return 0;
         }
-        return points.get(index);
+        //First points
+        if(index-1==-1){
+            return points.get(index);
+        }else{
+            return (points.get(index)-points.get(index-1));
+        }
     }
 
 }

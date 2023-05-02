@@ -1,9 +1,7 @@
 package controller;
 
-import Network.RMI.ConcreteServerRMI;
 import Network.RMI.Server_RMI;
 import Network.SOCKET.ConcreteSocketServer;
-import Network.SOCKET.SocketServer;
 import Network.messages.Message;
 import Network.messages.MessageType;
 import model.Dashboard;
@@ -13,25 +11,25 @@ import model.*;
 import model.cgoal.CommonGoals;
 
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.rmi.RemoteException;
-import java.security.Principal;
 import java.util.*;
 
 //TODO: scrivere i messaggi per i metodi del controller che modificano qualcosa del models
 
-public class GameController  extends Observable {
+public class GameController extends Observable {
     //Model
-   private Game currentGame;
+    private Game currentGame;
     private int NumPlayers;
     private int id;
     private Server_RMI myServer;
     private ConcreteSocketServer mySocketServer;
+    List<BufferedReader> playerInputStreams=new ArrayList<>();
+    List<PrintWriter> playerOutputStreams=new ArrayList<>();
+    List<ObjectOutputStream> playerOOS=new ArrayList<>();
     // 0 if the game is NOT ended or 1 if the Game Ended
-    List<BufferedReader> playerInputStreams;
-    List<PrintWriter> playerOutputStreams;
-    List<ObjectOutputStream> playerOOS;
-    List<ObjectInputStream> playerOIS;
     private int end;
 
     public void setId(int id) {
@@ -70,7 +68,6 @@ public class GameController  extends Observable {
         playerInputStreams=null;
         playerOutputStreams=null;
         playerOOS=null;
-        playerOIS=null;
         this.NumPlayers= NumPlayers;
         this.end=0;
         id=0;
@@ -94,15 +91,11 @@ public class GameController  extends Observable {
         playerOutputStreams=new ArrayList<>();
         //creare la lista di output object streams
         playerOOS=new ArrayList<>();
-        playerOIS=new ArrayList<>();
         Dashboard dashboard = new Dashboard(NumPlayers, new Bag());
         this.currentGame = new Game(0, dashboard, playersList,NumPlayers);
     }
     public void addInputStream(BufferedReader inputStream){
         playerInputStreams.add(inputStream);
-    }
-    public BufferedReader getInputStream(int playerIndex){
-        return playerInputStreams.get(playerIndex);
     }
     public void addOutputStream(PrintWriter outputStream){
         playerOutputStreams.add(outputStream);
@@ -110,15 +103,11 @@ public class GameController  extends Observable {
     public PrintWriter getOutputStream(int index){
         return playerOutputStreams.get(index);
     }
-    public void addObjectStream(ObjectOutputStream oos, ObjectInputStream ois){
+    public void addObjectStream(ObjectOutputStream oos){
         playerOOS.add(oos);
-        playerOIS.add(ois);
     }
     public List<ObjectOutputStream> getObjectStream(){
         return this.playerOOS;
-    }
-    public ObjectInputStream getObjInputStream(int index){
-        return playerOIS.get(index);
     }
 
     public void createPlayer(int id_new, String np){
@@ -134,10 +123,10 @@ public class GameController  extends Observable {
         return this.NumPlayers;
     }
 
-public int getPlayersFilled(){
+    public int getPlayersFilled(){
         return currentGame.getPlayers().size();
 }
-public List<Player> getPlayersList(){
+    public List<Player> getPlayersList(){
         return this.currentGame.getPlayers();
     }
 

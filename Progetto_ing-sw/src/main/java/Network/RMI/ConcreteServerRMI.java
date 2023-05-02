@@ -24,6 +24,7 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
         LobbyMessage= new ArrayList<>();
     }
 
+    @Override
     public int createLobby(int numPlayers, String creatorLobby) throws RemoteException {
         GameController controller = new GameController(numPlayers, this, creatorLobby);
         Lobby.add(controller);
@@ -32,6 +33,7 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
         return Lobby.indexOf(controller);
     }
 
+    @Override
     public int joinLobby() throws RemoteException {
 
         for (int i = 0; i < Lobby.size(); i++) {
@@ -46,7 +48,7 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
     }
 
     @Override
-    public int  addPlayer(int index, String name) throws RemoteException {
+    public int addPlayer(int index, String name) throws RemoteException {
         int IndexPlayer=Lobby.get(index).getPlayersFilled();
         Lobby.get(index).createPlayer(IndexPlayer, name);
         return IndexPlayer;
@@ -73,14 +75,17 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
         return Lobby.get(index).getCommonGoals();
 }
 
+    @Override
     public int myPoints(int index, int playerId) throws RemoteException {
         return Lobby.get(index).getPlayersList().get(playerId).getPoints();
-}
+    }
 
+    @Override
     public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoord) throws RemoteException {
         return Lobby.get(index).tileAvailablePick(xCoord, yCoord);
     }
 
+    @Override
     public Tile[] getSelectedTiles(int index,int tilesToPick, List<Integer> yCoord, List<Integer> xCoord) throws RemoteException {
         Tile[] returnedTiles= new Tile[tilesToPick];
         int x=0;
@@ -92,25 +97,28 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
         return returnedTiles;
     }
 
+    @Override
     public boolean columnAvailable(int index, int numTiles, Shelf myShelf, int selectedCol) throws RemoteException{
              return Lobby.get(index).columnAvailable(numTiles, myShelf, selectedCol);
 
 
     }
-
     //this method removes the tiles from the dashboard
+    @Override
     public void finalPick(int index, List<Integer> xCord, List<Integer> yCord)throws RemoteException{
         Lobby.get(index).pickTiles(xCord,yCord);
     }
 
 
 
-//This method adds the tiles in the shelf
+    //This method adds the tiles in the shelf
+    @Override
     public void insertTiles ( int LobbyReference, List<Integer> xCoord, List<Integer>  yCoord, int column) throws RemoteException {
         Lobby.get(LobbyReference).insertTiles(xCoord,yCoord,column);
     }
 
 
+    @Override
     public String checkWinner(int index, int id) throws RemoteException {
         if(Lobby.get(index).checkWinner().getId()== id){
             return "YOU WON";
@@ -118,21 +126,18 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
         return "YOU LOST";
     }
 
+    @Override
     public int getCurrentPlayer( int index) throws RemoteException {
         return Lobby.get(index).playerTurn().getId();
     }
 
+    @Override
     public void setMessage( Message message){
         LobbyMessage.add(message.getName(), message);
     }
 
+    @Override
     public Message getMyMessage(int index) throws RemoteException{
         return LobbyMessage.get(index);
     }
-
-
-
-
 }
-
-

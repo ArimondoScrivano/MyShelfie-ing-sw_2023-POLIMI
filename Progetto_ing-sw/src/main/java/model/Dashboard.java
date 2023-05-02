@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Dashboard {
@@ -57,7 +56,7 @@ public class Dashboard {
     }
 
 
-    // method that returns tiles matrix's ref.
+    //Method that returns tiles matrix's reference
     public Tile[][] getTiles() {
         return this.tiles;
     }
@@ -90,7 +89,7 @@ public class Dashboard {
     public void setRefill() {
         int flag = 0;
 
-        // we have to use a support matrix to avoid corner cases and so we can modify the elements
+        // we have to use a support matrix to avoid corner cases, so we can modify the elements
         Tile[][] matrixSupport = getTilesCopy();
 
         for(int row=1; row<10 && flag==0; row++){
@@ -144,26 +143,18 @@ public class Dashboard {
     }
 
 
-    public void updateDashboard(List<Integer> yCord, List<Integer> xCord) {
+    public void updateDashboard(List<Integer> yCoord, List<Integer> xCoord) {
 
-        for (int index = 0; index < yCord.size(); index++) {
+        for (int index = 0; index < yCoord.size(); index++) {
 
-           tiles[xCord.get(index)][yCord.get(index)]= new Tile(COLOR.BLANK,0);
+           tiles[xCoord.get(index)][yCoord.get(index)]= new Tile(COLOR.BLANK,0);
         }
         // checking if dashboard needs to be refilled
         setRefill();
     }
 
-
-    // method that picks a tile and return a new tile, with same color and id
-    // equal to getDashboard, but single pick
-    // probably not useful
     public Tile pickTile(int r, int c) {
-        // pickedTile to put into the shelf
-        //this.tiles[r][c] = new Tile(COLOR.BLANK, 0); // removed because this action is done by updateDashboard
         return new Tile(tiles[r][c].getColor(), tiles[r][c].getId());
     }
 
 }
-
-// Should I have methods    pickTile()   |   refillDashboard    |    updateDashboard     here?
