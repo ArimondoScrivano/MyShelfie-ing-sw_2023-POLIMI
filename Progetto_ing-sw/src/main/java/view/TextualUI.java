@@ -147,6 +147,22 @@ public class TextualUI extends Observable implements View {
         }
     }
 
+    public void printShelf(Tile[][] myShelf){
+        String copyColor="";
+        //Printing the shelf and the personal goal card associated to the player
+        for(int i=0; i<6; i++){
+            out.print(" "+(i+1)+"\t");
+        }
+        out.println();
+        for(int i=0; i<6; i++){
+            for(int j=0; j<5; j++){
+                int color=myShelf[i][j].getColor().compareTo(COLOR.BLANK);
+                copyColor = convertColorInStringTiles(copyColor, color);
+            }
+            out.println();
+        }
+    }
+
     //Function that convert the color
     private String convertColorInStringTiles(String copyColor, int color) {
         switch (color) {

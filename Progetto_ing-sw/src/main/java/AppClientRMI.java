@@ -83,6 +83,8 @@ public class AppClientRMI {
 
                 //Inserting the tiles
                 client.insertTiles(client.getSelectedTiles(numberOfTilesToPick, xCoord, yCoord), column);
+                //Printing the shelf updated
+                view.printShelf(client.getMyShelfie());
                 //Displaying the points
                 cli.displayPoints(client.myPoints());
             }else{
