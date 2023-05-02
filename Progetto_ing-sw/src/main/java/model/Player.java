@@ -1,8 +1,5 @@
 package model;
 
-import model.cgoal.CommonGoals;
-
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,8 +69,6 @@ public class Player implements Serializable {
     }
 
 
-
-    //salvare oldChain nella riga dell'adiacenza.
     public void convertPoints(Tile[][] matrix) {
         this.points = 0;
         int count = 0;
@@ -158,7 +153,7 @@ public class Player implements Serializable {
     }
 
     // set the new score thanks to the Common Goal
-public void setPoints(int points){
+    public void setPoints(int points){
         this.points= this.points + points;
 }
 

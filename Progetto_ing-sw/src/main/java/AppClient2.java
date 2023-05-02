@@ -16,7 +16,6 @@ public class AppClient2 {
         Cli cli = new Cli();
         String playerName;
         TextualUI view = new TextualUI();
-        Message support;
 
         view.init();
         //Asking the nickname

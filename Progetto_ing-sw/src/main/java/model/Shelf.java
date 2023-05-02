@@ -1,6 +1,5 @@
 package model;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 public class Shelf implements Serializable {
@@ -30,14 +29,11 @@ public class Shelf implements Serializable {
 
     //METHOD TO RETURN TRUE WHETHER ONE'S SHELF IS COMPLETED
     public boolean completeShelf() {
-        int i = 0, j = 0;
-        while (i < 5) {
-            while (j < 6) {
+        for(int i=0; i<6; i++){
+            for(int j=0; j<5; j++){
                 if (tilesShelf[i][j].getColor().compareTo(COLOR.BLANK) == 0) {
                     return false;
                 }
-                i++;
-                j++;
             }
         }
         return true;
@@ -63,4 +59,3 @@ public class Shelf implements Serializable {
         myPlayer.checkPersonalGoal(freeFirstSpot, tilesToInsert, column);
     }
 }
-//write test

@@ -1,9 +1,7 @@
 package controller;
 
-import Network.RMI.ConcreteServerRMI;
 import Network.RMI.Server_RMI;
 import Network.SOCKET.ConcreteSocketServer;
-import Network.SOCKET.SocketServer;
 import Network.messages.Message;
 import Network.messages.MessageType;
 import model.Dashboard;
@@ -14,26 +12,24 @@ import model.cgoal.CommonGoals;
 
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.rmi.RemoteException;
-import java.security.Principal;
 import java.util.*;
 
 //TODO: scrivere i messaggi per i metodi del controller che modificano qualcosa del models
 
-public class GameController  extends Observable {
+public class GameController extends Observable {
     //Model
-   private Game currentGame;
+    private Game currentGame;
     private int NumPlayers;
     private int id;
     private Server_RMI myServer;
     private ConcreteSocketServer mySocketServer;
-    // 0 if the game is NOT ended or 1 if the Game Ended
     List<BufferedReader> playerInputStreams=new ArrayList<>();
     List<PrintWriter> playerOutputStreams=new ArrayList<>();
     List<ObjectOutputStream> playerOOS=new ArrayList<>();
+    // 0 if the game is NOT ended or 1 if the Game Ended
     private int end;
 
     public void setId(int id) {
@@ -127,10 +123,10 @@ public class GameController  extends Observable {
         return this.NumPlayers;
     }
 
-public int getPlayersFilled(){
+    public int getPlayersFilled(){
         return currentGame.getPlayers().size();
 }
-public List<Player> getPlayersList(){
+    public List<Player> getPlayersList(){
         return this.currentGame.getPlayers();
     }
 

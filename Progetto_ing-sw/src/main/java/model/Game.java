@@ -7,19 +7,16 @@ import java.util.*;
 public class Game extends Observable implements Serializable {
     //Number of game
     private int id;
-    //Dashboard reference
-
     private int numberOfPlayers;
+    //Dashboard reference
     private final Dashboard dashboard;
     //Players
     private List<Player> players;
     private Player currentPlayer;
-    static int MAX_PLAYERS=4;
     //Common goals
     private List<CommonGoals> commonGoals;
     private List<Integer> pointsCommonGoal;
-
-    // token first player done
+    //Token for the first player to complete the shelf
     private boolean endGame;
 
     public Game(int id, Dashboard dashboard, List<Player> pl, int numberOfPlayers){
