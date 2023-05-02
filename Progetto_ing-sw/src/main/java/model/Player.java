@@ -10,9 +10,9 @@ import java.util.Random;
 
 public class Player implements Serializable {
     //INTEGER TO IDENTIFY THE PLAYER
-    private int id;
+    private final int id;
     //PLAYER'S NICKNAME
-    private String name;
+    private final String name;
     //PLAYER'S SHELF
     protected Shelf myShelf;
     //THE PERSONAL GOAL IS CONNECTED TO THE PLAYER INSTANCE
@@ -23,7 +23,6 @@ public class Player implements Serializable {
     private boolean shelfCompleted;
     private boolean[] commonGoalsCompleted;
     private boolean lastRound;
-    Tile[][] tiles=new Tile[6][5];
 
     public void setLastRound(boolean lastRound) {
         this.lastRound = lastRound;
@@ -40,18 +39,12 @@ public class Player implements Serializable {
         int personalGoalId= rand.nextInt(1, 12);
         this.id=id;
         this.name=name;
-        for(int i=0; i<6; i++){
-            for(int j=0; j<5; j++){
-                tiles[i][j]=new Tile(COLOR.BLANK, 1);
-            }
-        }
-        this.myShelf=new Shelf(tiles, this);
+
+        this.myShelf=new Shelf( this);
         this.myPersonalGoal=new PersonalGoal(personalGoalId);
         this.points=0;
         this.shelfCompleted=false;
         this.commonGoalsCompleted = new boolean[2];
-        commonGoalsCompleted[0]=false;
-        commonGoalsCompleted[1]=false;
     }
 
     //METHOD TO GET A PLAYER'S NAME
@@ -72,7 +65,7 @@ public class Player implements Serializable {
     public PersonalGoal getPersonalGoal(){
         return this.myPersonalGoal;
     }
-    public int getPoints(){return points;}
+    public int getPoints(){return this.points;}
 
     public void setPointsEndGame(){
         this.points++;
@@ -174,10 +167,7 @@ public void setPoints(int points){
     }
 
     public boolean[] getCommonGoalsCompleted() {
-        boolean[] arrayOfCommonGoals= new boolean[2];
-        arrayOfCommonGoals[0]= commonGoalsCompleted[0];
-        arrayOfCommonGoals[1]= commonGoalsCompleted[1];
-        return arrayOfCommonGoals;
+        return this.commonGoalsCompleted;
     }
 
     public boolean isShelfCompleted() {
@@ -188,27 +178,15 @@ public void setPoints(int points){
         this.shelfCompleted = true;
     }
 
-    // check between the turn, NOT AT THE END
-    public int checkPersonalGoal(int freeFirstSpot, int column) throws IOException {
-        //Creare indice come attributo della classe che identifica il punteggio del personal goal
-        Tile[][] layout= new Tile[5][6];
-        layout=myPersonalGoal.getLayout();
+
+    public void checkPersonalGoal(int freeFirstSpot, int column) throws IOException {
+        Tile[][] layout= myPersonalGoal.getLayout();
         Tile[][] myLayout= new Tile[6][5];
-        for(int row=0; row<6; row++){
-            for(int col=0; col<5; col++){
-                myLayout[row][col]=myShelf.tilesShelf[row][col];
-            }
+        myLayout= getShelf().getTilesShelf();
+
+        if (layout[freeFirstSpot][column].getColor().equals(myLayout[freeFirstSpot][column].getColor())){
+            setPoints((myPersonalGoal.getPoints()));
         }
-        int i=freeFirstSpot;
-        int additionalPoints=0;
-        while(!(myLayout[i][column].getColor().equals(COLOR.BLANK))&&i>=0){
-            if(myLayout[i][column].getColor().equals(layout[i][column].getColor())){
-                additionalPoints+=myPersonalGoal.getAdditionalPoints();
-                i--;
-            }else{i--;}
-        }
-        points+=additionalPoints;
-        return 0;
     }
 
     public Tile[][] getShelfMatrix(){

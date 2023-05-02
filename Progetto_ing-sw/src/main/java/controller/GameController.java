@@ -191,6 +191,7 @@ public List<Player> getPlayersList(){
         //check finish
         if(playerTurn().isShelfCompleted()){
             playerTurn().setLastRound(true);
+
             if(!currentGame.getEndGame()){
                 currentGame.setEndGameTrue();
                 playerTurn().setPointsEndGame();
@@ -225,7 +226,6 @@ public List<Player> getPlayersList(){
             playerTurn().setLastRound(true);
         }
 
-        somethingChanged();
     }
     public Player playerTurn(){
 
@@ -236,7 +236,7 @@ public List<Player> getPlayersList(){
     public void pickTiles(List<Integer> xCord, List<Integer> yCord){
         currentGame.updateDashboard(xCord,yCord);
       somethingChanged();
-
+        pickNextPlayer();
     }
 
 
@@ -332,8 +332,7 @@ public List<Player> getPlayersList(){
         if(playerTurn().isShelfCompleted()){
             playerTurn().setLastRound(true);
         }
-        pickNextPlayer();
-        somethingChanged();
+
 
     } //rita
     public boolean columnAvailable(int numTiles, Shelf myShelf, int column) {
@@ -371,10 +370,10 @@ public List<Player> getPlayersList(){
             int partialSecondSum = currentGame.getCommonGoals().get(1).Checker(currentGame.getCurrentPlayer().getShelf().getTilesShelf());
             if (partialSecondSum > 0) {
                 currentGame.getCurrentPlayer().setPoints(partialSecondSum);
-                currentGame.getCurrentPlayer().setCommonGoalsCompleted(0);
+                currentGame.getCurrentPlayer().setCommonGoalsCompleted(1);
             }
         }
-        somethingChanged();
+
     }
 
 

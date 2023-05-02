@@ -5,12 +5,17 @@ import java.io.Serializable;
 
 public class Shelf implements Serializable {
     protected Tile[][] tilesShelf;
-    Player myPlayer;
+    private Player myPlayer;
 
     //CONSTRUCTOR FOR THE SHELF CLASS
-    public Shelf(Tile[][] tilesShelf, Player myPlayer) {
+    public Shelf( Player myPlayer) {
         this.myPlayer = myPlayer;
-        this.tilesShelf = tilesShelf;
+        tilesShelf= new Tile[6][5];
+        for(int i =0; i<6; i++){
+            for(int j=0;j<5;j++){
+                tilesShelf[i][j]= new Tile(COLOR.BLANK,1);
+            }
+        }
     }
 
     public Tile[][] getTilesShelf(){
@@ -39,25 +44,27 @@ public class Shelf implements Serializable {
     }
 
     public void addTiles(Tile[] tiles, int column) {
-        int freeFirstSpot = 0;
-
+        int freeFirstSpot = 3;
+        int flagfound=0;
         for(int row=5; row>-1; row--){
-            if(tilesShelf[row][column].getColor().equals(COLOR.BLANK)){
+            if(tilesShelf[row][column].getColor().equals(COLOR.BLANK) && flagfound==0){
                 freeFirstSpot=row;
+                flagfound=1;
             }
         }
         int insert=0;
-        for(int j=freeFirstSpot; j>-1; j-- ){
+        int tilesToInsert= tiles.length;
+        for(int j=freeFirstSpot; j>-1 &&  insert< tilesToInsert; j-- ){
             tilesShelf[freeFirstSpot][column]= new Tile(tiles[insert].getColor(),tiles[insert].getId());
             insert++;
+            try {
+                myPlayer.checkPersonalGoal(freeFirstSpot, column);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            freeFirstSpot--;
         }
         myPlayer.convertPoints(tilesShelf);
-
-        try {
-            myPlayer.checkPersonalGoal(freeFirstSpot, column);
-        } catch (IOException e) {
-                    e.printStackTrace();
-        }
     }
 }
 //write test
