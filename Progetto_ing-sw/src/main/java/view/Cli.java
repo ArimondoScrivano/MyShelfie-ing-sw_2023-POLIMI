@@ -88,7 +88,12 @@ public class Cli{
 
     public int askColumn(){
         out.println("Choose the column to insert the tiles chosen: ");
-        return in.nextInt()+1;
+        int column=in.nextInt();
+        while(column<0 || column>4){
+            out.println(ColorUI.RED_TEXT+"You must choose a number between 0 and 4! Retry"+ColorUI.RESET);
+            column= in.nextInt();
+        }
+        return column;
     }
 
     public void displayPoints(int myPoint){
