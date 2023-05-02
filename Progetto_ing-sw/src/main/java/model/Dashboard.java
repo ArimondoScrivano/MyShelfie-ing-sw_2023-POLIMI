@@ -117,8 +117,8 @@ public class Dashboard {
 
     public void refillDashboard() {
         int countTiles=0;
-        for(int row=0; row<9; row++){
-            for(int col=0; col<9; col++){
+        for(int row=1; row<11; row++){
+            for(int col=1; col<11; col++){
                 if(!tiles[row][col].getColor().equals(COLOR.BLANK)){
                     countTiles++;
                 }
@@ -129,8 +129,8 @@ public class Dashboard {
         if (!bagInGame.checkEmpty(players,countTiles)) {
 
             // scanning the dashboard cells
-            for (int r = 0; r < 9; r++) {
-                for (int c = 0; c < 9; c++) {
+            for (int r = 1; r < 11; r++) {
+                for (int c = 1; c < 11; c++) {
 
                     // if tile is BLANK, we get a random tile from the bag
                     if (this.tiles[r][c].getColor().equals(COLOR.BLANK) && this.refillable[r][c].ordinal() < (this.players-1))
@@ -148,10 +148,10 @@ public class Dashboard {
 
         for (int index = 0; index < pickedTiles.length; index++) {
 
-            for (int r = 0; r < 9; r++) {
-                for (int c = 0; c < 9; c++) {
+            for (int r = 1; r < 11; r++) {
+                for (int c = 1; c < 11; c++) {
 
-                    if (pickedTiles[index] != null && this.tiles[r][c].getId() == pickedTiles[index].getId()) {
+                    if ( this.tiles[r][c].getId() == pickedTiles[index].getId()) {
 
                         this.tiles[r][c] = new Tile(COLOR.BLANK, 0);
                     }
