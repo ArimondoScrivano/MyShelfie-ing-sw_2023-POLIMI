@@ -179,13 +179,16 @@ public void setPoints(int points){
     }
 
 
-    public void checkPersonalGoal(int freeFirstSpot, int column) throws IOException {
+    public void checkPersonalGoal(int freeFirstSpot, int tilesToInsert, int column){
         Tile[][] layout= myPersonalGoal.getLayout();
-        Tile[][] myLayout= new Tile[6][5];
-        myLayout= getShelf().getTilesShelf();
-
-        if (layout[freeFirstSpot][column].getColor().equals(myLayout[freeFirstSpot][column].getColor())){
-            setPoints((myPersonalGoal.getPoints()));
+        Tile[][] myLayout=getShelf().getTilesShelf();
+        int i=0;
+        while(i<tilesToInsert){
+            if(layout[freeFirstSpot+tilesToInsert][column].getColor().equals(myLayout[freeFirstSpot+tilesToInsert][column].getColor())){
+                setPoints(myPersonalGoal.getPoints());
+                freeFirstSpot--;
+                i++;
+            }
         }
     }
 
