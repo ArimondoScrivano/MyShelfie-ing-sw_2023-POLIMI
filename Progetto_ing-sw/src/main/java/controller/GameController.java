@@ -162,6 +162,7 @@ public class GameController extends Observable {
         //check finish
         if(playerTurn().isShelfCompleted()){
             playerTurn().setLastRound(true);
+            playerTurn().sumUpPoints();
 
             if(!currentGame.getEndGame()){
                 currentGame.setEndGameTrue();
@@ -195,6 +196,7 @@ public class GameController extends Observable {
         //check if the last turn ended
         if(flagPreviusDone==1){
             playerTurn().setLastRound(true);
+            playerTurn().sumUpPoints();
         }
 
     }

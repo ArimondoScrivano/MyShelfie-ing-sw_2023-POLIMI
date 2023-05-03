@@ -80,6 +80,10 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
         return Lobby.get(index).getPlayersList().get(playerId).getPoints();
     }
 
+    public int myPGpoints(int index, int playerId)  throws RemoteException{
+        return Lobby.get(index).getPlayersList().get(playerId).getPGpoints();
+    }
+
     @Override
     public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoord) throws RemoteException {
         return Lobby.get(index).tileAvailablePick(xCoord, yCoord);

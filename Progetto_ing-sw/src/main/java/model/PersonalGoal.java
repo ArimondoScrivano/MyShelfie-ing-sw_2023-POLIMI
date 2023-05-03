@@ -12,7 +12,6 @@ import com.google.gson.reflect.TypeToken;
 
 public class PersonalGoal implements Serializable {
     private int id;
-    private int index;
 
     private Tile[][] layout;
     private List<Integer> points;
@@ -20,7 +19,6 @@ public class PersonalGoal implements Serializable {
     //METHOD TO RETURN GOAL POINTS
     public PersonalGoal(int id) {
         //Initializing the layout
-        this.index = -1;
         this.id = id;
         this.layout = new Tile[6][5];
         for (int i = 0; i < 6; i++) {
@@ -63,17 +61,8 @@ public class PersonalGoal implements Serializable {
     }
 
     //TODO: check if it works
-    public int getPoints() {
-        this.index++;
-        if (index == points.size()) {
-            return 0;
-        }
-        //First points
-        if(index-1==-1){
-            return points.get(index);
-        }else{
-            return (points.get(index)-points.get(index-1));
-        }
+    public int getPoints(int i) {
+       return this.points.get(i);
     }
 
 }

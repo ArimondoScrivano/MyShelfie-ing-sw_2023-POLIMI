@@ -15,6 +15,8 @@ public interface Server_RMI extends Remote{
 public Tile[][] getMyShelfie(int index, String playerName, int playerId) throws RemoteException;
 public Shelf getMyShelfieREF(int index, String playerName, int playerId) throws RemoteException;
 public int myPoints(int index, int playerId) throws RemoteException;
+ public int myPGpoints(int index, int playerId)  throws RemoteException;
+
 public PersonalGoal getMyPersonalGoal(int index, int playerId) throws RemoteException;
 
 public List<CommonGoals> getCommonGoals(int index) throws RemoteException;

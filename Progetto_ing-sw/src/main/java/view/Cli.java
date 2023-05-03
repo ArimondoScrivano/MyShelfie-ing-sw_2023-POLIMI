@@ -96,7 +96,7 @@ public class Cli{
         return (column-1);
     }
 
-    public void displayPoints(int myPoint){
-        out.println("Current points: "+ myPoint);
+    public void displayPoints(int myPoint, int myPGpoints){
+        out.println("Current points: "+ myPoint +"  and " +myPGpoints +" Personal Goal points");
     }
 }

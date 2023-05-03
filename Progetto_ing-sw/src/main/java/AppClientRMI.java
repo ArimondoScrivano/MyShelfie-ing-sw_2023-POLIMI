@@ -55,7 +55,7 @@ public class AppClientRMI {
             if(client.isItMyTurn()){
                 System.out.println(ColorUI.BLUE_TEXT+playerName+" is your turn!"+ColorUI.RESET);;
                 view.showMatchInfo(client.getDashboard(), client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
-                cli.displayPoints(client.myPoints());
+                cli.displayPoints(client.myPoints(), client.myPGpoints());
                 flagDisplay=0;
                 int numberOfTilesToPick;
                 List<Integer> tilesToPick;
@@ -88,7 +88,7 @@ public class AppClientRMI {
                 //Printing the shelf updated
                 view.printShelf(client.getMyShelfie());
                 //Displaying the points
-                cli.displayPoints(client.myPoints());
+                cli.displayPoints(client.myPoints(), client.myPGpoints());
             }else{
                 if(flagDisplay==0){
                     System.out.println(ColorUI.YELLOW_TEXT +"Waiting for your turn"+ColorUI.RESET);

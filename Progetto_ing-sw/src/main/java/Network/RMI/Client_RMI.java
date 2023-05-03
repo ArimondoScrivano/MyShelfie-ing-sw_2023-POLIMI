@@ -179,6 +179,17 @@ public class Client_RMI  {
 
     }
 
+    public int myPGpoints(){
+        try{
+            return server.myPGpoints(LobbyReference,myId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+
+
     public Message notifyMe(){
         try{
             return server.getMyMessage(LobbyReference);
