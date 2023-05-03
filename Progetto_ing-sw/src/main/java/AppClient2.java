@@ -1,5 +1,4 @@
 import Network.RMI.Client_RMI;
-import Network.messages.Message;
 import Network.messages.MessageType;
 import view.Cli;
 import view.ColorUI;
@@ -30,6 +29,7 @@ public class AppClient2 {
             System.out.println("Your lobby reference is " + client.getLobbyReference());
             //client.addPlayer(playerName);
         }else {
+            System.out.println("Joining a lobby already created...");
             //Join a lobby
             client.joinLobby();
             System.out.println("Your lobby reference is " + client.getLobbyReference());
