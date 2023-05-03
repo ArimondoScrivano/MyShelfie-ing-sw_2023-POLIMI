@@ -27,10 +27,7 @@ public class GameController extends Observable {
     private int id;
     private Server_RMI myServer;
     private ConcreteSocketServer mySocketServer;
-    List<BufferedReader> playerInputStreams;
-    List<PrintWriter> playerOutputStreams;
-    List<ObjectOutputStream> playerOOS;
-    List<ObjectInputStream> playerOIS;
+
     // 0 if the game is NOT ended or 1 if the Game Ended
     private int end;
 
@@ -67,10 +64,6 @@ public class GameController extends Observable {
         super();
         this.myServer= serverCreator;
         this.mySocketServer=null;
-        playerInputStreams=null;
-        playerOutputStreams=null;
-        playerOOS=null;
-        playerOIS=null;
         this.NumPlayers= NumPlayers;
         this.end=0;
         id=0;
@@ -88,37 +81,8 @@ public class GameController extends Observable {
         id=0;
         //List of players from the pre-game
         List<Player> playersList = new ArrayList<>();
-        //creare la lista di input streams
-        playerInputStreams=new ArrayList<>();
-        //creare la lista di output streams
-        playerOutputStreams=new ArrayList<>();
-        //creare la lista di output object streams
-        playerOOS=new ArrayList<>();
-        playerOIS=new ArrayList<>();
         Dashboard dashboard = new Dashboard(NumPlayers, new Bag());
         this.currentGame = new Game(0, dashboard, playersList,NumPlayers);
-    }
-    public void addInputStream(BufferedReader inputStream){
-        playerInputStreams.add(inputStream);
-    }
-    public BufferedReader getInputStream(int playerIndex){
-        return playerInputStreams.get(playerIndex);
-    }
-    public void addOutputStream(PrintWriter outputStream){
-        playerOutputStreams.add(outputStream);
-    }
-    public PrintWriter getOutputStream(int index){
-        return playerOutputStreams.get(index);
-    }
-    public void addObjectStream(ObjectOutputStream oos, ObjectInputStream ois){
-        playerOOS.add(oos);
-        playerOIS.add(ois);
-    }
-    public List<ObjectOutputStream> getObjectStream(){
-        return this.playerOOS;
-    }
-    public ObjectInputStream getObjInputStream(int playerIndex){
-        return playerOIS.get(playerIndex);
     }
 
     public void createPlayer(int id_new, String np){

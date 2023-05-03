@@ -9,6 +9,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ConcreteSocketServer {
@@ -21,6 +22,11 @@ public class ConcreteSocketServer {
     private ObjectOutputStream oos; //objoutstream dei player mantenuti in una lista
     //oos.writeObject(Object obj)
     private ObjectInputStream ois;
+    private HashMap<Integer, List<BufferedReader>> inputStreamMap; //mappa che mantiene una traccia degli streams
+    // di input delle varie lobby
+    private HashMap<Integer, List<PrintWriter>> outputStreamMap;
+    private HashMap<Integer, List<ObjectOutputStream>> objStreamMap;
+    private HashMap<Integer, List<ObjectInputStream>> objInStreamMap;
     private String clientMessage;
 
 
@@ -39,7 +45,7 @@ public class ConcreteSocketServer {
         try{
             Socket soc; //gestore della singola comunicazione
             soc= s.accept();
-            in=new BufferedReader(new InputStreamReader(soc.getInputStream())); //creato per ogni client che si collega
+            BufferedReader in=new BufferedReader(new InputStreamReader(soc.getInputStream())); //creato per ogni client che si collega
             out=new PrintWriter(soc.getOutputStream(), true);
             OutputStream outputStream= soc.getOutputStream();
             oos=new ObjectOutputStream(outputStream); //canale di passaggio degli oggetti per ogni client che si connette
@@ -59,66 +65,74 @@ public class ConcreteSocketServer {
             e.printStackTrace();
         }
     }
-    public void receiveMessages(int lobbyIndex)throws IOException, ClassNotFoundException{
+    public void receiveMessages(int lobbyIndex)throws IOException, ClassNotFoundException{ //decoder dei messaggi
         Player currentPlayer=Lobby.get(lobbyIndex).playerTurn();
         int playerIndex=currentPlayer.getId();
-        Lobby.get(lobbyIndex).getOutputStream(playerIndex).println("TURN"); //your turn
+        List<BufferedReader> inputStreams=inputStreamMap.get(lobbyIndex);
+        BufferedReader myInputStream=inputStreams.get(playerIndex);
+        List<PrintWriter> outputStreams= outputStreamMap.get(lobbyIndex);
+        PrintWriter myOutputStream= outputStreams.get(playerIndex);
+        myOutputStream.println("TURN"); //your turn
+        List<ObjectInputStream> objInputStream= objInStreamMap.get(lobbyIndex);
+        ObjectInputStream myObjectInputStream= objInputStream.get(playerIndex);
         boolean messageReceived=false;
         while(!messageReceived){
             try{
-                String clientMessage=Lobby.get(lobbyIndex).getInputStream(playerIndex).readLine();
+                myInputStream.readLine();
                 messageReceived=true;
             }catch(IOException e){
                 e.printStackTrace();
             }
         }
-        if(clientMessage.equals("CHOSEN_TILES")){
+        if(clientMessage.equals("CHOSEN_TILES")){ //tiles pescate, deve essere mandato da picktiles
             //Chiamata a pickable tiles
             List<Integer> xCoord=new ArrayList<>();
-            Lobby.get(lobbyIndex).getOutputStream(playerIndex).println("X_COORDINATE");
+            myOutputStream.println("X_COORDINATE");
             try{
-                xCoord=(List<Integer>) Lobby.get(lobbyIndex).getObjInputStream(playerIndex).readObject();
+                xCoord=(List<Integer>) myObjectInputStream.readObject();
             }catch(Exception e){
                 e.printStackTrace();
             }
             List<Integer> yCoord=new ArrayList<>();
-            Lobby.get(lobbyIndex).getOutputStream(playerIndex).println("Y_COORDINATE");
+            myOutputStream.println("Y_COORDINATE");
             try{
-                yCoord=(List<Integer>) Lobby.get(lobbyIndex).getObjInputStream(playerIndex).readObject();
+                yCoord=(List<Integer>) myObjectInputStream.readObject();
             }catch(Exception e){
                 e.printStackTrace();
             }
             pickableTiles(lobbyIndex, playerIndex, xCoord, yCoord);
 
-        }else if(clientMessage.equals("TILES_PICKED")){
+        }else if(clientMessage.equals("MY_TURN?")){
+            //già gestita
+        }else if(clientMessage.equals("TILES_PICKED")){// mandato da picktiles
             //chiamata a dashboard
             getDashboard(lobbyIndex);
-        }else if(clientMessage.equals("COLUMN_CHOSEN")){
-            Lobby.get(lobbyIndex).getOutputStream(playerIndex).println("NUMBER_TILES");
-            int numOfTiles=Lobby.get(lobbyIndex).getInputStream(playerIndex).read();
+        }else if(clientMessage.equals("COLUMN_CHOSEN")){ //mandato da choosecolumn shelf
+            myOutputStream.println("NUMBER_TILES");
+            int numOfTiles=myInputStream.read();
             Shelf myShelf=Lobby.get(lobbyIndex).playerTurn().getShelf();
-            Lobby.get(lobbyIndex).getOutputStream(playerIndex).println("COLUMN");
-            int column=Lobby.get(lobbyIndex).getInputStream(playerIndex).read();
+            myOutputStream.println("COLUMN");
+            int column=myInputStream.read();
             columnAvailable(lobbyIndex, numOfTiles, myShelf, column, playerIndex);
             List<Integer> xCoord=new ArrayList<>();
-            Lobby.get(lobbyIndex).getOutputStream(playerIndex).println("X_COORDINATE");
+            myOutputStream.println("X_COORDINATE");
             try{
-                xCoord=(List<Integer>) Lobby.get(lobbyIndex).getObjInputStream(playerIndex).readObject();
+                xCoord=(List<Integer>) myObjectInputStream.readObject();
             }catch(Exception e){
                 e.printStackTrace();
             }
             List<Integer> yCoord=new ArrayList<>();
-            Lobby.get(lobbyIndex).getOutputStream(playerIndex).println("Y_COORDINATE");
+            myOutputStream.println("Y_COORDINATE");
             try{
-                yCoord=(List<Integer>) Lobby.get(lobbyIndex).getObjInputStream(playerIndex).readObject();
+                yCoord=(List<Integer>) myObjectInputStream.readObject();
             }catch(Exception e){
                 e.printStackTrace();
             }
             insertTiles(lobbyIndex, xCoord, yCoord, column);
             getMyShelfie(lobbyIndex, playerIndex);
-        }else if(clientMessage.equals("TURN_FINISHED")){
+        }else if(clientMessage.equals("TURN_FINISHED")){ //mandato a turno finito
             //getPoints()
-        }else if(clientMessage.equals("GAME_ENDED")){
+        }else if(clientMessage.equals("GAME_ENDED")){ //mandato da finalPick
             checkWinner(lobbyIndex, playerIndex); //corretto utilizzo?
         }
         //AZIONI POSSIBILI- START/JOIN già gestite, --funzioni che si attivano
@@ -152,9 +166,20 @@ public class ConcreteSocketServer {
             e.printStackTrace();
         }
         int lobbyIndex=createLobby(numOfPlayers);
-        Lobby.get(lobbyIndex).addInputStream(in); //sarà nell'indice 0
-        Lobby.get(lobbyIndex).addOutputStream(out);
-        Lobby.get(lobbyIndex).addObjectStream(oos, ois);
+        out.println("LOBBY");
+        out.println(lobbyIndex);
+        List<BufferedReader> inputStreams= inputStreamMap.get(lobbyIndex);
+        inputStreams.add(in);
+        inputStreamMap.put(lobbyIndex, inputStreams); //aggiunta del canale in alla mappa
+        List<PrintWriter> outputStreams= outputStreamMap.get(lobbyIndex);
+        outputStreams.add(out);
+        outputStreamMap.put(lobbyIndex, outputStreams);// aggiunta del canale out alla mappa
+        List<ObjectOutputStream> objectStreams= objStreamMap.get(lobbyIndex);
+        objectStreams.add(oos);
+        List<ObjectInputStream> objectInputStreams=objInStreamMap.get(lobbyIndex);
+        objectInputStreams.add(ois);
+        objInStreamMap.put(lobbyIndex, objectInputStreams);
+        objStreamMap.put(lobbyIndex, objectStreams);// aggiunta del canale obj alla mappa
         getMyPersonalGoal(lobbyIndex, 0);
         getMyShelfie(lobbyIndex, 0);
         //aspettare gli altri giocatori per stampare gli oggetti comuni?
@@ -164,11 +189,20 @@ public class ConcreteSocketServer {
             out.println("NAME");
             String playerName=in.readLine();
             int lobbyIndex=joinLobby();
+            out.println("LOBBY");
+            out.println(lobbyIndex);
             int playerIndex=addPlayer(lobbyIndex, playerName);
-            Lobby.get(lobbyIndex).addInputStream(in);
-            Lobby.get(lobbyIndex).addOutputStream(out);
-            Lobby.get(lobbyIndex).addObjectStream(oos, ois);
-            out.println("SECOND"); //modificare in base al playerIndex
+            List<BufferedReader> inputStreams= inputStreamMap.get(lobbyIndex);
+            inputStreams.add(in);
+            inputStreamMap.put(lobbyIndex, inputStreams); //aggiunta del canale in alla mappa
+            List<PrintWriter> outputStreams= outputStreamMap.get(lobbyIndex);
+            outputStreams.add(out);
+            outputStreamMap.put(lobbyIndex, outputStreams);// aggiunta del canale out alla mappa
+            List<ObjectOutputStream> objectStreams= objStreamMap.get(lobbyIndex);
+            objectStreams.add(oos);
+            objStreamMap.put(lobbyIndex, objectStreams);// aggiunta del canale obj alla mappa
+            out.println("ORDER"); //modificare in base al playerIndex
+            out.println(playerIndex);
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -201,12 +235,11 @@ public class ConcreteSocketServer {
     }
     public void getDashboard(int index){ //originariamente di tipo Tile[][]
         try{
-            List<ObjectOutputStream> players;
-            players=Lobby.get(index).getObjectStream();
-            for(int i=0; i<players.size(); i++){
-                players.get(i).writeObject(Lobby.get(index).getDashboardTiles());
-            }
              //implementare la ricezione lato client
+            List<ObjectOutputStream> objectStreams= objStreamMap.get(index);
+            for(int i=0; i<objectStreams.size(); i++){
+                objectStreams.get(i).writeObject(Lobby.get(index).getDashboardTiles());
+            }
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -214,7 +247,8 @@ public class ConcreteSocketServer {
     public void getMyShelfie(int index, int playerId){
        //sistemare perché è un po' brutto
         try{
-            Lobby.get(index).getObjectStream().get(playerId).writeObject(Lobby.get(index).getPlayersList().get(playerId).getShelfMatrix());
+            List<ObjectOutputStream> objectStreams= objStreamMap.get(index);
+            objectStreams.get(playerId).writeObject(Lobby.get(index).getPlayersList().get(playerId).getShelfMatrix());
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -222,7 +256,8 @@ public class ConcreteSocketServer {
 
     public void getMyPersonalGoal(int index, int playerId){
         try{
-            Lobby.get(index).getObjectStream().get(playerId).writeObject(Lobby.get(index).getPlayersList().get(playerId).getPersonalGoal());
+            List<ObjectOutputStream> objectStreams= objStreamMap.get(index);
+            objectStreams.get(playerId).writeObject(Lobby.get(index).getPlayersList().get(playerId).getPersonalGoal());
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -230,10 +265,9 @@ public class ConcreteSocketServer {
 
     public void getCommonGoals(int index){
         try{
-            List<ObjectOutputStream> players;
-            players=Lobby.get(index).getObjectStream();
-            for(int i=0; i<players.size(); i++){
-                players.get(i).writeObject(Lobby.get(index).getCommonGoals());
+            List<ObjectOutputStream> objectStreams= objStreamMap.get(index);
+            for(int i=0; i<objectStreams.size(); i++){
+                objectStreams.get(i).writeObject(Lobby.get(index).getCommonGoals());
             }
             //implementare la ricezione lato client
         }catch(IOException e){
@@ -248,7 +282,8 @@ public class ConcreteSocketServer {
         }else{
             myResponse="FALSE";
         }
-        Lobby.get(index).getOutputStream(playerIndex).println(myResponse);
+        List<PrintWriter> outputStreams=outputStreamMap.get(index);
+        outputStreams.get(playerIndex).println(myResponse);
 
     }
 
@@ -260,7 +295,8 @@ public class ConcreteSocketServer {
         }else{
             myResponse="FALSE";
         }
-        Lobby.get(index).getOutputStream(playerIndex).println(myResponse);
+        List<PrintWriter> outputStreams=outputStreamMap.get(index);
+        outputStreams.get(playerIndex).println(myResponse);
 
     }
 
@@ -274,6 +310,7 @@ public class ConcreteSocketServer {
         }else{
             myResponse= "LOST";
         }
-        Lobby.get(index).getOutputStream(id).println(myResponse);
+        List<PrintWriter> outputStreams=outputStreamMap.get(index);
+        outputStreams.get(id).println(myResponse);
     }
 }
