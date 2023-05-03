@@ -112,7 +112,6 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
 
 
     //This method adds the tiles in the shelf
-    @Override
     public void insertTiles ( int LobbyReference, List<Integer> xCoord, List<Integer>  yCoord, int column) throws RemoteException {
         Lobby.get(LobbyReference).insertTiles(xCoord,yCoord,column);
     }
@@ -133,7 +132,7 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
 
     @Override
     public void setMessage( Message message){
-        LobbyMessage.add(message.getName(), message);
+        LobbyMessage.add(message.getId(), message);
     }
 
     @Override

@@ -174,12 +174,13 @@ public class Player implements Serializable {
     }
 
 
+    //Not working
     public void checkPersonalGoal(int freeFirstSpot, int tilesToInsert, int column){
         Tile[][] layout= myPersonalGoal.getLayout();
         Tile[][] myLayout=getShelf().getTilesShelf();
         int i=0;
         while(i<tilesToInsert){
-            if(layout[freeFirstSpot+tilesToInsert][column].getColor().equals(myLayout[freeFirstSpot+tilesToInsert][column].getColor())){
+            if(layout[freeFirstSpot+tilesToInsert-1][column].getColor().equals(myLayout[freeFirstSpot+tilesToInsert-1][column].getColor())){
                 setPoints(myPersonalGoal.getPoints());
                 freeFirstSpot--;
                 i++;
