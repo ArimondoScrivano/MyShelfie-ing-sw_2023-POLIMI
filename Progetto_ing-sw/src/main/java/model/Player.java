@@ -180,7 +180,7 @@ public class Player implements Serializable {
 
 
     //Not working
-    public void checkPersonalGoal(int freeFirstSpot, int tilesToInsert, int column){
+    public void checkPersonalGoal(){
         Tile[][] layout= myPersonalGoal.getLayout();
         Tile[][] myLayout=getShelf().getTilesShelf();
         int i=0;
