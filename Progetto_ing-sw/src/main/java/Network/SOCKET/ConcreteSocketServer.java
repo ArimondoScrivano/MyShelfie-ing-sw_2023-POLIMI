@@ -58,30 +58,6 @@ public class ConcreteSocketServer {
             e.printStackTrace();
         }
     }
-    public void addPlayer(){ //azioni fatte per ogni nuovo client
-        try{
-            Socket soc; //gestore della singola comunicazione
-            soc= s.accept();
-            BufferedReader in=new BufferedReader(new InputStreamReader(soc.getInputStream())); //creato per ogni client che si collega
-            out=new PrintWriter(soc.getOutputStream(), true);
-            OutputStream outputStream= soc.getOutputStream();
-            oos=new ObjectOutputStream(outputStream); //canale di passaggio degli oggetti per ogni client che si connette
-            InputStream inputStream= soc.getInputStream();
-            ois=new ObjectInputStream(inputStream);
-            clientMessage=in.readLine();
-            String myResponse="myResponse";
-            if(clientMessage.equals("START")){
-                myResponse="STARTED";
-                startGame();
-            }else if(clientMessage.equals("JOIN")){
-                myResponse="JOINED";
-                joinGame();
-            }
-            out.println(myResponse);
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-    }
     public void receiveMessages(int lobbyIndex)throws IOException, ClassNotFoundException{ //decoder dei messaggi
         Player currentPlayer=Lobby.get(lobbyIndex).playerTurn();
         int playerIndex=currentPlayer.getId();
@@ -120,7 +96,7 @@ public class ConcreteSocketServer {
             pickableTiles(lobbyIndex, playerIndex, xCoord, yCoord);
 
         }else if(clientMessage.equals("MY_TURN?")){
-            decodeMessage(0, lobbyIndex, myOutputStream);
+            decodeMessage(0, lobbyIndex, playerIndex);
             //già gestita
         }else if(clientMessage.equals("TILES_PICKED")){// mandato da picktiles
             //chiamata a dashboard
@@ -153,7 +129,7 @@ public class ConcreteSocketServer {
         }else if(clientMessage.equals("GAME_ENDED")){ //mandato da finalPick
             checkWinner(lobbyIndex, playerIndex); //corretto utilizzo?
         }if(clientMessage.equals("DASHBOARD")){
-            decodeMessage(1, lobbyIndex, myOutputStream);
+            decodeMessage(1, lobbyIndex, playerIndex);
         }
         //AZIONI POSSIBILI- START/JOIN già gestite, --funzioni che si attivano
                                                     //-getPersonalGoal()- singolarmente ad ogni player
@@ -168,11 +144,16 @@ public class ConcreteSocketServer {
                          // GAME ENDING         //checkWinner()-a tutti
     }
 
-    public void decodeMessage(int parameter, int lobbyIndex, PrintWriter myOutStream){
+    public void decodeMessage(int parameter, int lobbyIndex, int playerId){
+        BufferedReader myInputStream= inputStreamMap.get(lobbyIndex).get(playerId);
+        PrintWriter myOutStream= outputStreamMap.get(lobbyIndex).get(playerId);
+        ObjectOutputStream myObjOutStream= objStreamMap.get(lobbyIndex).get(playerId);
+        ObjectInputStream myObjInStream= objInStreamMap.get(lobbyIndex).get(playerId);
         if(parameter==0){
             //isItMyTurn()
             int myResponse=getCurrentPlayer(lobbyIndex);
             myOutStream.println(myResponse);
+
         }if(parameter==1){
             //getDashboard()
             Tile[][] myDashboard;
@@ -185,10 +166,10 @@ public class ConcreteSocketServer {
                     e.printStackTrace();
                 }
             }
+
         }if(parameter==2){
             //getMyShelfie()
             Tile[][] shelf;
-            int playerId=0;
             shelf=getMyShelfie(lobbyIndex, playerId);
             try{
                 List<ObjectOutputStream> objectStreams= objStreamMap.get(lobbyIndex);
@@ -196,25 +177,174 @@ public class ConcreteSocketServer {
             }catch(IOException e){
                 e.printStackTrace();
             }
+
         }if(parameter==3){
             //personal goal
+            PersonalGoal myPersonalGoal=getMyPersonalGoal(lobbyIndex, playerId);
+            try{
+                List<ObjectOutputStream> objectStreams= objStreamMap.get(lobbyIndex);
+                objectStreams.get(playerId).writeObject(myPersonalGoal);
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+
         }if(parameter==4){
             //common goal
+            List<CommonGoals> myCommonGoals=Lobby.get(lobbyIndex).getCommonGoals();
+            try{
+                List<ObjectOutputStream> objectStreams= objStreamMap.get(lobbyIndex);
+                for(int i=0; i<objectStreams.size(); i++){
+                    objectStreams.get(i).writeObject(myCommonGoals);
+                }
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+
         }if(parameter==5){
             //pickable tiles
+            List<Integer> xCord;
+            myOutStream.println("X_COORDINATE");
+            List<ObjectInputStream> inputStreams= objInStreamMap.get(lobbyIndex);
+            try{
+                xCord= (List<Integer>) inputStreams.get(playerId).readObject();
+            }catch(Exception e){
+                e.printStackTrace();
+                xCord=null;
+            }
+            List<Integer> yCord;
+            myOutStream.println("Y_COORDINATE");
+            try{
+                yCord= (List<Integer>) inputStreams.get(playerId).readObject();
+            }catch(Exception e){
+                e.printStackTrace();
+                yCord=null;
+            }
+            boolean pickable=pickableTiles(lobbyIndex, playerId, xCord, yCord);
+            if(pickable){
+                myOutStream.println("PICKABLE");
+            }else{
+                myOutStream.println("NOT_PICKABLE");
+            }
+
         }if(parameter==6){
             //tiles picked
+            List<Integer> xCord;
+            myOutStream.println("X_COORDINATE");
+            List<ObjectInputStream> inputStreams= objInStreamMap.get(lobbyIndex);
+            try{
+                xCord= (List<Integer>) inputStreams.get(playerId).readObject();
+            }catch(Exception e){
+                e.printStackTrace();
+                xCord=null;
+            }
+            List<Integer> yCord;
+            myOutStream.println("Y_COORDINATE");
+            try{
+                yCord= (List<Integer>) inputStreams.get(playerId).readObject();
+            }catch(Exception e){
+                e.printStackTrace();
+                yCord=null;
+            }
+            finalPick(lobbyIndex, xCord, yCord);
+
         }if(parameter==7){
             //column chosen
+            int numberOfTiles;
+            myOutStream.println("NUMBER_OF_TILES");
+            try{
+                numberOfTiles=myInputStream.read();
+            }catch(Exception e){
+                e.printStackTrace();
+                numberOfTiles=0;
+            }
+            int selectedCol;
+            myOutStream.println("SELECTED_COL");
+            try{
+                selectedCol=myInputStream.read();
+            }catch(Exception e){
+                e.printStackTrace();
+                selectedCol=0;
+            }
+            Shelf myShelf;
+            myOutStream.println("SHELF");
+            try{
+                myShelf=(Shelf) myObjInStream.readObject();
+            }catch(Exception e){
+                e.printStackTrace();
+                myShelf=null;
+            }
+            boolean available=Lobby.get(lobbyIndex).columnAvailable(numberOfTiles, myShelf, selectedCol);
+            if(available){
+                myOutStream.println("AVAILABLE");
+            }else{
+                myOutStream.println("NOT_AVAILABLE");
+            }
+
         }if(parameter==8){
             //insert tiles
+            List<Integer> xCord;
+            myOutStream.println("X_COORDINATE");
+            List<ObjectInputStream> inputStreams= objInStreamMap.get(lobbyIndex);
+            try{
+                xCord= (List<Integer>) inputStreams.get(playerId).readObject();
+            }catch(Exception e){
+                e.printStackTrace();
+                xCord=null;
+            }
+            List<Integer> yCord;
+            myOutStream.println("Y_COORDINATE");
+            try{
+                yCord= (List<Integer>) inputStreams.get(playerId).readObject();
+            }catch(Exception e){
+                e.printStackTrace();
+                yCord=null;
+            }
+            int selectedCol;
+            myOutStream.println("COLUMN");
+            try{
+                selectedCol=myInputStream.read();
+            }catch (Exception e){
+                e.printStackTrace();
+                selectedCol=0;
+            }
+            insertTiles(lobbyIndex, xCord, yCord, selectedCol);
+
         }if(parameter==9){
             //winner
+            String myResponse= checkWinner(lobbyIndex, playerId);
+            myOutStream.println(myResponse);
         }if(parameter==10){
             //points
+            int myPoints;
+            myPoints=myPoints(lobbyIndex, playerId);
+            myOutStream.println(myPoints);
         }
     }
 
+    public void addPlayer(){ //azioni fatte per ogni nuovo client
+        try{
+            Socket soc; //gestore della singola comunicazione
+            soc= s.accept();
+            BufferedReader in=new BufferedReader(new InputStreamReader(soc.getInputStream())); //creato per ogni client che si collega
+            out=new PrintWriter(soc.getOutputStream(), true);
+            OutputStream outputStream= soc.getOutputStream();
+            oos=new ObjectOutputStream(outputStream); //canale di passaggio degli oggetti per ogni client che si connette
+            InputStream inputStream= soc.getInputStream();
+            ois=new ObjectInputStream(inputStream);
+            clientMessage=in.readLine();
+            String myResponse="myResponse";
+            if(clientMessage.equals("START")){
+                myResponse="STARTED";
+                startGame();
+            }else if(clientMessage.equals("JOIN")){
+                myResponse="JOINED";
+                joinGame();
+            }
+            out.println(myResponse);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
 
     public void startGame(){ //TODO: implementare la funzione lato client
         String name;
@@ -309,66 +439,33 @@ public class ConcreteSocketServer {
         return Lobby.get(index).getPlayersList().get(playerId).getShelfMatrix();
     }
 
-    public void getMyPersonalGoal(int index, int playerId){
-        try{
-            List<ObjectOutputStream> objectStreams= objStreamMap.get(index);
-            objectStreams.get(playerId).writeObject(Lobby.get(index).getPlayersList().get(playerId).getPersonalGoal());
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+    public PersonalGoal getMyPersonalGoal(int index, int playerId){
+        return Lobby.get(index).getPlayersList().get(playerId).getPersonalGoal();
     }
 
-    public void getCommonGoals(int index){
-        try{
-            List<ObjectOutputStream> objectStreams= objStreamMap.get(index);
-            for(int i=0; i<objectStreams.size(); i++){
-                objectStreams.get(i).writeObject(Lobby.get(index).getCommonGoals());
-            }
-            //implementare la ricezione lato client
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+    public List<CommonGoals> getCommonGoals(int index){
+        return Lobby.get(index).getCommonGoals();
     }
-    public void pickableTiles(int index, int playerIndex, List<Integer> xCoord, List<Integer> yCoord){
-        String myResponse;
-        boolean pickable=Lobby.get(index).tileAvailablePick(xCoord, yCoord);
-        if(pickable){
-            myResponse="TRUE";
-        }else{
-            myResponse="FALSE";
-        }
-        List<PrintWriter> outputStreams=outputStreamMap.get(index);
-        outputStreams.get(playerIndex).println(myResponse);
-
+    public boolean pickableTiles(int index, int playerIndex, List<Integer> xCoord, List<Integer> yCoord){
+        return Lobby.get(index).tileAvailablePick(xCoord, yCoord);
     }
 
-    public void columnAvailable(int index, int numTiles, Shelf myShelf, int selectedCol, int playerIndex){ //in caso di server socket le funzioni avranno un parametro in più
-        String myResponse;
-        boolean available=Lobby.get(index).columnAvailable(numTiles, myShelf, selectedCol);
-        if(available){
-            myResponse="TRUE";
-        }else{
-            myResponse="FALSE";
-        }
-        List<PrintWriter> outputStreams=outputStreamMap.get(index);
-        outputStreams.get(playerIndex).println(myResponse);
+    public boolean columnAvailable(int index, int numTiles, Shelf myShelf, int selectedCol, int playerIndex){ //in caso di server socket le funzioni avranno un parametro in più
+        return Lobby.get(index).columnAvailable(numTiles, myShelf, selectedCol);
 
     }
 
     public void insertTiles ( int LobbyReference, List<Integer> xCoord, List<Integer>  yCoord, int column){
         Lobby.get(LobbyReference).insertTiles(xCoord,yCoord,column); //da verificare se trova il giocatore giusto
     }
-    public void checkWinner(int index, int id){
-        String myResponse;
+    public String checkWinner(int index, int id){
         if(Lobby.get(index).checkWinner().getId()== id){
-            myResponse= "WON";
+            return "WON";
         }else{
-            myResponse= "LOST";
+            return "LOST";
         }
-        List<PrintWriter> outputStreams=outputStreamMap.get(index);
-        outputStreams.get(id).println(myResponse);
     }
-    public void finalPick(int index, List<Integer> xCord, List<Integer> yCord)throws RemoteException {
+    public void finalPick(int index, List<Integer> xCord, List<Integer> yCord){
         Lobby.get(index).pickTiles(xCord,yCord);
     }
     public Shelf getMyShelfieREF(int index, String playerName, int playerId) throws RemoteException{
@@ -386,5 +483,8 @@ public class ConcreteSocketServer {
     }
     public int getCurrentPlayer( int index) {
         return Lobby.get(index).playerTurn().getId();
+    }
+    public int myPoints(int index, int playerId){
+        return Lobby.get(index).getPlayersList().get(playerId).getPoints();
     }
 }
