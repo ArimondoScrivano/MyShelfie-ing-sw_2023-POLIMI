@@ -46,7 +46,8 @@ public class ConcreteSocketServer {
     private HashMap<Integer, List<ObjectInputStream>> objInStreamMap;
     private String clientMessage;
 
-
+//input da utente a carico della funzione read message
+    //output verso l'utente a carico della funzione decode message
 
 
 
@@ -77,71 +78,30 @@ public class ConcreteSocketServer {
                 e.printStackTrace();
             }
         }
-        if(clientMessage.equals("CHOSEN_TILES")){ //tiles pescate, deve essere mandato da picktiles
-            //Chiamata a pickable tiles
-            List<Integer> xCoord=new ArrayList<>();
-            myOutputStream.println("X_COORDINATE");
-            try{
-                xCoord=(List<Integer>) myObjectInputStream.readObject();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-            List<Integer> yCoord=new ArrayList<>();
-            myOutputStream.println("Y_COORDINATE");
-            try{
-                yCoord=(List<Integer>) myObjectInputStream.readObject();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-            pickableTiles(lobbyIndex, playerIndex, xCoord, yCoord);
-
-        }else if(clientMessage.equals("MY_TURN?")){
+        if(clientMessage.equals("MY_TURN")){ //parameter 0
             decodeMessage(0, lobbyIndex, playerIndex);
-            //già gestita
-        }else if(clientMessage.equals("TILES_PICKED")){// mandato da picktiles
-            //chiamata a dashboard
-            getDashboard(lobbyIndex);
-        }else if(clientMessage.equals("COLUMN_CHOSEN")){ //mandato da choosecolumn shelf
-            myOutputStream.println("NUMBER_TILES");
-            int numOfTiles=myInputStream.read();
-            Shelf myShelf=Lobby.get(lobbyIndex).playerTurn().getShelf();
-            myOutputStream.println("COLUMN");
-            int column=myInputStream.read();
-            columnAvailable(lobbyIndex, numOfTiles, myShelf, column, playerIndex);
-            List<Integer> xCoord=new ArrayList<>();
-            myOutputStream.println("X_COORDINATE");
-            try{
-                xCoord=(List<Integer>) myObjectInputStream.readObject();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-            List<Integer> yCoord=new ArrayList<>();
-            myOutputStream.println("Y_COORDINATE");
-            try{
-                yCoord=(List<Integer>) myObjectInputStream.readObject();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-            insertTiles(lobbyIndex, xCoord, yCoord, column);
-            getMyShelfie(lobbyIndex, playerIndex);
-        }else if(clientMessage.equals("TURN_FINISHED")){ //mandato a turno finito
-            //getPoints()
-        }else if(clientMessage.equals("GAME_ENDED")){ //mandato da finalPick
-            checkWinner(lobbyIndex, playerIndex); //corretto utilizzo?
-        }if(clientMessage.equals("DASHBOARD")){
+
+        }else if(clientMessage.equals("DASHBOARD")){
             decodeMessage(1, lobbyIndex, playerIndex);
+        }else if(clientMessage.equals("MY_SHELF")){
+            decodeMessage(2, lobbyIndex, playerIndex);
+        }else if(clientMessage.equals("PERSONAL_GOAL")){
+            decodeMessage(3, lobbyIndex, playerIndex);
+        }else if(clientMessage.equals("COMMON_GOAL")){ //mandato da finalPick
+            decodeMessage(4, lobbyIndex, playerIndex);
+        }else if(clientMessage.equals("PICKABLE_TILES")){
+            decodeMessage(5, lobbyIndex, playerIndex);
+        }else if(clientMessage.equals("TILES_PICKED")){
+            decodeMessage(6, lobbyIndex, playerIndex);
+        }else if(clientMessage.equals("COLUMN_CHOSEN")){
+            decodeMessage(7, lobbyIndex, playerIndex);
+        }else if(clientMessage.equals("INSERT_TILES")){
+            decodeMessage(8, lobbyIndex, playerIndex);
+        }else if(clientMessage.equals("WINNER")){
+            decodeMessage(9, lobbyIndex, playerIndex);
+        }else if(clientMessage.equals("POINTS")){
+            decodeMessage(10, lobbyIndex, playerIndex);
         }
-        //AZIONI POSSIBILI- START/JOIN già gestite, --funzioni che si attivano
-                                                    //-getPersonalGoal()- singolarmente ad ogni player
-                                                    //-getCommonGoals()- tutti
-                         // SOMETHING CHANGED --funzioni che si devono attivare
-                                                //-getDashboard()- tutti
-                                                //-getMyShelfie()- solo al player che sta giocando
-                                                //-pickableTiles() -solo al player
-                                                //-columnAvailable() -solo al player
-                                                //-insertTiles() -solo al player
-                                                //-getPoints(); -solo al player che sta giocando/tutti
-                         // GAME ENDING         //checkWinner()-a tutti
     }
 
     public void decodeMessage(int parameter, int lobbyIndex, int playerId){
