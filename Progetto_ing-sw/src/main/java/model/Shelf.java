@@ -56,6 +56,6 @@ public class Shelf implements Serializable {
             freeFirstSpot--;
         }
         myPlayer.convertPoints(tilesShelf);
-        myPlayer.checkPersonalGoal(freeFirstSpot, tilesToInsert, column);
+        myPlayer.checkPersonalGoal();
     }
 }

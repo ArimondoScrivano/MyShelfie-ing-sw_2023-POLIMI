@@ -13,8 +13,10 @@ public class Player implements Serializable {
     //PLAYER'S SHELF
     protected Shelf myShelf;
     //THE PERSONAL GOAL IS CONNECTED TO THE PLAYER INSTANCE
-    PersonalGoal myPersonalGoal;
+     private PersonalGoal myPersonalGoal;
     //NUMBER OF POINTS OF EACH PLAYER
+    private int PGpoints;
+
     protected int points;
     //BOOLEAN WHICH IS TRUE WHETHER THE PLAYER'S SHELF IS FULL
     private boolean shelfCompleted;
@@ -36,9 +38,9 @@ public class Player implements Serializable {
         int personalGoalId= rand.nextInt(1, 12);
         this.id=id;
         this.name=name;
-
         this.myShelf=new Shelf( this);
         this.myPersonalGoal=new PersonalGoal(personalGoalId);
+        this.PGpoints=0;
         this.points=0;
         this.shelfCompleted=false;
         this.commonGoalsCompleted = new boolean[2];
@@ -64,6 +66,7 @@ public class Player implements Serializable {
     }
     public int getPoints(){return this.points;}
 
+    public int getPGpoints(){return this.PGpoints;}
     public void setPointsEndGame(){
         this.points++;
     }
@@ -174,19 +177,30 @@ public class Player implements Serializable {
     }
 
 
+
+
     //Not working
-    public void checkPersonalGoal(int freeFirstSpot, int tilesToInsert, int column){
+    public void checkPersonalGoal(){
         Tile[][] layout= myPersonalGoal.getLayout();
         Tile[][] myLayout=getShelf().getTilesShelf();
         int i=0;
-        while(i<tilesToInsert){
-            if(layout[freeFirstSpot+tilesToInsert-1][column].getColor().equals(myLayout[freeFirstSpot+tilesToInsert-1][column].getColor())){
-                setPoints(myPersonalGoal.getPoints());
-                freeFirstSpot--;
-                i++;
-            }
-        }
+       for(int row=0; row<6; row++){
+           for(int col=0; col<5; col++){
+               if(!myLayout[row][col].getColor().equals(COLOR.BLANK)){
+                   if(myLayout[row][col].getColor().equals(layout[row][col].getColor())){
+                       i++;
+                   }
+               }
+
+           }
+       }
+       this.PGpoints= myPersonalGoal.getPoints(i);
+
     }
+public void sumUpPoints(){
+    this.points= points+ PGpoints;
+}
+
 
     public Tile[][] getShelfMatrix(){
         return this.myShelf.getTilesShelf();
