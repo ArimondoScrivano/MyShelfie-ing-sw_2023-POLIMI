@@ -27,7 +27,6 @@ public class AppClientRMI {
             //Lobby creation
             client.createLobby(numberOfPlayers, playerName);
             System.out.println("Your lobby reference is " + client.getLobbyReference());
-            //client.addPlayer(playerName);
         }else {
             System.out.println("Joining a lobby already created...");
             //Join a lobby

@@ -179,11 +179,10 @@ public class Player implements Serializable {
 
 
 
-    //Not working
     public void checkPersonalGoal(){
         Tile[][] layout= myPersonalGoal.getLayout();
         Tile[][] myLayout=getShelf().getTilesShelf();
-        int i=0;
+        int i=-1;
        for(int row=0; row<6; row++){
            for(int col=0; col<5; col++){
                if(!myLayout[row][col].getColor().equals(COLOR.BLANK)){
@@ -194,7 +193,9 @@ public class Player implements Serializable {
 
            }
        }
-       this.PGpoints= myPersonalGoal.getPoints(i);
+       if(i>-1){
+           this.PGpoints= myPersonalGoal.getPoints(i);
+       }
 
     }
 public void sumUpPoints(){
