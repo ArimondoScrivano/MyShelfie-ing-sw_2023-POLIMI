@@ -89,39 +89,7 @@ public class TextualUI extends Observable implements View {
         }
 
         //Printing the layout of the common goal card
-        out.println(ColorUI.BLUE_TEXT+"COMMON GOAL CARDS"+ColorUI.RESET);
-
-        for(CommonGoals cg : commonGoals){
-            if(cg.equals(commonGoals.get(0))){
-                out.println(ColorUI.RED_TEXT+"First Common Goal"+ColorUI.RESET);
-                //Printing the common goal card
-                cg.printLayout();
-                //Printing the available points
-                out.println("Points available");
-                //Printing the available points in reverse order
-                for(int i=cg.getScoreList().size()-1; i>=0; i--){
-                    if(i==0){
-                        out.println(cg.getScoreList().get(i));
-                    }else{
-                        out.print(cg.getScoreList().get(i)+", ");
-                    }
-                }
-            }else{
-                out.println(ColorUI.RED_TEXT+"\nSecond Common Goal"+ColorUI.RESET);
-                //Printing the common goal card
-                cg.printLayout();
-                //Printing the available points
-                out.println("Points available");
-                //Printing the available points in reverse order
-                for(int i=cg.getScoreList().size()-1; i>=0; i--){
-                    if(i==0){
-                        out.println(cg.getScoreList().get(i));
-                    }else{
-                        out.print(cg.getScoreList().get(i)+", ");
-                    }
-                }
-            }
-        }
+        printCommonGoal(commonGoals);
 
         //TODO: Rendere più visibile la shelf e dividere i quadrati della shelf in personal goal, da implementare la parte di visione del solo personal goal del giocatore connesso e non la visione complessiva
         //Printing the shelf and the personal goal card associated to the player
@@ -153,6 +121,33 @@ public class TextualUI extends Observable implements View {
                 copyColor = convertColorInStringTiles(copyColor, color);
             }
             out.println();
+        }
+    }
+
+    private void printCommonGoal(List<CommonGoals> commonGoals){
+        out.println(ColorUI.BLUE_TEXT+"COMMON GOAL CARDS"+ColorUI.RESET);
+        for(CommonGoals cg : commonGoals){
+            if(cg.equals(commonGoals.get(0))){
+                out.println(ColorUI.RED_TEXT+"\nFirst Common Goal"+ColorUI.RESET);
+                //Printing the common goal card
+                cg.printLayout();
+                //Printing the available score
+                if(cg.getCurrent_point()==0){
+                    out.println("No points available for this common goal");
+                }else{
+                    out.println("Points available: "+ cg.getCurrent_point());
+                }
+            }else{
+                out.println(ColorUI.RED_TEXT+"\nSecond Common Goal"+ColorUI.RESET);
+                //Printing the common goal card
+                cg.printLayout();
+                //Printing the available score
+                if(cg.getCurrent_point()==0){
+                    out.println("No points available for this common goal");
+                }else{
+                    out.println("Points available: "+ cg.getCurrent_point());
+                }
+            }
         }
     }
 
