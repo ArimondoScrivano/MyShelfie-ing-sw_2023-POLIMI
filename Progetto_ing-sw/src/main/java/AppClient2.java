@@ -55,7 +55,8 @@ public class AppClient2 {
         flagDisplay=0;
 
         System.out.println(ColorUI.YELLOW_TEXT+"Starting the game. HAVE FUN"+ColorUI.RESET);
-        while(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)){
+
+        while(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING) ){
 
             //Game flow
             if(client.isItMyTurn()){
@@ -103,6 +104,6 @@ public class AppClient2 {
             }
         }
         //Check if i won
-        client.checkWinner();
+        System.out.println(client.checkWinner());
     }
 }

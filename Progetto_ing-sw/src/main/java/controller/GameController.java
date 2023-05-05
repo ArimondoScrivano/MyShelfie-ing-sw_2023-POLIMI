@@ -162,15 +162,28 @@ public class GameController extends Observable {
         //check finish
         if(playerTurn().isShelfCompleted()){
             playerTurn().setLastRound(true);
-            playerTurn().sumUpPoints();
 
             if(!currentGame.getEndGame()){
                 currentGame.setEndGameTrue();
                 playerTurn().setPointsEndGame();
             }
         }
-        //check if the last turn ended
-        if(playerTurn().isLastRound()){
+
+        if(currentGame.getCurrentPlayer().isLastRound()){
+            int counter=0;
+            for(int i=0; i< currentGame.getPlayers().size(); i++){
+                if(currentGame.getPlayers().get(i).isLastRound()){
+                    counter++;
+                }
+            }
+            if(counter==currentGame.getPlayers().size()){
+                for(int i=0; i< currentGame.getPlayers().size(); i++){
+                    currentGame.getPlayers().get(i).sumUpPoints();
+                }
+                ended();
+            }
+        }
+        if(currentGame.getCurrentPlayer().isLastRound()){
             flagPreviusDone=1;
         }
 
@@ -187,17 +200,9 @@ public class GameController extends Observable {
             }
             currentGame.setCurrentPlayer(currentGame.getPlayers().get(flag));
         }
-        //check if the last turn ended
-        if(playerTurn().isLastRound()){
-            ended();
-        }
-
-        //check if is the last Turn
-        //check if the last turn ended
-        if(flagPreviusDone==1){
-            playerTurn().setLastRound(true);
-            playerTurn().sumUpPoints();
-        }
+      if(flagPreviusDone==1){
+          currentGame.getCurrentPlayer().setLastRound(true);
+      }
 
     }
     public Player playerTurn(){
@@ -208,7 +213,6 @@ public class GameController extends Observable {
 
     public void pickTiles(List<Integer> xCord, List<Integer> yCord){
         currentGame.updateDashboard(xCord,yCord);
-      somethingChanged();
         pickNextPlayer();
     }
 

@@ -55,6 +55,7 @@ public class AppClientRMI {
         flagDisplay=0;
 
         System.out.println(ColorUI.YELLOW_TEXT+"Starting the game. HAVE FUN"+ColorUI.RESET);
+
         while(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)){
 
             //Game flow
@@ -103,6 +104,6 @@ public class AppClientRMI {
             }
         }
         //Check if i won
-        client.checkWinner();
+        System.out.println(client.checkWinner());
     }
 }

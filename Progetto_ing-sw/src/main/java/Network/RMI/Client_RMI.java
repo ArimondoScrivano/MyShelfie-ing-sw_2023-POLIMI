@@ -177,6 +177,7 @@ public class Client_RMI  {
             e.printStackTrace();
         }
     }
+
     public String checkWinner() {
         try {
             return server.checkWinner(LobbyReference, myId);

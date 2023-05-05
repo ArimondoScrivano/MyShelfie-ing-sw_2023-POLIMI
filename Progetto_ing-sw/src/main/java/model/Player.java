@@ -23,6 +23,7 @@ public class Player implements Serializable {
     private boolean[] commonGoalsCompleted;
     private boolean lastRound;
 
+
     public void setLastRound(boolean lastRound) {
         this.lastRound = lastRound;
     }
@@ -172,11 +173,12 @@ public class Player implements Serializable {
     }
 
     public boolean isShelfCompleted() {
+            setShelfCompleted(myShelf.completeShelf());
         return shelfCompleted;
     }
 
-    public void setShelfCompleted(){
-        this.shelfCompleted = true;
+    public void setShelfCompleted( boolean stato){
+        this.shelfCompleted = stato;
     }
 
 

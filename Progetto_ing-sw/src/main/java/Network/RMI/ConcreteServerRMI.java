@@ -133,7 +133,6 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
         Lobby.get(LobbyReference).insertTiles(xCoord,yCoord,column);
     }
 
-
     @Override
     public String checkWinner(int index, int id) throws RemoteException {
         if(Lobby.get(index).checkWinner().getId()== id){
