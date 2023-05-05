@@ -9,7 +9,7 @@ public class Player implements Serializable {
     //INTEGER TO IDENTIFY THE PLAYER
     private final int id;
     //PLAYER'S NICKNAME
-    private final String name;
+    private  String name;
     //PLAYER'S SHELF
     protected Shelf myShelf;
     //THE PERSONAL GOAL IS CONNECTED TO THE PLAYER INSTANCE
@@ -25,6 +25,9 @@ public class Player implements Serializable {
 
     public void setLastRound(boolean lastRound) {
         this.lastRound = lastRound;
+    }
+    public void setName(String name){
+        this.name= name;
     }
 
     public boolean isLastRound() {

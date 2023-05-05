@@ -11,6 +11,8 @@ public interface Server_RMI extends Remote{
  public int createLobby(int numPlayers, String creatorLobby) throws RemoteException;
  public int joinLobby() throws RemoteException;
  public int addPlayer(int index, String name) throws RemoteException;
+ public boolean nameAleradyTaken(int index, String name,int id)throws RemoteException;
+ public void changeName(int index, int id, String name)throws RemoteException;
  public Tile[][] getDashboard(int index) throws RemoteException;
 public Tile[][] getMyShelfie(int index, String playerName, int playerId) throws RemoteException;
 public Shelf getMyShelfieREF(int index, String playerName, int playerId) throws RemoteException;

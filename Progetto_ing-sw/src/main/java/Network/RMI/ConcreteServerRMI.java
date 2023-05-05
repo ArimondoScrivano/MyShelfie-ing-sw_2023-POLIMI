@@ -54,6 +54,19 @@ public class ConcreteServerRMI extends UnicastRemoteObject implements Server_RMI
         return IndexPlayer;
     }
 
+    public boolean nameAleradyTaken(int index, String name, int id) throws RemoteException {
+        for(int i=0; i< Lobby.get(index).getPlayersList().size(); i++){
+            if(Lobby.get(index).getPlayersList().get(i).getName().equals(name) && i!=id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void changeName(int index, int id, String name)throws RemoteException{
+        Lobby.get(index).getPlayersList().get(id).setName(name);
+    }
+
     @Override
     public Tile[][] getDashboard(int index) throws RemoteException{
         return Lobby.get(index).getDashboardTiles();
