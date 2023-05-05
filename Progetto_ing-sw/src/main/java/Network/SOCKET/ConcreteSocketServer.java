@@ -227,8 +227,7 @@ public class ConcreteSocketServer {
                 e.printStackTrace();
                 selectedCol=0;
             }
-            Shelf myShelf;
-            myOutStream.println("SHELF");
+            Shelf myShelf=Lobby.get(lobbyIndex).playerTurn().getShelf();
             try{
                 myShelf=(Shelf) myObjInStream.readObject();
             }catch(Exception e){

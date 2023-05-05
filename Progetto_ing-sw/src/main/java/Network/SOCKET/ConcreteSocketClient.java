@@ -17,32 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConcreteSocketClient {
-    //TODO: creare un message decoder che smisti in base alle richieste del client
-    // e alle cose che arrivano dal server
 
-    //tipi di messaggi già definiti
-    //START/JOIN
-    //PICKABLE_TILES-> X_COORDINATE, Y_COORDINATE
-    //MY_TURN?
-    //TILES_PICKED
-    //NUMBER_TILES
-    //COLUMN_CHOSEN-> X_COORDINATE, Y_COORDINATE
-    //TURN_FINISHED
-    //GAME_ENDED
-
-    //possibii richieste del client verso il server
-    //START/JOIN -chiamato da setup()
-    //MY_TURN? -chiamato da isMyTurn()
-    //DASHBOARD -chiamato da getDashboard()
-    //MY_SHELF -chiamato da getMyShelfie()
-    //PERSONAL_GOAL -chiamato da getPersonalGoal()
-    //COMMON_GOAL -chiamato da getCommonGoal()
-    //PICKABLE_TILES -chiamato da pickableTiles()
-    //TILES_PICKED -chiamato da finalPick()
-    //COLUMN_CHOSEN -chiamato da columnAvailable()
-    //INSERT_TILES -chiamato da insertTiles()
-    //WINNER -chiamato da checkWinner()
-    //POINTS- chiamato da myPoints()
     private final int defaultPortNumber=16001; //serverIdentity
     private ObjectInputStream ois;
     //ois.readObject();
@@ -94,33 +69,6 @@ public class ConcreteSocketClient {
             }
         }catch(IOException e){
             e.printStackTrace();
-        }
-    }
-    public void decodeMessage(int parameter){
-        if(parameter==0){
-        }
-        if(parameter==1){
-
-        }if(parameter==2){
-            //eliminato
-        }if(parameter==3){
-           //eliminato
-        }if(parameter==4){
-            //eliminato
-        }if(parameter==5){
-            //eliminato
-        }if(parameter==6){
-        }if(parameter==7){
-
-
-        }if(parameter==8){
-
-        }if(parameter==9){
-
-        }if(parameter==10){
-
-        }if(parameter==11){
-
         }
     }
 
@@ -197,13 +145,6 @@ public class ConcreteSocketClient {
     }
 
     public Tile[][] getDashboard() throws IOException, ClassNotFoundException{
-        /*try {
-            return server.getDashboard(LobbyReference);
-        } catch (Exception e) {
-            //System.out.println("ERROR, BAD CONNECTION");
-            e.printStackTrace();
-            return null;
-        }*/
         out.println("DASHBOARD");
         try{
             Tile[][] dashboard;
@@ -267,68 +208,85 @@ public class ConcreteSocketClient {
                     e.printStackTrace();
                 }
             }
-            if(serverMessage.equals("X_COORDINATE")){
+            if(serverMessage.equals("Y_COORDINATE")){
                 try{
                     oos.writeObject(yCoord);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
+                responseReceived=true;
             }
-            try{
-                serverMessage=in.readLine();
-                if(serverMessage.equals("PICKABLE")) return true;
-                return false;
-            }catch (IOException e){
-                e.printStackTrace();
-                return false;
-            }
-        } return false;
-        /*try{
-            return server.pickableTiles(LobbyReference, xCoord, yCoord);
-        } catch (Exception e) {
-            //System.out.println("ERROR, BAD CONNECTION");
+        } try{
+            serverMessage=in.readLine();
+            if(serverMessage.equals("PICKABLE")) return true;
+            return false;
+        }catch (IOException e){
             e.printStackTrace();
             return false;
-        }*/
-
+        }
     }
 
 
 
     public boolean columnAvailable(int numTiles, int selectedCol){
         out.println("COLUMN_CHOSEN");
-        try{
-            String serverResponse;
-            serverResponse=in.readLine();
-            if(serverResponse.equals("TRUE")) return true;
-            return false;
-        }catch (IOException e){
-            e.printStackTrace();
-            return false;
-        }
-        /*try{
-            return  server.columnAvailable(LobbyReference, numTiles, server.getMyShelfieREF(LobbyReference,playerName, myId), selectedCol);
-        } catch (Exception e){
-            //System.out.println("ERROR, BAD CONNECTION");
-            e.printStackTrace();
-            return false;
-        }*/
-
+       String serverResponse="NOTHING";
+       boolean responseReceived=false;
+       while(!responseReceived){
+           try{
+               serverResponse=in.readLine();
+           }catch(Exception e){
+               e.printStackTrace();
+           }
+           if(serverResponse.equals("NUMBER_OF_TILES")){
+               try{
+                   out.println(numTiles);
+               }catch (Exception e){
+                   e.printStackTrace();
+               }
+           }else if(serverResponse.equals("SELECTED_COL")){
+               try{
+                   out.println(selectedCol);
+               }catch(Exception e){
+                   e.printStackTrace();
+               }
+               responseReceived=true;
+           }
+       }
+       try{
+           serverResponse=in.readLine();
+       }catch(Exception e){
+           e.printStackTrace();
+       }
+       if(serverResponse.equals("AVAILABLE")) return true;
+       return false;
     }
+
 
     public void FinalPick(int tilesToPick, List<Integer> xCord,List<Integer> yCord ){
         out.println("TILES_PICKED");
-        out.println("X_COORDINATE");
-        try{
-            oos.writeObject(xCord);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        out.println("Y_COORDINATE");
-        try{
-            oos.writeObject(yCord);
-        }catch (Exception e){
-            e.printStackTrace();
+        String serverMessage="NOTHING";
+        boolean responseReceived=false;
+        while(!responseReceived){
+            try{
+                serverMessage=in.readLine();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+            if(serverMessage.equals("X_COORDINATE")){
+                try{
+                    oos.writeObject(xCord);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }if(serverMessage.equals("Y_COORDINATE")){
+                try{
+                    oos.writeObject(yCord);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                responseReceived=true;
+            }
         }
     }
 
@@ -337,23 +295,37 @@ public class ConcreteSocketClient {
 
     public void insertTiles ( List<Integer> xCoord, List<Integer> yCoord, int column){
         out.println("INSERT_TILES");
-        try{
-            out.println("X COORDINATE");
-            oos.writeObject(xCoord);
-            out.println("Y COORDINATE");
-            oos.writeObject(yCoord);
-            out.println("COLUMN_CHOSEN");
-            oos.writeObject(xCoord);
-        }catch(Exception e){
-            e.printStackTrace();
+        String serverMessage="NOTHING";
+        boolean responseReceived=false;
+        while(!responseReceived){
+            try{
+                serverMessage=in.readLine();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+            if(serverMessage.equals("X_COORDINATE")){
+                try{
+                    oos.writeObject(xCoord);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }if(serverMessage.equals("Y_COORDINATE")){
+                try{
+                    oos.writeObject(yCoord);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }if(serverMessage.equals("COLUMN")){
+                try{
+                    out.println(column);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                responseReceived=true;
+            }
         }
-        /*try {
-            server.insertTiles(LobbyReference, xCoord,yCoord,column);
-        } catch (Exception e) {
-            //System.out.println("ERROR, BAD CONNECTION");
-            e.printStackTrace();
-        }*/
     }
+
     public String checkWinner() {
         out.println("WINNER");
         try{
@@ -364,13 +336,6 @@ public class ConcreteSocketClient {
             e.printStackTrace();
             return "ERROR";
         }
-        /*try {
-            return server.checkWinner(LobbyReference, myId);
-        } catch (Exception e) {
-            //System.out.println("ERROR, BAD CONNECTION");
-            e.printStackTrace();
-            return "ERROR";
-        }*/
     }
 
     public int myPoints(){
@@ -383,14 +348,6 @@ public class ConcreteSocketClient {
             e.printStackTrace();
             return -1;
         }
-        /*try{
-            return server.myPoints(LobbyReference, myId);
-        } catch (Exception e) {
-            //System.out.println("ERROR, BAD CONNECTION");
-            e.printStackTrace();
-            return -1;
-        }*/
-
     }
 
     public Message notifyMe(){
