@@ -34,6 +34,13 @@ public class AppClient2 {
             System.out.println("Your lobby reference is " + client.getLobbyReference());
             client.addPlayer(playerName);
         }
+        //check if the name is already taken
+        while(client.nameAlreadyTaken(playerName)){
+            System.out.println("Il nome inserito è già occupato");
+            playerName=cli.askNickname();
+            client.changeName(playerName);
+        }
+
 
         //Waiting for other players
         int flagDisplay=0;

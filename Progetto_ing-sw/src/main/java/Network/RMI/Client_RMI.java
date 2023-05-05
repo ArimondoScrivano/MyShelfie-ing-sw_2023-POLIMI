@@ -57,6 +57,25 @@ public class Client_RMI  {
         }
     }
 
+
+    public boolean nameAlreadyTaken(String name){
+        try {
+            return server.nameAleradyTaken(LobbyReference, name, myId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public void changeName(String name){
+        try {
+            server.changeName(LobbyReference, myId, name);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean isItMyTurn(){
         int currentPlayer;
         try{
