@@ -32,7 +32,7 @@ import java.util.List;
 public class ConcreteSocketServer {
     //mappa con liste di stream associate all'indice della lobby
     private List<GameController> Lobby; //lobby di gioco a cui unirsi
-    private int portNumber = 16001; //TODO: definire un vero numero di porta
+    private int portNumber = 16001;
     private ServerSocket s; //gestore delle comunicazioni
     private BufferedReader in; //readers degli stream in arrivo dai Clients mantenuti in una lista
     private PrintWriter out; //streams in uscita verso i clients mantenuti in una lista
@@ -121,6 +121,7 @@ public class ConcreteSocketServer {
             List<ObjectOutputStream> objectStreams= objStreamMap.get(lobbyIndex);
             for(int i=0; i<objectStreams.size(); i++){
                 try{
+                    //inviata a tutti i giocatori
                     objectStreams.get(i).writeObject(myDashboard);
                 }catch(Exception e){
                     e.printStackTrace();
@@ -154,6 +155,7 @@ public class ConcreteSocketServer {
             try{
                 List<ObjectOutputStream> objectStreams= objStreamMap.get(lobbyIndex);
                 for(int i=0; i<objectStreams.size(); i++){
+                    //inviata a tutti i giocatori
                     objectStreams.get(i).writeObject(myCommonGoals);
                 }
             }catch(IOException e){
@@ -345,6 +347,7 @@ public class ConcreteSocketServer {
         try{
             out.println("NAME");
             String playerName=in.readLine();
+            //verifica sui nomi uguali
             int lobbyIndex=joinLobby();
             out.println("LOBBY");
             out.println(lobbyIndex);

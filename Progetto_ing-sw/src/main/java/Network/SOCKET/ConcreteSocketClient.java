@@ -66,25 +66,16 @@ public class ConcreteSocketClient {
             OutputStream objectOutput=soc.getOutputStream();
             oos=new ObjectOutputStream(objectOutput);
 
-            //System.out.println("insert your name");
+            System.out.println("insert your name");
             playerName=userInput.readLine(); //player's name
             setup();
         }catch(IOException e){
-
+            e.printStackTrace();
         }
     }
-    /*^public void sendMessages(){
-        try{
-            System.out.println("insert a message");
-            String str=userInput.readLine();
-            out.println(str);
-        }catch(IOException e){
-
-        }
-    }*/
     public void setup(){
         try{
-            //System.out.println("START a new game/JOIN an existent game");
+            System.out.println("START a new game/JOIN an existent game");
             String response= userInput.readLine();
             boolean responseAccepted=false;
             while(!responseAccepted){
@@ -153,7 +144,7 @@ public class ConcreteSocketClient {
                 e.printStackTrace();
             }
         }
-    }
+    } //funzione aggiornata, definire solo se inviare subito gli oggetti comuni o aspettare gli altri giocatori
 
     public int getLobbyReference(){ //a cosa serviva in rmi?
         return this.LobbyReference;
@@ -190,6 +181,7 @@ public class ConcreteSocketClient {
         }*/
     }
 
+    //aggiornata
     public boolean isItMyTurn(){
         //già implementata nel server
         int serverResponse;
@@ -233,13 +225,6 @@ public class ConcreteSocketClient {
             e.printStackTrace();
             return null;
         }
-        /*try{
-            return server.getMyShelfie(LobbyReference, playerName, myId);
-        } catch (Exception e) {
-            //System.out.println("ERROR, BAD CONNECTION");
-            e.printStackTrace();
-            return null;
-        }*/
     }
 
     public PersonalGoal getMyPersonalGoal()throws IOException, ClassNotFoundException{
@@ -252,15 +237,6 @@ public class ConcreteSocketClient {
             e.printStackTrace();
             return null;
         }
-        /*try {
-            return server.getMyPersonalGoal(LobbyReference, myId);
-        }catch (Exception e){
-            //System.out.println("ERROR, BAD CONNECTION");
-            e.printStackTrace();
-            return null;
-        }*/
-
-
     }
 
     public List<CommonGoals> getCommonGoals()throws IOException, ClassNotFoundException{
@@ -273,38 +249,40 @@ public class ConcreteSocketClient {
             e.printStackTrace();
             return null;
         }
-
-        /*try {
-            return server.getCommonGoals(LobbyReference);
-        } catch (Exception e) {
-            //System.out.println("ERROR, BAD CONNECTION");
-            e.printStackTrace();
-            return null;
-        }*/
     }
     public boolean pickableTiles(List<Integer> xCoord, List<Integer> yCoord){
         out.println("PICKABLE_TILES");
-        out.println("X_COORDINATE");
-        try{
-            oos.writeObject(xCoord);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        out.println("Y_COORDINATE");
-        try{
-            oos.writeObject(yCoord);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        try{
-            String serverResponse;
-            serverResponse=in.readLine();
-            if(serverResponse.equals("TRUE")) return true;
-            return false;
-        }catch (IOException e){
-            e.printStackTrace();
-            return false;
-        }
+        String serverMessage="NOTHING";
+        boolean responseReceived=false;
+        while(!responseReceived){
+            try{
+                serverMessage=in.readLine();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+            if(serverMessage.equals("X_COORDINATE")){
+                try{
+                    oos.writeObject(xCoord);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+            if(serverMessage.equals("X_COORDINATE")){
+                try{
+                    oos.writeObject(yCoord);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+            try{
+                serverMessage=in.readLine();
+                if(serverMessage.equals("PICKABLE")) return true;
+                return false;
+            }catch (IOException e){
+                e.printStackTrace();
+                return false;
+            }
+        } return false;
         /*try{
             return server.pickableTiles(LobbyReference, xCoord, yCoord);
         } catch (Exception e) {
