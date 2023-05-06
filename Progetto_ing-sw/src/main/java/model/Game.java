@@ -55,8 +55,8 @@ public class Game extends Observable implements Serializable {
         this.endGame=false;
     }
 
-    public void updateDashboard(List<Integer> xCord,List<Integer> yCord ){
-        getDashboard().updateDashboard(xCord,yCord);
+    public void updateDashboard(List<Integer> xCord,List<Integer> yCord ) throws Exception{
+            getDashboard().updateDashboard(xCord, yCord);
     }
 
     public void addTiles(Shelf shelfToModify, Tile[] tilesPicked, int column){

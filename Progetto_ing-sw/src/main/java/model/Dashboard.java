@@ -86,7 +86,7 @@ public class Dashboard {
 
 
 
-    public void setRefill() {
+    public void setRefill() throws Exception{
         int flag = 0;
 
         // we have to use a support matrix to avoid corner cases, so we can modify the elements
@@ -107,14 +107,17 @@ public class Dashboard {
             }
         }
         if(flag==0){
-            refillDashboard();
+
+                refillDashboard();
+
+
         }
 
     }
 
 
 
-    public void refillDashboard() {
+    public void refillDashboard() throws Exception {
         int countTiles=0;
         for(int row=1; row<11; row++){
             for(int col=1; col<11; col++){
@@ -138,12 +141,13 @@ public class Dashboard {
             }
         }else{
             // In this case we don't have enough tiles
-            System.out.println("THE GAME IS OVER");
+            throw new Exception();
+
         }
     }
 
 
-    public void updateDashboard(List<Integer> yCoord, List<Integer> xCoord) {
+    public void updateDashboard(List<Integer> yCoord, List<Integer> xCoord) throws Exception{
 
         for (int index = 0; index < yCoord.size(); index++) {
 

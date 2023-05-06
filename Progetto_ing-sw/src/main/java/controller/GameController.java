@@ -212,8 +212,12 @@ public class GameController extends Observable {
 
 
     public void pickTiles(List<Integer> xCord, List<Integer> yCord){
-        currentGame.updateDashboard(xCord,yCord);
-        pickNextPlayer();
+        try {
+            currentGame.updateDashboard(xCord, yCord);
+            pickNextPlayer();
+        }catch (Exception e){
+            ended();
+        }
     }
 
 
