@@ -1,19 +1,12 @@
 package Network.SOCKET;
-import Network.RMI.Server_RMI;
 import Network.messages.Message;
+import Network.messages.MessageType;
 import model.PersonalGoal;
-import model.Shelf;
 import model.Tile;
 import model.cgoal.CommonGoals;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.Socket;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ConcreteSocketClient {
@@ -29,6 +22,7 @@ public class ConcreteSocketClient {
     private int LobbyReference; //riferimento alla Lobby
     private String playerName; //nome del giocatore
     private int myId; //indice del giocatore
+    private boolean myGameEnded=false;
     public ConcreteSocketClient(){
         try{
             soc=new Socket("localhost", defaultPortNumber); //socket di comunicazione con il server
@@ -360,16 +354,16 @@ public class ConcreteSocketClient {
             return -1;
         }
     }
-
+    public void receiveMessage() throws IOException {
+        if(in.readLine().equals("ENDED")){myGameEnded=true;}
+        else{myGameEnded=false;}
+    }
     public Message notifyMe(){
-        /*try{
-            return server.getMyMessage(LobbyReference);
-        } catch (RemoteException e) {
-            //System.out.println("ERROR BAD CONNECTION");
-            e.printStackTrace();
-            return null;
-        }*/ return null;
-
+        if(myGameEnded){
+            Message myMessage= new Message(0, MessageType.GAME_ENDING);
+            return myMessage;
+        }
+        return null;
     }
 
 }

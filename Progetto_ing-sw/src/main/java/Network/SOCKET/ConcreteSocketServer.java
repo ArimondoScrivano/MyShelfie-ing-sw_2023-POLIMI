@@ -1,6 +1,8 @@
 package Network.SOCKET;
 
 import Network.RMI.ConcreteServerRMI;
+import Network.messages.Message;
+import Network.messages.MessageType;
 import controller.GameController;
 import model.*;
 import model.cgoal.CommonGoals;
@@ -105,6 +107,8 @@ public class ConcreteSocketServer {
                 decodeMessage(10, lobbyIndex, playerIndex);
             } else if(clientMessage.equals("PG_POINTS")){
                 decodeMessage(11, lobbyIndex, playerIndex);
+            } else if(clientMessage.equals("END?")){
+                decodeMessage(12, lobbyIndex, playerIndex);
             }
         }
     }
@@ -315,7 +319,7 @@ public class ConcreteSocketServer {
         }
     }
 
-    public void startGame(){ //TODO: implementare la funzione lato client
+    public void startGame(){
         String name;
         int numOfPlayers=0;
         out.println("NAME"); //any name because he is the creator
@@ -459,5 +463,12 @@ public class ConcreteSocketServer {
     }
     public int myPGpoints(int index, int playerId) {
         return Lobby.get(index).getPlayersList().get(playerId).getPGpoints();
+    }
+
+    public void endGame(int lobbyIndex){
+        List<PrintWriter> myEndedPlayers=outputStreamMap.get(lobbyIndex);
+        for(int i=0; i<myEndedPlayers.size(); i++){
+            myEndedPlayers.get(i).println("ENDED");
+        }
     }
 }

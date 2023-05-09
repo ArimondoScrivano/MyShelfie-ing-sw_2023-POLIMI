@@ -30,6 +30,7 @@ public class GameController extends Observable {
 
     // 0 if the game is NOT ended or 1 if the Game Ended
     private int end;
+    private boolean gameEnded=false;
 
     public void setId(int id) {
         this.id = id;
@@ -147,10 +148,18 @@ public class GameController extends Observable {
         MessageType m= MessageType.GAME_ENDING;
         Message msg= new Message(id,m);
         try {
-            myServer.setMessage(msg);
+            if(myServer!=null){
+                myServer.setMessage(msg);
+            }else{
+                mySocketServer.endGame(id);
+            }
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean gameEndend(){
+        return gameEnded;
     }
 
 
@@ -315,7 +324,7 @@ public class GameController extends Observable {
         }
 
 
-    } //rita
+    }
     public boolean columnAvailable(int numTiles, Shelf myShelf, int column) {
         boolean flag = false;
        Tile[][] tilesShelf= myShelf.getTilesShelf();
@@ -335,7 +344,7 @@ public class GameController extends Observable {
             }
         }
         return flag;
-    } //rita
+    }
 
     public void checkPoints() {
         //check first common goal
