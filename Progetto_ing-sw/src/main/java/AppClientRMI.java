@@ -1,9 +1,11 @@
 import Network.RMI.Client_RMI;
+import Network.SOCKET.ConcreteSocketClient;
 import Network.messages.MessageType;
 import view.Cli;
 import view.ColorUI;
 import view.TextualUI;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AppClientRMI {
-    public static void main(String[] args) throws NotBoundException, RemoteException, MalformedURLException {
+    public static void main(String[] args) throws NotBoundException, IOException, ClassNotFoundException {
         Cli cli = new Cli();
         String playerName;
         TextualUI view = new TextualUI();
@@ -20,7 +22,8 @@ public class AppClientRMI {
         //Asking the nickname
         playerName=cli.askNickname();
         //Creating the client
-        Client_RMI client = new Client_RMI(playerName);
+        //Client_RMI client = new Client_RMI(playerName);
+        ConcreteSocketClient client= new ConcreteSocketClient();
         if(cli.askNewGame()) {
             //New game to create
             int numberOfPlayers = cli.askNumberOfPlayers();
@@ -35,11 +38,12 @@ public class AppClientRMI {
             client.addPlayer(playerName);
         }
         //check if the name is already taken
-        while(client.nameAlreadyTaken(playerName)){
+        //TODO
+        /*while(client.nameAlreadyTaken(playerName)){
             System.out.println("Il nome inserito è già occupato");
             playerName=cli.askNickname();
             client.changeName(playerName);
-        }
+        }*/
 
 
         //Waiting for other players

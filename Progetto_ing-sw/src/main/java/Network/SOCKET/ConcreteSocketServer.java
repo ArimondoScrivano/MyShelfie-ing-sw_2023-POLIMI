@@ -59,48 +59,53 @@ public class ConcreteSocketServer {
             e.printStackTrace();
         }
     }
-    public void receiveMessages(int lobbyIndex)throws IOException, ClassNotFoundException{ //decoder dei messaggi
-        Player currentPlayer=Lobby.get(lobbyIndex).playerTurn();
-        int playerIndex=currentPlayer.getId();
-        List<BufferedReader> inputStreams=inputStreamMap.get(lobbyIndex);
-        BufferedReader myInputStream=inputStreams.get(playerIndex);
-        List<PrintWriter> outputStreams= outputStreamMap.get(lobbyIndex);
-        PrintWriter myOutputStream= outputStreams.get(playerIndex);
-        myOutputStream.println("TURN"); //your turn
-        List<ObjectInputStream> objInputStream= objInStreamMap.get(lobbyIndex);
-        ObjectInputStream myObjectInputStream= objInputStream.get(playerIndex);
-        boolean messageReceived=false;
-        while(!messageReceived){
-            try{
-                myInputStream.readLine();
-                messageReceived=true;
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-        }
-        if(clientMessage.equals("MY_TURN")){ //parameter 0
-            decodeMessage(0, lobbyIndex, playerIndex);
+    public void receiveMessages()throws IOException, ClassNotFoundException{ //decoder dei messaggi
+        for(int lobbyIndex=0; lobbyIndex<Lobby.size(); lobbyIndex++) { //to implement multiple matches
 
-        }else if(clientMessage.equals("DASHBOARD")){
-            decodeMessage(1, lobbyIndex, playerIndex);
-        }else if(clientMessage.equals("MY_SHELF")){
-            decodeMessage(2, lobbyIndex, playerIndex);
-        }else if(clientMessage.equals("PERSONAL_GOAL")){
-            decodeMessage(3, lobbyIndex, playerIndex);
-        }else if(clientMessage.equals("COMMON_GOAL")){ //mandato da finalPick
-            decodeMessage(4, lobbyIndex, playerIndex);
-        }else if(clientMessage.equals("PICKABLE_TILES")){
-            decodeMessage(5, lobbyIndex, playerIndex);
-        }else if(clientMessage.equals("TILES_PICKED")){
-            decodeMessage(6, lobbyIndex, playerIndex);
-        }else if(clientMessage.equals("COLUMN_CHOSEN")){
-            decodeMessage(7, lobbyIndex, playerIndex);
-        }else if(clientMessage.equals("INSERT_TILES")){
-            decodeMessage(8, lobbyIndex, playerIndex);
-        }else if(clientMessage.equals("WINNER")){
-            decodeMessage(9, lobbyIndex, playerIndex);
-        }else if(clientMessage.equals("POINTS")){
-            decodeMessage(10, lobbyIndex, playerIndex);
+            Player currentPlayer = Lobby.get(lobbyIndex).playerTurn();
+            int playerIndex = currentPlayer.getId();
+            List<BufferedReader> inputStreams = inputStreamMap.get(lobbyIndex);
+            BufferedReader myInputStream = inputStreams.get(playerIndex);
+            List<PrintWriter> outputStreams = outputStreamMap.get(lobbyIndex);
+            PrintWriter myOutputStream = outputStreams.get(playerIndex);
+            myOutputStream.println("TURN"); //your turn
+            List<ObjectInputStream> objInputStream = objInStreamMap.get(lobbyIndex);
+            ObjectInputStream myObjectInputStream = objInputStream.get(playerIndex);
+            boolean messageReceived = false;
+            while (!messageReceived) {
+                try {
+                    myInputStream.readLine();
+                    messageReceived = true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (clientMessage.equals("MY_TURN")) { //parameter 0
+                decodeMessage(0, lobbyIndex, playerIndex);
+
+            } else if (clientMessage.equals("DASHBOARD")) {
+                decodeMessage(1, lobbyIndex, playerIndex);
+            } else if (clientMessage.equals("MY_SHELF")) {
+                decodeMessage(2, lobbyIndex, playerIndex);
+            } else if (clientMessage.equals("PERSONAL_GOAL")) {
+                decodeMessage(3, lobbyIndex, playerIndex);
+            } else if (clientMessage.equals("COMMON_GOAL")) { //mandato da finalPick
+                decodeMessage(4, lobbyIndex, playerIndex);
+            } else if (clientMessage.equals("PICKABLE_TILES")) {
+                decodeMessage(5, lobbyIndex, playerIndex);
+            } else if (clientMessage.equals("TILES_PICKED")) {
+                decodeMessage(6, lobbyIndex, playerIndex);
+            } else if (clientMessage.equals("COLUMN_CHOSEN")) {
+                decodeMessage(7, lobbyIndex, playerIndex);
+            } else if (clientMessage.equals("INSERT_TILES")) {
+                decodeMessage(8, lobbyIndex, playerIndex);
+            } else if (clientMessage.equals("WINNER")) {
+                decodeMessage(9, lobbyIndex, playerIndex);
+            } else if (clientMessage.equals("POINTS")) {
+                decodeMessage(10, lobbyIndex, playerIndex);
+            } else if(clientMessage.equals("PG_POINTS")){
+                decodeMessage(11, lobbyIndex, playerIndex);
+            }
         }
     }
 
@@ -279,6 +284,9 @@ public class ConcreteSocketServer {
             int myPoints;
             myPoints=myPoints(lobbyIndex, playerId);
             myOutStream.println(myPoints);
+        }if(parameter==11){
+            //personal goal points
+            int myPGPoints=myPGpoints(lobbyIndex, playerId);
         }
     }
 
@@ -448,5 +456,8 @@ public class ConcreteSocketServer {
     }
     public int myPoints(int index, int playerId){
         return Lobby.get(index).getPlayersList().get(playerId).getPoints();
+    }
+    public int myPGpoints(int index, int playerId) {
+        return Lobby.get(index).getPlayersList().get(playerId).getPGpoints();
     }
 }

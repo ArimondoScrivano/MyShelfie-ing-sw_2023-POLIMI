@@ -350,6 +350,17 @@ public class ConcreteSocketClient {
         }
     }
 
+    public int myPGpoints(){
+        out.println("PG_POINTS");
+        try{
+            int pgPoints=in.read();
+            return pgPoints;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
     public Message notifyMe(){
         /*try{
             return server.getMyMessage(LobbyReference);
