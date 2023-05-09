@@ -158,9 +158,6 @@ public class GameController extends Observable {
         }
     }
 
-    public boolean gameEndend(){
-        return gameEnded;
-    }
 
 
     // this method is intended as modify and pick the next player when the current player finished his turn

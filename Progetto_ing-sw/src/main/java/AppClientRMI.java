@@ -22,6 +22,7 @@ public class AppClientRMI {
         //Asking the nickname
         playerName=cli.askNickname();
         //Creating the client
+        //TODO implement the choice between socket and rmi
         //Client_RMI client = new Client_RMI(playerName);
         ConcreteSocketClient client= new ConcreteSocketClient();
         if(cli.askNewGame()) {
