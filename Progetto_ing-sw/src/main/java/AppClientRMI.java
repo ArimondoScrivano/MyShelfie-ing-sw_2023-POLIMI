@@ -5,8 +5,10 @@ import view.Cli;
 import view.ColorUI;
 import view.TextualUI;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -23,8 +25,32 @@ public class AppClientRMI {
         playerName=cli.askNickname();
         //Creating the client
         //TODO implement the choice between socket and rmi
-        //Client_RMI client = new Client_RMI(playerName);
-        ConcreteSocketClient client= new ConcreteSocketClient();
+        Client_RMI client = new Client_RMI(playerName);
+        ConcreteSocketClient client1= new ConcreteSocketClient(playerName);
+
+
+
+
+        Socket soc=new Socket("localhost", 16001); //socket di comunicazione con il server
+        System.out.println("asked for connection pemission");
+        //System.out.println("connection established");
+        PrintWriter out=new PrintWriter(soc.getOutputStream(), true);
+        System.out.println("serverOutput created");
+        BufferedReader in= new BufferedReader(new InputStreamReader(soc.getInputStream())); //lettore dello stream da server
+        System.out.println("serverInput created");
+        OutputStream objectOutput=soc.getOutputStream();
+        ObjectOutputStream oos=new ObjectOutputStream(objectOutput);
+        System.out.println("serverOutputObject created");
+        InputStream objectInput= soc.getInputStream();
+        System.out.println("inputStream got");
+        ObjectInputStream ois=new ObjectInputStream(objectInput);
+        System.out.println("serverInputObject created");
+        System.out.println("Connection established");
+
+
+
+
+
         if(cli.askNewGame()) {
             //New game to create
             int numberOfPlayers = cli.askNumberOfPlayers();

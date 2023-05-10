@@ -32,6 +32,14 @@ import java.util.List;
 
 
 public class ConcreteSocketServer {
+
+    //TODO: per i test i canali di connessione con il client sono attualmente aperti e gestiti nel main ma NON VA BENE:
+// ok gestione, KO apertura perché i metodi mi sentono out (per ora solo questo) come null.
+// readmessage deve ricevere la stringa in ingresso e deve essere chiamato dal main. Servono dei getter per i canali.
+
+    //TODO: sistemare i pezzi commentati
+
+
     //mappa con liste di stream associate all'indice della lobby
     private List<GameController> Lobby; //lobby di gioco a cui unirsi
     private int portNumber = 16001;
@@ -57,9 +65,19 @@ public class ConcreteSocketServer {
     public ConcreteSocketServer()throws IOException{
         try{
             s=new ServerSocket(portNumber);
+            /*Socket soc; //gestore della singola comunicazione
+            soc= s.accept();
+            addPlayer();*/
         }catch (IOException e){
             e.printStackTrace();
         }
+    }
+    public ServerSocket getSocketServer(){
+        return this.s;
+    }
+    public Socket acceptConnections() throws IOException {
+        Socket mySocket=s.accept();
+        return mySocket;
     }
     public void receiveMessages()throws IOException, ClassNotFoundException{ //decoder dei messaggi
         for(int lobbyIndex=0; lobbyIndex<Lobby.size(); lobbyIndex++) { //to implement multiple matches
@@ -107,8 +125,9 @@ public class ConcreteSocketServer {
                 decodeMessage(10, lobbyIndex, playerIndex);
             } else if(clientMessage.equals("PG_POINTS")){
                 decodeMessage(11, lobbyIndex, playerIndex);
-            } else if(clientMessage.equals("END?")){
-                decodeMessage(12, lobbyIndex, playerIndex);
+            } else if(clientMessage.equals("START")){
+                System.out.println("connected with client");
+                addPlayer();
             }
         }
     }
@@ -296,33 +315,34 @@ public class ConcreteSocketServer {
 
     public void addPlayer(){ //azioni fatte per ogni nuovo client
         try{
-            Socket soc; //gestore della singola comunicazione
+            /*Socket soc; //gestore della singola comunicazione
             soc= s.accept();
             BufferedReader in=new BufferedReader(new InputStreamReader(soc.getInputStream())); //creato per ogni client che si collega
             out=new PrintWriter(soc.getOutputStream(), true);
             OutputStream outputStream= soc.getOutputStream();
             oos=new ObjectOutputStream(outputStream); //canale di passaggio degli oggetti per ogni client che si connette
             InputStream inputStream= soc.getInputStream();
-            ois=new ObjectInputStream(inputStream);
-            clientMessage=in.readLine();
+            ois=new ObjectInputStream(inputStream);*/
+            //clientMessage=in.readLine();
             String myResponse="myResponse";
-            if(clientMessage.equals("START")){
+            //if(clientMessage.equals("START")){
                 myResponse="STARTED";
-                startGame();
-            }else if(clientMessage.equals("JOIN")){
-                myResponse="JOINED";
-                joinGame();
-            }
-            out.println(myResponse);
-        }catch(IOException e){
+                //startGame();
+                //TODO: implementare due funzioni diverse per join e add da chiamare dal main
+            //}else if(clientMessage.equals("JOIN")){
+                //myResponse="JOINED";
+                //joinGame();
+            //}
+            //out.println(myResponse);
+        }catch(Exception e){
             e.printStackTrace();
         }
     }
 
-    public void startGame(){
+    public void startGame(PrintWriter output){
         String name;
         int numOfPlayers=0;
-        out.println("NAME"); //any name because he is the creator
+        output.println("NAME"); //any name because he is the creator
         try{
             name=in.readLine();
         }catch(IOException e){

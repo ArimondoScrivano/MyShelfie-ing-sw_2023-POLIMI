@@ -11,6 +11,7 @@ import java.util.List;
 
 public class ConcreteSocketClient {
 
+    //TODO: controllare pezzi commentati
     private final int defaultPortNumber=16001; //serverIdentity
     private ObjectInputStream ois;
     //ois.readObject();
@@ -23,25 +24,34 @@ public class ConcreteSocketClient {
     private String playerName; //nome del giocatore
     private int myId; //indice del giocatore
     private boolean myGameEnded=false;
-    public ConcreteSocketClient(){
+    public ConcreteSocketClient(String name){
         try{
-            soc=new Socket("localhost", defaultPortNumber); //socket di comunicazione con il server
+            /*soc=new Socket("localhost", defaultPortNumber); //socket di comunicazione con il server
+            System.out.println("asked for connection pemission");
+            //System.out.println("connection established");
             userInput=new BufferedReader(new InputStreamReader(System.in)); //stream di lettura del flusso da tastiera
                                                                             //(interazione con l'user)
+            System.out.println("userInput created");
             out=new PrintWriter(soc.getOutputStream(), true);
+            System.out.println("serverOutput created");
             in= new BufferedReader(new InputStreamReader(soc.getInputStream())); //lettore dello stream da server
-            InputStream objectInput= soc.getInputStream();
-            ois=new ObjectInputStream(objectInput);
+            System.out.println("serverInput created");
             OutputStream objectOutput=soc.getOutputStream();
             oos=new ObjectOutputStream(objectOutput);
-
-            System.out.println("insert your name");
-            playerName=userInput.readLine(); //player's name
-            setup();
-        }catch(IOException e){
+            System.out.println("serverOutputObject created");
+            InputStream objectInput= soc.getInputStream();
+            System.out.println("inputStream got");
+            ois=new ObjectInputStream(objectInput);
+            System.out.println("serverInputObject created");
+            playerName=name; //player's name
+            System.out.println("Connection established");
+            setup();*/
+            playerName=name; //player's name
+        }catch(Exception e){
             e.printStackTrace();
         }
     }
+
     public void setup(){
         try{
             System.out.println("START a new game/JOIN an existent game");
@@ -68,7 +78,8 @@ public class ConcreteSocketClient {
 
     //Lobby creata quando il cient invia il messaggio start
     public void createLobby(int numPL, String creatorLobby) { //riadattata da RMI
-        out.println("START");
+        //out.println("START");
+        System.out.println("now speaking with server");
         boolean setupFinished=false;
         String serverResponse;
         while(!setupFinished){
@@ -76,11 +87,14 @@ public class ConcreteSocketClient {
                 serverResponse=in.readLine();
                 if(serverResponse.equals("NAME")){
                     out.println(playerName);
+                    System.out.println("successfully communicated my name");
                 }else if(serverResponse.equals("NUMBER OF PLAYERS")){
                     out.println(numPL);
+                    System.out.println("successfully communicated number of players");
                 } else if(serverResponse.equals("LOBBY")){
                     LobbyReference=in.read();
                     setupFinished=true;
+                    System.out.println("successfully completed setup");
                 }
             }catch(IOException e){
                 e.printStackTrace();
