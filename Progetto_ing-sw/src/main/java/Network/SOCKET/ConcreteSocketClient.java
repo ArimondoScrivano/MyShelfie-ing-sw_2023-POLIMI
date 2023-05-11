@@ -25,8 +25,12 @@ public class ConcreteSocketClient {
     private String playerName; //nome del giocatore
     private int myId; //indice del giocatore
     private boolean myGameEnded=false;
-    public ConcreteSocketClient(String name){
+    public ConcreteSocketClient(String name, BufferedReader in, PrintWriter out, ObjectInputStream ois, ObjectOutputStream oos){
         try{
+            this.in=in;
+            this.out=out;
+            this.ois=ois;
+            this.oos=oos;
             /*soc=new Socket("localhost", defaultPortNumber); //socket di comunicazione con il server
             System.out.println("asked for connection pemission");
             //System.out.println("connection established");
@@ -53,22 +57,6 @@ public class ConcreteSocketClient {
         }
     }
 
-    public void setIn(BufferedReader in){
-        this.in=in;
-    }
-
-    public void setOut(PrintWriter out){
-        this.out=out;
-    }
-
-    public void setOis(ObjectInputStream ois){
-        this.ois=ois;
-    }
-
-    public void setOos(ObjectOutputStream oos){
-        this.oos=oos;
-    }
-
     public void setup(){
         try{
             System.out.println("START a new game/JOIN an existent game");
@@ -93,9 +81,27 @@ public class ConcreteSocketClient {
         }
     }
 
+    public void connectionSetup(){
+        System.out.println("doing connection setup");
+        try{
+            String message=in.readLine();
+            if(message.equals("LOBBY_REFERENCE")){
+                out.println(LobbyReference);
+            }else if(message.equals("PLAYER_ID")){
+                out.println(myId);
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        System.out.println("connection setup done");
+
+    }
+
     //Lobby creata quando il cient invia il messaggio start
     public void createLobby(int numPL, String creatorLobby) { //riadattata da RMI
-        //out.println("START");
+        connectionSetup();
+        System.out.println("asking to crate a lobby");
+        out.println("START");
         System.out.println("now speaking with server");
         boolean setupFinished=false;
         String serverResponse;

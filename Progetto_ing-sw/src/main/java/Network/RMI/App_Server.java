@@ -24,26 +24,22 @@ public class App_Server {
         try{
             System.out.println("creating the socket server");
             ConcreteSocketServer me= new ConcreteSocketServer();
-            System.out.println("socketServer created");
             ServerSocket mySs= me.getSocketServer();
-            System.out.println("Socket Server created.");
             while(true){
-                System.out.println("entering the while");
+                System.out.println("waiting for connections");
                 Socket mySocket= me.acceptConnections();
-                System.out.println("connection accepted");
                 BufferedReader inputStream= new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
-                System.out.println("client input stream created");
                 PrintWriter outputStream= new PrintWriter(mySocket.getOutputStream(), true);
-                System.out.println("client output stream created");
                 InputStream objectInputStream= mySocket.getInputStream();
                 ObjectInputStream ois= new ObjectInputStream(objectInputStream);
-                System.out.println("client object input stream created");
                 OutputStream objectOutputStream= mySocket.getOutputStream();
                 ObjectOutputStream oos=new ObjectOutputStream(objectOutputStream);
-                System.out.println("client object output stream created");
-                String clientMessage= inputStream.readLine();
+                /*String clientMessage= inputStream.readLine();
                 if(clientMessage.equals("START")){
                     me.startGame(outputStream);
+                }*/
+                while(true) {
+                    me.receiveMessages(inputStream, outputStream, ois, oos);
                 }
             }
         }catch(Exception e){

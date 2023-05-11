@@ -56,15 +56,11 @@ public class ConcreteSocketServer {
     private HashMap<Integer, List<ObjectInputStream>> objInStreamMap;
     private String clientMessage;
 
-//input da utente a carico della funzione read message
-    //output verso l'utente a carico della funzione decode message
-
-
 
 
     public ConcreteSocketServer()throws IOException{
         try{
-            s=new ServerSocket(portNumber);
+            this.s=new ServerSocket(portNumber);
             /*Socket soc; //gestore della singola comunicazione
             soc= s.accept();
             addPlayer();*/
@@ -80,59 +76,73 @@ public class ConcreteSocketServer {
         return mySocket;
     }
     public void receiveMessages(BufferedReader in, PrintWriter out, ObjectInputStream ois, ObjectOutputStream oos)throws IOException, ClassNotFoundException{ //decoder dei messaggi
-        for(int lobbyIndex=0; lobbyIndex<Lobby.size(); lobbyIndex++) { //to implement multiple matches
+        //List<BufferedReader> inputStreams = inputStreamMap.get(lobbyIndex);
+        BufferedReader myInputStream = in;
+        //List<PrintWriter> outputStreams = outputStreamMap.get(lobbyIndex);
+        PrintWriter myOutputStream = out;
+        out.println("LOBBY_REFERENCE");
+        int lobbyIndex=in.read();
+        out.println("PLAYER_ID");
+        int playerIndex=in.read();
 
-            Player currentPlayer = Lobby.get(lobbyIndex).playerTurn();
-            int playerIndex = currentPlayer.getId();
-            //List<BufferedReader> inputStreams = inputStreamMap.get(lobbyIndex);
-            BufferedReader myInputStream = in;
-            //List<PrintWriter> outputStreams = outputStreamMap.get(lobbyIndex);
-            PrintWriter myOutputStream = out;
-            myOutputStream.println("TURN"); //your turn
-            //List<ObjectInputStream> objInputStream = objInStreamMap.get(lobbyIndex);
-            ObjectInputStream myObjectInputStream = ois;
-            //TODO
-            boolean messageReceived = false;
-            while (!messageReceived) {
-                try {
-                    myInputStream.readLine();
-                    messageReceived = true;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (clientMessage.equals("MY_TURN")) { //parameter 0
-                decodeMessage(0, lobbyIndex, playerIndex);
 
-            } else if (clientMessage.equals("DASHBOARD")) {
-                decodeMessage(1, lobbyIndex, playerIndex);
-            } else if (clientMessage.equals("MY_SHELF")) {
-                decodeMessage(2, lobbyIndex, playerIndex);
-            } else if (clientMessage.equals("PERSONAL_GOAL")) {
-                decodeMessage(3, lobbyIndex, playerIndex);
-            } else if (clientMessage.equals("COMMON_GOAL")) { //mandato da finalPick
-                decodeMessage(4, lobbyIndex, playerIndex);
-            } else if (clientMessage.equals("PICKABLE_TILES")) {
-                decodeMessage(5, lobbyIndex, playerIndex);
-            } else if (clientMessage.equals("TILES_PICKED")) {
-                decodeMessage(6, lobbyIndex, playerIndex);
-            } else if (clientMessage.equals("COLUMN_CHOSEN")) {
-                decodeMessage(7, lobbyIndex, playerIndex);
-            } else if (clientMessage.equals("INSERT_TILES")) {
-                decodeMessage(8, lobbyIndex, playerIndex);
-            } else if (clientMessage.equals("WINNER")) {
-                decodeMessage(9, lobbyIndex, playerIndex);
-            } else if (clientMessage.equals("POINTS")) {
-                decodeMessage(10, lobbyIndex, playerIndex);
-            } else if(clientMessage.equals("PG_POINTS")){
-                decodeMessage(11, lobbyIndex, playerIndex);
-            } else if(clientMessage.equals("START")){
-                System.out.println("connected with client");
-                addPlayer();
+        myOutputStream.println("TURN"); //your turn
+        //List<ObjectInputStream> objInputStream = objInStreamMap.get(lobbyIndex);
+        ObjectInputStream myObjectInputStream = ois;
+        //TODO
+        boolean messageReceived = false;
+        while (!messageReceived) {
+            try {
+                myInputStream.readLine();
+                messageReceived = true;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        }
+
+        if (clientMessage.equals("MY_TURN")) { //parameter 0
+            decodeMessage(0, lobbyIndex, playerIndex);
+
+        } else if (clientMessage.equals("DASHBOARD")) {
+            decodeMessage(1, lobbyIndex, playerIndex);
+        } else if (clientMessage.equals("MY_SHELF")) {
+            decodeMessage(2, lobbyIndex, playerIndex);
+        } else if (clientMessage.equals("PERSONAL_GOAL")) {
+            decodeMessage(3, lobbyIndex, playerIndex);
+        } else if (clientMessage.equals("COMMON_GOAL")) { //mandato da finalPick
+            decodeMessage(4, lobbyIndex, playerIndex);
+        } else if (clientMessage.equals("PICKABLE_TILES")) {
+            decodeMessage(5, lobbyIndex, playerIndex);
+        } else if (clientMessage.equals("TILES_PICKED")) {
+            decodeMessage(6, lobbyIndex, playerIndex);
+        } else if (clientMessage.equals("COLUMN_CHOSEN")) {
+            decodeMessage(7, lobbyIndex, playerIndex);
+        } else if (clientMessage.equals("INSERT_TILES")) {
+            decodeMessage(8, lobbyIndex, playerIndex);
+        } else if (clientMessage.equals("WINNER")) {
+            decodeMessage(9, lobbyIndex, playerIndex);
+        } else if (clientMessage.equals("POINTS")) {
+            decodeMessage(10, lobbyIndex, playerIndex);
+        } else if(clientMessage.equals("PG_POINTS")){
+            decodeMessage(11, lobbyIndex, playerIndex);
+        } else if(clientMessage.equals("START")){
+            System.out.println("connected with client");
+            boolean ready=isLobbyFull(lobbyIndex, out);
+            //va fatto aspettare finché ready è false
+            addPlayer();
         }
     }
 
+    public boolean isLobbyFull(int lobbyIndex, PrintWriter out){
+        if(!Lobby.get(lobbyIndex).isFull()){
+            out.println("WAITING_FOR_OTHER_PLAYERS_TO_JOIN");
+            return false;
+            //mettere il client in attesa
+        }else{
+            out.println("LOBBY_FULL");
+            return true;
+        }
+    }
     public void decodeMessage(int parameter, int lobbyIndex, int playerId){
         BufferedReader myInputStream= inputStreamMap.get(lobbyIndex).get(playerId);
         PrintWriter myOutStream= outputStreamMap.get(lobbyIndex).get(playerId);
@@ -240,6 +250,7 @@ public class ConcreteSocketServer {
 
         }if(parameter==7){
             //column chosen
+            //TODO
             int numberOfTiles;
             myOutStream.println("NUMBER_OF_TILES");
             try{

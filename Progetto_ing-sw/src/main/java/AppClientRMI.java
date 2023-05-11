@@ -114,22 +114,7 @@ public class AppClientRMI {
             //Check if i won
             System.out.println(client.checkWinner());
         }else{
-            ConcreteSocketClient client1= new ConcreteSocketClient(playerName);
-            Socket soc=new Socket("localhost", 16001); //socket di comunicazione con il server
-            System.out.println("asked for connection pemission");
-            //System.out.println("connection established");
-            PrintWriter out=new PrintWriter(soc.getOutputStream(), true);
-            System.out.println("serverOutput created");
-            BufferedReader in= new BufferedReader(new InputStreamReader(soc.getInputStream())); //lettore dello stream da server
-            System.out.println("serverInput created");
-            OutputStream objectOutput=soc.getOutputStream();
-            ObjectOutputStream oos=new ObjectOutputStream(objectOutput);
-            System.out.println("serverOutputObject created");
-            InputStream objectInput= soc.getInputStream();
-            System.out.println("inputStream got");
-            ObjectInputStream ois=new ObjectInputStream(objectInput);
-            System.out.println("serverInputObject created");
-            System.out.println("Connection established");
+
         }
     }
 }

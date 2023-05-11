@@ -38,6 +38,7 @@ public class Cli{
     public boolean askNewGame(){
         out.println("Do you want to create a new game?[Y/N]");
         String read=in.nextLine();
+        out.println(read);
         return read.equals("Y") || read.equals("y");
     }
 
