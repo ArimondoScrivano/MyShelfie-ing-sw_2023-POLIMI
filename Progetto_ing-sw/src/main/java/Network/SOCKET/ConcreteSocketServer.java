@@ -79,18 +79,19 @@ public class ConcreteSocketServer {
         Socket mySocket=s.accept();
         return mySocket;
     }
-    public void receiveMessages()throws IOException, ClassNotFoundException{ //decoder dei messaggi
+    public void receiveMessages(BufferedReader in, PrintWriter out, ObjectInputStream ois, ObjectOutputStream oos)throws IOException, ClassNotFoundException{ //decoder dei messaggi
         for(int lobbyIndex=0; lobbyIndex<Lobby.size(); lobbyIndex++) { //to implement multiple matches
 
             Player currentPlayer = Lobby.get(lobbyIndex).playerTurn();
             int playerIndex = currentPlayer.getId();
-            List<BufferedReader> inputStreams = inputStreamMap.get(lobbyIndex);
-            BufferedReader myInputStream = inputStreams.get(playerIndex);
-            List<PrintWriter> outputStreams = outputStreamMap.get(lobbyIndex);
-            PrintWriter myOutputStream = outputStreams.get(playerIndex);
+            //List<BufferedReader> inputStreams = inputStreamMap.get(lobbyIndex);
+            BufferedReader myInputStream = in;
+            //List<PrintWriter> outputStreams = outputStreamMap.get(lobbyIndex);
+            PrintWriter myOutputStream = out;
             myOutputStream.println("TURN"); //your turn
-            List<ObjectInputStream> objInputStream = objInStreamMap.get(lobbyIndex);
-            ObjectInputStream myObjectInputStream = objInputStream.get(playerIndex);
+            //List<ObjectInputStream> objInputStream = objInStreamMap.get(lobbyIndex);
+            ObjectInputStream myObjectInputStream = ois;
+            //TODO
             boolean messageReceived = false;
             while (!messageReceived) {
                 try {

@@ -52,6 +52,22 @@ public class ConcreteSocketClient {
         }
     }
 
+    public void setIn(BufferedReader in){
+        this.in=in;
+    }
+
+    public void setOut(PrintWriter out){
+        this.out=out;
+    }
+
+    public void setOis(ObjectInputStream ois){
+        this.ois=ois;
+    }
+
+    public void setOos(ObjectOutputStream oos){
+        this.oos=oos;
+    }
+
     public void setup(){
         try{
             System.out.println("START a new game/JOIN an existent game");

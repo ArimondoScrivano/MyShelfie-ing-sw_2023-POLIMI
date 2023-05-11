@@ -25,8 +25,8 @@ public class AppClientRMI {
         playerName=cli.askNickname();
         //Creating the client
         //TODO implement the choice between socket and rmi
-        Client_RMI client = new Client_RMI(playerName);
-        ConcreteSocketClient client1= new ConcreteSocketClient(playerName);
+        Client_RMI client1 = new Client_RMI(playerName);
+        ConcreteSocketClient client= new ConcreteSocketClient(playerName);
 
 
 
@@ -35,15 +35,19 @@ public class AppClientRMI {
         System.out.println("asked for connection pemission");
         //System.out.println("connection established");
         PrintWriter out=new PrintWriter(soc.getOutputStream(), true);
+        client.setOut(out);
         System.out.println("serverOutput created");
         BufferedReader in= new BufferedReader(new InputStreamReader(soc.getInputStream())); //lettore dello stream da server
+        client.setIn(in);
         System.out.println("serverInput created");
         OutputStream objectOutput=soc.getOutputStream();
         ObjectOutputStream oos=new ObjectOutputStream(objectOutput);
+        client.setOos(oos);
         System.out.println("serverOutputObject created");
         InputStream objectInput= soc.getInputStream();
         System.out.println("inputStream got");
         ObjectInputStream ois=new ObjectInputStream(objectInput);
+        client.setOis(ois);
         System.out.println("serverInputObject created");
         System.out.println("Connection established");
 
