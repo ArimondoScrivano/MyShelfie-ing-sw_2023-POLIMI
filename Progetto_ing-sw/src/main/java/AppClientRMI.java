@@ -25,51 +25,24 @@ public class AppClientRMI {
         playerName=cli.askNickname();
         //Creating the client
         //TODO implement the choice between socket and rmi
-        Client_RMI client1 = new Client_RMI(playerName);
-        ConcreteSocketClient client= new ConcreteSocketClient(playerName);
-
-
-
-
-        Socket soc=new Socket("localhost", 16001); //socket di comunicazione con il server
-        System.out.println("asked for connection pemission");
-        //System.out.println("connection established");
-        PrintWriter out=new PrintWriter(soc.getOutputStream(), true);
-        client.setOut(out);
-        System.out.println("serverOutput created");
-        BufferedReader in= new BufferedReader(new InputStreamReader(soc.getInputStream())); //lettore dello stream da server
-        client.setIn(in);
-        System.out.println("serverInput created");
-        OutputStream objectOutput=soc.getOutputStream();
-        ObjectOutputStream oos=new ObjectOutputStream(objectOutput);
-        client.setOos(oos);
-        System.out.println("serverOutputObject created");
-        InputStream objectInput= soc.getInputStream();
-        System.out.println("inputStream got");
-        ObjectInputStream ois=new ObjectInputStream(objectInput);
-        client.setOis(ois);
-        System.out.println("serverInputObject created");
-        System.out.println("Connection established");
-
-
-
-
-
-        if(cli.askNewGame()) {
-            //New game to create
-            int numberOfPlayers = cli.askNumberOfPlayers();
-            //Lobby creation
-            client.createLobby(numberOfPlayers, playerName);
-            System.out.println("Your lobby reference is " + client.getLobbyReference());
-        }else {
-            System.out.println("Joining a lobby already created...");
-            //Join a lobby
-            client.joinLobby();
-            System.out.println("Your lobby reference is " + client.getLobbyReference());
-            client.addPlayer(playerName);
-        }
-        //check if the name is already taken
-        //TODO
+        int connectionMethod=cli.askConnection();
+        if(connectionMethod==1){
+            Client_RMI client = new Client_RMI(playerName);
+            if(cli.askNewGame()) {
+                //New game to create
+                int numberOfPlayers = cli.askNumberOfPlayers();
+                //Lobby creation
+                client.createLobby(numberOfPlayers, playerName);
+                System.out.println("Your lobby reference is " + client.getLobbyReference());
+            }else {
+                System.out.println("Joining a lobby already created...");
+                //Join a lobby
+                client.joinLobby();
+                System.out.println("Your lobby reference is " + client.getLobbyReference());
+                client.addPlayer(playerName);
+            }
+            //check if the name is already taken
+            //TODO
         /*while(client.nameAlreadyTaken(playerName)){
             System.out.println("Il nome inserito è già occupato");
             playerName=cli.askNickname();
@@ -77,68 +50,86 @@ public class AppClientRMI {
         }*/
 
 
-        //Waiting for other players
-        int flagDisplay=0;
-        System.out.println(client.notifyMe().getMessageType());
-        while(client.notifyMe().getMessageType().equals(MessageType.LOBBYCREATED)){
+            //Waiting for other players
+            int flagDisplay=0;
+            System.out.println(client.notifyMe().getMessageType());
+            while(client.notifyMe().getMessageType().equals(MessageType.LOBBYCREATED)){
 
-            if(flagDisplay==0){
-                System.out.println(ColorUI.YELLOW_TEXT+"Waiting for the other players to join"+ColorUI.RESET);
-                flagDisplay++;
-            }
-        }
-        flagDisplay=0;
-
-        System.out.println(ColorUI.YELLOW_TEXT+"Starting the game. HAVE FUN"+ColorUI.RESET);
-
-        while(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)){
-
-            //Game flow
-            if(client.isItMyTurn()){
-                System.out.println(ColorUI.BLUE_TEXT+playerName+" is your turn!"+ColorUI.RESET);;
-                view.showMatchInfo(client.getDashboard(), client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
-                cli.displayPoints(client.myPoints(), client.myPGpoints());
-                flagDisplay=0;
-                int numberOfTilesToPick;
-                List<Integer> tilesToPick;
-                List<Integer> xCoord = new ArrayList<>();
-                List<Integer> yCoord = new ArrayList<>();
-                int column;
-                do{
-                    //Asking the number of tiles to pick
-                    numberOfTilesToPick=cli.askNumberOfTiles();
-                    do{
-                        xCoord.clear();
-                        yCoord.clear();
-                        tilesToPick=cli.askTilesToPick(numberOfTilesToPick);
-                        for(int i=0; i<tilesToPick.size(); i++){
-                            if(i%2==0){
-                                xCoord.add(tilesToPick.get(i));
-                            }else{
-                                yCoord.add(tilesToPick.get(i));
-                            }
-                        }
-                    }while(!client.pickableTiles(xCoord, yCoord));
-
-                    //Choosing the column to insert the tiles
-                    column = cli.askColumn();
-                }while(!client.columnAvailable(numberOfTilesToPick, column));
-                //Inserting the tiles
-                client.insertTiles(xCoord,yCoord,column);
-                //removing the tiles from the dashboard
-                client.FinalPick(numberOfTilesToPick,xCoord,yCoord);
-                //Printing the shelf updated
-                view.printShelf(client.getMyShelfie());
-                //Displaying the points
-                cli.displayPoints(client.myPoints(), client.myPGpoints());
-            }else{
                 if(flagDisplay==0){
-                    System.out.println(ColorUI.YELLOW_TEXT +"Waiting for your turn"+ColorUI.RESET);
+                    System.out.println(ColorUI.YELLOW_TEXT+"Waiting for the other players to join"+ColorUI.RESET);
                     flagDisplay++;
                 }
             }
+            flagDisplay=0;
+
+            System.out.println(ColorUI.YELLOW_TEXT+"Starting the game. HAVE FUN"+ColorUI.RESET);
+
+            while(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)){
+
+                //Game flow
+                if(client.isItMyTurn()){
+                    System.out.println(ColorUI.BLUE_TEXT+playerName+" is your turn!"+ColorUI.RESET);;
+                    view.showMatchInfo(client.getDashboard(), client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
+                    cli.displayPoints(client.myPoints(), client.myPGpoints());
+                    flagDisplay=0;
+                    int numberOfTilesToPick;
+                    List<Integer> tilesToPick;
+                    List<Integer> xCoord = new ArrayList<>();
+                    List<Integer> yCoord = new ArrayList<>();
+                    int column;
+                    do{
+                        //Asking the number of tiles to pick
+                        numberOfTilesToPick=cli.askNumberOfTiles();
+                        do{
+                            xCoord.clear();
+                            yCoord.clear();
+                            tilesToPick=cli.askTilesToPick(numberOfTilesToPick);
+                            for(int i=0; i<tilesToPick.size(); i++){
+                                if(i%2==0){
+                                    xCoord.add(tilesToPick.get(i));
+                                }else{
+                                    yCoord.add(tilesToPick.get(i));
+                                }
+                            }
+                        }while(!client.pickableTiles(xCoord, yCoord));
+
+                        //Choosing the column to insert the tiles
+                        column = cli.askColumn();
+                    }while(!client.columnAvailable(numberOfTilesToPick, column));
+                    //Inserting the tiles
+                    client.insertTiles(xCoord,yCoord,column);
+                    //removing the tiles from the dashboard
+                    client.FinalPick(numberOfTilesToPick,xCoord,yCoord);
+                    //Printing the shelf updated
+                    view.printShelf(client.getMyShelfie());
+                    //Displaying the points
+                    cli.displayPoints(client.myPoints(), client.myPGpoints());
+                }else{
+                    if(flagDisplay==0){
+                        System.out.println(ColorUI.YELLOW_TEXT +"Waiting for your turn"+ColorUI.RESET);
+                        flagDisplay++;
+                    }
+                }
+            }
+            //Check if i won
+            System.out.println(client.checkWinner());
+        }else{
+            ConcreteSocketClient client1= new ConcreteSocketClient(playerName);
+            Socket soc=new Socket("localhost", 16001); //socket di comunicazione con il server
+            System.out.println("asked for connection pemission");
+            //System.out.println("connection established");
+            PrintWriter out=new PrintWriter(soc.getOutputStream(), true);
+            System.out.println("serverOutput created");
+            BufferedReader in= new BufferedReader(new InputStreamReader(soc.getInputStream())); //lettore dello stream da server
+            System.out.println("serverInput created");
+            OutputStream objectOutput=soc.getOutputStream();
+            ObjectOutputStream oos=new ObjectOutputStream(objectOutput);
+            System.out.println("serverOutputObject created");
+            InputStream objectInput= soc.getInputStream();
+            System.out.println("inputStream got");
+            ObjectInputStream ois=new ObjectInputStream(objectInput);
+            System.out.println("serverInputObject created");
+            System.out.println("Connection established");
         }
-        //Check if i won
-        System.out.println(client.checkWinner());
     }
 }
