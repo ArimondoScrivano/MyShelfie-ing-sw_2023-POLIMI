@@ -12,6 +12,7 @@ import java.util.List;
 public class ConcreteSocketClient {
 
     //TODO: controllare pezzi commentati
+    //
     private final int defaultPortNumber=16001; //serverIdentity
     private ObjectInputStream ois;
     //ois.readObject();
