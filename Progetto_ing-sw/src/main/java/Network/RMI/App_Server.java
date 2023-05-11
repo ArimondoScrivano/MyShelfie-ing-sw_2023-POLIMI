@@ -34,13 +34,13 @@ public class App_Server {
                 ObjectInputStream ois= new ObjectInputStream(objectInputStream);
                 OutputStream objectOutputStream= mySocket.getOutputStream();
                 ObjectOutputStream oos=new ObjectOutputStream(objectOutputStream);
+                System.out.println("calling receiveMessages()");
+                me.receiveMessages(inputStream, outputStream, ois, oos);
                 /*String clientMessage= inputStream.readLine();
                 if(clientMessage.equals("START")){
                     me.startGame(outputStream);
                 }*/
-                while(true) {
-                    me.receiveMessages(inputStream, outputStream, ois, oos);
-                }
+
             }
         }catch(Exception e){
             e.printStackTrace();

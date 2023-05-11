@@ -31,26 +31,6 @@ public class ConcreteSocketClient {
             this.out=out;
             this.ois=ois;
             this.oos=oos;
-            /*soc=new Socket("localhost", defaultPortNumber); //socket di comunicazione con il server
-            System.out.println("asked for connection pemission");
-            //System.out.println("connection established");
-            userInput=new BufferedReader(new InputStreamReader(System.in)); //stream di lettura del flusso da tastiera
-                                                                            //(interazione con l'user)
-            System.out.println("userInput created");
-            out=new PrintWriter(soc.getOutputStream(), true);
-            System.out.println("serverOutput created");
-            in= new BufferedReader(new InputStreamReader(soc.getInputStream())); //lettore dello stream da server
-            System.out.println("serverInput created");
-            OutputStream objectOutput=soc.getOutputStream();
-            oos=new ObjectOutputStream(objectOutput);
-            System.out.println("serverOutputObject created");
-            InputStream objectInput= soc.getInputStream();
-            System.out.println("inputStream got");
-            ois=new ObjectInputStream(objectInput);
-            System.out.println("serverInputObject created");
-            playerName=name; //player's name
-            System.out.println("Connection established");
-            setup();*/
             playerName=name; //player's name
         }catch(Exception e){
             e.printStackTrace();

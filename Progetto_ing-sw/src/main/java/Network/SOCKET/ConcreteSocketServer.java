@@ -93,7 +93,7 @@ public class ConcreteSocketServer {
         boolean messageReceived = false;
         while (!messageReceived) {
             try {
-                myInputStream.readLine();
+                clientMessage=myInputStream.readLine();
                 messageReceived = true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -129,7 +129,9 @@ public class ConcreteSocketServer {
             System.out.println("connected with client");
             boolean ready=isLobbyFull(lobbyIndex, out);
             //va fatto aspettare finché ready è false
-            addPlayer();
+            //poi
+            startGame(in, out);
+            //addPlayer();
         }
     }
 
@@ -137,7 +139,6 @@ public class ConcreteSocketServer {
         if(!Lobby.get(lobbyIndex).isFull()){
             out.println("WAITING_FOR_OTHER_PLAYERS_TO_JOIN");
             return false;
-            //mettere il client in attesa
         }else{
             out.println("LOBBY_FULL");
             return true;
@@ -351,7 +352,7 @@ public class ConcreteSocketServer {
         }
     }
 
-    public void startGame(PrintWriter output){
+    public void startGame(BufferedReader in, PrintWriter output){
         String name;
         int numOfPlayers=0;
         output.println("NAME"); //any name because he is the creator
