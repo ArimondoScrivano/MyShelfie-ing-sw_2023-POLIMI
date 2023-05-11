@@ -16,10 +16,16 @@ public class Cli{
         this.out = System.out;
     }
 
-    //TODO: when we have the socket connection method
     //Asking the connection method
-    public void askConnection() {
-
+    public int askConnection() {
+        out.println("Choose the connection method that you prefer");
+        out.println("1 for RMI and 2 for Socket");
+        int i=in.nextInt();
+        while(i<1 || i>2){
+            out.print(ColorUI.RED_TEXT+"You must choose a number between 1 and 2! Retry "+ColorUI.RESET);
+            i=in.nextInt();
+        }
+        return i;
     }
 
     //Asking the nickname
@@ -40,7 +46,7 @@ public class Cli{
         out.print("Select the number of players between 2 and 4 ");
         int numberOfPlayers=in.nextInt();
         while(numberOfPlayers<2 || numberOfPlayers>4){
-            System.out.print(ColorUI.RED_TEXT+"You must choose a number of players between 2 and 4! Retry "+ColorUI.RESET);
+            out.print(ColorUI.RED_TEXT+"You must choose a number of players between 2 and 4! Retry "+ColorUI.RESET);
             numberOfPlayers=in.nextInt();
         }
         return numberOfPlayers;

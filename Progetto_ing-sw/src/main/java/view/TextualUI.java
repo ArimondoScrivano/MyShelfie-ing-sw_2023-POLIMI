@@ -20,32 +20,6 @@ public class TextualUI extends Observable implements View {
         out = System.out;
     }
 
-    //Asking the connection type to the player
-    @Override
-    public void askConnection(){
-        out.println("Choose the connection method:");
-        String input = in.nextLine();
-        if(input.equals("Network/RMI")){
-            out.println("RMI connection chose");
-            //TODO:RMI CONNECTION
-        } else if (input.equals("Socket")) {
-            out.println("Socket connection chose");
-            //TODO: Socket connection
-        }else{
-            out.println("I don't know how to use this connection method :(");
-            askConnection();
-        }
-    }
-
-    //Recalling the method in controller to check if the name is not the same
-    @Override
-    public void askNickname() {
-        Scanner in = new Scanner(new InputStreamReader(System.in));
-        out.println("Choose your nickname:");
-        String input = in.nextLine();
-        //Checking if the name is not the same as other players in game
-    }
-
     //Initialize the game
     public void init(){
         clearUI();
