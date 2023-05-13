@@ -1,6 +1,7 @@
 package controller;
 
 import Network.RMI.Server_RMI;
+import Network.SOCKET.ConcreteServerSocketV2;
 import Network.SOCKET.ConcreteSocketServer;
 import Network.messages.Message;
 import Network.messages.MessageType;
@@ -10,11 +11,6 @@ import model.Shelf;
 import model.*;
 import model.cgoal.CommonGoals;
 
-
-import java.io.BufferedReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.rmi.RemoteException;
 import java.util.*;
 
@@ -27,6 +23,7 @@ public class GameController extends Observable {
     private int id;
     private Server_RMI myServer;
     private ConcreteSocketServer mySocketServer;
+    private ConcreteServerSocketV2 serverSocketV2;
 
     // 0 if the game is NOT ended or 1 if the Game Ended
     private int end;
@@ -57,6 +54,31 @@ public class GameController extends Observable {
         //List of players from the pre-game
         List<Player> playersList = new ArrayList<>();
         playersList.add(new Player(0, creatorLobby));
+        Dashboard dashboard = new Dashboard(NumPlayers, new Bag());
+        this.currentGame = new Game(0, dashboard, playersList,NumPlayers);
+    }
+
+    public GameController(int NumPlayers, ConcreteServerSocketV2 serverCreator, String creatorLobby) {
+        this.serverSocketV2= serverCreator;
+        this.NumPlayers= NumPlayers;
+        this.end=0;
+        id=0;
+        //List of players from the pre-game
+        List<Player> playersList = new ArrayList<>();
+        playersList.add(new Player(0, creatorLobby));
+        Dashboard dashboard = new Dashboard(NumPlayers, new Bag());
+        this.currentGame = new Game(0, dashboard, playersList,NumPlayers);
+    }
+
+    public GameController(int NumPlayers, ConcreteServerSocketV2 serverCreator) {
+        super();
+        this.serverSocketV2= serverCreator;
+        this.mySocketServer=null;
+        this.NumPlayers= NumPlayers;
+        this.end=0;
+        id=0;
+        //List of players from the pre-game
+        List<Player> playersList = new ArrayList<>();
         Dashboard dashboard = new Dashboard(NumPlayers, new Bag());
         this.currentGame = new Game(0, dashboard, playersList,NumPlayers);
     }
