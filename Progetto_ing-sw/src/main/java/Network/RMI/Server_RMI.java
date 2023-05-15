@@ -1,6 +1,8 @@
 package Network.RMI;
 import java.util.*;
 import java.rmi.*;
+
+import Network.GameChat.GameMessage;
 import Network.messages.Message;
 import model.*;
 import controller.*;
@@ -13,6 +15,9 @@ public interface Server_RMI extends Remote{
  public int addPlayer(int index, String name) throws RemoteException;
  public boolean nameAleradyTaken(int index, String name,int id)throws RemoteException;
  public void changeName(int index, int id, String name)throws RemoteException;
+ public List<String> playersName(int index) throws RemoteException;
+ public List<GameMessage> showGameChat(int index, String id_receiver) throws RemoteException;
+ public void appendchatmex(int index, List<String> possibleChatmex, String myname)throws RemoteException;
  public Tile[][] getDashboard(int index) throws RemoteException;
 public Tile[][] getMyShelfie(int index, String playerName, int playerId) throws RemoteException;
 public Shelf getMyShelfieREF(int index, String playerName, int playerId) throws RemoteException;
@@ -36,4 +41,6 @@ public void setMessage( Message message) throws RemoteException;
 
 
  public Message getMyMessage(int index) throws RemoteException;
+
+
 }

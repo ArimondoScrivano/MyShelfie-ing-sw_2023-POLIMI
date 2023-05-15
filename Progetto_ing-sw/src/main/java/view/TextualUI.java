@@ -1,5 +1,6 @@
 package view;
 
+import Network.GameChat.GameMessage;
 import model.*;
 import model.cgoal.CommonGoals;
 
@@ -81,6 +82,23 @@ public class TextualUI extends Observable implements View {
             out.println();
         }
     }
+
+
+    public void showGameChat(List<GameMessage> listToDisplay){
+        if (listToDisplay.size()>0) {
+            for (int i = 0; i < listToDisplay.size(); i++) {
+                System.out.println("from: " + "\u001B[33m" + listToDisplay.get(i).getName_Creator() + "\u001B[0m");
+                System.out.println("Content of the message: ");
+                System.out.println(listToDisplay.get(i).getMyGameMessage());
+
+            }
+        }else{
+            System.out.println(  "\u001B[33m" + "No message to dispay yet" + "\u001B[0m");
+        }
+    }
+
+
+
 
     public void printShelf(Tile[][] myShelf){
         String copyColor="";

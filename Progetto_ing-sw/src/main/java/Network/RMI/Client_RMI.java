@@ -1,5 +1,6 @@
 package Network.RMI;
 
+import Network.GameChat.GameMessage;
 import Network.messages.Message;
 import model.PersonalGoal;
 import model.Tile;
@@ -71,11 +72,41 @@ public class Client_RMI  {
     public void changeName(String name){
         try {
             server.changeName(LobbyReference, myId, name);
+            playerName= name;
         } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
+public List<String> playersName(){
+        try{
+            return server.playersName(LobbyReference);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            return null;
+        }
 
+}
+
+    public List<GameMessage> showGameChat() {
+        try {
+            return server.showGameChat(LobbyReference, playerName);
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void appendchatmex(List <String> possibleChatmex, String myname) {
+
+        try{
+            //the parameters are: index of the lobby, List of receiver and the effective message and in the end the sender
+            server.appendchatmex(LobbyReference, possibleChatmex, myname );
+    } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+    }
     public boolean isItMyTurn(){
         int currentPlayer;
         try{

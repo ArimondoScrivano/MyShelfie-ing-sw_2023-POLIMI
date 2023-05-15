@@ -82,8 +82,10 @@ public class ConcreteServerSocketV2 implements Runnable {
     public void addPlayer(String name, SocketClientHandler clientHandler){
         System.out.println("Adding player "+ name);
 
-        clientHandlerMap.put(name, clientHandler);
-        clientHandlerMap.get(name).sendMessage(new Message(name, SocketMessages.LOGIN_REPLY));
+
+        //TODO/comment for testing porpose
+       // clientHandlerMap.put(name, clientHandler);
+        //clientHandlerMap.get(name).sendMessage(new Message(name, SocketMessages.LOGIN_REPLY));
     }
 
     //Messages for game flow management
@@ -95,33 +97,33 @@ public class ConcreteServerSocketV2 implements Runnable {
             }
             case NEW_GAME -> {
                 int index=createLobby(message.getNp(), message.getName());
-                clientHandlerMap.get(message.getName()).sendMessage(new Message(message.getName(), SocketMessages.LOBBY_CREATED, index));
+             //   clientHandlerMap.get(message.getName()).sendMessage(new Message(message.getName(), SocketMessages.LOBBY_CREATED, index));
                 players.add(message.getName());
             }
             case IS_IT_MY_TURN -> {
                 System.out.println("Client chiede se è il suo turno");
                 //Check if the game is started-->lobby full
                 if(!Lobby.get(message.getNp()).isFull()){
-                    clientHandlerMap.get(message.getName()).sendMessage(new Message(message.getName(), SocketMessages.WAITING_FOR_OTHER_PLAYERS));
+          //          clientHandlerMap.get(message.getName()).sendMessage(new Message(message.getName(), SocketMessages.WAITING_FOR_OTHER_PLAYERS));
                 }else{
-                    clientHandlerMap.get(message.getName()).sendMessage(new Message(message.getName(), SocketMessages.WAITING_FOR_YOUR_TURN));
+          //          clientHandlerMap.get(message.getName()).sendMessage(new Message(message.getName(), SocketMessages.WAITING_FOR_YOUR_TURN));
                 }
             }
             case JOIN_LOBBY->{
                 System.out.println("Client joining the lobby");
                 int index=joinLobby();
                 //TODO: aggiungere il player in maniera definitiva
-                clientHandlerMap.get(message.getName()).sendMessage(new Message(message.getName(), SocketMessages.ADDED_TO_LOBBY, index));
+          //      clientHandlerMap.get(message.getName()).sendMessage(new Message(message.getName(), SocketMessages.ADDED_TO_LOBBY, index));
                 players.add(message.getName());
                 if(!Lobby.get(message.getNp()).isFull()){
-                    clientHandlerMap.get(message.getName()).sendMessage(new Message(message.getName(), SocketMessages.WAITING_FOR_OTHER_PLAYERS));
+         //           clientHandlerMap.get(message.getName()).sendMessage(new Message(message.getName(), SocketMessages.WAITING_FOR_OTHER_PLAYERS));
                 }else{
                     //Lobby piena invio messaggi a tutti i client collegati alla lobby
                     for(String p:players){
                         System.out.println(p);
                     }
                     for(int i=0; i<Lobby.size(); i++){
-                        clientHandlerMap.get(players.get(i)).sendMessage(new Message(players.get(i), SocketMessages.GAME_STARTING));
+           //             clientHandlerMap.get(players.get(i)).sendMessage(new Message(players.get(i), SocketMessages.GAME_STARTING));
                     }
                 }
             }

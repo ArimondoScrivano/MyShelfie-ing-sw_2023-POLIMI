@@ -153,14 +153,40 @@ public class GameController extends Observable {
 
 
     public void started(){
-        MessageType m= MessageType.GAME_STARTING;
-        Message msg= new Message(id, m);
-        try {
-            myServer.setMessage(msg);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
+        int flagStartincoming=0;
+        if(NumPlayers==2){
+            if(!currentGame.getPlayers().get(0).getName().equals(currentGame.getPlayers().get(1).getName())){
+              flagStartincoming=1;
+            }
+        }
+        if(NumPlayers==3){
+            if(!currentGame.getPlayers().get(0).getName().equals(currentGame.getPlayers().get(1).getName())
+                && !currentGame.getPlayers().get(0).getName().equals(currentGame.getPlayers().get(2).getName())
+                && !currentGame.getPlayers().get(1).getName().equals(currentGame.getPlayers().get(2).getName())){
+                    flagStartincoming=1;
+            }
+        }
+        if(NumPlayers==4){
+            if(!currentGame.getPlayers().get(0).getName().equals(currentGame.getPlayers().get(1).getName())
+               && !currentGame.getPlayers().get(0).getName().equals(currentGame.getPlayers().get(2).getName())
+               && !currentGame.getPlayers().get(0).getName().equals(currentGame.getPlayers().get(3).getName())
+               && !currentGame.getPlayers().get(1).getName().equals(currentGame.getPlayers().get(2).getName())
+               && !currentGame.getPlayers().get(1).getName().equals(currentGame.getPlayers().get(3).getName())
+               && !currentGame.getPlayers().get(2).getName().equals(currentGame.getPlayers().get(3).getName())){
+                flagStartincoming=1;
+
+            }
         }
 
+        if(flagStartincoming==1) {
+            MessageType m = MessageType.GAME_STARTING;
+            Message msg = new Message(id, m);
+            try {
+                myServer.setMessage(msg);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
     }
 
@@ -180,6 +206,12 @@ public class GameController extends Observable {
         }
     }
 
+    public void changeName(int id, String name){
+        currentGame.getPlayers().get(id).setName(name);
+        if(currentGame.getPlayers().size()==NumPlayers) {
+            started();
+        }
+    }
 
 
     // this method is intended as modify and pick the next player when the current player finished his turn

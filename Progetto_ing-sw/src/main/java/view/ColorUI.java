@@ -9,6 +9,7 @@ public enum ColorUI {
     BLUE_TEXT("\u001B[34m"),
     YELLOW_TEXT("\u001B[33m"),
 
+    GREEN_TEXT("\u001B[32m"),
 
     //Background colors
     //Used for the tiles

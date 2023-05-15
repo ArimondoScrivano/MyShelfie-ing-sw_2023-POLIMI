@@ -1,5 +1,9 @@
 package view;
 
+import model.Player;
+
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -11,7 +15,7 @@ public class Cli{
     private final PrintStream out;
     //Input stream
     private final Scanner in = new Scanner(new InputStreamReader(System.in));
-
+    private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     public Cli() {
         this.out = System.out;
     }
@@ -50,6 +54,64 @@ public class Cli{
             numberOfPlayers=in.nextInt();
         }
         return numberOfPlayers;
+    }
+
+
+    public List<String> askNewChatMessage(List<String> playersName, String myplayername){
+        String read;
+
+        do{
+        out.print(ColorUI.YELLOW_TEXT+"Do you want to write a message?[Y]||[N]"+ColorUI.RESET);
+        read=in.next();
+
+        if((!read.equals("Y") && !read.equals("y") && !read.equals("n") && !read.equals("N"))){
+            out.println(ColorUI.RED_TEXT+"WRONG PARAMETERS"+ColorUI.RESET);
+        }
+
+        } while(!read.equals("Y") && !read.equals("y") && !read.equals("n") && !read.equals("N"));
+
+
+        if(read.equals("Y") || read.equals("y")){
+            out.println(ColorUI.YELLOW_TEXT+"Who do you want to send it to?"+ColorUI.RESET);
+            int myIndex=0;
+            //Displaying the possible receivers
+            for(int i=0; i<playersName.size(); i++){
+                if(playersName.get(i).equals(myplayername)){
+                    out.println(ColorUI.BLUE_TEXT+"[not selectable]"+ColorUI.RESET);
+                    myIndex= i;
+                }else{
+                    out.println(ColorUI.GREEN_TEXT+"[" +i +"]|| " +playersName.get(i) +ColorUI.RESET);
+                }
+            }
+            out.println(ColorUI.GREEN_TEXT+"[4]|| Broadcast message" +ColorUI.RESET);
+           int indexSelectedreceiver=in.nextInt();
+            //Check if the receiver is correct
+            while(indexSelectedreceiver==myIndex || (indexSelectedreceiver>playersName.size() && indexSelectedreceiver!=4)|| indexSelectedreceiver<0 ){
+                out.println(ColorUI.RED_TEXT+"WRONG PARAMETERS"+ColorUI.RESET);
+                out.print(ColorUI.YELLOW_TEXT+"Select a correct number"+ColorUI.RESET);
+                indexSelectedreceiver=in.nextInt();
+            }
+            out.println(ColorUI.GREEN_TEXT+"Digit your message and then press Enter" +ColorUI.RESET);
+            String context= "no text";
+            try {
+               context = reader.readLine();
+            } catch (IOException e) {
+                context = "An error has occurred";
+            }
+            List<String> messagedone= new ArrayList<>();
+            if(indexSelectedreceiver==4){
+                messagedone.add("EVERYONE");
+            }else {
+                messagedone.add((playersName.get(indexSelectedreceiver)));
+            }
+            messagedone.add(context);
+            out.println("il messagio è:" +messagedone.get(1) +" e il destinatario è "+messagedone.get(0));
+            return messagedone;
+        }else{
+            List<String> NOmessage= new ArrayList<>();
+            NOmessage.add("no message");
+            return NOmessage;
+        }
     }
 
     //Asking the number of tiles to pick
