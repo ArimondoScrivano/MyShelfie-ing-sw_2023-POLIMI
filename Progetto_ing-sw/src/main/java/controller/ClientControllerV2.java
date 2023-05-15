@@ -14,7 +14,7 @@ public class ClientControllerV2 {
     private SocketClientV2 client;
     private String name;
     //Index of the player in game
-    private int index;
+
 
 
     public ClientControllerV2(TextualUI view, String address, int port){
@@ -43,7 +43,6 @@ public class ClientControllerV2 {
         switch (message.getMsg()){
             case LOBBY_CREATED -> {
                 System.out.println("Lobby created");
-                this.index = message.getNp();
                 client.sendMessage(new Message(name, SocketMessages.IS_IT_MY_TURN));
             }
             case WAITING_FOR_OTHER_PLAYERS -> {
@@ -51,12 +50,9 @@ public class ClientControllerV2 {
             }
             case ADDED_TO_LOBBY -> {
                 System.out.println("Added to the lobby");
-                this.index = message.getNp();
-                System.out.println("Lobby reference "+this.index);
                 client.sendMessage(new Message(name, SocketMessages.IS_IT_MY_TURN));
             }
             case GAME_STARTING -> {
-                client.sendMessage(new Message(name, SocketMessages.IS_IT_MY_TURN, index));
                 System.out.println("Game starting");
             }
             case MY_TURN->{

@@ -14,7 +14,10 @@ public class ConcreteServerSocketV2 implements Runnable {
     private final int defaultPort;
     private ServerSocket serverSocket;
     private final Object lock;
-    private Map<String, SocketClientHandler> clientHandlerMap;
+
+    // How it works:
+    //integer= indice della lobby, la mappa interna contiene l'associazione nome Giocatore, il suo socket
+    private Map<Integer, Map<String, SocketClientHandler> > clientHandlerMap;
     private List<GameController> Lobby;
     private List<String> players;
     private List<Message> LobbyMessage;
@@ -30,6 +33,7 @@ public class ConcreteServerSocketV2 implements Runnable {
 
     @Override
     public void run() {
+
         try{
             serverSocket = new ServerSocket(defaultPort);
         }catch (IOException e){
@@ -40,7 +44,7 @@ public class ConcreteServerSocketV2 implements Runnable {
         while(!Thread.currentThread().isInterrupted()){
             try{
                 Socket client = serverSocket.accept();
-
+                //set the timeout to infinity
                 client.setSoTimeout(0);
 
                 SocketClientHandler clientHandler = new SocketClientHandler(this, client);
@@ -77,6 +81,7 @@ public class ConcreteServerSocketV2 implements Runnable {
     //TODO: fix add player
     public void addPlayer(String name, SocketClientHandler clientHandler){
         System.out.println("Adding player "+ name);
+
         clientHandlerMap.put(name, clientHandler);
         clientHandlerMap.get(name).sendMessage(new Message(name, SocketMessages.LOGIN_REPLY));
     }
