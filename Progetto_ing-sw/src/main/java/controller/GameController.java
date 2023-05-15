@@ -97,10 +97,10 @@ public class GameController extends Observable {
     }
 
     public GameController(int NumPlayers, ConcreteSocketServer serverCreator) {
-        this.NumPlayers= NumPlayers;
-        this.end=0;
         this.mySocketServer= serverCreator;
         this.myServer=null; //mutual exclusion
+        this.NumPlayers= NumPlayers;
+        this.end=0;
         id=0;
         //List of players from the pre-game
         List<Player> playersList = new ArrayList<>();

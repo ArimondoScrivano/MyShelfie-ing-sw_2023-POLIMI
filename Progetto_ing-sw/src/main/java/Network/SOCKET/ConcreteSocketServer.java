@@ -326,7 +326,7 @@ public class ConcreteSocketServer {
         }
     }
 
-    public void addPlayer(){ //azioni fatte per ogni nuovo client
+    public void waitClient(){ //azioni fatte per ogni nuovo client
         try{
             /*Socket soc; //gestore della singola comunicazione
             soc= s.accept();
@@ -387,6 +387,7 @@ public class ConcreteSocketServer {
         getMyShelfie(lobbyIndex, 0);
         //aspettare gli altri giocatori per stampare gli oggetti comuni?
     }
+
     public void joinGame(){
         try{
             out.println("NAME");
@@ -410,8 +411,8 @@ public class ConcreteSocketServer {
         }catch(IOException e){
             e.printStackTrace();
         }
-
     }
+
     public int createLobby(int numPlayers){
         GameController controller = new GameController(numPlayers, this);
         //per ogni lobby ci dovrebbe essere la lista di stream
@@ -420,6 +421,7 @@ public class ConcreteSocketServer {
         int indexLobby = Lobby.indexOf(controller);
         return indexLobby;
     }
+
     public int joinLobby(){
         for (int i = 0; i < Lobby.size(); i++) {
             if (!Lobby.get(i).isFull()) {
@@ -437,13 +439,40 @@ public class ConcreteSocketServer {
         Lobby.get(index).createPlayer(IndexPlayer, name);
         return IndexPlayer;
     }
+
+    public boolean nameAleradyTaken(int index, String name, int id) {
+        for(int i=0; i< Lobby.get(index).getPlayersList().size(); i++){
+            if(Lobby.get(index).getPlayersList().get(i).getName().equals(name) && i!=id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void changeName(int index, int id, String name) {
+        Lobby.get(index).getPlayersList().get(id).setName(name);
+    }
+
     public Tile[][] getDashboard(int index){ //originariamente di tipo Tile[][]
              //implementare la ricezione lato client
             return Lobby.get(index).getDashboardTiles();
     }
+
     public Tile[][] getMyShelfie(int index, int playerId){
        //sistemare perché è un po' brutto
         return Lobby.get(index).getPlayersList().get(playerId).getShelfMatrix();
+    }
+
+    public Shelf getMyShelfieREF(int index, String playerName, int playerId) throws RemoteException{
+        return Lobby.get(index).getPlayersList().get(playerId).getShelf(); //deve ritornare al chiamante
+    }
+
+    public int myPoints(int index, int playerId){
+        return Lobby.get(index).getPlayersList().get(playerId).getPoints();
+    }
+
+    public int myPGpoints(int index, int playerId) {
+        return Lobby.get(index).getPlayersList().get(playerId).getPGpoints();
     }
 
     public PersonalGoal getMyPersonalGoal(int index, int playerId){
@@ -453,32 +482,12 @@ public class ConcreteSocketServer {
     public List<CommonGoals> getCommonGoals(int index){
         return Lobby.get(index).getCommonGoals();
     }
+
     public boolean pickableTiles(int index, int playerIndex, List<Integer> xCoord, List<Integer> yCoord){
         return Lobby.get(index).tileAvailablePick(xCoord, yCoord);
     }
 
-    public boolean columnAvailable(int index, int numTiles, Shelf myShelf, int selectedCol, int playerIndex){ //in caso di server socket le funzioni avranno un parametro in più
-        return Lobby.get(index).columnAvailable(numTiles, myShelf, selectedCol);
-
-    }
-
-    public void insertTiles ( int LobbyReference, List<Integer> xCoord, List<Integer>  yCoord, int column){
-        Lobby.get(LobbyReference).insertTiles(xCoord,yCoord,column); //da verificare se trova il giocatore giusto
-    }
-    public String checkWinner(int index, int id){
-        if(Lobby.get(index).checkWinner().getId()== id){
-            return "WON";
-        }else{
-            return "LOST";
-        }
-    }
-    public void finalPick(int index, List<Integer> xCord, List<Integer> yCord){
-        Lobby.get(index).pickTiles(xCord,yCord);
-    }
-    public Shelf getMyShelfieREF(int index, String playerName, int playerId) throws RemoteException{
-        return Lobby.get(index).getPlayersList().get(playerId).getShelf(); //deve ritornare al chiamante
-    }
-    public Tile[] getSelectedTiles(int index,int tilesToPick, List<Integer> yCoord, List<Integer> xCoord) throws RemoteException {
+    public Tile[] getSelectedTiles(int index,int tilesToPick, List<Integer> yCoord, List<Integer> xCoord) {
         Tile[] returnedTiles= new Tile[tilesToPick];
         int x=0;
         for(int i=0; i<tilesToPick; i++){
@@ -488,14 +497,30 @@ public class ConcreteSocketServer {
         }
         return returnedTiles;
     }
-    public int getCurrentPlayer( int index) {
+
+    public boolean columnAvailable(int index, int numTiles, Shelf myShelf, int selectedCol, int playerIndex){ //in caso di server socket le funzioni avranno un parametro in più
+        return Lobby.get(index).columnAvailable(numTiles, myShelf, selectedCol);
+
+    }
+
+    public void finalPick(int index, List<Integer> xCord, List<Integer> yCord){
+        Lobby.get(index).pickTiles(xCord,yCord);
+    }
+
+    public void insertTiles ( int LobbyReference, List<Integer> xCoord, List<Integer>  yCoord, int column){
+        Lobby.get(LobbyReference).insertTiles(xCoord,yCoord,column); //da verificare se trova il giocatore giusto
+    }
+
+    public String checkWinner(int index, int id){
+        if(Lobby.get(index).checkWinner().getId()== id){
+            return "WON";
+        }else{
+            return "LOST";
+        }
+    }
+
+    public int getCurrentPlayer(int index) {
         return Lobby.get(index).playerTurn().getId();
-    }
-    public int myPoints(int index, int playerId){
-        return Lobby.get(index).getPlayersList().get(playerId).getPoints();
-    }
-    public int myPGpoints(int index, int playerId) {
-        return Lobby.get(index).getPlayersList().get(playerId).getPGpoints();
     }
 
     public void endGame(int lobbyIndex){
