@@ -86,12 +86,14 @@ public class Cli{
             out.println(ColorUI.GREEN_TEXT+"[4]|| Broadcast message" +ColorUI.RESET);
            int indexSelectedreceiver=in.nextInt();
             //Check if the receiver is correct
-            while(indexSelectedreceiver==myIndex || (indexSelectedreceiver>playersName.size() && indexSelectedreceiver!=4)|| indexSelectedreceiver<0 ){
-                out.println(ColorUI.RED_TEXT+"WRONG PARAMETERS"+ColorUI.RESET);
-                out.print(ColorUI.YELLOW_TEXT+"Select a correct number"+ColorUI.RESET);
-                indexSelectedreceiver=in.nextInt();
-            }
-            out.println(ColorUI.GREEN_TEXT+"Digit your message and then press Enter" +ColorUI.RESET);
+
+                while (indexSelectedreceiver == myIndex || (indexSelectedreceiver >= playersName.size() && indexSelectedreceiver != 4) || indexSelectedreceiver < 0) {
+                    out.println(ColorUI.RED_TEXT + "WRONG PARAMETERS" + ColorUI.RESET);
+                    out.print(ColorUI.YELLOW_TEXT + "Select a correct number" + ColorUI.RESET);
+                    indexSelectedreceiver = in.nextInt();
+                }
+
+            out.println(ColorUI.GREEN_TEXT+"Type your message and then press Enter" +ColorUI.RESET);
             String context= "no text";
             try {
                context = reader.readLine();
