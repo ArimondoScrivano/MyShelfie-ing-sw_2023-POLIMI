@@ -8,6 +8,7 @@ import controller.GameController;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.*;
 
 public class ConcreteServerSocketV2 implements Runnable {
@@ -19,14 +20,12 @@ public class ConcreteServerSocketV2 implements Runnable {
     //integer= indice della lobby, la mappa interna contiene l'associazione nome Giocatore, il suo socket
     private Map<Integer, Map<String, SocketClientHandler> > clientHandlerMap;
     private List<GameController> Lobby;
-    private List<String> players;
     private List<Message> LobbyMessage;
 
     public ConcreteServerSocketV2(int defaultPort){
         this.defaultPort=defaultPort;
         this.clientHandlerMap = Collections.synchronizedMap(new HashMap<>());
         this.lock=new Object();
-        this.players=Collections.synchronizedList(new ArrayList<>());
         this.Lobby=new ArrayList<>();
         this.LobbyMessage=new ArrayList<>();
     }
@@ -57,83 +56,89 @@ public class ConcreteServerSocketV2 implements Runnable {
         }
     }
 
-    public int createLobby(int numPlayers, String creatorLobby){
+    public int createLobby(int numPlayers, String creatorLobby, Message message, SocketClientHandler clientHandler){
         System.out.println("Creating a lobby");
         GameController controller = new GameController(numPlayers, this, creatorLobby);
         Lobby.add(controller);
         LobbyMessage.add(Lobby.indexOf(controller), new Message(Lobby.indexOf(controller), MessageType.LOBBYCREATED));
         controller.setId(Lobby.indexOf(controller));
+        this.clientHandlerMap.put(Lobby.indexOf(controller), new HashMap<>());
+        addPlayer(message.getName(), clientHandler, Lobby.indexOf(controller), 1);
         return Lobby.indexOf(controller);
     }
 
-    public int joinLobby(){
+    public int joinLobby(Message message, SocketClientHandler clientHandler){
         for (int i = 0; i < Lobby.size(); i++) {
             if (!Lobby.get(i).isFull()) {
+                addPlayer(message.getName(), clientHandler, i, 0);
                 return i; //index of lobby not full
             }
         }
         //if there are no free games, it will create a 2 player lobby
         GameController controller = new GameController(2, this);
         Lobby.add(controller);
+        this.clientHandlerMap.put(Lobby.indexOf(controller), new HashMap<>());
+        addPlayer(message.getName(), clientHandler, Lobby.indexOf(controller), 1);
         return Lobby.indexOf(controller);
     }
 
-    //TODO: fix add player
-    public void addPlayer(String name, SocketClientHandler clientHandler){
+    public void addPlayer(String name, SocketClientHandler clientHandler, int index, int mult){
         System.out.println("Adding player "+ name);
+        //Checking no duplicates of the name
+        boolean flag=clientHandlerMap.get(index).containsKey(name);
+        if(flag){
+            clientHandler.sendMessage(new Message(name, SocketMessages.NAME_FAILED, index));
+        }else{
+            clientHandlerMap.get(index).put(name, clientHandler);
+            clientHandlerMap.get(index).get(name).sendMessage(new Message(name, SocketMessages.LOGIN_REPLY, index));
+            if(mult==0){
+                int IndexPlayer=Lobby.get(index).getPlayersFilled();
+                Lobby.get(index).createPlayer(IndexPlayer, name);
+            }
+        }
 
-
-        //TODO/comment for testing porpose
-       // clientHandlerMap.put(name, clientHandler);
-        //clientHandlerMap.get(name).sendMessage(new Message(name, SocketMessages.LOGIN_REPLY));
     }
 
     //Messages for game flow management
     public void onMessageReceived(Message message){
         System.out.println("Message received");
         switch(message.getMsg()){
-            case NAME_UPDATE -> {
-
-            }
-            case NEW_GAME -> {
-                int index=createLobby(message.getNp(), message.getName());
-             //   clientHandlerMap.get(message.getName()).sendMessage(new Message(message.getName(), SocketMessages.LOBBY_CREATED, index));
-                players.add(message.getName());
+            case IS_GAME_STARTING -> {
+                checkGameStarting(message);
             }
             case IS_IT_MY_TURN -> {
-                System.out.println("Client chiede se è il suo turno");
-                //Check if the game is started-->lobby full
-                if(!Lobby.get(message.getNp()).isFull()){
-          //          clientHandlerMap.get(message.getName()).sendMessage(new Message(message.getName(), SocketMessages.WAITING_FOR_OTHER_PLAYERS));
+                System.out.println("iuser " +message.getName() +" chiede se è il suo turno");
+                if(nameCurrentPlayer(message.getNp()).equals(message.getName())){
+                    clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.MY_TURN, Lobby.get(message.getNp()).getDashboardTiles(), Lobby.get(message.getNp()).getCommonGoals(), Lobby.get(message.getNp()).playerTurn().getShelfMatrix(), Lobby.get(message.getNp()).playerTurn().getPersonalGoal()));
                 }else{
-          //          clientHandlerMap.get(message.getName()).sendMessage(new Message(message.getName(), SocketMessages.WAITING_FOR_YOUR_TURN));
-                }
-            }
-            case JOIN_LOBBY->{
-                System.out.println("Client joining the lobby");
-                int index=joinLobby();
-                //TODO: aggiungere il player in maniera definitiva
-          //      clientHandlerMap.get(message.getName()).sendMessage(new Message(message.getName(), SocketMessages.ADDED_TO_LOBBY, index));
-                players.add(message.getName());
-                if(!Lobby.get(message.getNp()).isFull()){
-         //           clientHandlerMap.get(message.getName()).sendMessage(new Message(message.getName(), SocketMessages.WAITING_FOR_OTHER_PLAYERS));
-                }else{
-                    //Lobby piena invio messaggi a tutti i client collegati alla lobby
-                    for(String p:players){
-                        System.out.println(p);
-                    }
-                    for(int i=0; i<Lobby.size(); i++){
-           //             clientHandlerMap.get(players.get(i)).sendMessage(new Message(players.get(i), SocketMessages.GAME_STARTING));
-                    }
+                    clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.WAITING_FOR_YOUR_TURN));
                 }
             }
         }
+    }
+
+    public String nameCurrentPlayer( int index) {
+        return Lobby.get(index).playerTurn().getName();
     }
 
     //TODO:invio messaggio a tutti i client collegati a quella lobby che fa terminare immediatamente la partita
     public void onDisconnect(SocketClientHandler clientHandler){
         synchronized (lock){
 
+        }
+    }
+    public void checkGameStarting(Message message){
+        if (Lobby.get(message.getNp()).isFull()){
+
+            for( String chiave : clientHandlerMap.get(message.getNp()).keySet()) {
+                //For generalizzato sulla mappa
+                clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.GAME_STARTING));
+            }
+        }else{
+            for( String chiave : clientHandlerMap.get(message.getNp()).keySet()) {
+                //For generalizzato sulla mappa
+                clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.WAITING_FOR_OTHER_PLAYERS));
+            }
         }
     }
 }

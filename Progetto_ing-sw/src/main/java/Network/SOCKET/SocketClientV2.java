@@ -49,8 +49,10 @@ public class SocketClientV2 {
                     message = (Message) inputStream.readObject();
                     if(message != null && message.getMsg()!=SocketMessages.PING_MESSAGE){
                         if(message.getMsg()==SocketMessages.LOGIN_REPLY){
+                            clientController.setIdLobby(message.getNp());
                             //here we have created a new game and the player is inserted into the map
                             System.out.println("Client added to the game");
+                            sendMessage(new Message(clientController.getName(),SocketMessages.IS_GAME_STARTING, clientController.getIdLobby()));
                         }else{
                             clientController.onMessageReceived(message);
                         }

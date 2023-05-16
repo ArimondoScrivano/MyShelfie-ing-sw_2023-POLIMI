@@ -1,6 +1,11 @@
 package Network.messages;
 
+import model.PersonalGoal;
+import model.Tile;
+import model.cgoal.CommonGoals;
+
 import java.io.Serializable;
+import java.util.List;
 
 public  class Message implements Serializable {
     private static final long serialVersionUID = 382104422531955291L;
@@ -13,6 +18,10 @@ public  class Message implements Serializable {
     private String name;
     private int np;
 
+    private Tile[][] dashboard;
+    private List<CommonGoals> commonGoals;
+    private Tile[][] shelf;
+    private PersonalGoal pg;
     public Message(String name, SocketMessages msg){
         this.name = name;
         this.msg=msg;
@@ -24,6 +33,27 @@ public  class Message implements Serializable {
         this.name = name;
         this.msg=msg;
         this.np=index;
+    }
+
+    public Message(String name, SocketMessages msg, Tile[][] dashboard, List<CommonGoals> commonGoals, Tile[][] shelf, PersonalGoal pg){
+        this.name=name;
+        this.msg=msg;
+        this.dashboard=dashboard;
+        this.commonGoals=commonGoals;
+        this.shelf=shelf;
+        this.pg=pg;
+    }
+
+    public Tile[][] getDashboard(){
+        return this.dashboard;
+    }
+    public Tile[][] getShelf(){
+        return this.shelf;
+    }
+    public List<CommonGoals> getCommonGoals(){
+        return this.commonGoals;
+    }public PersonalGoal getPg(){
+        return this.pg;
     }
 
     public int getNp(){

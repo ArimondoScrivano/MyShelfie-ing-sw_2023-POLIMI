@@ -13,8 +13,18 @@ public class ClientControllerV2 {
     private TextualUI view;
     private SocketClientV2 client;
     private String name;
-    //Index of the player in game
+    //Index of the Lobby
+    private int idLobby;
+    public int getIdLobby() {
+        return idLobby;
+    }
 
+    public void setIdLobby(int idLobby) {
+        this.idLobby = idLobby;
+    }
+    public String getName() {
+        return name;
+    }
 
 
     public ClientControllerV2(TextualUI view, String address, int port){
@@ -28,7 +38,7 @@ public class ClientControllerV2 {
     }
 
     public void onUpdateName(String name){
-        client.sendMessage(new Message(name, SocketMessages.LOGIN_REQUEST));
+        client.sendMessage(new Message(name, SocketMessages.NAME_UPDATE));
     }
 
     public void onNewGameChoice(int np){
@@ -41,21 +51,23 @@ public class ClientControllerV2 {
 
     public void onMessageReceived(Message message){
         switch (message.getMsg()){
-            case LOBBY_CREATED -> {
-                System.out.println("Lobby created");
-                client.sendMessage(new Message(name, SocketMessages.IS_IT_MY_TURN));
-            }
-            case WAITING_FOR_OTHER_PLAYERS -> {
-                System.out.println("Waiting for other players");
-            }
-            case ADDED_TO_LOBBY -> {
-                System.out.println("Added to the lobby");
-                client.sendMessage(new Message(name, SocketMessages.IS_IT_MY_TURN));
+            case NAME_FAILED -> {
+                System.out.println("Name failed! Retry");
+                Cli cli = new Cli();
+                this.name=cli.askNickname();
+                onUpdateName(name);
             }
             case GAME_STARTING -> {
                 System.out.println("Game starting");
+                client.sendMessage(new Message(name, SocketMessages.IS_IT_MY_TURN, idLobby));
             }
+
+            case WAITING_FOR_OTHER_PLAYERS -> {
+                System.out.println("Waiting for other players");
+            }
+
             case MY_TURN->{
+                view.showMatchInfo(message.getDashboard(), message.getCommonGoals(), message.getShelf(), message.getPg());
 
             }
         }
@@ -66,7 +78,7 @@ public class ClientControllerV2 {
             Cli cli = new Cli();
             if(!Thread.currentThread().isInterrupted()){
                 this.name=cli.askNickname();
-                onUpdateName(this.name);
+                //onUpdateName(this.name);
                 if(cli.askNewGame()){
                     //New game to create
                     int numberOfPlayers = cli.askNumberOfPlayers();

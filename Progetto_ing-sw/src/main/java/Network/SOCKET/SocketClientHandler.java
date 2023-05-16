@@ -11,10 +11,7 @@ import java.net.Socket;
 public class SocketClientHandler implements Runnable{
     private final Socket client;
 
-    private int idplayer;
-
     private int idLobby;
-
     private final ConcreteServerSocketV2 socketServer;
     private boolean connected;
     private final Object inputLock;
@@ -28,7 +25,6 @@ public class SocketClientHandler implements Runnable{
         this.connected = true;
         //those are the inizialization value of the index of the game and the index of the player
         this.idLobby= 0;
-        this.idplayer=0;
         this.inputLock = new Object();
         this.outputLock = new Object();
 
@@ -60,15 +56,14 @@ public class SocketClientHandler implements Runnable{
                     Message message = (Message) input.readObject();
 
                     if (message != null && message.getMsg()!=SocketMessages.PING_MESSAGE) {
-                        if (message.getMsg() == SocketMessages.LOGIN_REQUEST) {
+                        if (message.getMsg() == SocketMessages.NEW_GAME) {
                             System.out.println("Player added " + message.getName());
-                            socketServer.addPlayer(message.getName(), this);
-                            this.idplayer=0;
+                            this.idLobby=socketServer.createLobby(message.getNp(), message.getName(), message, this);
                             //here we create a Lobby and return the index of it
                         }else if(message.getMsg() == SocketMessages.JOIN_LOBBY){
-                            //TODO: da qui non funziona più
-                            socketServer.addPlayer(message.getName(), this);
-                            socketServer.onMessageReceived(message);
+                            this.idLobby=socketServer.joinLobby(message, this);
+                        }else if(message.getMsg() == SocketMessages.NAME_UPDATE){
+                            socketServer.addPlayer(message.getName(), this, idLobby,1);
                         }else{
                             //Generic message to read and manage
                             socketServer.onMessageReceived(message);

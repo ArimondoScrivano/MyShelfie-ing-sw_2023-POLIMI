@@ -60,6 +60,7 @@ public class GameController extends Observable {
 
     public GameController(int NumPlayers, ConcreteServerSocketV2 serverCreator, String creatorLobby) {
         this.serverSocketV2= serverCreator;
+        myServer= null;
         this.NumPlayers= NumPlayers;
         this.end=0;
         id=0;
@@ -182,7 +183,10 @@ public class GameController extends Observable {
             MessageType m = MessageType.GAME_STARTING;
             Message msg = new Message(id, m);
             try {
-                myServer.setMessage(msg);
+                //TODO GENERAL PURPOSE
+                if(myServer != null) {
+                    myServer.setMessage(msg);
+                }
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
