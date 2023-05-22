@@ -4,9 +4,12 @@ import Network.SOCKET.SocketClientV2;
 import Network.messages.Message;
 import Network.messages.SocketMessages;
 import view.Cli;
+import view.ColorUI;
 import view.TextualUI;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ClientControllerV2 {
@@ -67,11 +70,31 @@ public class ClientControllerV2 {
             }
 
             case MY_TURN->{
+                System.out.println(ColorUI.BLUE_TEXT+playerName+" is your turn!"+ColorUI.RESET);
                 view.showMatchInfo(message.getDashboard(), message.getCommonGoals(), message.getShelf(), message.getPg());
-
+                siamo arrivati qui
+                        //devo displayare i miei punti, li potremmo allegare direttamente al messaggio di prima
+                chooseOnlyColumn();
             }
         }
     }
+
+    public int chooseOnlyColumn(){
+        Cli Cli= new Cli();
+        int column= Cli.askColumn();
+        return column;
+    }
+
+    //the return List contains xCoord, yCoord, number of tiles that the player want to pick
+    public List<List<Integer>> chooseOnlyTile(){
+        Cli Cli= new Cli();
+        int numberOfTilesToPick;
+        List<Integer> tilesToPick;
+        List<Integer> xCoord = new ArrayList<>();
+        List<Integer> yCoord = new ArrayList<>();
+    }
+
+
 
     public void gameFlow() throws IOException {
         Thread clientInputThread = new Thread(()->{
