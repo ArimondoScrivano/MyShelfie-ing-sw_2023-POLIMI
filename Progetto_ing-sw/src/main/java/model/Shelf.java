@@ -14,6 +14,7 @@ public class Shelf implements Serializable {
             for(int j=0;j<5;j++){
                 tilesShelf[i][j]= new Tile(COLOR.BLANK,1);
             }
+
         }
 
     }

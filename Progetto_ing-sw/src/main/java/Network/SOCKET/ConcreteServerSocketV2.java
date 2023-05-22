@@ -110,7 +110,13 @@ public class ConcreteServerSocketV2 implements Runnable {
             case IS_IT_MY_TURN -> {
                 System.out.println("iuser " +message.getName() +" chiede se è il suo turno");
                 if(nameCurrentPlayer(message.getNp()).equals(message.getName())){
-                    clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.MY_TURN, Lobby.get(message.getNp()).getDashboardTiles(), Lobby.get(message.getNp()).getCommonGoals(), Lobby.get(message.getNp()).playerTurn().getShelfMatrix(), Lobby.get(message.getNp()).playerTurn().getPersonalGoal()));
+                    clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.MY_TURN,
+                            Lobby.get(message.getNp()).getDashboardTiles(),
+                            Lobby.get(message.getNp()).getCommonGoals(),
+                            Lobby.get(message.getNp()).playerTurn().getShelfMatrix(),
+                            Lobby.get(message.getNp()).playerTurn().getPersonalGoal(),
+                            Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getPoints(),
+                            Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getPGpoints()));
                 }else{
                     clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.WAITING_FOR_YOUR_TURN));
                 }
@@ -126,9 +132,37 @@ public class ConcreteServerSocketV2 implements Runnable {
                 if(pickableTiles( index, xCoord,  yCoord) &&  columnAvailable(index,  numberTiles, Lobby.get(message.getNp()).playerTurn().getShelf(), possibleCol )){
                     insertTiles(index,xCoord,yCoord,possibleCol);
                     finalPick(index, xCoord,yCoord);
-                    clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.PARAMETERS_OK,Lobby.get(message.getNp()).getDashboardTiles(), Lobby.get(message.getNp()).getCommonGoals(), Lobby.get(message.getNp()).playerTurn().getShelfMatrix(), Lobby.get(message.getNp()).playerTurn().getPersonalGoal()));
+                    clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.PARAMETERS_OK,
+                            Lobby.get(message.getNp()).getDashboardTiles(),
+                            Lobby.get(message.getNp()).getCommonGoals(),
+                            Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getShelfMatrix(),
+                            Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getPersonalGoal(),
+                            Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getPoints(),
+                            Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getPGpoints()));
                 }else{
                     clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.PARAMETERS_KO));
+                }
+            }
+
+            case MY_TURN_ENDED ->{
+                int index= message.getNp();
+
+                if(Lobby.get(index).getEnd()==1){
+                    for( String chiave : clientHandlerMap.get(message.getNp()).keySet()) {
+                        //For generalizzato sulla mappa
+                        clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.GAME_ENDING));
+                    }
+                }else{
+                   clientHandlerMap.get(index).get(nameCurrentPlayer(message.getNp())).sendMessage(new Message("server",SocketMessages.MY_TURN, Lobby.get(message.getNp()).getDashboardTiles(), Lobby.get(message.getNp()).getCommonGoals(), Lobby.get(message.getNp()).playerTurn().getShelfMatrix(), Lobby.get(message.getNp()).playerTurn().getPersonalGoal(), Lobby.get(message.getNp()).playerTurn().getPoints(), Lobby.get(message.getNp()).playerTurn().getPGpoints()));
+                }
+            }
+            case HAVE_I_WON -> {
+                int index= message.getNp();
+                String namePlayer= message.getName();
+                if(checkSocketWinner(index, namePlayer)){
+                    clientHandlerMap.get(message.getNp()).get(namePlayer).sendMessage(new Message("server", SocketMessages.WINNER));
+                }else{
+                    clientHandlerMap.get(message.getNp()).get(namePlayer).sendMessage(new Message("server", SocketMessages.LOSER));
                 }
             }
         }
@@ -178,6 +212,13 @@ public class ConcreteServerSocketV2 implements Runnable {
     //This method adds the tiles in the shelf
     public void insertTiles ( int LobbyReference, List<Integer> xCoord, List<Integer>  yCoord, int column) {
         Lobby.get(LobbyReference).insertTiles(xCoord,yCoord,column);
+    }
+
+    public boolean checkSocketWinner(int index, String name) {
+        if(Lobby.get(index).checkWinner().getName().equals(name)){
+            return true;
+        }
+        return false;
     }
 
 }

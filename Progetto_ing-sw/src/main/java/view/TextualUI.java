@@ -48,20 +48,7 @@ public class TextualUI extends Observable implements View {
         out.println(ColorUI.RED_TEXT+"Current Dashboard"+ColorUI.RESET);
         String copyColor = "";
 
-        //First row
-        for(int i=0; i<11; i++){
-            out.print("  "+i+"\t");
-        }
-        out.print("\n");
-        //Dashboard print
-        for(int i=0; i<11; i++){
-            out.print(i);
-            for(int j=0; j<11; j++){
-                int color=copy[i][j].getColor().compareTo(COLOR.BLANK);
-                copyColor = convertColorInStringTiles(copyColor, color);
-            }
-            out.println();
-        }
+        printDashboard(copy);
 
         //Printing the layout of the common goal card
         printCommonGoal(commonGoals);
@@ -94,6 +81,24 @@ public class TextualUI extends Observable implements View {
             }
         }else{
             System.out.println(  "\u001B[33m" + "No message to dispay yet" + "\u001B[0m");
+        }
+    }
+
+    public void printDashboard(Tile[][] copy){
+        String copyColor="";
+        //First row
+        for(int i=0; i<11; i++){
+            out.print("  "+i+"\t");
+        }
+        out.print("\n");
+        //Dashboard print
+        for(int i=0; i<11; i++){
+            out.print(i);
+            for(int j=0; j<11; j++){
+                int color=copy[i][j].getColor().compareTo(COLOR.BLANK);
+                copyColor = convertColorInStringTiles(copyColor, color);
+            }
+            out.println();
         }
     }
 

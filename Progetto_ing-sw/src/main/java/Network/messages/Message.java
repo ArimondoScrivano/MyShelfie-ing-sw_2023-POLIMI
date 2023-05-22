@@ -24,6 +24,9 @@ public  class Message implements Serializable {
     private PersonalGoal pg;
     private List<List<Integer>> myPossiblePick;
     private int possibleCol;
+
+    private int points;
+    private int pgPoints;
     public List<List<Integer>> getMyPossiblePick() {
         return myPossiblePick;
     }
@@ -63,6 +66,16 @@ public  class Message implements Serializable {
         this.shelf=shelf;
         this.pg=pg;
     }
+    public Message(String name, SocketMessages msg, Tile[][] dashboard, List<CommonGoals> commonGoals, Tile[][] shelf, PersonalGoal pg, int points, int pgPoints){
+        this.name=name;
+        this.msg=msg;
+        this.dashboard=dashboard;
+        this.commonGoals=commonGoals;
+        this.shelf=shelf;
+        this.pg=pg;
+        this.points=points;
+        this.pgPoints=pgPoints;
+    }
 public Message(String name, SocketMessages msg,int lobbyid, List<List<Integer>> myPossiblePick, int possibleCol){
     this.name=name;
     this.msg=msg;
@@ -80,6 +93,22 @@ public Message(String name, SocketMessages msg,int lobbyid, List<List<Integer>> 
         return this.commonGoals;
     }public PersonalGoal getPg(){
         return this.pg;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public int getPgPoints() {
+        return pgPoints;
+    }
+
+    public void setPgPoints(int pgPoints) {
+        this.pgPoints = pgPoints;
     }
 
     public int getNp(){

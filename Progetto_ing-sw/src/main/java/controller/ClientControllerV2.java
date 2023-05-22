@@ -72,13 +72,42 @@ public class ClientControllerV2 {
             case MY_TURN->{
                 System.out.println(ColorUI.BLUE_TEXT+this.name+" is your turn!"+ColorUI.RESET);
                 view.showMatchInfo(message.getDashboard(), message.getCommonGoals(), message.getShelf(), message.getPg());
-                siamo arrivati qui
+                //Points display at the end of the turn
+                Cli cli = new Cli();
+                cli.displayPoints(message.getPoints(), message.getPgPoints());
+                //siamo arrivati qui
                         //devo displayare i miei punti, li potremmo allegare direttamente al messaggio di prima
                 List<List<Integer>> myPossiblePick= new ArrayList<>();
                 myPossiblePick= chooseOnlyTile();
                 int possibleCol= chooseOnlyColumn();
                 client.sendMessage(new Message(name, SocketMessages.ARE_PARAMETERS_OK, idLobby, myPossiblePick, possibleCol));
 
+            }
+            case PARAMETERS_KO -> {
+                List<List<Integer>> myPossiblePick = new ArrayList<>();
+                myPossiblePick = chooseOnlyTile();
+                int possibleCol = chooseOnlyColumn();
+                client.sendMessage(new Message(name, SocketMessages.ARE_PARAMETERS_OK, idLobby, myPossiblePick, possibleCol));
+            }
+            case PARAMETERS_OK -> {
+                view.printDashboard(message.getDashboard());
+                view.printShelf(message.getShelf());
+
+                //Points display at the end of the turn
+                Cli cli = new Cli();
+                cli.displayPoints(message.getPoints(), message.getPgPoints());
+                client.sendMessage(new Message(name, SocketMessages.MY_TURN_ENDED, idLobby));
+            }
+            case GAME_ENDING -> {
+                //Check if i won
+                client.sendMessage(new Message(name, SocketMessages.HAVE_I_WON, idLobby));
+
+            }
+            case WINNER -> {
+                System.out.println("Congratulation, you WON the match");
+            }
+            case LOSER -> {
+                System.out.println("Sorry, You lose");
             }
         }
     }

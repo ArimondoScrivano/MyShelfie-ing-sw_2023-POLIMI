@@ -2,7 +2,6 @@ package controller;
 
 import Network.RMI.Server_RMI;
 import Network.SOCKET.ConcreteServerSocketV2;
-import Network.SOCKET.ConcreteSocketServer;
 import Network.messages.Message;
 import Network.messages.MessageType;
 import model.Dashboard;
@@ -22,7 +21,6 @@ public class GameController extends Observable {
     private int NumPlayers;
     private int id;
     private Server_RMI myServer;
-    private ConcreteSocketServer mySocketServer;
     private ConcreteServerSocketV2 serverSocketV2;
 
     // 0 if the game is NOT ended or 1 if the Game Ended
@@ -74,7 +72,6 @@ public class GameController extends Observable {
     public GameController(int NumPlayers, ConcreteServerSocketV2 serverCreator) {
         super();
         this.serverSocketV2= serverCreator;
-        this.mySocketServer=null;
         this.NumPlayers= NumPlayers;
         this.end=0;
         id=0;
@@ -87,19 +84,6 @@ public class GameController extends Observable {
     public GameController(int NumPlayers, Server_RMI serverCreator) {
         super();
         this.myServer= serverCreator;
-        this.mySocketServer=null;
-        this.NumPlayers= NumPlayers;
-        this.end=0;
-        id=0;
-        //List of players from the pre-game
-        List<Player> playersList = new ArrayList<>();
-        Dashboard dashboard = new Dashboard(NumPlayers, new Bag());
-        this.currentGame = new Game(0, dashboard, playersList,NumPlayers);
-    }
-
-    public GameController(int NumPlayers, ConcreteSocketServer serverCreator) {
-        this.mySocketServer= serverCreator;
-        this.myServer=null; //mutual exclusion
         this.NumPlayers= NumPlayers;
         this.end=0;
         id=0;
@@ -203,7 +187,7 @@ public class GameController extends Observable {
             if(myServer!=null){
                 myServer.setMessage(msg);
             }else{
-                mySocketServer.endGame(id);
+                this.end= 1;
             }
         } catch (RemoteException e) {
             throw new RuntimeException(e);
@@ -216,7 +200,15 @@ public class GameController extends Observable {
             started();
         }
     }
-
+  public int finderPlayer(String name){
+        List<Player> playerList= getPlayersList();
+        for(int i=0; i<playerList.size(); i++){
+            if(playerList.get(i).getName().equals(name)){
+                return i;
+            }
+        }
+        return 0;
+  }
 
     // this method is intended as modify and pick the next player when the current player finished his turn
     public void pickNextPlayer(){
