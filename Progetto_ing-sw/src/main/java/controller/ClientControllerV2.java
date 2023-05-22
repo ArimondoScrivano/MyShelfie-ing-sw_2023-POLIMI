@@ -70,28 +70,45 @@ public class ClientControllerV2 {
             }
 
             case MY_TURN->{
-                System.out.println(ColorUI.BLUE_TEXT+playerName+" is your turn!"+ColorUI.RESET);
+                System.out.println(ColorUI.BLUE_TEXT+this.name+" is your turn!"+ColorUI.RESET);
                 view.showMatchInfo(message.getDashboard(), message.getCommonGoals(), message.getShelf(), message.getPg());
                 siamo arrivati qui
                         //devo displayare i miei punti, li potremmo allegare direttamente al messaggio di prima
-                chooseOnlyColumn();
+                List<List<Integer>> myPossiblePick= new ArrayList<>();
+                myPossiblePick= chooseOnlyTile();
+                int possibleCol= chooseOnlyColumn();
+                client.sendMessage(new Message(name, SocketMessages.ARE_PARAMETERS_OK, idLobby, myPossiblePick, possibleCol));
+
             }
         }
     }
 
     public int chooseOnlyColumn(){
         Cli Cli= new Cli();
-        int column= Cli.askColumn();
-        return column;
+        return Cli.askColumn();
     }
 
-    //the return List contains xCoord, yCoord, number of tiles that the player want to pick
+    //the return List contains xCoord, yCoord.
     public List<List<Integer>> chooseOnlyTile(){
         Cli Cli= new Cli();
         int numberOfTilesToPick;
         List<Integer> tilesToPick;
         List<Integer> xCoord = new ArrayList<>();
         List<Integer> yCoord = new ArrayList<>();
+        //Asking the number of tiles to pick
+        numberOfTilesToPick=Cli.askNumberOfTiles();
+        tilesToPick=Cli.askTilesToPick(numberOfTilesToPick);
+        for(int i=0; i<tilesToPick.size(); i++){
+            if(i%2==0){
+                xCoord.add(tilesToPick.get(i));
+            }else{
+                yCoord.add(tilesToPick.get(i));
+            }
+        }
+        List<List<Integer>> listToReturn = new ArrayList<>();
+        listToReturn.add(xCoord);
+        listToReturn.add(yCoord);
+        return listToReturn;
     }
 
 

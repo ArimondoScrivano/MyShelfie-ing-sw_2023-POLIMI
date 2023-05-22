@@ -4,6 +4,7 @@ import Network.messages.Message;
 import Network.messages.MessageType;
 import Network.messages.SocketMessages;
 import controller.GameController;
+import model.Shelf;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -114,6 +115,22 @@ public class ConcreteServerSocketV2 implements Runnable {
                     clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.WAITING_FOR_YOUR_TURN));
                 }
             }
+            case ARE_PARAMETERS_OK -> {
+                List<List<Integer>> listToTest= message.getMyPossiblePick();
+                int index= message.getNp();
+                int numberTiles= listToTest.get(1).size();
+                int possibleCol= message.getPossibleCol();
+                List<Integer> xCoord= listToTest.get(0);
+                List<Integer> yCoord= listToTest.get(1);
+                //control parameters, if ok-> PARAMETERS_OK, IF ko-> PARAMETERS_KO
+                if(pickableTiles( index, xCoord,  yCoord) &&  columnAvailable(index,  numberTiles, Lobby.get(message.getNp()).playerTurn().getShelf(), possibleCol )){
+                    insertTiles(index,xCoord,yCoord,possibleCol);
+                    finalPick(index, xCoord,yCoord);
+                    clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.PARAMETERS_OK,Lobby.get(message.getNp()).getDashboardTiles(), Lobby.get(message.getNp()).getCommonGoals(), Lobby.get(message.getNp()).playerTurn().getShelfMatrix(), Lobby.get(message.getNp()).playerTurn().getPersonalGoal()));
+                }else{
+                    clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.PARAMETERS_KO));
+                }
+            }
         }
     }
 
@@ -141,4 +158,26 @@ public class ConcreteServerSocketV2 implements Runnable {
             }
         }
     }
+
+    public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoord)  {
+        return Lobby.get(index).tileAvailablePick(xCoord, yCoord);
+    }
+
+    public boolean columnAvailable(int index, int numTiles, Shelf myShelf, int selectedCol) {
+        return Lobby.get(index).columnAvailable(numTiles, myShelf, selectedCol);
+
+
+    }
+
+    public void finalPick(int index, List<Integer> xCord, List<Integer> yCord){
+        Lobby.get(index).pickTiles(xCord,yCord);
+    }
+
+
+
+    //This method adds the tiles in the shelf
+    public void insertTiles ( int LobbyReference, List<Integer> xCoord, List<Integer>  yCoord, int column) {
+        Lobby.get(LobbyReference).insertTiles(xCoord,yCoord,column);
+    }
+
 }

@@ -22,6 +22,26 @@ public  class Message implements Serializable {
     private List<CommonGoals> commonGoals;
     private Tile[][] shelf;
     private PersonalGoal pg;
+    private List<List<Integer>> myPossiblePick;
+    private int possibleCol;
+    public List<List<Integer>> getMyPossiblePick() {
+        return myPossiblePick;
+    }
+
+    public void setMyPossiblePick(List<List<Integer>> myPossiblePick) {
+        this.myPossiblePick = myPossiblePick;
+    }
+
+    public int getPossibleCol() {
+        return possibleCol;
+    }
+
+    public void setPossibleCol(int possibleCol) {
+        this.possibleCol = possibleCol;
+    }
+
+
+
     public Message(String name, SocketMessages msg){
         this.name = name;
         this.msg=msg;
@@ -43,7 +63,13 @@ public  class Message implements Serializable {
         this.shelf=shelf;
         this.pg=pg;
     }
-
+public Message(String name, SocketMessages msg,int lobbyid, List<List<Integer>> myPossiblePick, int possibleCol){
+    this.name=name;
+    this.msg=msg;
+    this.np=lobbyid;
+    this.myPossiblePick= myPossiblePick;
+    this.possibleCol= possibleCol;
+}
     public Tile[][] getDashboard(){
         return this.dashboard;
     }
