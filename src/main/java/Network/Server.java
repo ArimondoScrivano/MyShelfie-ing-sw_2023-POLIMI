@@ -105,13 +105,13 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         System.out.println("Adding player "+ name);
         //Checking no duplicates of the name
         boolean flag=clientHandlerMap.get(index).containsKey(name);
-
+        int counter=0;
         for(int count=0; count<Lobby.get(index).getPlayersList().size(); count++){
             if(Lobby.get(index).getPlayersList().get(count).getName().equals(name)){
-                flag=true;
+                counter++;
             }
         }
-        if(flag){
+        if(flag || counter== 2){
             clientHandler.sendMessage(new Message(name, SocketMessages.NAME_FAILED, index));
 
         }else{
@@ -251,27 +251,29 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     }
 
 
-    public void setMessage( Message message){
+    public void setMessage( Message message) {
         LobbyMessage.add(message.getId(), message);
+        if (clientHandlerMap.get(message.getId()) != null) {
         if (message.getMessageType().equals(MessageType.GAME_STARTING) || message.getMessageType().equals(MessageType.SOMETHINGCHANGED)) {
-            if(clientHandlerMap.get(message.getId())!= null){
-            for( String chiave : clientHandlerMap.get(message.getId()).keySet() ) {
-                //For generalizzato sulla mappa
-                clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.CHECK_YOUR_TURN));
-            }
 
-        }else if(message.getMessageType().equals(MessageType.GAME_ENDING)){
-            for( String chiave : clientHandlerMap.get(message.getId()).keySet()) {
-                //For generalizzato sulla mappa
-                if(checkSocketWinner(message.getId(), chiave)){
-                    clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.WINNER));
-                }else{
-                    clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.LOSER));
+                for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
+                    //For generalizzato sulla mappa
+                    clientHandlerMap.get(message.getId()).get(chiave).sendMessage(new Message("server", SocketMessages.CHECK_YOUR_TURN));
+                }
+
+            } else if (message.getMessageType().equals(MessageType.GAME_ENDING)) {
+                for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
+                    //For generalizzato sulla mappa
+                    if (checkSocketWinner(message.getId(), chiave)) {
+                        clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.WINNER));
+                    } else {
+                        clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.LOSER));
+                    }
                 }
             }
         }
-        }
     }
+
 
     @Override
     public int createLobby(int numPlayers, String creatorLobby) throws RemoteException {
