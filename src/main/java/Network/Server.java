@@ -118,7 +118,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
             clientHandlerMap.get(index).put(name, clientHandler);
             clientHandlerMap.get(index).get(name).sendMessage(new Message(name, SocketMessages.LOGIN_REPLY, index));
             //legato alla joinLobby
-            System.out.println("Porcamadonna"+mult);
+
             if(mult==0){
                 int IndexPlayer=Lobby.get(index).getPlayersFilled();
                 Lobby.get(index).createPlayer(IndexPlayer, name);
