@@ -9,17 +9,22 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 class diagonalEqualCommonGoalsTest {
 
 
 
     @Test
     public void checker() {
+
         List<Integer> l1= new ArrayList<>();
         l1.add(1);
         l1.add(2);
         l1.add(3);
         CommonGoals test2 = new diagonalEqualCommonGoals(l1);
+        test2.printLayout();
+        assertEquals(3,test2.getCurrent_point() );
         Tile[][] matrix = new Tile[6][5];
         Tile a00 = new Tile(COLOR.GREEN, 1);
         matrix[0][0] = a00;

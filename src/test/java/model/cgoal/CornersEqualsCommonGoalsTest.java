@@ -17,6 +17,8 @@ public class CornersEqualsCommonGoalsTest extends TestCase {
         l1.add(2);
         l1.add(3);
         CommonGoals test1 = new CornersEqualsCommonGoals(l1);
+           test1.printLayout();
+           assertEquals(3,test1.getCurrent_point() );
 
         Tile[][] matrix = new Tile[6][5];
         Tile a00 = new Tile(COLOR.GREEN, 1);
