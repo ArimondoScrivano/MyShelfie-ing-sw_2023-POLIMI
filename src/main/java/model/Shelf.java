@@ -12,10 +12,9 @@ public class Shelf implements Serializable {
         tilesShelf= new Tile[6][5];
         for(int i =0; i<6; i++){
             for(int j=0;j<5;j++){
-                tilesShelf[i][j]= new Tile(COLOR.BLUE,1);
+                tilesShelf[i][j]= new Tile(COLOR.BLANK,1);
             }
-            tilesShelf[0][0]= new Tile(COLOR.BLANK,1);
-            tilesShelf[1][0]= new Tile(COLOR.BLANK,1);
+
         }
 
     }
