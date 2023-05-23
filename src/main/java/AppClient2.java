@@ -53,6 +53,9 @@ public class AppClient2 {
             }
         }
         flagDisplay=0;
+        while(!client.notifyMe().getMessageType().equals(MessageType.GAME_STARTING)){
+
+        }
 
         System.out.println(ColorUI.YELLOW_TEXT+"Starting the game. HAVE FUN"+ColorUI.RESET);
 
