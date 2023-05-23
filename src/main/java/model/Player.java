@@ -181,7 +181,9 @@ public class Player implements Serializable {
         this.shelfCompleted = stato;
     }
 
-
+    public boolean getShelfCompleted(){
+        return this.shelfCompleted;
+    }
 
 
     public void checkPersonalGoal(){

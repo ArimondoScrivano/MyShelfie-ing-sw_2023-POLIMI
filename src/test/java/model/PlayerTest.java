@@ -13,30 +13,7 @@ class PlayerTest extends TestCase{
             myPlayerName= myPlayer.getName();
             System.out.println(myPlayerName);
         }
-        @Test
-        //TESTING METHOD getShelf()
-        public void testGetter2(){
-            Player myPlayer= new Player(1, "maurizio");
-            Tile[][] tiles=new Tile[6][5];
-            for(int i=0; i<6; i++){
-                for(int j=0; j<5; j++){
-                    tiles[i][j]=new Tile(COLOR.VIOLET, 1);
-                }
-            }
-            Shelf myShelf=new Shelf(tiles, myPlayer);
-            for(int i=0; i<6; i++){
-                for(int j=0; j<5; j++){
-                    System.out.println(myShelf.tilesShelf[i][j].getColor());
-                }
-            }
-            myShelf=myPlayer.getShelf();
-            for(int i=0; i<6; i++){
-                for(int j=0; j<5; j++){
-                    System.out.println(myShelf.tilesShelf[i][j].getColor());
-                }
-            }
 
-        }
         @Test
         //TESTING METHOD getPersonalGoal()
         public void testGetter3(){
@@ -80,13 +57,6 @@ class PlayerTest extends TestCase{
             System.out.println(completed);
         }
 
-        @Test
-        //TESTING METHOD setShelfCompleted()
-        public void testSetter2(){
-            Player myPlayer= new Player(1, "maurizio");
-            myPlayer.setShelfCompleted();
-            System.out.println(myPlayer.isShelfCompleted());
-        }
 
         @Test
         //TEST METHOD checkPersonalGoal()

@@ -123,14 +123,6 @@ public class Game extends Observable implements Serializable {
         this.commonGoals.add(1, temporaryCommonGoals.get(id_2));
     }
 
-    //The endgame token is taken by the current player if his shelf is completed
-    public void endGameToken(){
-        if(currentPlayer.isShelfCompleted()){
-            //The endgame token value is 1
-            getCurrentPlayer().setPointsEndGame();
-            endGame=true;
-        }
-    }
 
     //Get method for the endGame
     public boolean getEndGame(){
