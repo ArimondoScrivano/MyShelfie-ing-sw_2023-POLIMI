@@ -102,7 +102,7 @@ public class GameTest extends TestCase {
         assertFalse(playersTest.get(0).isShelfCompleted());
 
         if(playersTest.get(0).isShelfCompleted()){
-            playersTest.get(0).setShelfCompleted();
+            playersTest.get(0).setShelfCompleted(true);
             assertTrue(playersTest.get(0).isShelfCompleted());
             int before = game1.getCurrentPlayer().getPoints();
             assertFalse(game1.getEndGame());

@@ -29,8 +29,6 @@ public class Game extends Observable implements Serializable {
         for(Player p : pl){
             System.out.println("Player in game: "+p.getName());
         }
-        //Setting the first player
-        this.currentPlayer = pl.get(0);
         //Setting the commonGoals based on the number of players
         this.numberOfPlayers = numberOfPlayers;
         switch (this.numberOfPlayers) {

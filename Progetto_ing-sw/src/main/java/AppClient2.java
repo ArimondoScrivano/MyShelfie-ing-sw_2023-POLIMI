@@ -61,7 +61,7 @@ public class AppClient2 {
             //Game flow
             if(client.isItMyTurn()){
                 System.out.println(ColorUI.BLUE_TEXT+playerName+" is your turn!"+ColorUI.RESET);
-                System.out.println(ColorUI.YELLOW_TEXT+"Game Messages" +ColorUI.RESET);
+                /*System.out.println(ColorUI.YELLOW_TEXT+"Game Messages" +ColorUI.RESET);
 
                 //displaying the chat
                 view.showGameChat(client.showGameChat());
@@ -69,7 +69,7 @@ public class AppClient2 {
                 if(!possibleChatmex.get(0).equals("no message")){
                     client.appendchatmex(possibleChatmex,playerName);
                 }
-
+                    */
                 view.showMatchInfo(client.getDashboard(), client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
                 cli.displayPoints(client.myPoints(), client.myPGpoints());
                 flagDisplay=0;

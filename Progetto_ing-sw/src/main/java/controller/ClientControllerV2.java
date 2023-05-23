@@ -68,7 +68,9 @@ public class ClientControllerV2 {
             case WAITING_FOR_OTHER_PLAYERS -> {
                 System.out.println("Waiting for other players");
             }
-
+            case CHECK_YOUR_TURN -> {
+                client.sendMessage(new Message(name, SocketMessages.IS_IT_MY_TURN, idLobby));
+            }
             case MY_TURN->{
                 System.out.println(ColorUI.BLUE_TEXT+this.name+" is your turn!"+ColorUI.RESET);
                 view.showMatchInfo(message.getDashboard(), message.getCommonGoals(), message.getShelf(), message.getPg());
@@ -107,7 +109,7 @@ public class ClientControllerV2 {
                 System.out.println("Congratulation, you WON the match");
             }
             case LOSER -> {
-                System.out.println("Sorry, You lose");
+                System.out.println("Sorry, You Lost");
             }
         }
     }

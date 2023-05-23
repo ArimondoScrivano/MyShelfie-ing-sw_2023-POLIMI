@@ -1,9 +1,8 @@
 package Network.RMI;
 
 
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
+import Network.Server;
+
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -13,7 +12,11 @@ public class App_Server {
         try {
             Registry registry = LocateRegistry.createRegistry(16000);
             System.out.println("Server is booting....");
-            registry.rebind("server", new ConcreteServerRMI());
+            int defaultPort = 16001;
+            Server server = new Server(defaultPort);
+            registry.rebind("server", server);
+            Thread thread = new Thread(server, "server");
+            thread.start();
             System.out.println("Server created");
         } catch (Exception e) {
             System.out.println("Something went wrong :( " + e);

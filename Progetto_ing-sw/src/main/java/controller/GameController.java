@@ -1,7 +1,7 @@
 package controller;
 
 import Network.RMI.Server_RMI;
-import Network.SOCKET.ConcreteServerSocketV2;
+import Network.Server;
 import Network.messages.Message;
 import Network.messages.MessageType;
 import model.Dashboard;
@@ -10,7 +10,6 @@ import model.Shelf;
 import model.*;
 import model.cgoal.CommonGoals;
 
-import java.rmi.RemoteException;
 import java.util.*;
 
 //TODO: scrivere i messaggi per i metodi del controller che modificano qualcosa del models
@@ -20,12 +19,14 @@ public class GameController extends Observable {
     private Game currentGame;
     private int NumPlayers;
     private int id;
-    private Server_RMI myServer;
-    private ConcreteServerSocketV2 serverSocketV2;
+
+
+    //final attribute to the server implementation
+    private Server server;
 
     // 0 if the game is NOT ended or 1 if the Game Ended
     private int end;
-    private boolean gameEnded=false;
+
 
     public void setId(int id) {
         this.id = id;
@@ -42,10 +43,9 @@ public class GameController extends Observable {
     public int getEnd(){
         return end;
     }
-    //Constructor of the game
-    public GameController(int NumPlayers, Server_RMI serverCreator, String creatorLobby) {
-        super();
-        this.myServer= serverCreator;
+
+    public GameController(int NumPlayers, Server serverCreator, String creatorLobby) {
+        this.server= serverCreator;
         this.NumPlayers= NumPlayers;
         this.end=0;
         id=0;
@@ -56,34 +56,8 @@ public class GameController extends Observable {
         this.currentGame = new Game(0, dashboard, playersList,NumPlayers);
     }
 
-    public GameController(int NumPlayers, ConcreteServerSocketV2 serverCreator, String creatorLobby) {
-        this.serverSocketV2= serverCreator;
-        myServer= null;
-        this.NumPlayers= NumPlayers;
-        this.end=0;
-        id=0;
-        //List of players from the pre-game
-        List<Player> playersList = new ArrayList<>();
-        playersList.add(new Player(0, creatorLobby));
-        Dashboard dashboard = new Dashboard(NumPlayers, new Bag());
-        this.currentGame = new Game(0, dashboard, playersList,NumPlayers);
-    }
-
-    public GameController(int NumPlayers, ConcreteServerSocketV2 serverCreator) {
-        super();
-        this.serverSocketV2= serverCreator;
-        this.NumPlayers= NumPlayers;
-        this.end=0;
-        id=0;
-        //List of players from the pre-game
-        List<Player> playersList = new ArrayList<>();
-        Dashboard dashboard = new Dashboard(NumPlayers, new Bag());
-        this.currentGame = new Game(0, dashboard, playersList,NumPlayers);
-    }
-
-    public GameController(int NumPlayers, Server_RMI serverCreator) {
-        super();
-        this.myServer= serverCreator;
+    public GameController(int NumPlayers, Server serverCreator) {
+        this.server= serverCreator;
         this.NumPlayers= NumPlayers;
         this.end=0;
         id=0;
@@ -96,7 +70,7 @@ public class GameController extends Observable {
     public void createPlayer(int id_new, String np){
         Player NewPlayer= new Player(id_new, np);
         currentGame.getPlayers().add(id_new,NewPlayer);
-
+        System.out.println("il numero dei giocatori è: " + currentGame.getPlayers().size());
         if(currentGame.getPlayers().size()==NumPlayers) {
             started();
         }
@@ -129,21 +103,21 @@ public class GameController extends Observable {
     public void somethingChanged(){
         MessageType m= MessageType.SOMETHINGCHANGED;
         Message msg= new Message(id, m);
-        try {
-            myServer.setMessage(msg);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
+            server.setMessage(msg);
+
     }
 
 
     public void started(){
         int flagStartincoming=0;
+        //Setting the first player
+        currentGame.setCurrentPlayer(currentGame.getPlayers().get(0));
         if(NumPlayers==2){
             if(!currentGame.getPlayers().get(0).getName().equals(currentGame.getPlayers().get(1).getName())){
               flagStartincoming=1;
             }
         }
+
         if(NumPlayers==3){
             if(!currentGame.getPlayers().get(0).getName().equals(currentGame.getPlayers().get(1).getName())
                 && !currentGame.getPlayers().get(0).getName().equals(currentGame.getPlayers().get(2).getName())
@@ -166,32 +140,18 @@ public class GameController extends Observable {
         if(flagStartincoming==1) {
             MessageType m = MessageType.GAME_STARTING;
             Message msg = new Message(id, m);
-            try {
-                //TODO GENERAL PURPOSE
-                if(myServer != null) {
-                    myServer.setMessage(msg);
-                }
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
+          server.setMessage(msg);
         }
 
     }
 
-    public void ended(){
+    public void ended() {
         setEnd(1);
         //create a notify message
-        MessageType m= MessageType.GAME_ENDING;
-        Message msg= new Message(id,m);
-        try {
-            if(myServer!=null){
-                myServer.setMessage(msg);
-            }else{
-                this.end= 1;
-            }
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
+        MessageType m = MessageType.GAME_ENDING;
+        Message msg = new Message(id, m);
+        this.end = 1;
+        server.setMessage(msg);
     }
 
     public void changeName(int id, String name){
@@ -214,33 +174,43 @@ public class GameController extends Observable {
     public void pickNextPlayer(){
         //CHECK IF THE OLD CURRENT PLAYER HAS COMPLETED SOME COMMON GOALS
         checkPoints();
-        int flagPreviusDone=0;
         //check finish
         if(playerTurn().isShelfCompleted()){
             playerTurn().setLastRound(true);
+            int pos= finderPlayer(playerTurn().getName());
 
+            //the players before me can't play
+            for(int k=0; k<pos; k++){
+                currentGame.getPlayers().get(k).setLastRound(true);
+            }
             if(!currentGame.getEndGame()){
                 currentGame.setEndGameTrue();
                 playerTurn().setPointsEndGame();
             }
-        }
 
-        if(currentGame.getCurrentPlayer().isLastRound()){
-            int counter=0;
-            for(int i=0; i< currentGame.getPlayers().size(); i++){
-                if(currentGame.getPlayers().get(i).isLastRound()){
-                    counter++;
-                }
-            }
-            if(counter==currentGame.getPlayers().size()){
-                for(int i=0; i< currentGame.getPlayers().size(); i++){
-                    currentGame.getPlayers().get(i).sumUpPoints();
+            // I completed the game and I'm the last in the List
+            if(pos==currentGame.getPlayers().size()-1 ){
+                for(int p=0; p<currentGame.getPlayers().size(); p++){
+                    currentGame.getPlayers().get(p).sumUpPoints();
                 }
                 ended();
+                return;
             }
+
         }
-        if(currentGame.getCurrentPlayer().isLastRound()){
-            flagPreviusDone=1;
+        int pos= finderPlayer(playerTurn().getName());
+        int previous= pos -1;
+        if (previous != -1) {
+            if(currentGame.getPlayers().get(previous).isLastRound()){
+                playerTurn().setLastRound(true);
+                if(pos==currentGame.getPlayers().size() -1){
+                    for(int p=0; p<currentGame.getPlayers().size(); p++){
+                        currentGame.getPlayers().get(p).sumUpPoints();
+                    }
+                    ended();
+                    return;
+                }
+            }
         }
 
         // this is a control for the end of the list
@@ -256,9 +226,8 @@ public class GameController extends Observable {
             }
             currentGame.setCurrentPlayer(currentGame.getPlayers().get(flag));
         }
-      if(flagPreviusDone==1){
-          currentGame.getCurrentPlayer().setLastRound(true);
-      }
+
+        somethingChanged();
 
     }
     public Player playerTurn(){

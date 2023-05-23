@@ -1,5 +1,6 @@
 package Network.SOCKET;
 
+import Network.Server;
 import Network.messages.Message;
 import Network.messages.MessageType;
 import Network.messages.SocketMessages;
@@ -12,15 +13,18 @@ public class SocketClientHandler implements Runnable{
     private final Socket client;
 
     private int idLobby;
-    private final ConcreteServerSocketV2 socketServer;
+    private final Server socketServer;
     private boolean connected;
     private final Object inputLock;
     private final Object outputLock;
     private ObjectOutputStream output; // server to client
     private ObjectInputStream input; // client to server
 
-    public SocketClientHandler(ConcreteServerSocketV2 socketServer, Socket client) {
-        this.socketServer = socketServer;
+
+    //newConstructor
+    //.________________________________.//
+    public SocketClientHandler(Server server, Socket client) {
+        this.socketServer = server;
         this.client = client;
         this.connected = true;
         //those are the inizialization value of the index of the game and the index of the player
@@ -35,7 +39,7 @@ public class SocketClientHandler implements Runnable{
             e.printStackTrace();
         }
     }
-
+    //.------------------------------------------.//
     @Override
     public void run() {
         try {
@@ -63,7 +67,7 @@ public class SocketClientHandler implements Runnable{
                         }else if(message.getMsg() == SocketMessages.JOIN_LOBBY){
                             this.idLobby=socketServer.joinLobby(message, this);
                         }else if(message.getMsg() == SocketMessages.NAME_UPDATE){
-                            socketServer.addPlayer(message.getName(), this, idLobby,1);
+                            socketServer.addPlayer(message.getName(), this, idLobby,0);
                         }else{
                             //Generic message to read and manage
                             socketServer.onMessageReceived(message);
