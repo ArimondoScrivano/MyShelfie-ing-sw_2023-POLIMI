@@ -60,4 +60,8 @@ public class Shelf implements Serializable {
         myPlayer.convertPoints(tilesShelf);
         myPlayer.checkPersonalGoal();
     }
+
+    public Tile[][] getTiles(){
+        return this.tilesShelf;
+    }
 }
