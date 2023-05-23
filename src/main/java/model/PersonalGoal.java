@@ -32,7 +32,7 @@ public class PersonalGoal implements Serializable {
                 .create();
         //Read from file json and construct the personal goal
         try {
-            FileReader reader = new FileReader("Progetto_ing-sw/src/main/resources/jsonFiles/PersonalGoal" + this.id + ".json");
+            FileReader reader = new FileReader("src/main/resources/jsonFiles/PersonalGoal" + this.id + ".json");
             //as a list
             Type layoutListType = new TypeToken<ArrayList<Layout>>() {
             }.getType();
