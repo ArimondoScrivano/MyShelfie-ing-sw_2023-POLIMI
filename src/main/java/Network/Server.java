@@ -254,7 +254,8 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     public void setMessage( Message message){
         LobbyMessage.add(message.getId(), message);
         if (message.getMessageType().equals(MessageType.GAME_STARTING) || message.getMessageType().equals(MessageType.SOMETHINGCHANGED)) {
-            for( String chiave : clientHandlerMap.get(message.getId()).keySet()) {
+            if(clientHandlerMap.get(message.getId())!= null){
+            for( String chiave : clientHandlerMap.get(message.getId()).keySet() ) {
                 //For generalizzato sulla mappa
                 clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.CHECK_YOUR_TURN));
             }
@@ -268,6 +269,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                     clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.LOSER));
                 }
             }
+        }
         }
     }
 
