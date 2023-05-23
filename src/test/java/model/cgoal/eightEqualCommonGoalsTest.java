@@ -8,19 +8,23 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 class eightEqualCommonGoalsTest {
 
 
 
     @Test
     public void checker() {
+
         List<Integer> l1= new ArrayList<>();
         l1.add(1);
         l1.add(2);
         l1.add(3);
         CommonGoals test3 = new eightEqualCommonGoals(l1);
+        test3.printLayout();
         Tile[][] matrix = new Tile[6][5];
-
+        Assertions.assertEquals(3, test3.getCurrent_point());
         int i;
         int j;
         for(i = 0; i < 6; ++i) {

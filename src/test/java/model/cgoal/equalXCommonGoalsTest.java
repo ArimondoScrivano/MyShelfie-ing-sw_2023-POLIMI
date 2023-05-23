@@ -21,7 +21,9 @@ class equalXCommonGoalsTest {
         l1.add(3);
         CommonGoals test4 = new equalXCommonGoals(l1);
         Tile[][] matrix = new Tile[6][5];
-
+        test4.printLayout();
+        Assertions.assertEquals(
+                3,test4.getCurrent_point() );
         for(int i = 0; i < 6; ++i) {
             for(int j = 0; j < 5; ++j) {
                 matrix[i][j] = new Tile(COLOR.BLANK, 1);

@@ -2,6 +2,7 @@ package model.cgoal;
 
 import model.COLOR;
 import model.Tile;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ class fiveColumnsCommonGoalsTest {
         l1.add(2);
         l1.add(3);
         CommonGoals test5 = new fiveColumnsCommonGoals(l1);
+        Assertions.assertEquals(3,test5.getCurrent_point() );
         Tile[][] matrix = new Tile[6][5];
         for(int i = 0; i < 6; ++i) {
             for(int j = 0; j < 5; ++j) {
@@ -89,5 +91,12 @@ class fiveColumnsCommonGoalsTest {
         Tile a54 = new Tile(COLOR.WHITE, 1);
         matrix[5][4] = a54;
         assertEquals(3, test5.Checker(matrix));
+        matrix[4][0]=new Tile(COLOR.WHITE, 1);
+        matrix[3][1]=new Tile(COLOR.WHITE, 1);
+        matrix[2][2]=new Tile(COLOR.WHITE, 1);
+        matrix[1][3]=new Tile(COLOR.WHITE, 1);
+        matrix[0][4]=new Tile(COLOR.WHITE, 1);
+        test5.printLayout();
+        assertEquals(2, test5.Checker(matrix));
     }
 }

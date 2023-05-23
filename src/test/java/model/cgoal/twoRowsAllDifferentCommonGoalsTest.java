@@ -2,6 +2,7 @@ package model.cgoal;
 
 import model.COLOR;
 import model.Tile;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ class twoRowsAllDifferentCommonGoalsTest {
         l1.add(2);
         l1.add(3);
         CommonGoals test12 = new twoRowsAllDifferentCommonGoals(l1);
+        test12.printLayout();
+        Assertions.assertEquals(3,test12.getCurrent_point() );
         Tile[][] matrix = new Tile[6][5];
         Tile a00 = new Tile(COLOR.GREEN, 1);
         matrix[0][0] = a00;
