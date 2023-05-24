@@ -12,7 +12,7 @@ import model.cgoal.CommonGoals;
 
 import java.util.*;
 
-//TODO: scrivere i messaggi per i metodi del controller che modificano qualcosa del models
+
 
 public class GameController extends Observable {
     //Model

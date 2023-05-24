@@ -111,7 +111,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                 counter++;
             }
         }
-        if(flag || counter== 2){
+        if(flag || (counter== 1 && Lobby.get(index).finderPlayer(name)!=0)){
             clientHandler.sendMessage(new Message(name, SocketMessages.NAME_FAILED, index));
 
         }else{
@@ -171,7 +171,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                 }
             }
 
-            case MY_TURN_ENDED ->{
+           /* case MY_TURN_ENDED ->{
                 int index= message.getNp();
 
                 if(Lobby.get(index).getEnd()==1){
@@ -184,7 +184,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                         //For generalizzato sulla mappa
                         clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.CHECK_YOUR_TURN));
                     }                }
-            }
+            }*/
             case HAVE_I_WON -> {
                 int index= message.getNp();
                 String namePlayer= message.getName();
