@@ -110,4 +110,8 @@ public class Bag {
 
     }
 
+    public Map<Integer,Tile> getTilesInGame(){
+        return this.tilesInGame;
+    }
+
 }
