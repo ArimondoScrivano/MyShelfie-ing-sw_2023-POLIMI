@@ -111,7 +111,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                 counter++;
             }
         }
-        if(flag || counter== 2){
+        if(flag || counter== 1){
             clientHandler.sendMessage(new Message(name, SocketMessages.NAME_FAILED, index));
 
         }else{
