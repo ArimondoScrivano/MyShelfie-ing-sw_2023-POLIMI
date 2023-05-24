@@ -60,7 +60,6 @@ public class PersonalGoal implements Serializable {
         return layout;
     }
 
-    //TODO: check if it works
     public int getPoints(int i) {
        return this.points.get(i);
     }
