@@ -156,9 +156,4 @@ public class Dashboard {
         // checking if dashboard needs to be refilled
         setRefill();
     }
-
-    public Tile pickTile(int r, int c) {
-        return new Tile(tiles[r][c].getColor(), tiles[r][c].getId());
-    }
-
 }
