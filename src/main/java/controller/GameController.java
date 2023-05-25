@@ -90,6 +90,7 @@ public class GameController {
     public List<CommonGoals> getCommonGoals(){
         return currentGame.getCommonGoals();
     }
+
     public boolean isFull(){
         if(currentGame.getPlayers().size()==NumPlayers){
             return true;
@@ -97,7 +98,13 @@ public class GameController {
             return false;
         }
     }
-
+     public boolean isFulljoin(){
+         if(currentGame.getPlayers().size()==NumPlayers){
+             return true;
+         }else {
+             return false;
+         }
+     }
 
     public void somethingChanged(){
         MessageType m= MessageType.SOMETHINGCHANGED;
