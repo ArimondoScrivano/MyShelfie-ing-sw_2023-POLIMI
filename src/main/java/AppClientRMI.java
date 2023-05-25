@@ -58,9 +58,12 @@ public class AppClientRMI {
 
         }
 
+        Thread controlDisconnection = new Thread(client.controlDisconnection(), "Control disconnection");
+        controlDisconnection.start();
+
         System.out.println(ColorUI.YELLOW_TEXT+"Starting the game. HAVE FUN"+ColorUI.RESET);
 
-        while(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING) ) {
+        while(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING) && !client.notifyMe().getMessageType().equals(MessageType.DISCONNECT)) {
 
                 //Game flow
                 //:_________________________:/
@@ -121,6 +124,12 @@ public class AppClientRMI {
         }
         //:_________________________:/
         //Check if i won
-        System.out.println(client.checkWinner());
+        if(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)){
+            System.out.println(client.checkWinner());
+        }else{
+            System.out.println("GAME ENDING FROM DISCONNECTION");
+            System.exit(-1);
+        }
+
     }
 }

@@ -201,7 +201,6 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         return Lobby.get(index).playerTurn().getName();
     }
 
-    //TODO:invio messaggio a tutti i client collegati a quella lobby che fa terminare immediatamente la partita
     public void onDisconnect(SocketClientHandler clientHandler, int index){
         synchronized (lock){
             for(String chiave : clientHandlerMap.get(index).keySet()){
@@ -259,7 +258,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     public void setMessage( Message message) {
         LobbyMessage.add(message.getId(), message);
         if (clientHandlerMap.get(message.getId()) != null) {
-        if (message.getMessageType().equals(MessageType.GAME_STARTING) || message.getMessageType().equals(MessageType.SOMETHINGCHANGED)) {
+            if (message.getMessageType().equals(MessageType.GAME_STARTING) || message.getMessageType().equals(MessageType.SOMETHINGCHANGED)) {
 
                 for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
                     //For generalizzato sulla mappa

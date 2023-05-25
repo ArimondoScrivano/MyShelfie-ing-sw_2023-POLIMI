@@ -154,6 +154,15 @@ public class GameController extends Observable {
         server.setMessage(msg);
     }
 
+    public void disconnect(){
+        setEnd(1);
+        //create a notify message
+        MessageType m = MessageType.DISCONNECT;
+        Message msg = new Message(id, m);
+        this.end = 1;
+        server.setMessage(msg);
+    }
+
     public void changeName(int id, String name){
         currentGame.getPlayers().get(id).setName(name);
         if(currentGame.getPlayers().size()==NumPlayers) {

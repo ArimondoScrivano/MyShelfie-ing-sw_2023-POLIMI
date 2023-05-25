@@ -2,6 +2,7 @@ package Network.RMI;
 
 import Network.GameChat.GameMessage;
 import Network.messages.Message;
+import Network.messages.MessageType;
 import model.PersonalGoal;
 import model.Tile;
 import model.cgoal.CommonGoals;
@@ -9,7 +10,7 @@ import java.net.MalformedURLException;
 import java.rmi.*;
 import java.util.List;
 
-public class Client_RMI  {
+public class Client_RMI implements Runnable {
     // it indicates the Game where the player is
     private int LobbyReference;
     private String playerName;
@@ -249,6 +250,24 @@ public List<String> playersName(){
             e.printStackTrace();
             return null;
         }
+
+    }
+
+    public Runnable controlDisconnection(){
+        Thread controllingDisconnection=new Thread(()->{
+            while(!Thread.currentThread().isInterrupted()){
+                if(notifyMe().getMessageType().equals(MessageType.DISCONNECT)){
+                    System.out.println("GAME ENDING FROM DISCONNECTION");
+                    System.exit(-1);
+                }
+            }
+        });
+        controllingDisconnection.start();
+        return null;
+    }
+
+    @Override
+    public void run(){
 
     }
 
