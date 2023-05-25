@@ -75,6 +75,17 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     public int createLobby(int numPlayers, String creatorLobby, Message message, SocketClientHandler clientHandler){
         System.out.println("Creating a lobby");
         GameController controller = new GameController(numPlayers, this, creatorLobby);
+        int foundPreviousMatch=0;
+        for(int i=0; i<Lobby.size() && foundPreviousMatch==0; i++){
+            if(LobbyMessage.get(i)!=null){
+                if(LobbyMessage.get(i).getMessageType().equals(MessageType.GAME_ENDING) ||LobbyMessage.get(i).getMessageType().equals(MessageType.DISCONNECT)){
+                    Lobby.add(i, null);
+                    foundPreviousMatch=1;
+
+                }
+            }
+        }
+
         Lobby.add(controller);
         LobbyMessage.add(Lobby.indexOf(controller), new Message(Lobby.indexOf(controller), MessageType.LOBBYCREATED));
         controller.setId(Lobby.indexOf(controller));
@@ -98,6 +109,17 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         }
         //if there are no free games, it will create a 2 player lobby
         GameController controller = new GameController(2, this);
+        int foundPreviousMatch=0;
+        for(int i=0; i<Lobby.size() && foundPreviousMatch==0; i++){
+            if(LobbyMessage.get(i)!=null){
+                if(LobbyMessage.get(i).getMessageType().equals(MessageType.GAME_ENDING) ||LobbyMessage.get(i).getMessageType().equals(MessageType.DISCONNECT)){
+                    Lobby.add(i, null);
+                    foundPreviousMatch=1;
+
+                }
+            }
+        }
+
         Lobby.add(controller);
         this.clientHandlerMap.put(Lobby.indexOf(controller), new HashMap<>());
         addPlayer(message.getName(), clientHandler, Lobby.indexOf(controller), 0);
@@ -182,20 +204,6 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                 }
             }
 
-           /* case MY_TURN_ENDED ->{
-                int index= message.getNp();
-
-                if(Lobby.get(index).getEnd()==1){
-                    for( String chiave : clientHandlerMap.get(message.getNp()).keySet()) {
-                        //For generalizzato sulla mappa
-                        clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.GAME_ENDING));
-                    }
-                }else{
-                    for( String chiave : clientHandlerMap.get(message.getId()).keySet()) {
-                        //For generalizzato sulla mappa
-                        clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.CHECK_YOUR_TURN));
-                    }                }
-            }*/
             case HAVE_I_WON -> {
                 int index= message.getNp();
                 String namePlayer= message.getName();
@@ -279,6 +287,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                                     ConnectionClientMap.get(message.getId()).get(j).CheckConnectionClient();
                                 } catch (RemoteException E) {
                                     setMessage(new Message(message.getId(), MessageType.DISCONNECT));
+                                    Thread.currentThread().interrupt();
                                 }
                             }
                         }
@@ -302,19 +311,31 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                         } else {
                             clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.LOSER));
                         }
+
                     }
                 }else if(message.getMessageType().equals(MessageType.DISCONNECT)){
                     for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
                         clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.DISCONNECT));
                     }
+
+                }
+            }
+        }
+    @Override
+    public int createLobby(int numPlayers, String creatorLobby, ClientCallback client) throws RemoteException {
+        GameController controller = new GameController(numPlayers, this, creatorLobby);
+        //if other match ended
+        int foundPreviousMatch=0;
+        for(int i=0; i<Lobby.size() && foundPreviousMatch==0; i++){
+            if(LobbyMessage.get(i)!=null){
+                if(LobbyMessage.get(i).getMessageType().equals(MessageType.GAME_ENDING) ||LobbyMessage.get(i).getMessageType().equals(MessageType.DISCONNECT)){
+                    Lobby.add(i, null);
+                    foundPreviousMatch=1;
+
                 }
             }
         }
 
-
-    @Override
-    public int createLobby(int numPlayers, String creatorLobby, ClientCallback client) throws RemoteException {
-        GameController controller = new GameController(numPlayers, this, creatorLobby);
         Lobby.add(controller);
         LobbyMessage.add(Lobby.indexOf(controller), new Message(Lobby.indexOf(controller), MessageType.LOBBYCREATED ));
         controller.setId(Lobby.indexOf(controller));
@@ -334,6 +355,16 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         }
         //if there are no free games, it will create a 2 player lobby
         GameController controller = new GameController(2, this);
+        int foundPreviousMatch=0;
+        for(int i=0; i<Lobby.size() && foundPreviousMatch==0; i++){
+            if(LobbyMessage.get(i)!=null){
+                if(LobbyMessage.get(i).getMessageType().equals(MessageType.GAME_ENDING) ||LobbyMessage.get(i).getMessageType().equals(MessageType.DISCONNECT)){
+                    Lobby.add(i, null);
+                    foundPreviousMatch=1;
+
+                }
+            }
+        }
         Lobby.add(controller);
         LobbyMessage.add(Lobby.indexOf(controller), new Message(Lobby.indexOf(controller), MessageType.LOBBYCREATED ));
         controller.setId(Lobby.indexOf(controller));

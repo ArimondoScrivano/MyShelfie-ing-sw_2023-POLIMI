@@ -11,7 +11,7 @@ import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-public class Client_RMI extends UnicastRemoteObject implements Runnable, ClientCallback {
+public class Client_RMI extends UnicastRemoteObject implements ClientCallback {
     // it indicates the Game where the player is
     private int LobbyReference;
     private String playerName;
@@ -262,6 +262,7 @@ public List<String> playersName(){
             while(!Thread.currentThread().isInterrupted()){
                 if(notifyMe().getMessageType().equals(MessageType.DISCONNECT)){
                     System.out.println("GAME ENDING FROM DISCONNECTION");
+                    Thread.currentThread().interrupt();
                     System.exit(-1);
                 }
             }
@@ -269,10 +270,4 @@ public List<String> playersName(){
         controllingDisconnection.start();
         return null;
     }
-
-    @Override
-    public void run(){
-
-    }
-
 }
