@@ -303,6 +303,10 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                             clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.LOSER));
                         }
                     }
+                }else if(message.getMessageType().equals(MessageType.DISCONNECT)){
+                    for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
+                        clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.DISCONNECT));
+                    }
                 }
             }
         }
