@@ -1,6 +1,7 @@
 package Network;
 
 import Network.GameChat.GameMessage;
+import Network.RMI.ClientCallback;
 import Network.RMI.Server_RMI;
 import Network.SOCKET.SocketClientHandler;
 import Network.messages.Message;
@@ -31,6 +32,8 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     private List<Message> LobbyMessage;
     private Map<Integer, List<GameMessage>> lobbychat;
 
+    private Map<Integer, List<ClientCallback>> ConnectionClientMap;
+
     public Server(int defaultPort) throws RemoteException {
         super();
         this.defaultPort=defaultPort;
@@ -39,6 +42,8 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         this.Lobby=new ArrayList<>();
         this.LobbyMessage=new ArrayList<>();
         this.lobbychat= new HashMap<>();
+        this.ConnectionClientMap= new HashMap<>();
+
     }
 
     @Override
@@ -102,6 +107,10 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     }
 
     public void addPlayer(String name, SocketClientHandler clientHandler, int index, int mult){
+        // mult= 0 ----->>>>> The Player needs to be Added to the Match
+        // mult= 1 ----->>>>> The Player DOES NOT need to be Added to the Match
+
+
         System.out.println("Adding player "+ name);
         //Checking no duplicates of the name
         boolean flag=clientHandlerMap.get(index).containsKey(name);
@@ -111,7 +120,9 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                 counter++;
             }
         }
-        if(flag || (counter== 1 && Lobby.get(index).finderPlayer(name)!=0)){
+
+
+        if(flag || (counter== 1 && mult==0)){
             clientHandler.sendMessage(new Message(name, SocketMessages.NAME_FAILED, index));
 
         }else{
@@ -257,40 +268,60 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
 
     public void setMessage( Message message) {
         LobbyMessage.add(message.getId(), message);
-        if (clientHandlerMap.get(message.getId()) != null) {
-            if (message.getMessageType().equals(MessageType.GAME_STARTING) || message.getMessageType().equals(MessageType.SOMETHINGCHANGED)) {
 
-                for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
-                    //For generalizzato sulla mappa
-                    clientHandlerMap.get(message.getId()).get(chiave).sendMessage(new Message("server", SocketMessages.CHECK_YOUR_TURN));
+
+            if (message.getMessageType().equals(MessageType.GAME_STARTING)) {
+                if (ConnectionClientMap.get(message.getId())!= null) {
+                    Thread clientDisconnectionHandler = new Thread(() -> {
+                        while (!Thread.currentThread().isInterrupted()) {
+                            for (int j = 0; j < ConnectionClientMap.get(message.getId()).size(); j++) {
+                                try {
+                                    ConnectionClientMap.get(message.getId()).get(j).CheckConnectionClient();
+                                } catch (RemoteException E) {
+                                    setMessage(new Message(message.getId(), MessageType.DISCONNECT));
+                                }
+                            }
+                        }
+                    });
+                    clientDisconnectionHandler.start();
                 }
+            }
+            if (clientHandlerMap.get(message.getId()) != null) {
+                if (message.getMessageType().equals(MessageType.GAME_STARTING) || message.getMessageType().equals(MessageType.SOMETHINGCHANGED)) {
 
-            } else if (message.getMessageType().equals(MessageType.GAME_ENDING)) {
-                for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
-                    //For generalizzato sulla mappa
-                    if (checkSocketWinner(message.getId(), chiave)) {
-                        clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.WINNER));
-                    } else {
-                        clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.LOSER));
+                    for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
+                        //For generalizzato sulla mappa
+                        clientHandlerMap.get(message.getId()).get(chiave).sendMessage(new Message("server", SocketMessages.CHECK_YOUR_TURN));
+                    }
+
+                } else if (message.getMessageType().equals(MessageType.GAME_ENDING)) {
+                    for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
+                        //For generalizzato sulla mappa
+                        if (checkSocketWinner(message.getId(), chiave)) {
+                            clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.WINNER));
+                        } else {
+                            clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.LOSER));
+                        }
                     }
                 }
             }
         }
-    }
 
 
     @Override
-    public int createLobby(int numPlayers, String creatorLobby) throws RemoteException {
+    public int createLobby(int numPlayers, String creatorLobby, ClientCallback client) throws RemoteException {
         GameController controller = new GameController(numPlayers, this, creatorLobby);
         Lobby.add(controller);
         LobbyMessage.add(Lobby.indexOf(controller), new Message(Lobby.indexOf(controller), MessageType.LOBBYCREATED ));
         controller.setId(Lobby.indexOf(controller));
         lobbychat.put(Lobby.indexOf(controller), new ArrayList<>());
+        ConnectionClientMap.put(Lobby.indexOf(controller), new ArrayList<>());
+        ConnectionClientMap.get(Lobby.indexOf(controller)).add(client);
         return Lobby.indexOf(controller);
     }
 
     @Override
-    public int joinLobby() throws RemoteException {
+    public int joinLobby( ) throws RemoteException {
 
         for (int i = 0; i < Lobby.size(); i++) {
             if (!Lobby.get(i).isFull()) {
@@ -306,9 +337,13 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     }
 
     @Override
-    public int addPlayer(int index, String name) throws RemoteException {
+    public int addPlayer(int index, String name, ClientCallback client) throws RemoteException {
         int IndexPlayer=Lobby.get(index).getPlayersFilled();
         Lobby.get(index).createPlayer(IndexPlayer, name);
+        if(ConnectionClientMap.get(index)==null){
+            ConnectionClientMap.put(index, new ArrayList<>());
+        }
+        ConnectionClientMap.get(index).add(client);
         return IndexPlayer;
     }
 

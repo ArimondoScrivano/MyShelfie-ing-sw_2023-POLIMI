@@ -14,7 +14,7 @@ import java.util.*;
 
 
 
-public class GameController extends Observable {
+public class GameController {
     //Model
     private Game currentGame;
     private int NumPlayers;

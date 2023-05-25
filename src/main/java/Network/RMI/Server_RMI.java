@@ -10,9 +10,9 @@ import model.cgoal.CommonGoals;
 
 // This class is server side for The RMI connection with the client
 public interface Server_RMI extends Remote{
- public int createLobby(int numPlayers, String creatorLobby) throws RemoteException;
+ public int createLobby(int numPlayers, String creatorLobby, ClientCallback client) throws RemoteException;
  public int joinLobby() throws RemoteException;
- public int addPlayer(int index, String name) throws RemoteException;
+ public int addPlayer(int index, String name,ClientCallback Client) throws RemoteException;
  public boolean nameAleradyTaken(int index, String name,int id)throws RemoteException;
  public void changeName(int index, int id, String name)throws RemoteException;
  public List<String> playersName(int index) throws RemoteException;

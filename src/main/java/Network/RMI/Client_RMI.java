@@ -8,15 +8,19 @@ import model.Tile;
 import model.cgoal.CommonGoals;
 import java.net.MalformedURLException;
 import java.rmi.*;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-public class Client_RMI implements Runnable {
+public class Client_RMI extends UnicastRemoteObject implements Runnable, ClientCallback {
     // it indicates the Game where the player is
     private int LobbyReference;
     private String playerName;
     private int myId;
     private Server_RMI server;
 
+     public void CheckConnectionClient() {
+         //just to see the connection
+     }
     public Client_RMI(String name) throws RemoteException, NotBoundException, MalformedURLException {
         this.LobbyReference = 0;
         this.playerName = name;
@@ -29,7 +33,7 @@ public class Client_RMI implements Runnable {
 
     public void createLobby(int numPL, String creatorLobby) {
         try {
-            this.LobbyReference = server.createLobby(numPL, creatorLobby);
+            this.LobbyReference = server.createLobby(numPL, creatorLobby, this);
             this.myId=0;
         } catch (Exception e) {
             //System.out.println("ERROR, BAD CONNECTION");
@@ -52,7 +56,7 @@ public class Client_RMI implements Runnable {
 
     public void addPlayer(String name) {
         try {
-            this.myId = server.addPlayer(LobbyReference, name);
+            this.myId = server.addPlayer(LobbyReference, name, this);
         } catch (Exception e) {
             //System.out.println("ERROR, BAD CONNECTION");
             e.printStackTrace();
