@@ -231,7 +231,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         }
     }
     public void checkGameStarting(Message message){
-        if (Lobby.get(message.getNp()).isFull()){
+        if (LobbyMessage.get(message.getNp()).getMessageType().equals(MessageType.GAME_STARTING)){
 
             for( String chiave : clientHandlerMap.get(message.getNp()).keySet()) {
                 //For generalizzato sulla mappa
@@ -349,7 +349,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     public int joinLobby( ) throws RemoteException {
 
         for (int i = 0; i < Lobby.size(); i++) {
-            if (!Lobby.get(i).isFull()) {
+            if (!Lobby.get(i).isFulljoin()) {
                 return i;
             }
         }
