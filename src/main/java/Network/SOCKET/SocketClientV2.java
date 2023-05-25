@@ -71,6 +71,7 @@ public class SocketClientV2 {
             if (!socket.isClosed()) {
                 readExecutionQueue.shutdownNow();
                 socket.close();
+                System.exit(-1);
             }
         } catch (IOException e) {
             e.printStackTrace();

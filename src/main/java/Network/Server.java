@@ -202,9 +202,14 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     }
 
     //TODO:invio messaggio a tutti i client collegati a quella lobby che fa terminare immediatamente la partita
-    public void onDisconnect(SocketClientHandler clientHandler){
+    public void onDisconnect(SocketClientHandler clientHandler, int index){
         synchronized (lock){
+            for(String chiave : clientHandlerMap.get(index).keySet()){
+                clientHandlerMap.get(index).get(chiave).sendMessage(new Message("server", SocketMessages.DISCONNECT));
+            }
 
+            Lobby.get(index).ended();
+            clientHandlerMap.get(index).clear();
         }
     }
     public void checkGameStarting(Message message){

@@ -93,7 +93,7 @@ public class SocketClientHandler implements Runnable{
             connected = false;
             Thread.currentThread().interrupt();
 
-            socketServer.onDisconnect(this);
+            socketServer.onDisconnect(this, this.idLobby);
         }
     }
 
