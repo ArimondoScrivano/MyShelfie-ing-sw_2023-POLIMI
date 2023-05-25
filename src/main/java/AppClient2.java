@@ -34,6 +34,8 @@ public class AppClient2 {
             System.out.println("Your lobby reference is " + client.getLobbyReference());
             client.addPlayer(playerName);
         }
+        Thread controlDisconnection = new Thread(client.controlDisconnection(), "Control disconnection");
+        controlDisconnection.start();
         //check if the name is already taken
         while(client.nameAlreadyTaken(playerName)){
             System.out.println("name already taken, select another: ");
@@ -57,9 +59,6 @@ public class AppClient2 {
         while(!client.notifyMe().getMessageType().equals(MessageType.GAME_STARTING)){
 
         }
-
-        Thread controlDisconnection = new Thread(client.controlDisconnection(), "Control disconnection");
-        controlDisconnection.start();
 
         System.out.println(ColorUI.YELLOW_TEXT+"Starting the game. HAVE FUN"+ColorUI.RESET);
 

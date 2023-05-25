@@ -250,11 +250,9 @@ public List<String> playersName(){
         try{
             return server.getMyMessage(LobbyReference);
         } catch (RemoteException e) {
-            //System.out.println("ERROR BAD CONNECTION");
-            e.printStackTrace();
-            return null;
+            System.err.println("SERVER CRASHED");
+            return new Message(LobbyReference, MessageType.DISCONNECT);
         }
-
     }
 
     public Runnable controlDisconnection(){
