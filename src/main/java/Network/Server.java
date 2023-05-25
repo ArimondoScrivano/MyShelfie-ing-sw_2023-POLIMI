@@ -79,7 +79,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         for(int i=0; i<Lobby.size() && foundPreviousMatch==0; i++){
             if(LobbyMessage.get(i)!=null){
                 if(LobbyMessage.get(i).getMessageType().equals(MessageType.GAME_ENDING) ||LobbyMessage.get(i).getMessageType().equals(MessageType.DISCONNECT)){
-                    Lobby.add(i, null);
+                    //Lobby.set(i, null);
                     foundPreviousMatch=1;
 
                 }
@@ -113,7 +113,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         for(int i=0; i<Lobby.size() && foundPreviousMatch==0; i++){
             if(LobbyMessage.get(i)!=null){
                 if(LobbyMessage.get(i).getMessageType().equals(MessageType.GAME_ENDING) ||LobbyMessage.get(i).getMessageType().equals(MessageType.DISCONNECT)){
-                    Lobby.add(i, null);
+                    //Lobby.set(i, null);
                     foundPreviousMatch=1;
 
                 }
@@ -275,7 +275,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
 
 
     public void setMessage( Message message) {
-        LobbyMessage.add(message.getId(), message);
+        LobbyMessage.set(message.getId(), message);
 
 
             if (message.getMessageType().equals(MessageType.GAME_STARTING)) {
@@ -329,7 +329,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         for(int i=0; i<Lobby.size() && foundPreviousMatch==0; i++){
             if(LobbyMessage.get(i)!=null){
                 if(LobbyMessage.get(i).getMessageType().equals(MessageType.GAME_ENDING) ||LobbyMessage.get(i).getMessageType().equals(MessageType.DISCONNECT)){
-                    Lobby.add(i, null);
+                    //Lobby.set(i, null);
                     foundPreviousMatch=1;
 
                 }
@@ -359,7 +359,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         for(int i=0; i<Lobby.size() && foundPreviousMatch==0; i++){
             if(LobbyMessage.get(i)!=null){
                 if(LobbyMessage.get(i).getMessageType().equals(MessageType.GAME_ENDING) ||LobbyMessage.get(i).getMessageType().equals(MessageType.DISCONNECT)){
-                    Lobby.add(i, null);
+                    //Lobby.set(i, null);
                     foundPreviousMatch=1;
 
                 }

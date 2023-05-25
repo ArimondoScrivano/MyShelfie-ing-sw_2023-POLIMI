@@ -92,7 +92,6 @@ public class GameController {
     }
     public boolean isFull(){
         if(currentGame.getPlayers().size()==NumPlayers){
-            started();
             return true;
         }else {
             return false;

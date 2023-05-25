@@ -63,7 +63,7 @@ public class AppClient2 {
 
         System.out.println(ColorUI.YELLOW_TEXT+"Starting the game. HAVE FUN"+ColorUI.RESET);
 
-        while(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING) && !client.notifyMe().getMessageType().equals(MessageType.DISCONNECT)) {
+        while(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)) {
 
             //Game flow
             //:_________________________:/

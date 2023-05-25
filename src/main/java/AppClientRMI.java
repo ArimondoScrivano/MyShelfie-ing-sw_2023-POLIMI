@@ -55,7 +55,7 @@ public class AppClientRMI {
         flagDisplay=0;
 
         while(!client.notifyMe().getMessageType().equals(MessageType.GAME_STARTING)){
-
+            System.out.println("Sto aspettando la venuta del messia");
         }
 
         Thread controlDisconnection = new Thread(client.controlDisconnection(), "Control disconnection");
@@ -63,7 +63,7 @@ public class AppClientRMI {
 
         System.out.println(ColorUI.YELLOW_TEXT+"Starting the game. HAVE FUN"+ColorUI.RESET);
 
-        while(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING) && !client.notifyMe().getMessageType().equals(MessageType.DISCONNECT)) {
+        while(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)) {
 
                 //Game flow
                 //:_________________________:/
