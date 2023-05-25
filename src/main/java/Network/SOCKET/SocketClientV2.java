@@ -80,8 +80,8 @@ public class SocketClientV2 {
 
     public void pingMessage(boolean enable){
         if(enable){
-            ping.schedule(()->sendMessage(new Message("ping", SocketMessages.PING_MESSAGE)), 1000, TimeUnit.MILLISECONDS);
-            //ping.scheduleAtFixedRate(()->sendMessage(new Message("ping", SocketMessages.PING_MESSAGE)), 0, 1000, TimeUnit.MILLISECONDS);
+            //ping.schedule(()->sendMessage(new Message("ping", SocketMessages.PING_MESSAGE)), 1000, TimeUnit.MILLISECONDS);
+            ping.scheduleAtFixedRate(()->sendMessage(new Message("ping", SocketMessages.PING_MESSAGE)), 0, 1000, TimeUnit.MILLISECONDS);
         }else{
             ping.shutdownNow();
         }

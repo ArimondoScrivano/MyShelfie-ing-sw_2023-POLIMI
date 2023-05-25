@@ -79,7 +79,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         for(int i=0; i<Lobby.size() && foundPreviousMatch==0; i++){
             if(LobbyMessage.get(i)!=null){
                 if(LobbyMessage.get(i).getMessageType().equals(MessageType.GAME_ENDING) ||LobbyMessage.get(i).getMessageType().equals(MessageType.DISCONNECT)){
-                    //Lobby.set(i, null);
+                    Lobby.set(i, null);
                     foundPreviousMatch=1;
 
                 }
@@ -97,7 +97,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     public int joinLobby(Message message, SocketClientHandler clientHandler){
 
         for (int i = 0; i < Lobby.size(); i++) {
-            if (!Lobby.get(i).isFull()) {
+            if (Lobby.get(i)!=null && !Lobby.get(i).isFull()) {
                 //these lines are for the case when The first Socket client is NOT the first of the match
                 if(clientHandlerMap.get(i)==null){
                     this.clientHandlerMap.put(i, new HashMap<>());
@@ -113,7 +113,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         for(int i=0; i<Lobby.size() && foundPreviousMatch==0; i++){
             if(LobbyMessage.get(i)!=null){
                 if(LobbyMessage.get(i).getMessageType().equals(MessageType.GAME_ENDING) ||LobbyMessage.get(i).getMessageType().equals(MessageType.DISCONNECT)){
-                    //Lobby.set(i, null);
+                    Lobby.set(i, null);
                     foundPreviousMatch=1;
 
                 }
@@ -226,8 +226,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                 clientHandlerMap.get(index).get(chiave).sendMessage(new Message("server", SocketMessages.DISCONNECT));
             }
 
-            Lobby.get(index).ended();
-            clientHandlerMap.get(index).clear();
+            LobbyMessage.set(index, new Message(index, MessageType.DISCONNECT));
         }
     }
     public void checkGameStarting(Message message){
@@ -317,7 +316,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                     for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
                         clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.DISCONNECT));
                     }
-
+                    clientHandlerMap.get(message.getNp()).clear();
                 }
             }
         }
@@ -329,7 +328,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         for(int i=0; i<Lobby.size() && foundPreviousMatch==0; i++){
             if(LobbyMessage.get(i)!=null){
                 if(LobbyMessage.get(i).getMessageType().equals(MessageType.GAME_ENDING) ||LobbyMessage.get(i).getMessageType().equals(MessageType.DISCONNECT)){
-                    //Lobby.set(i, null);
+                    Lobby.set(i, null);
                     foundPreviousMatch=1;
 
                 }
@@ -349,7 +348,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     public int joinLobby( ) throws RemoteException {
 
         for (int i = 0; i < Lobby.size(); i++) {
-            if (!Lobby.get(i).isFull()) {
+            if (Lobby.get(i)!=null && !Lobby.get(i).isFull()) {
                 return i;
             }
         }
@@ -359,7 +358,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         for(int i=0; i<Lobby.size() && foundPreviousMatch==0; i++){
             if(LobbyMessage.get(i)!=null){
                 if(LobbyMessage.get(i).getMessageType().equals(MessageType.GAME_ENDING) ||LobbyMessage.get(i).getMessageType().equals(MessageType.DISCONNECT)){
-                    //Lobby.set(i, null);
+                    Lobby.set(i, null);
                     foundPreviousMatch=1;
 
                 }

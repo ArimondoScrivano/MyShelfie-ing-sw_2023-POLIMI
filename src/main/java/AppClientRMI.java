@@ -55,7 +55,7 @@ public class AppClientRMI {
         flagDisplay=0;
 
         while(!client.notifyMe().getMessageType().equals(MessageType.GAME_STARTING)){
-            System.out.println("Sto aspettando la venuta del messia");
+
         }
 
         Thread controlDisconnection = new Thread(client.controlDisconnection(), "Control disconnection");
@@ -65,11 +65,11 @@ public class AppClientRMI {
 
         while(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)) {
 
-                //Game flow
-                //:_________________________:/
-                if (client.isItMyTurn()) {
-                    System.out.println(ColorUI.BLUE_TEXT + playerName + " is your turn!" + ColorUI.RESET);
-                    //TODO
+            //Game flow
+            //:_________________________:/
+            if (client.isItMyTurn()) {
+                System.out.println(ColorUI.BLUE_TEXT + playerName + " is your turn!" + ColorUI.RESET);
+                //TODO
                 /*System.out.println(ColorUI.YELLOW_TEXT+"Game Messages" +ColorUI.RESET);
 
                 //displaying the chat
@@ -80,47 +80,47 @@ public class AppClientRMI {
                  }
                     */
 
-                    view.showMatchInfo(client.getDashboard(), client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
-                    cli.displayPoints(client.myPoints(), client.myPGpoints());
-                    flagDisplay = 0;
-                    int numberOfTilesToPick;
-                    List<Integer> tilesToPick;
-                    List<Integer> xCoord = new ArrayList<>();
-                    List<Integer> yCoord = new ArrayList<>();
-                    int column;
+                view.showMatchInfo(client.getDashboard(), client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
+                cli.displayPoints(client.myPoints(), client.myPGpoints());
+                flagDisplay = 0;
+                int numberOfTilesToPick;
+                List<Integer> tilesToPick;
+                List<Integer> xCoord = new ArrayList<>();
+                List<Integer> yCoord = new ArrayList<>();
+                int column;
+                do {
+                    //Asking the number of tiles to pick
+                    numberOfTilesToPick = cli.askNumberOfTiles();
                     do {
-                        //Asking the number of tiles to pick
-                        numberOfTilesToPick = cli.askNumberOfTiles();
-                        do {
-                            xCoord.clear();
-                            yCoord.clear();
-                            tilesToPick = cli.askTilesToPick(numberOfTilesToPick);
-                            for (int i = 0; i < tilesToPick.size(); i++) {
-                                if (i % 2 == 0) {
-                                    xCoord.add(tilesToPick.get(i));
-                                } else {
-                                    yCoord.add(tilesToPick.get(i));
-                                }
+                        xCoord.clear();
+                        yCoord.clear();
+                        tilesToPick = cli.askTilesToPick(numberOfTilesToPick);
+                        for (int i = 0; i < tilesToPick.size(); i++) {
+                            if (i % 2 == 0) {
+                                xCoord.add(tilesToPick.get(i));
+                            } else {
+                                yCoord.add(tilesToPick.get(i));
                             }
-                        } while (!client.pickableTiles(xCoord, yCoord));
+                        }
+                    } while (!client.pickableTiles(xCoord, yCoord));
 
-                        //Choosing the column to insert the tiles
-                        column = cli.askColumn();
-                    } while (!client.columnAvailable(numberOfTilesToPick, column));
-                    //Inserting the tiles
-                    client.insertTiles(xCoord, yCoord, column);
-                    //removing the tiles from the dashboard
-                    client.FinalPick(numberOfTilesToPick, xCoord, yCoord);
-                    //Printing the shelf updated
-                    view.printShelf(client.getMyShelfie());
-                    //Displaying the points
-                    cli.displayPoints(client.myPoints(), client.myPGpoints());
-                } else {
-                    if (flagDisplay == 0) {
-                        System.out.println(ColorUI.YELLOW_TEXT + "Waiting for your turn" + ColorUI.RESET);
-                        flagDisplay++;
-                    }
+                    //Choosing the column to insert the tiles
+                    column = cli.askColumn();
+                } while (!client.columnAvailable(numberOfTilesToPick, column));
+                //Inserting the tiles
+                client.insertTiles(xCoord, yCoord, column);
+                //removing the tiles from the dashboard
+                client.FinalPick(numberOfTilesToPick, xCoord, yCoord);
+                //Printing the shelf updated
+                view.printShelf(client.getMyShelfie());
+                //Displaying the points
+                cli.displayPoints(client.myPoints(), client.myPGpoints());
+            } else {
+                if (flagDisplay == 0) {
+                    System.out.println(ColorUI.YELLOW_TEXT + "Waiting for your turn" + ColorUI.RESET);
+                    flagDisplay++;
                 }
+            }
         }
         //:_________________________:/
         //Check if i won
