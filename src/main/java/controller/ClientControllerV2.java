@@ -111,6 +111,10 @@ public class ClientControllerV2 {
             case LOSER -> {
                 System.out.println("Sorry, You Lost");
             }
+            case DISCONNECT -> {
+                System.out.println("RAGE QUIT");
+                client.disconnect();
+            }
         }
     }
 

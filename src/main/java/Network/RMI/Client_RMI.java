@@ -2,20 +2,25 @@ package Network.RMI;
 
 import Network.GameChat.GameMessage;
 import Network.messages.Message;
+import Network.messages.MessageType;
 import model.PersonalGoal;
 import model.Tile;
 import model.cgoal.CommonGoals;
 import java.net.MalformedURLException;
 import java.rmi.*;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-public class Client_RMI  {
+public class Client_RMI extends UnicastRemoteObject implements ClientCallback {
     // it indicates the Game where the player is
     private int LobbyReference;
     private String playerName;
     private int myId;
     private Server_RMI server;
 
+     public void CheckConnectionClient() {
+         //just to see the connection
+     }
     public Client_RMI(String name) throws RemoteException, NotBoundException, MalformedURLException {
         this.LobbyReference = 0;
         this.playerName = name;
@@ -28,7 +33,7 @@ public class Client_RMI  {
 
     public void createLobby(int numPL, String creatorLobby) {
         try {
-            this.LobbyReference = server.createLobby(numPL, creatorLobby);
+            this.LobbyReference = server.createLobby(numPL, creatorLobby, this);
             this.myId=0;
         } catch (Exception e) {
             //System.out.println("ERROR, BAD CONNECTION");
@@ -51,7 +56,7 @@ public class Client_RMI  {
 
     public void addPlayer(String name) {
         try {
-            this.myId = server.addPlayer(LobbyReference, name);
+            this.myId = server.addPlayer(LobbyReference, name, this);
         } catch (Exception e) {
             //System.out.println("ERROR, BAD CONNECTION");
             e.printStackTrace();
@@ -245,11 +250,22 @@ public List<String> playersName(){
         try{
             return server.getMyMessage(LobbyReference);
         } catch (RemoteException e) {
-            //System.out.println("ERROR BAD CONNECTION");
-            e.printStackTrace();
-            return null;
+            System.err.println("SERVER CRASHED");
+            return new Message(LobbyReference, MessageType.DISCONNECT);
         }
-
     }
 
+    public Runnable controlDisconnection(){
+        Thread controllingDisconnection=new Thread(()->{
+            while(!Thread.currentThread().isInterrupted()){
+                if(notifyMe().getMessageType().equals(MessageType.DISCONNECT)){
+                    System.out.println("GAME ENDING FROM DISCONNECTION");
+                    Thread.currentThread().interrupt();
+                    System.exit(-1);
+                }
+            }
+        });
+        controllingDisconnection.start();
+        return null;
+    }
 }

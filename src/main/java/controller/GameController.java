@@ -14,7 +14,7 @@ import java.util.*;
 
 
 
-public class GameController extends Observable {
+public class GameController {
     //Model
     private Game currentGame;
     private int NumPlayers;
@@ -90,15 +90,21 @@ public class GameController extends Observable {
     public List<CommonGoals> getCommonGoals(){
         return currentGame.getCommonGoals();
     }
+
     public boolean isFull(){
         if(currentGame.getPlayers().size()==NumPlayers){
-            started();
             return true;
         }else {
             return false;
         }
     }
-
+     public boolean isFulljoin(){
+         if(currentGame.getPlayers().size()==NumPlayers){
+             return true;
+         }else {
+             return false;
+         }
+     }
 
     public void somethingChanged(){
         MessageType m= MessageType.SOMETHINGCHANGED;
@@ -149,6 +155,15 @@ public class GameController extends Observable {
         setEnd(1);
         //create a notify message
         MessageType m = MessageType.GAME_ENDING;
+        Message msg = new Message(id, m);
+        this.end = 1;
+        server.setMessage(msg);
+    }
+
+    public void disconnect(){
+        setEnd(1);
+        //create a notify message
+        MessageType m = MessageType.DISCONNECT;
         Message msg = new Message(id, m);
         this.end = 1;
         server.setMessage(msg);
