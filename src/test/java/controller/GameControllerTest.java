@@ -115,8 +115,9 @@ class GameControllerTest extends TestCase {
         assertFalse(Franco.notifyMe().getMessageType().equals(MessageType.GAME_ENDING));
         Client_RMI Mario2 = new Client_RMI("Mario");
         Client_RMI Mario3 = new Client_RMI("Mario");
-        server.createLobby(3, "Mario", Mario2);
-        server.addPlayer(1,"Mario",Mario3 );
+        Mario2.createLobby(3,"Mario");
+        Mario3.joinLobby();
+        Mario3.addPlayer("Mario");
         assertTrue(Mario3.nameAlreadyTaken("Mario"));
         Mario3.changeName("Luigi");
         assertFalse(Mario3.notifyMe().getMessageType().equals(MessageType.GAME_STARTING));
@@ -134,15 +135,6 @@ class GameControllerTest extends TestCase {
         myGC.playerTurn();*/
     }
 
-    //TESTING METHOD checkPoints()
-    @Test
-    public void testCheckerCheckPoints() throws RemoteException{
-        GameController myGC= new GameController(3, new Server(16001));
-        myGC.createPlayer(0, "paolo");
-        myGC.createPlayer(1, "pietro");
-        myGC.createPlayer(2, "giovanni");
-        myGC.checkPoints();
-    }
 
     //TESTING METHOD checkWinner()
     @Test
