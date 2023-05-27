@@ -92,11 +92,20 @@ class GameControllerTest extends TestCase {
         assertTrue(Franco.notifyMe().getMessageType().equals(MessageType.GAME_STARTING));
         List<Integer> x= new ArrayList<>();
         List<Integer> y= new ArrayList<>();
-        x.add(4);
+        x.add(5);
         y.add(2);
         Franco.columnAvailable(1,1);
         Franco.pickableTiles(x,y);
         Franco.FinalPick(1, x,y);
+        List<Integer> x1= new ArrayList<>();
+        List<Integer> y1= new ArrayList<>();
+        x1.add(4);
+        x1.add(5);
+        x1.add(6);
+        y1.add(3);
+        y1.add(3);
+        y1.add(3);
+        Franco.pickableTiles(x1,y1);
         assertTrue(Franco.notifyMe().getMessageType().equals(MessageType.SOMETHINGCHANGED));
         //Inserting the tiles
         x.set(0,5);
