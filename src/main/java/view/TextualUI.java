@@ -46,7 +46,7 @@ public class TextualUI extends Observable implements View {
         clearUI();
         //Printing the dashboard state
         out.println(ColorUI.RED_TEXT+"Current Dashboard"+ColorUI.RESET);
-        String copyColor = "";
+
 
         printDashboard(copy);
 
@@ -56,6 +56,13 @@ public class TextualUI extends Observable implements View {
         //TODO: Rendere più visibile la shelf e dividere i quadrati della shelf in personal goal, da implementare la parte di visione del solo personal goal del giocatore connesso e non la visione complessiva
         //Printing the shelf and the personal goal card associated to the player
         printShelf(myShelf);
+
+        printPersonalGoal(pg);
+    }
+
+
+    public void printPersonalGoal(PersonalGoal pg){
+        String copyColor="";
         out.println("Your Personal Goal");
         for(int i=0; i<5; i++){
             out.print(" "+(i+1)+"\t");
@@ -70,7 +77,9 @@ public class TextualUI extends Observable implements View {
         }
     }
 
-
+public void shownewMex(){
+    System.out.println(  "\u001B[33m" + "New message" + "\u001B[0m");
+}
     public void showGameChat(List<GameMessage> listToDisplay){
         if (listToDisplay.size()>0) {
             for (int i = 0; i < listToDisplay.size(); i++) {
@@ -121,7 +130,7 @@ public class TextualUI extends Observable implements View {
         }
     }
 
-    private void printCommonGoal(List<CommonGoals> commonGoals){
+    public void printCommonGoal(List<CommonGoals> commonGoals){
         out.println(ColorUI.BLUE_TEXT+"COMMON GOAL CARDS"+ColorUI.RESET);
         for(CommonGoals cg : commonGoals){
             if(cg.equals(commonGoals.get(0))){

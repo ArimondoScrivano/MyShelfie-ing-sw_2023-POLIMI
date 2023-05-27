@@ -59,28 +59,15 @@ public class Cli{
 
     public List<String> askNewChatMessage(List<String> playersName, String myplayername){
         String read;
-
-        do{
-        out.print(ColorUI.YELLOW_TEXT+"Do you want to write a message?[Y]||[N]"+ColorUI.RESET);
-        read=in.next();
-
-        if((!read.equals("Y") && !read.equals("y") && !read.equals("n") && !read.equals("N"))){
-            out.println(ColorUI.RED_TEXT+"WRONG PARAMETERS"+ColorUI.RESET);
-        }
-
-        } while(!read.equals("Y") && !read.equals("y") && !read.equals("n") && !read.equals("N"));
-
-
-        if(read.equals("Y") || read.equals("y")){
-            out.println(ColorUI.YELLOW_TEXT+"Who do you want to send it to?"+ColorUI.RESET);
-            int myIndex=0;
+        out.println(ColorUI.YELLOW_TEXT+"Who do you want to send it to?"+ColorUI.RESET);
+        int myIndex=0;
             //Displaying the possible receivers
-            for(int i=0; i<playersName.size(); i++){
-                if(playersName.get(i).equals(myplayername)){
-                    out.println(ColorUI.BLUE_TEXT+"[not selectable]"+ColorUI.RESET);
-                    myIndex= i;
-                }else{
-                    out.println(ColorUI.GREEN_TEXT+"[" +i +"]|| " +playersName.get(i) +ColorUI.RESET);
+            for(int i=0; i<playersName.size(); i++) {
+                if (playersName.get(i).equals(myplayername)) {
+                    out.println(ColorUI.BLUE_TEXT + "[not selectable]" + ColorUI.RESET);
+                    myIndex = i;
+                } else {
+                    out.println(ColorUI.GREEN_TEXT + "[" + i + "]|| " + playersName.get(i) + ColorUI.RESET);
                 }
             }
             out.println(ColorUI.GREEN_TEXT+"[4]|| Broadcast message" +ColorUI.RESET);
@@ -109,11 +96,7 @@ public class Cli{
             messagedone.add(context);
             out.println("il messagio è:" +messagedone.get(1) +" e il destinatario è "+messagedone.get(0));
             return messagedone;
-        }else{
-            List<String> NOmessage= new ArrayList<>();
-            NOmessage.add("no message");
-            return NOmessage;
-        }
+
     }
 
     //Asking the number of tiles to pick
