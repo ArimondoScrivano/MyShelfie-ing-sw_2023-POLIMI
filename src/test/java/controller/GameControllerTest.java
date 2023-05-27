@@ -6,12 +6,9 @@ import Network.SOCKET.SocketClientHandler;
 import Network.Server;
 import Network.messages.MessageType;
 import junit.framework.TestCase;
-import model.Game;
-import model.Player;
-import model.Shelf;
+import model.*;
 import model.cgoal.CommonGoals;
 import org.junit.jupiter.api.Test;
-import model.Tile;
 import view.TextualUI;
 import view.View;
 
@@ -85,10 +82,11 @@ class GameControllerTest extends TestCase {
     }
 
         Client_RMI Franco = new Client_RMI("Franco");
-        server.createLobby(2, "Franco", Franco);
+        Franco.createLobby(2, "Franco");
         assertTrue(Franco.notifyMe().getMessageType().equals(MessageType.LOBBYCREATED));
         Client_RMI Mario = new Client_RMI("Mario");
-        server.addPlayer(0,"Mario",Mario );
+        Mario.joinLobby();
+        Mario.addPlayer("Mario");
         assertTrue(Franco.notifyMe().getMessageType().equals(MessageType.GAME_STARTING));
         List<Integer> x= new ArrayList<>();
         List<Integer> y= new ArrayList<>();
@@ -97,16 +95,58 @@ class GameControllerTest extends TestCase {
         Franco.columnAvailable(1,1);
         Franco.pickableTiles(x,y);
         Franco.FinalPick(1, x,y);
+        assertTrue(Franco.notifyMe().getMessageType().equals(MessageType.SOMETHINGCHANGED));
         List<Integer> x1= new ArrayList<>();
         List<Integer> y1= new ArrayList<>();
         x1.add(4);
         x1.add(5);
-        x1.add(6);
-        y1.add(3);
+
         y1.add(3);
         y1.add(3);
         Franco.pickableTiles(x1,y1);
-        assertTrue(Franco.notifyMe().getMessageType().equals(MessageType.SOMETHINGCHANGED));
+        x1.add(6);
+        y1.add(3);
+
+        x1.set(0,6);
+        x1.set(1,5);
+        x1.set(2,4);
+
+        Franco.pickableTiles(x1,y1);
+        x1.set(0,6);
+        x1.set(1,4);
+        x1.set(2,5);
+
+        Franco.pickableTiles(x1,y1);
+        x1.set(0,5);
+        x1.set(1,4);
+        x1.set(2,6);
+
+        Franco.pickableTiles(x1,y1);
+        List<Integer> x5= new ArrayList<>();
+        List<Integer> y5= new ArrayList<>();
+        x5.add(6);
+        x5.add(6);
+        x5.add(6);
+        x5.add(6);
+        x5.add(6);
+        x5.add(6);
+        y5.add(5);
+        y5.add(5);
+        y5.add(5);
+        y5.add(5);
+        y5.add(5);
+        y5.add(5);
+        Mario.insertTiles(x5,y5,0);
+        Mario.insertTiles(x5,y5,1);
+        Mario.insertTiles(x5,y5,2);
+        Mario.insertTiles(x5,y5,3);
+        Mario.insertTiles(x5,y5,4);
+        assertFalse(Mario.columnAvailable(1,0));
+        assertFalse(Mario.columnAvailable(1,2));
+        assertFalse(Mario.columnAvailable(1,3));
+        assertFalse(Mario.columnAvailable(1,1));
+        assertFalse(Mario.columnAvailable(1,4));
+        Mario.FinalPick(1,x5,y5);
         //Inserting the tiles
         x.set(0,5);
         y.set(0,2);
@@ -121,27 +161,72 @@ class GameControllerTest extends TestCase {
         Mario.myPoints();
         Mario.myPGpoints();
         assertFalse(Franco.columnAvailable(10,1));
-        assertFalse(Franco.notifyMe().getMessageType().equals(MessageType.GAME_ENDING));
+        assertTrue(Franco.notifyMe().getMessageType().equals(MessageType.GAME_ENDING));
         Client_RMI Mario2 = new Client_RMI("Mario");
         Client_RMI Mario3 = new Client_RMI("Mario");
-        Mario2.createLobby(3,"Mario");
+
+        Mario2.createLobby(2,"Mario");
         Mario3.joinLobby();
         Mario3.addPlayer("Mario");
         assertTrue(Mario3.nameAlreadyTaken("Mario"));
         Mario3.changeName("Luigi");
-        assertFalse(Mario3.notifyMe().getMessageType().equals(MessageType.GAME_STARTING));
-       /* TextualUI view = new TextualUI();
-        view.init();
-        ClientControllerV2 clientControllerV2 = new ClientControllerV2(view, "localhost", 16001);
-        //clientControllerV2.gameFlow();
-        GameController myGC= new GameController(3, new Server(16001));
-        myGC.createPlayer(0, "Paolo");
-        int paoloIndex=myGC.finderPlayer("Paolo");
-        int marcoIndex=myGC.finderPlayer("Marco");
+        assertTrue(Mario3.notifyMe().getMessageType().equals(MessageType.GAME_STARTING));
+        List<Integer> x12= new ArrayList<>();
+        List<Integer> y12= new ArrayList<>();
+        x12.add(8);
+        x12.add(8);
 
-        GameController myGC2= new GameController(3, new Server(16001));
-        myGC.createPlayer(0, "Giovanni");
-        myGC.playerTurn();*/
+        y12.add(4);
+        y12.add(5);
+        Mario2.pickableTiles(x12,y12);
+        Mario2.FinalPick(2,x12, y12);
+        List<Integer> x123= new ArrayList<>();
+        List<Integer> y123= new ArrayList<>();
+        x123.add(7);
+        x123.add(7);
+        x123.add(7);
+        y123.add(4);
+        y123.add(5);
+        y123.add(6);
+        Mario3.pickableTiles(x12,y12);
+        y123.set(0,4);
+        y123.set(1,6);
+        y123.set(2,5);
+        Mario3.pickableTiles(x12,y12);
+        y123.set(0,5);
+        y123.set(1,4);
+        y123.set(2,6);
+        Mario3.pickableTiles(x12,y12);
+        y123.set(0,6);
+        y123.set(1,4);
+        y123.set(2,5);
+        Mario3.pickableTiles(x12,y12);
+        Mario3.FinalPick(2,x12, y12);
+       assertTrue( Mario3.columnAvailable(3,4));
+        assertTrue(Mario3.columnAvailable(2,4));
+        Client_RMI Giuseppe= new Client_RMI("Giuseppe");
+        Client_RMI Rita= new Client_RMI("Rita");
+        Client_RMI Piehehetro= new Client_RMI("Piehehetro");
+        Client_RMI Lorenzo= new Client_RMI("Lorenzo");
+
+        Giuseppe.createLobby(4, "Giuseppe");
+        Rita.joinLobby();
+        Rita.addPlayer("Rita");
+        Piehehetro.joinLobby();
+        Piehehetro.addPlayer("Pieetro");
+        Lorenzo.joinLobby();
+        Lorenzo.addPlayer("Lorenzo");
+        assertTrue(Giuseppe.notifyMe().getMessageType().equals(MessageType.GAME_STARTING));
+        Client_RMI Rita1= new Client_RMI("Rita");
+        Client_RMI Piehehetro1= new Client_RMI("Piehehetro");
+        Client_RMI Lorenzo1= new Client_RMI("Lorenzo");
+        Rita1.createLobby(3, "Giuseppe");
+        Piehehetro1.joinLobby();
+        Piehehetro1.addPlayer("Co");
+        Lorenzo1.joinLobby();
+        Lorenzo1.addPlayer("Lorenzo");
+        assertTrue(Rita1.notifyMe().getMessageType().equals(MessageType.GAME_STARTING));
+        assertFalse(Rita1.notifyMe().getMessageType().equals(MessageType.DISCONNECT));
     }
 
 
@@ -152,5 +237,47 @@ class GameControllerTest extends TestCase {
         Player myPlayer;
         myGC.createPlayer(0, "paolo");
         myPlayer=myGC.checkWinner();
+        myGC.finderPlayer("Giuseppe");
+        Tile[][] prova = new Tile[11][11];
+        for (int r = 0; r < 11; r++) {
+            for (int c = 0; c < 11; c++) {
+                if (r==3 &&( c==4 || c==5 || c==6) ) {
+                    prova[r][c] =  new Tile(COLOR.BLUE, 0);
+
+                } else {
+                    prova[r][c] = new Tile(COLOR.BLANK, 0);
+                }
+            }
+        }
+        List<Integer> x123= new ArrayList<>();
+        List<Integer> y123= new ArrayList<>();
+        y123.add(3);
+        x123.add(5);
+        myGC.tileAvailablePick(y123,x123);
+        myGC.tileAvailablePick(x123,y123);
+        y123.add(3);
+        x123.add(6);
+        myGC.tileAvailablePick(y123,x123);
+        y123.add(3);
+        x123.add(4);
+         Tile[][] prova1= myGC.getDashboardTiles();
+        prova1= prova;
+
+        myGC.tileAvailablePick(x123,y123);
+        x123.set(0,4);
+        x123.set(1,6);
+        x123.set(2,5);
+        myGC.tileAvailablePick(y123,x123);
+        myGC.tileAvailablePick(x123,y123);
+        x123.set(0,6);
+        x123.set(1,4);
+        x123.set(2,5);
+        myGC.tileAvailablePick(y123,x123);
+        myGC.tileAvailablePick(x123,y123);
+        x123.set(0,5);
+        x123.set(1,4);
+        x123.set(2,6);
+        myGC.tileAvailablePick(y123,x123);
+        myGC.tileAvailablePick(x123,y123);
     }
 }
