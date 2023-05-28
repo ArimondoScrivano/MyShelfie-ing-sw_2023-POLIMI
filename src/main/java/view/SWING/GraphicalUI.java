@@ -10,10 +10,23 @@ import java.util.Observable;
 
 public class GraphicalUI extends Observable {
 
+    // ATTRIBUTI
+    /*
+
+     */
+
+    // CONSTRUCTOR
+    /*
+
+     */
+
+    // MAIN
     public static void main(String[] args) {
         createAndShowGUI();
     }
 
+
+    // METODI GUI
     private static void createAndShowGUI() {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
