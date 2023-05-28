@@ -30,7 +30,7 @@ public class ChatAndMiscellaneusThread implements Runnable {
     public void ChatAndMiscellaneusThread(Client_RMI rmiclient, View currentView, Cli currentCli, String playerName){
         this.rmiclient= rmiclient;
         this.currentView= currentView;
-        this.currentStatusqueue=0;
+        this.currentStatusqueue=-1;
         this.currentCli=currentCli;
         this.playerName=playerName;
     }
@@ -71,6 +71,7 @@ public class ChatAndMiscellaneusThread implements Runnable {
                 NewMex.add(Mex.get(i));
 
             }
+            currentStatusqueue= Mex.size()-1;
             currentView.showGameChat(NewMex);
             if(this.checknewMex.isInterrupted()) {
                 this.checknewMex.start();
@@ -80,6 +81,7 @@ public class ChatAndMiscellaneusThread implements Runnable {
         //___________________/allmex_______________//
         if(context.equals("/allmew")){
             currentView.showGameChat(rmiclient.showGameChat());
+            currentStatusqueue= rmiclient.showGameChat().size()-1;
 
             if(this.checknewMex.isInterrupted()) {
                 this.checknewMex.start();
