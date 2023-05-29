@@ -3,6 +3,7 @@ package view.SWING;
 import model.PersonalGoal;
 import model.Tile;
 import model.cgoal.CommonGoals;
+import view.SWING.Frames.MainFrame;
 import view.SWING.Panels.ImagePanel;
 
 import javax.swing.*;
@@ -13,18 +14,18 @@ import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.util.List;
 import java.util.Observable;
+import view.SWING.Frames.MainFrame;
 
 public class GraphicalUI extends Observable {
 
     // ATTRIBUTI
-    /*
+    MainFrame mf;
 
-     */
+    //CONSTRUCTOR
 
-    // CONSTRUCTOR
-    /*
-
-     */
+    public GraphicalUI(){
+        mf=new MainFrame();
+    }
 
     // MAIN
     /*
@@ -431,6 +432,7 @@ public class GraphicalUI extends Observable {
 
     public void printPersonalGoal(PersonalGoal pg){
         // DISPLAY PERSONAL GOAL
+
         Image myPersonalGoal;
     }
 
@@ -450,20 +452,112 @@ public class GraphicalUI extends Observable {
         // display common goal
     }
 
+    public void displayPoints(int myPoint, int myPGpoints) {
+
+    }
+
+    //METODI DELLA CLI
     public int askConnection() {
-        return 0;
+        //Usare una textArea
+        JPanel connectionPanel= new JPanel();
+        JLabel questionLabel= new JLabel("Choose your connection method: 1 for RMI, 2 for SOCKET");
+        JButton b1= new JButton("1");
+        int choice[]={0};
+        b1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0]=1;
+            }
+        });
+        JButton b2= new JButton("2");
+        b2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0]=2;
+            }
+        });
+        connectionPanel.add(questionLabel);
+        connectionPanel.add(b1);
+        connectionPanel.add(b2);
+        mf.add(connectionPanel);
+
+
+        return choice[0];
     }
 
     public String askNickname() {
-        return null;
+        //usare una text Area
+        JPanel nickNamePanel= new JPanel();
+        JLabel questionLabel= new JLabel("Insert your nickname: ");
+        JTextArea textArea = new JTextArea();
+        String playerName= new String();
+        boolean nameCollected= false;
+        while(!nameCollected){
+            playerName= textArea.getText();
+            if(playerName!=null) {
+                nameCollected= true;
+            }
+        }
+        nickNamePanel.add(questionLabel);
+        nickNamePanel.add(textArea);
+        mf.add(nickNamePanel);
+        return playerName;
     }
 
     public boolean askNewGame() {
-        return false;
+        JPanel newGamePanel= new JPanel();
+        JLabel questionLable= new JLabel("Do you want to START/ JOIN a game? ");
+        final boolean[] choice = {false};
+        JButton b1= new JButton("START");
+        b1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0] =true;
+            }
+        });
+        JButton b2=new JButton("JOIN");
+        b2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0]=false;
+            }
+        });
+        newGamePanel.add(questionLable);
+        newGamePanel.add(b1);
+        newGamePanel.add(b2);
+        return choice[0];
     }
 
     public int askNumberOfPlayers() {
-        return 0;
+        JPanel npPanel= new JPanel();
+        JLabel questionLabel= new JLabel("Please choose the number of players: ");
+        int choice[]= {0};
+        JButton b1= new JButton("2");
+        b1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0]=2;
+            }
+        });
+        JButton b2= new JButton("3");
+        b2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0]=3;
+            }
+        });
+        JButton b3= new JButton("4");
+        b3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0]=4;
+            }
+        });
+        npPanel.add(questionLabel);
+        npPanel.add(b1);
+        npPanel.add(b2);
+        npPanel.add(b3);
+        return choice[0];
     }
 
     public List<String> askNewChatMessage(List<String> playersName, String myplayername) {
@@ -471,7 +565,35 @@ public class GraphicalUI extends Observable {
     }
 
     public int askNumberOfTiles() {
-        return 0;
+        JPanel ntPanel= new JPanel();
+        JLabel questionLabel= new JLabel("How many tiles do you want to pick?");
+        int choice[]={0};
+        JButton b1= new JButton("1");
+        b1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0]=1;
+            }
+        });
+        JButton b2= new JButton("2");
+        b2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0]=2;
+            }
+        });
+        JButton b3= new JButton("3");
+        b3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0]=3;
+            }
+        });
+        ntPanel.add(questionLabel);
+        ntPanel.add(b1);
+        ntPanel.add(b2);
+        ntPanel.add(b3);
+        return choice[0];
     }
 
     public List<Integer> askTilesToPick(int numberOfTile) {
@@ -479,10 +601,52 @@ public class GraphicalUI extends Observable {
     }
 
     public int askColumn() {
-        return 0;
-    }
-
-    public void displayPoints(int myPoint, int myPGpoints) {
+        JPanel columnPanel= new JPanel();
+        JLabel questionLabel= new JLabel("In which column do you want to insert the tiles?");
+        JTextField textField= new JTextField();
+        int choice[]= {0};
+        JButton b1= new JButton("1");
+        b1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0]=1;
+            }
+        });
+        JButton b2= new JButton("2");
+        b2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0]=2;
+            }
+        });
+        JButton b3= new JButton("3");
+        b3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0]=3;
+            }
+        });
+        JButton b4= new JButton("4");
+        b3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0]=4;
+            }
+        });
+        JButton b5= new JButton("5");
+        b3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0]=5;
+            }
+        });
+        columnPanel.add(questionLabel);
+        columnPanel.add(b1);
+        columnPanel.add(b2);
+        columnPanel.add(b3);
+        columnPanel.add(b4);
+        columnPanel.add(b5);
+        return choice[0];
 
     }
 
