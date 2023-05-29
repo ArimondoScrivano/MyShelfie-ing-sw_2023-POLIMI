@@ -1,11 +1,17 @@
 package view.SWING;
 
+import model.PersonalGoal;
+import model.Tile;
+import model.cgoal.CommonGoals;
 import view.SWING.Panels.ImagePanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import java.util.List;
 import java.util.Observable;
 
 public class GraphicalUI extends Observable {
@@ -21,10 +27,11 @@ public class GraphicalUI extends Observable {
      */
 
     // MAIN
+    /*
     public static void main(String[] args) {
         createAndShowGUI();
     }
-
+*/
 
     // METODI GUI
     private static void createAndShowGUI() {
@@ -408,6 +415,75 @@ public class GraphicalUI extends Observable {
         inGameFrame.setResizable(true);
         inGameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         inGameFrame.setVisible(true);
+    }
+
+    //
+    public void  showmMatchInfo(Tile[][] copy, List<CommonGoals> commonGoals, Tile[][] myShelf, PersonalGoal pg) {
+        // display della dashboard
+
+        // display common goals
+
+        // display della shelf
+
+        // display personal goal
+
+    }
+
+    public void printPersonalGoal(PersonalGoal pg){
+        // DISPLAY PERSONAL GOAL
+        Image myPersonalGoal;
+    }
+
+    public void shownewMex() {
+        // display chat
+    }
+
+    public void printDashboard(Tile[][] copy) {
+        // display dashboard
+    }
+
+    public void printShelf(Tile[][] myShelf) {
+        // display shelf
+    }
+
+    public void printCommonGoal(List<CommonGoals> commonGoals) {
+        // display common goal
+    }
+
+    public int askConnection() {
+        return 0;
+    }
+
+    public String askNickname() {
+        return null;
+    }
+
+    public boolean askNewGame() {
+        return false;
+    }
+
+    public int askNumberOfPlayers() {
+        return 0;
+    }
+
+    public List<String> askNewChatMessage(List<String> playersName, String myplayername) {
+        return null;
+    }
+
+    public int askNumberOfTiles() {
+        return 0;
+    }
+
+    public List<Integer> askTilesToPick(int numberOfTile) {
+        return null;
+    }
+
+    public int askColumn() {
+        return 0;
+    }
+
+    public void displayPoints(int myPoint, int myPGpoints) {
+
     }
 
 }
