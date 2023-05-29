@@ -30,10 +30,11 @@ public class ChatAndMiscellaneusThread implements Runnable {
     public void ChatAndMiscellaneusThread(Client_RMI rmiclient, View currentView, Cli currentCli, String playerName){
         this.rmiclient= rmiclient;
         this.currentView= currentView;
-        this.currentStatusqueue=0;
+        this.currentStatusqueue=-1;
         this.currentCli=currentCli;
         this.playerName=playerName;
     }
+
 
     public void run(){
         //check if there are new mex
@@ -47,9 +48,11 @@ public class ChatAndMiscellaneusThread implements Runnable {
                     }
 
                 }
+                Thread.currentThread().interrupt();
             }
         });
         checknewMex.start();
+
         String context= "no text";
     while(true) {
         try {
@@ -64,10 +67,11 @@ public class ChatAndMiscellaneusThread implements Runnable {
             List<GameMessage> Mex= new ArrayList<>();
             Mex= rmiclient.showGameChat();
             List<GameMessage> NewMex= new ArrayList<>();
-            for(int i= currentStatusqueue; i< Mex.size(); i++){
+            for(int i= currentStatusqueue +1; i< Mex.size(); i++){
                 NewMex.add(Mex.get(i));
 
             }
+            currentStatusqueue= Mex.size()-1;
             currentView.showGameChat(NewMex);
             if(this.checknewMex.isInterrupted()) {
                 this.checknewMex.start();
@@ -77,6 +81,7 @@ public class ChatAndMiscellaneusThread implements Runnable {
         //___________________/allmex_______________//
         if(context.equals("/allmew")){
             currentView.showGameChat(rmiclient.showGameChat());
+            currentStatusqueue= rmiclient.showGameChat().size()-1;
 
             if(this.checknewMex.isInterrupted()) {
                 this.checknewMex.start();
@@ -89,8 +94,6 @@ public class ChatAndMiscellaneusThread implements Runnable {
                 rmiclient.appendchatmex(possibleChatmex,playerName);
 
         }
-
-
 
         //__________________/dashboard______________//
         if(context.equals("/dashboard")){
@@ -114,15 +117,6 @@ public class ChatAndMiscellaneusThread implements Runnable {
 
     }
     }
-
-
-
-
-
-
-
-
-
 
     }
 
