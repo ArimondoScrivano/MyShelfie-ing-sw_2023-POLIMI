@@ -315,6 +315,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                 }else if(message.getMessageType().equals(MessageType.DISCONNECT)){
                     for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
                         clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.DISCONNECT));
+                        System.out.println("ho disconnesso il client" +chiave);
                     }
                     clientHandlerMap.get(message.getNp()).clear();
                 }
