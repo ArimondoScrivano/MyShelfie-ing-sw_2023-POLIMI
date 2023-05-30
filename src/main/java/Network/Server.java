@@ -42,8 +42,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         this.Lobby=new ArrayList<>();
         this.LobbyMessage=new ArrayList<>();
         this.lobbychat= new HashMap<>();
-        this.ConnectionClientMap= new HashMap<>();
-
+        this.ConnectionClientMap= Collections.synchronizedMap(new HashMap<>());
     }
 
     @Override
@@ -272,27 +271,28 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         return false;
     }
 
-
-    public void setMessage( Message message) {
-        LobbyMessage.set(message.getId(), message);
-
-
-            if (message.getMessageType().equals(MessageType.GAME_STARTING)) {
-                if (ConnectionClientMap.get(message.getId())!= null) {
-                    Thread clientDisconnectionHandler = new Thread(() -> {
-                        while (!Thread.currentThread().isInterrupted()) {
-                            for (int j = 0; j < ConnectionClientMap.get(message.getId()).size(); j++) {
-                                try {
-                                    ConnectionClientMap.get(message.getId()).get(j).CheckConnectionClient();
-                                } catch (RemoteException E) {
-                                    setMessage(new Message(message.getId(), MessageType.DISCONNECT));
-                                    Thread.currentThread().interrupt();
-                                }
-                            }
-                        }
-                    });
-                    clientDisconnectionHandler.start();
+    public Runnable checkDisconnection(Message message){
+        int numLobby = message.getId();
+        while (!Thread.currentThread().isInterrupted()) {
+            for (int j = 0; j < ConnectionClientMap.get(numLobby).size(); j++) {
+                try {
+                    ConnectionClientMap.get(numLobby).get(j).CheckConnectionClient();
+                } catch (RemoteException e) {
+                    setMessage(new Message(numLobby, MessageType.DISCONNECT));
+                    Thread.currentThread().interrupt();
                 }
+            }
+        }
+        return null;
+    }
+
+
+    public void setMessage(Message message) {
+        LobbyMessage.set(message.getId(), message);
+        System.out.println("Messaggio settato "+ message.getMessageType());
+            if (message.getMessageType().equals(MessageType.GAME_STARTING)) {
+                Thread clientDisconnectionHandler = new Thread(checkDisconnection(message), "DisconnectionHandler "+message.getId());
+                clientDisconnectionHandler.start();
             }
             if (clientHandlerMap.get(message.getId()) != null) {
                 if (message.getMessageType().equals(MessageType.GAME_STARTING) || message.getMessageType().equals(MessageType.SOMETHINGCHANGED)) {
@@ -314,9 +314,9 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                     }
                 }else if(message.getMessageType().equals(MessageType.DISCONNECT)){
                     for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
-                        clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.DISCONNECT));
+                        clientHandlerMap.get(message.getId()).get(chiave).sendMessage(new Message("server", SocketMessages.DISCONNECT));
                     }
-                    clientHandlerMap.get(message.getNp()).clear();
+                    clientHandlerMap.get(message.getId()).clear();
                 }
             }
         }
@@ -339,13 +339,13 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         LobbyMessage.add(Lobby.indexOf(controller), new Message(Lobby.indexOf(controller), MessageType.LOBBYCREATED ));
         controller.setId(Lobby.indexOf(controller));
         lobbychat.put(Lobby.indexOf(controller), new ArrayList<>());
-        ConnectionClientMap.put(Lobby.indexOf(controller), new ArrayList<>());
-        ConnectionClientMap.get(Lobby.indexOf(controller)).add(client);
+        this.ConnectionClientMap.putIfAbsent(controller.getId(), new ArrayList<>());
+        this.ConnectionClientMap.get(controller.getId()).add(client);
         return Lobby.indexOf(controller);
     }
 
     @Override
-    public int joinLobby( ) throws RemoteException {
+    public int joinLobby() throws RemoteException {
 
         for (int i = 0; i < Lobby.size(); i++) {
             if (Lobby.get(i)!=null && !Lobby.get(i).isFull()) {
@@ -373,11 +373,11 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     @Override
     public int addPlayer(int index, String name, ClientCallback client) throws RemoteException {
         int IndexPlayer=Lobby.get(index).getPlayersFilled();
-        Lobby.get(index).createPlayer(IndexPlayer, name);
         if(ConnectionClientMap.get(index)==null){
-            ConnectionClientMap.put(index, new ArrayList<>());
+            this.ConnectionClientMap.putIfAbsent(index, new ArrayList<>());
         }
-        ConnectionClientMap.get(index).add(client);
+        this.ConnectionClientMap.get(index).add(client);
+        Lobby.get(index).createPlayer(IndexPlayer, name);
         return IndexPlayer;
     }
 
