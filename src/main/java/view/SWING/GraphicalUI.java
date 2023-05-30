@@ -4,9 +4,11 @@ import model.PersonalGoal;
 import model.Tile;
 import model.cgoal.CommonGoals;
 import view.SWING.Frames.MainFrame;
+import view.SWING.Panels.ButtonListener;
 import view.SWING.Panels.ImagePanel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +17,7 @@ import java.awt.image.ImageProducer;
 import java.util.List;
 import java.util.Observable;
 import view.SWING.Frames.MainFrame;
+import view.SWING.Panels.TextListener;
 
 public class GraphicalUI extends Observable {
 
@@ -441,8 +444,27 @@ public class GraphicalUI extends Observable {
     }
 
     public void printDashboard(Tile[][] copy) {
-        // display dashboard
+        JPanel mainPanel= new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        JPanel Dashboardpanel = new JPanel(new GridLayout(10, 10));
+        JLabel currentDashboard= new JLabel("CURRENT DASHBOARD");
+        mainPanel.add(currentDashboard, BorderLayout.NORTH);
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                JButton button = new JButton("(" + i + ", " + j + ")");
+                Dashboardpanel.add(button);
+            }
+        }
+        Dimension preferredSize = new Dimension(300, 300);
+        Dashboardpanel.setPreferredSize(preferredSize);
+        mainPanel.add(Dashboardpanel, BorderLayout.CENTER);
+        mf.add(mainPanel, BorderLayout.NORTH);
+        mf.setVisible(true);
+
+
     }
+
 
     public void printShelf(Tile[][] myShelf) {
         // display shelf
@@ -458,106 +480,150 @@ public class GraphicalUI extends Observable {
 
     //METODI DELLA CLI
     public int askConnection() {
+
         //Usare una textArea
         JPanel connectionPanel= new JPanel();
-        JLabel questionLabel= new JLabel("Choose your connection method: 1 for RMI, 2 for SOCKET");
-        JButton b1= new JButton("1");
-        int choice[]={0};
-        b1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0]=1;
-            }
-        });
-        JButton b2= new JButton("2");
-        b2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0]=2;
-            }
-        });
+        JLabel questionLabel= new JLabel("Choose your connection method:");
+        JButton b1= new JButton("RMI");
+        ButtonListener RMIButton= new ButtonListener(1);
+        ButtonListener SOCKETButton= new ButtonListener(2);
+        b1.addActionListener(RMIButton);
+        JButton b2= new JButton("SOCKET");
+        b2.addActionListener(SOCKETButton);
         connectionPanel.add(questionLabel);
         connectionPanel.add(b1);
         connectionPanel.add(b2);
         mf.add(connectionPanel);
+        mf.setVisible(true);
+        boolean choiceCollected=false;
+        while(!choiceCollected){
+            if(SOCKETButton.getdefinedChoice() || RMIButton.getdefinedChoice()){
+                choiceCollected=true;
+            }
+            try{
+                Thread.sleep(100);
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
 
-
-        return choice[0];
+        }
+        if(SOCKETButton.getdefinedChoice()){
+            mf.remove(connectionPanel);
+            return SOCKETButton.getChoice();
+        }else{
+            mf.remove(connectionPanel);
+            return RMIButton.getChoice();
+        }
     }
 
     public String askNickname() {
         //usare una text Area
         JPanel nickNamePanel= new JPanel();
         JLabel questionLabel= new JLabel("Insert your nickname: ");
-        JTextArea textArea = new JTextArea();
+        JTextField textField = new JTextField();
+        TextListener mytf= new TextListener(textField);
+        textField.addActionListener(mytf);
         String playerName= new String();
         boolean nameCollected= false;
-        while(!nameCollected){
-            playerName= textArea.getText();
-            if(playerName!=null) {
-                nameCollected= true;
-            }
-        }
         nickNamePanel.add(questionLabel);
-        nickNamePanel.add(textArea);
+        Dimension preferredSize = new Dimension(150, 25);
+        textField.setPreferredSize(preferredSize);
+        nickNamePanel.add(textField);
         mf.add(nickNamePanel);
+        mf.setVisible(true);
+
+        while (!nameCollected) {
+            if (mytf.getdefinedChoice()) {
+                nameCollected = true;
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+        mf.remove(nickNamePanel);
+        playerName= mytf.getChoice();
         return playerName;
     }
 
     public boolean askNewGame() {
-        JPanel newGamePanel= new JPanel();
-        JLabel questionLable= new JLabel("Do you want to START/ JOIN a game? ");
-        final boolean[] choice = {false};
-        JButton b1= new JButton("START");
-        b1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0] =true;
+        JPanel ngPanel = new JPanel();
+        JLabel questionLabel = new JLabel("Select One:");
+        JButton b1 = new JButton("NEW GAME");
+        ButtonListener NGButton = new ButtonListener(1);
+        ButtonListener JGButton = new ButtonListener(2);
+        b1.addActionListener(NGButton);
+        JButton b2 = new JButton("JOIN GAME");
+        b2.addActionListener(JGButton);
+        ngPanel.add(questionLabel);
+        ngPanel.add(b1);
+        ngPanel.add(b2);
+        mf.add(ngPanel);
+        mf.setVisible(true);
+        boolean choiceCollected = false;
+        while (!choiceCollected) {
+            if (JGButton.getdefinedChoice() || NGButton.getdefinedChoice()) {
+                choiceCollected = true;
             }
-        });
-        JButton b2=new JButton("JOIN");
-        b2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0]=false;
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        });
-        newGamePanel.add(questionLable);
-        newGamePanel.add(b1);
-        newGamePanel.add(b2);
-        return choice[0];
+
+        }
+        if (JGButton.getdefinedChoice()) {
+            mf.remove(ngPanel);
+            return false;
+        } else {
+            mf.remove(ngPanel);
+            return true;
+        }
     }
 
     public int askNumberOfPlayers() {
-        JPanel npPanel= new JPanel();
-        JLabel questionLabel= new JLabel("Please choose the number of players: ");
-        int choice[]= {0};
-        JButton b1= new JButton("2");
-        b1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0]=2;
-            }
-        });
-        JButton b2= new JButton("3");
-        b2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0]=3;
-            }
-        });
-        JButton b3= new JButton("4");
-        b3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0]=4;
-            }
-        });
+        JPanel npPanel = new JPanel();
+        JLabel questionLabel = new JLabel("Select Number of Players:");
+        JButton b1 = new JButton("2");
+        JButton b2 = new JButton("3");
+        JButton b3 = new JButton("4");
+        ButtonListener TWPButton = new ButtonListener(2);
+        ButtonListener THPButton = new ButtonListener(3);
+        ButtonListener FOPButton = new ButtonListener(4);
+        b1.addActionListener(TWPButton);
+        b2.addActionListener(THPButton);
+        b3.addActionListener(FOPButton);
         npPanel.add(questionLabel);
         npPanel.add(b1);
         npPanel.add(b2);
         npPanel.add(b3);
-        return choice[0];
+        mf.add(npPanel);
+        mf.setVisible(true);
+        boolean choiceCollected = false;
+        while (!choiceCollected) {
+            if (TWPButton.getdefinedChoice() || THPButton.getdefinedChoice()|| FOPButton.getdefinedChoice()) {
+                choiceCollected = true;
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (TWPButton.getdefinedChoice()) {
+            mf.remove(npPanel);
+            return TWPButton.getChoice();
+        } else if(THPButton.getdefinedChoice()) {
+            mf.remove(npPanel);
+            return THPButton.getChoice();
+        }else{
+            mf.remove(npPanel);
+            return FOPButton.getChoice();
+        }
+
     }
 
     public List<String> askNewChatMessage(List<String> playersName, String myplayername) {
@@ -565,89 +631,101 @@ public class GraphicalUI extends Observable {
     }
 
     public int askNumberOfTiles() {
-        JPanel ntPanel= new JPanel();
-        JLabel questionLabel= new JLabel("How many tiles do you want to pick?");
-        int choice[]={0};
-        JButton b1= new JButton("1");
-        b1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0]=1;
-            }
-        });
-        JButton b2= new JButton("2");
-        b2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0]=2;
-            }
-        });
-        JButton b3= new JButton("3");
-        b3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0]=3;
-            }
-        });
+        JPanel ntPanel = new JPanel();
+        JLabel questionLabel = new JLabel("Select Number of Tiles:");
+        JButton b1 = new JButton("1");
+        JButton b2 = new JButton("2");
+        JButton b3 = new JButton("3");
+        ButtonListener ONTButton = new ButtonListener(1);
+        ButtonListener TWTButton = new ButtonListener(2);
+        ButtonListener THTButton = new ButtonListener(3);
+        b1.addActionListener(ONTButton);
+        b2.addActionListener(TWTButton);
+        b3.addActionListener(THTButton);
         ntPanel.add(questionLabel);
         ntPanel.add(b1);
         ntPanel.add(b2);
         ntPanel.add(b3);
-        return choice[0];
+        mf.add(ntPanel);
+        mf.setVisible(true);
+        boolean choiceCollected = false;
+        while (!choiceCollected) {
+            if (ONTButton.getdefinedChoice() || TWTButton.getdefinedChoice() || THTButton.getdefinedChoice()) {
+                choiceCollected = true;
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (ONTButton.getdefinedChoice()) {
+            mf.remove(ntPanel);
+            return ONTButton.getChoice();
+        } else if (TWTButton.getdefinedChoice()) {
+            mf.remove(ntPanel);
+            return TWTButton.getChoice();
+        } else {
+            mf.remove(ntPanel);
+            return THTButton.getChoice();
+        }
     }
 
-    public List<Integer> askTilesToPick(int numberOfTile) {
+        public List<Integer> askTilesToPick(int numberOfTile) {
         return null;
     }
 
     public int askColumn() {
-        JPanel columnPanel= new JPanel();
-        JLabel questionLabel= new JLabel("In which column do you want to insert the tiles?");
-        JTextField textField= new JTextField();
-        int choice[]= {0};
-        JButton b1= new JButton("1");
-        b1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0]=1;
-            }
-        });
-        JButton b2= new JButton("2");
-        b2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0]=2;
-            }
-        });
-        JButton b3= new JButton("3");
-        b3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0]=3;
-            }
-        });
-        JButton b4= new JButton("4");
-        b3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0]=4;
-            }
-        });
-        JButton b5= new JButton("5");
-        b3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0]=5;
-            }
-        });
+        JPanel columnPanel = new JPanel();
+        JLabel questionLabel = new JLabel("Choose the column: ");
+        JButton b1 = new JButton("1");
+        JButton b2 = new JButton("2");
+        JButton b3 = new JButton("3");
+        JButton b4 = new JButton("4");
+        JButton b5 = new JButton("5");
+        ButtonListener ONButton = new ButtonListener(1);
+        ButtonListener TWButton = new ButtonListener(2);
+        ButtonListener THButton = new ButtonListener(3);
+        ButtonListener FOButton = new ButtonListener(4);
+        ButtonListener FIButton = new ButtonListener(5);
+        b1.addActionListener(ONButton);
+        b2.addActionListener(TWButton);
+        b3.addActionListener(THButton);
+        b4.addActionListener(FOButton);
+        b5.addActionListener(FIButton);
         columnPanel.add(questionLabel);
         columnPanel.add(b1);
         columnPanel.add(b2);
         columnPanel.add(b3);
         columnPanel.add(b4);
         columnPanel.add(b5);
-        return choice[0];
+        mf.add(columnPanel);
+        mf.setVisible(true);
+        boolean choiceCollected = false;
+        while (!choiceCollected) {
+            if (ONButton.getdefinedChoice() || TWButton.getdefinedChoice() || THButton.getdefinedChoice()|| FOButton.getdefinedChoice()|| FIButton.getdefinedChoice()) {
+                choiceCollected = true;
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
+        }
+        mf.remove(columnPanel);
+        if (ONButton.getdefinedChoice()) {
+            return ONButton.getChoice();
+        } else if (TWButton.getdefinedChoice()) {
+            return TWButton.getChoice();
+        } else if(THButton.getdefinedChoice()) {
+            return THButton.getChoice();
+        }else if(FOButton.getdefinedChoice()) {
+            return FOButton.getChoice();
+        }else{
+            return FIButton.getChoice();
+        }
     }
 
 }
