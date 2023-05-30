@@ -41,7 +41,6 @@ public class SocketClientV2 {
     }
 
     public void readMessage() {
-
         readExecutionQueue.execute(()->{
             while(!readExecutionQueue.isShutdown()){
                 Message message;

@@ -271,7 +271,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         return false;
     }
 
-    public Runnable checkDisconnection(Message message){
+    public void checkDisconnection(Message message){
         int numLobby = message.getId();
         while (!Thread.currentThread().isInterrupted()) {
             for (int j = 0; j < ConnectionClientMap.get(numLobby).size(); j++) {
@@ -283,7 +283,6 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                 }
             }
         }
-        return null;
     }
 
 
@@ -291,8 +290,9 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         LobbyMessage.set(message.getId(), message);
         //Control print
         System.out.println("Messaggio settato "+ message.getMessageType());
-            if (message.getMessageType().equals(MessageType.GAME_STARTING)) {
-                Thread clientDisconnectionHandler = new Thread(checkDisconnection(message), "DisconnectionHandler "+message.getId());
+            if (message.getMessageType().equals(MessageType.GAME_STARTING) && ConnectionClientMap.get(message.getId())!=null) {
+                System.out.println("ciao");
+                Thread clientDisconnectionHandler = new Thread(() -> checkDisconnection(message));
                 clientDisconnectionHandler.start();
             }
             if (clientHandlerMap.get(message.getId()) != null) {
@@ -314,7 +314,9 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
 
                     }
                 }else if(message.getMessageType().equals(MessageType.DISCONNECT)){
+                    System.out.println("Invio messaggi disconnessione");
                     for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
+                        System.out.println("Invio messaggio a "+ chiave);
                         clientHandlerMap.get(message.getId()).get(chiave).sendMessage(new Message("server", SocketMessages.DISCONNECT));
                     }
                     clientHandlerMap.get(message.getId()).clear();

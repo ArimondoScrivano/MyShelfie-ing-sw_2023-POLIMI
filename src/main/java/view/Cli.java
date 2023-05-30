@@ -1,12 +1,11 @@
 package view;
 
-import model.Player;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,12 +23,20 @@ public class Cli{
     public int askConnection() {
         out.println("Choose the connection method that you prefer");
         out.println("1 for RMI and 2 for Socket");
-        int i=in.nextInt();
-        while(i<1 || i>2){
-            out.print(ColorUI.RED_TEXT+"You must choose a number between 1 and 2! Retry "+ColorUI.RESET);
-            i=in.nextInt();
+        int i = 0;
+        while(true){
+            try{
+                i=in.nextInt();
+                while(i<1 || i>2){
+                    out.print(ColorUI.RED_TEXT+"You must choose a number between 1 and 2! Retry "+ColorUI.RESET);
+                    i=in.nextInt();
+                }
+            }catch(InputMismatchException e){
+                System.err.println("You must choose a number");
+
+            }
+            return i;
         }
-        return i;
     }
 
     //Asking the nickname
@@ -48,12 +55,18 @@ public class Cli{
 
     public int askNumberOfPlayers(){
         out.print("Select the number of players between 2 and 4 ");
-        int numberOfPlayers=in.nextInt();
-        while(numberOfPlayers<2 || numberOfPlayers>4){
-            out.print(ColorUI.RED_TEXT+"You must choose a number of players between 2 and 4! Retry "+ColorUI.RESET);
-            numberOfPlayers=in.nextInt();
+        while(true){
+            try{
+                int numberOfPlayers=in.nextInt();
+                while(numberOfPlayers<2 || numberOfPlayers>4){
+                    out.print(ColorUI.RED_TEXT+"You must choose a number of players between 2 and 4! Retry "+ColorUI.RESET);
+                    numberOfPlayers=in.nextInt();
+                }
+                return numberOfPlayers;
+            }catch(InputMismatchException e){
+                System.err.println("You must choose a number");
+            }
         }
-        return numberOfPlayers;
     }
 
 
@@ -102,12 +115,18 @@ public class Cli{
     //Asking the number of tiles to pick
     public int askNumberOfTiles(){
         out.print("Chose the number of tiles that you want to pick: ");
-        int numberOfTile=in.nextInt();
-        while(numberOfTile<1 || numberOfTile>3){
-            out.print(ColorUI.RED_TEXT+"You must choose a number between 1 and 3! Retry "+ColorUI.RESET);
-            numberOfTile=in.nextInt();
+        while(true){
+            try{
+                int numberOfTile=in.nextInt();
+                while(numberOfTile<1 || numberOfTile>3){
+                    out.print(ColorUI.RED_TEXT+"You must choose a number between 1 and 3! Retry "+ColorUI.RESET);
+                    numberOfTile=in.nextInt();
+                }
+                return numberOfTile;
+            }catch (InputMismatchException e){
+                System.err.println("You must choose a number");
+            }
         }
-        return numberOfTile;
     }
 
     //Coordinate delle tiles da prendere
@@ -118,20 +137,52 @@ public class Cli{
         for(int i=0; i<numberOfTile*2; i++){
             if(i%2==0){
                 out.print("Chose the x coordinate of the tile that you want to pick: ");
-                int x=in.nextInt();
+                int x=-1;
+                do{
+                    try{
+                        x=in.nextInt();
+                    }catch(InputMismatchException e){
+                        System.err.println("You must choose a number! Retry");
+                        x=-1;
+                    }
+                }while(x==-1);
                 //Check if the value is between 1 and 10
                 while(x<0 || x>11){
                     out.print(ColorUI.RED_TEXT+"You must choose a number between 1 and 10! Retry "+ColorUI.RESET);
-                    x=in.nextInt();
+                    x=-1;
+                    do{
+                        try{
+                            x=in.nextInt();
+                        }catch(InputMismatchException e){
+                            System.err.println("You must choose a number! Retry");
+                            x=-1;
+                        }
+                    }while(x==-1);
                 }
                 tilesToPick.add(x);
             }else{
                 out.print("Chose the y coordinate of the tile that you want to pick: ");
-                int y=in.nextInt();
+                int y=-1;
+                do{
+                    try{
+                        y=in.nextInt();
+                    }catch(InputMismatchException e){
+                        System.err.println("You must choose a number! Retry");
+                        y=-1;
+                    }
+                }while(y==-1);
+
                 //Check if the value is between 1 and 10
                 while(y<0 || y>11){
                     out.print(ColorUI.RED_TEXT+"You must choose a number between 1 and 10! Retry "+ColorUI.RESET);
-                    y=in.nextInt();
+                    do{
+                        try{
+                            y=in.nextInt();
+                        }catch(InputMismatchException e){
+                            System.err.println("You must choose a number! Retry");
+                            y=-1;
+                        }
+                    }while(y==-1);
                 }
                 tilesToPick.add(y);
             }
@@ -141,10 +192,26 @@ public class Cli{
 
     public int askColumn(){
         out.print("Choose the column to insert the tiles chosen: ");
-        int column=in.nextInt();
+        int column=-1;
+        do{
+            try{
+                column =in.nextInt();
+            }catch(InputMismatchException e){
+                System.err.println("You must choose a number! Retry");
+                column=-1;
+            }
+        }while(column==-1);
+
         while(column<1 || column>5){
             out.print(ColorUI.RED_TEXT+"You must choose a number between 1 and 5! Retry "+ColorUI.RESET);
-            column= in.nextInt();
+            do{
+                try{
+                    column =in.nextInt();
+                }catch(InputMismatchException e){
+                    System.err.println("You must choose a number! Retry");
+                    column=-1;
+                }
+            }while(column==-1);
         }
         return (column-1);
     }
