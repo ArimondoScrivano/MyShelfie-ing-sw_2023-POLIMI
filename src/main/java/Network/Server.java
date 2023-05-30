@@ -289,6 +289,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
 
     public void setMessage(Message message) {
         LobbyMessage.set(message.getId(), message);
+        //Control print
         System.out.println("Messaggio settato "+ message.getMessageType());
             if (message.getMessageType().equals(MessageType.GAME_STARTING)) {
                 Thread clientDisconnectionHandler = new Thread(checkDisconnection(message), "DisconnectionHandler "+message.getId());
