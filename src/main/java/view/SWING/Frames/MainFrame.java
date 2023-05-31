@@ -9,6 +9,7 @@ public class MainFrame extends JFrame {
         setSize(1200, 800);
         setVisible(true);
         setResizable(false);
+        setLayout(null);
         setLocationRelativeTo(null);
 
     }
