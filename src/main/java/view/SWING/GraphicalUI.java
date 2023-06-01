@@ -1,5 +1,6 @@
 package view.SWING;
 
+
 import model.PersonalGoal;
 import model.Tile;
 import model.cgoal.CommonGoals;
@@ -18,19 +19,6 @@ public class GraphicalUI extends Observable {
     // ATTRIBUTI
     private MainFrame mf;
 
-    // panel che contiene la dashboard
-    private JPanel dashboard;
-
-    //panel che rappresenta la dashboard attuale
-    private JPanel dashboardcurrent;
-
-    //panel che contiene la shelf
-    private JPanel shelf;
-
-    //panel che rappresenta la shelf attuale
-    private JPanel shelfcurrent;
-    private JPanel pg;
-    private JPanel cg;
 
     //CONSTRUCTOR
 
@@ -39,118 +27,74 @@ public class GraphicalUI extends Observable {
     }
 
     public void initGame(){
-        // Pannello di contenitore per la dashboard
-        JPanel dashboardContainerPanel = new JPanel();
-        dashboardContainerPanel.setBounds(0, 0, 500, 500);
-        dashboardContainerPanel.setLayout(null);
+      /*  JInternalFrame gridInternalFrame = new JInternalFrame("Grid Internal Frame", true, true, true, true);
+        gridInternalFrame.setSize(500, 500);
+        gridInternalFrame.setLayout(new BorderLayout());
 
-        // Crea un JPanel per il pannello della dashboard
-        JPanel mainDashboardPanel = new JPanel();
-        mainDashboardPanel.setBounds(0, 0, 500, 500);
-        mainDashboardPanel.setBackground(Color.RED);
+        JLayeredPane layeredPane = new JLayeredPane();
+        gridInternalFrame.setContentPane(layeredPane);
 
-        this.dashboard = mainDashboardPanel;
+// Carica l'immagine di sfondo
+        Image backgroundImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/boards/livingroom.png"); // Inserisci il percorso corretto dell'immagine
+        ImagePanel imagePanel = new ImagePanel(backgroundImage);
+        imagePanel.setBounds(0, 0, gridInternalFrame.getWidth(), gridInternalFrame.getHeight());
+        layeredPane.add(imagePanel, Integer.valueOf(0));
 
-        mainDashboardPanel.setLayout(null);
-
-        // Aggiungi un JLabel al pannello della dashboard
-        JLabel dashboardlabel = new JLabel("DASHBOARD");
-        dashboardlabel.setBounds(10, 10, 180, 20);
-        mainDashboardPanel.add(dashboardlabel);
-
-        // Crea un JPanel per la griglia di bottoni della dashboard
-        JPanel dashboardGridPanel = new JPanel(new GridLayout(10, 10));
-
-        // Aggiungi i bottoni alla griglia della dashboard
+// Pannello per i bottoni
+        JPanel buttonPanel = new JPanel(new GridLayout(10, 10));
+        buttonPanel.setOpaque(false);
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                JButton button = new JButton("(" + i + ", " + j + ")");
+                JButton button = new JButton();
                 button.setOpaque(false);
                 button.setContentAreaFilled(false);
-                button.setBorderPainted(false);
-                dashboardGridPanel.add(button);
+                button.setBorderPainted(true); // Imposta il bordo dei bottoni visibile
+                buttonPanel.add(button);
             }
         }
+        buttonPanel.setBounds(0, 0, gridInternalFrame.getWidth(), gridInternalFrame.getHeight());
+        layeredPane.add(buttonPanel, Integer.valueOf(1));
 
-        dashboardGridPanel.setBounds(10, 40, 480, 450);
-        this.dashboardcurrent = dashboardGridPanel;
-        mainDashboardPanel.add(dashboardGridPanel);
+        gridInternalFrame.setResizable(false);
+        gridInternalFrame.setVisible(true);
 
-        dashboardContainerPanel.add(mainDashboardPanel);
+        mf.getContentPane().add(gridInternalFrame);
+        mf.setVisible(true);*/
+        JInternalFrame gridInternalFrame = new JInternalFrame("Grid Internal Frame", true, true, true, true);
+        gridInternalFrame.setSize(500, 500);
+        gridInternalFrame.setLayout(new BorderLayout());
 
-        //immagine
-        ImageIcon imageIcon = new ImageIcon("@graphicalResources/boards/livingroom.jpg");
-        Image image = imageIcon.getImage();
-        ImagePanel imagePanel = new ImagePanel(image); // Crea un pannello personalizzato con l'immagine di sfondo
-        mainDashboardPanel.setOpaque(false); // Imposta il pannello principale come trasparente
-        mainDashboardPanel.add(imagePanel);
+        JLayeredPane layeredPane = new JLayeredPane();
+        gridInternalFrame.setContentPane(layeredPane);
 
-        mf.add(dashboardContainerPanel);
+// Carica l'immagine di sfondo
+        Image backgroundImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/boards/livingroom.png"); // Inserisci il percorso corretto dell'immagine
+        ImagePanel imagePanel = new ImagePanel(backgroundImage);
+        imagePanel.setBounds(0, 0, gridInternalFrame.getWidth(), gridInternalFrame.getHeight());
+        layeredPane.add(imagePanel, Integer.valueOf(0));
 
-        // Pannello di contenitore per la shelf
-        JPanel shelfContainerPanel = new JPanel();
-        shelfContainerPanel.setBounds(650, 0, 550, 650);
-        shelfContainerPanel.setLayout(null);
+// Pannello per i bottoni
+        int buttonPanelSize = 490; // Imposta la dimensione desiderata per il pannello dei bottoni
 
-        // Crea un JPanel per il pannello della shelf
-        JPanel mainShelfPanel = new JPanel();
-        mainShelfPanel.setBounds(0, 0, 550, 650);
-        mainShelfPanel.setBackground(Color.BLUE);
-
-        this.shelf = mainShelfPanel;
-
-        mainShelfPanel.setLayout(null);
-
-        // Aggiungi un JLabel al pannello della shelf
-        JLabel shelflabel = new JLabel("SHELF");
-        shelflabel.setBounds(0, 10, 180, 20);
-        mainShelfPanel.add(shelflabel);
-
-        // Crea un JPanel per la griglia di bottoni della shelf
-        JPanel shelfGridPanel = new JPanel(new GridLayout(6, 5));
-
-        // Aggiungi i bottoni alla griglia della shelf
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
-                JButton button = new JButton("(" + i + ", " + j + ")");
+        JPanel buttonPanel = new JPanel(new GridLayout(9, 9));
+        buttonPanel.setOpaque(false);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(21, 15, 10, 10)); // Imposta il margine del pannello dei bottoni
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                JButton button = new JButton();
                 button.setOpaque(false);
                 button.setContentAreaFilled(false);
-                button.setBorderPainted(false);
-                shelfGridPanel.add(button);
+                button.setBorderPainted(true); // Imposta il bordo dei bottoni visibile
+                buttonPanel.add(button);
             }
         }
+        buttonPanel.setBounds(0, 0, buttonPanelSize, buttonPanelSize);
+        layeredPane.add(buttonPanel, Integer.valueOf(1));
 
-        shelfGridPanel.setBounds(0, 40, 400, 600);
-        this.shelfcurrent = shelfGridPanel;
-        mainShelfPanel.add(shelfGridPanel);
-
-        shelfContainerPanel.add(mainShelfPanel);
-        mf.add(shelfContainerPanel);
-
-        // Crea un JPanel per il pannello inferiore a sinistra
-        JPanel bottomLeftPanel = new JPanel();
-        bottomLeftPanel.setBounds(0, 500, 600, 300);
-        bottomLeftPanel.setLayout(new GridLayout(1, 3));
-
-        // Sottopannello 1
-        JPanel subPanel1 = new JPanel();
-        subPanel1.setBackground(Color.BLUE);
-        bottomLeftPanel.add(subPanel1);
-
-        // Sottopannello 2
-        JPanel subPanel2 = new JPanel();
-        subPanel2.setBackground(Color.GREEN);
-        bottomLeftPanel.add(subPanel2);
-
-        // Sottopannello 3
-        JPanel subPanel3 = new JPanel();
-        subPanel3.setBackground(Color.YELLOW);
-        bottomLeftPanel.add(subPanel3);
-
-        mf.add(bottomLeftPanel);
-
+        gridInternalFrame.setResizable(false);
+        gridInternalFrame.setVisible(true);
+        mf.getContentPane().add(gridInternalFrame);
         mf.setVisible(true);
-
     }
 
     public void  showmMatchInfo(Tile[][] copy, List<CommonGoals> commonGoals, Tile[][] myShelf, PersonalGoal pg) {
@@ -191,9 +135,9 @@ public class GraphicalUI extends Observable {
         }
 
         DashboardGridPanel.setBounds(10, 40, 450, 450);
-        this.dashboard.remove(this.dashboardcurrent);
+    /*    this.dashboard.remove(this.dashboardcurrent);
         this.dashboard.add(DashboardGridPanel);
-        this.dashboardcurrent= DashboardGridPanel;
+        this.dashboardcurrent= DashboardGridPanel;*/
         //mf.add(mainPanel,BorderLayout.CENTER);
         //mf.setVisible(true);
 

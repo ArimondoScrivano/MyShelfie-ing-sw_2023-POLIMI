@@ -11,6 +11,7 @@ public class MainFrame extends JFrame {
         setResizable(false);
         setLayout(null);
         setLocationRelativeTo(null);
+        setAlwaysOnTop(false);
 
     }
 }
