@@ -17,10 +17,11 @@ class GraphicalUITest extends TestCase{
     System.out.println(connection);
     String name= provatest.askNickname();
 
-    provatest.printShelf(new Tile[10][10]);
-    provatest.printCommonGoal(null);
+   // provatest.printShelf(new Tile[10][10]);
+    //provatest.printCommonGoal(null);
     System.out.println(name);*/
     provatest.initGame();
+  //  provatest.printDashboard(new Tile[9][9]);
 
 while (true){
 
