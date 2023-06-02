@@ -109,5 +109,10 @@ import java.util.List;
                   X2
                 """);
     }
+
+    @Override
+    public int getId() {
+        return 1;
+    }
 }
 

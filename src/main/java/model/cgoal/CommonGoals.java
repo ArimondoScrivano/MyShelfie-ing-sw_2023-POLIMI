@@ -16,5 +16,6 @@ import java.util.*;
     public List<Integer> getScoreList();
 
     public void printLayout();
+    public int getId();
 
 }

@@ -32,16 +32,34 @@ public class GraphicalUI extends Observable {
     //pane della shelf
     private JPanel shelfcurrent;
 
+    //first label for the common goals
+    private JLabel CGL1;
+
+    //second label for Common goals
+    private JLabel CGL2;
+
+    //panel in cui sono contenuti i Common Goals
+    private JPanel CGpanel;
+
+    //panel del personal goal
+    private ImagePanel personalGoalpanel;
+
+    //pane che contiene il personal goal
+    private JInternalFrame personalGoalPane;
+    private int flagDoneOnceCG;
+    private int flagDoneOncePG;
     public GraphicalUI(){
         mf=new MainFrame();
     }
 
     public void initGame() {
+        flagDoneOnceCG=0;
+        flagDoneOncePG=0;
         mf.setLayout(null);
         mf.revalidate();
         mf.repaint();
 
-        JInternalFrame gridInternalFrame = new JInternalFrame("DASHBOARD", true, true, true, true);
+        JInternalFrame gridInternalFrame = new JInternalFrame("DASHBOARD", false, false, true, false);
         gridInternalFrame.setSize(500, 500);
         gridInternalFrame.setLayout(new BorderLayout());
 
@@ -86,7 +104,7 @@ public class GraphicalUI extends Observable {
 
 
 // SHELF
-        JInternalFrame secondInternalFrame = new JInternalFrame("MY SHELFIE", true, true, true, true);
+        JInternalFrame secondInternalFrame = new JInternalFrame("MY SHELFIE", false, false, false, false);
         secondInternalFrame.setSize(400, 400);
         secondInternalFrame.setLayout(new BorderLayout());
         secondInternalFrame.setOpaque(false);
@@ -136,7 +154,7 @@ public class GraphicalUI extends Observable {
         mf.setVisible(true);
 
 // COMMONGOALS
-        JInternalFrame imageFrame = new JInternalFrame("COMMON GOAL", true, true, true, true);
+        JInternalFrame imageFrame = new JInternalFrame("COMMON GOAL", false, false, false, false);
         imageFrame.setSize(600, 280);
         imageFrame.setLayout(new BorderLayout());
         imageFrame.setResizable(false);
@@ -158,14 +176,15 @@ public class GraphicalUI extends Observable {
 // Crea i componenti per le immagini
         JLabel label1 = new JLabel(new ImageIcon(scaledImage1));
         JLabel label2 = new JLabel(new ImageIcon(scaledImage2));
-
+        this.CGL1= label1;
+        this.CGL2= label2;
 // Aggiungi spaziatura tra le immagini
         imagePanelCG.add(Box.createHorizontalGlue()); // Spazio a sinistra
         imagePanelCG.add(label1);
         imagePanelCG.add(Box.createRigidArea(new Dimension(10, 0))); // Spazio tra le immagini
         imagePanelCG.add(label2);
         imagePanelCG.add(Box.createHorizontalGlue()); // Spazio a destra
-
+        this.CGpanel= imagePanelCG;
 // Aggiungi il pannello delle immagini al content pane del JInternalFrame
         imageFrame.getContentPane().add(imagePanelCG, BorderLayout.SOUTH);
 
@@ -178,7 +197,7 @@ public class GraphicalUI extends Observable {
         imageFrame.setVisible(true);
 
         // Nuovo JInternalFrame gestione PERSONAL GOAL
-        JInternalFrame additionalFrame = new JInternalFrame("PERSONAL GOAL", true, true, true, true);
+        JInternalFrame additionalFrame = new JInternalFrame("PERSONAL GOAL", false, false, false, false);
         additionalFrame.setSize(300, 255);
         additionalFrame.setLayout(null); // Utilizza un layout di tipo null
         additionalFrame.setResizable(false);
@@ -187,9 +206,10 @@ public class GraphicalUI extends Observable {
         Image additionalImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/personal goal cards/old/7.jpg"); // Inserisci il percorso corretto dell'immagine
         additionalImage= additionalImage.getScaledInstance(300, 255, Image.SCALE_SMOOTH);
         ImagePanel additionalImagePanel = new ImagePanel(additionalImage);
+        this.personalGoalpanel= additionalImagePanel;
         additionalImagePanel.setBounds(0, 0, additionalFrame.getWidth(), additionalFrame.getHeight());
         additionalFrame.setContentPane(additionalImagePanel); // Imposta direttamente il pannello dell'immagine come content pane
-
+        this.personalGoalPane= additionalFrame;
 // Posizione del nuovo JInternalFrame
         int additionalFrameX = imageFrame.getX() - additionalFrame.getWidth();
         int additionalFrameY = imageFrame.getY();
@@ -199,7 +219,7 @@ public class GraphicalUI extends Observable {
         additionalFrame.setVisible(true);
 
         // Crea il JInternalFrame per le etichette di testo
-        JInternalFrame textFrame = new JInternalFrame("GAME STATUS", true, true, true, true);
+        JInternalFrame textFrame = new JInternalFrame("GAME STATUS", false, false, false, false);
         textFrame.setSize(600, 100);
         textFrame.setLayout(null);
         textFrame.setResizable(false);
@@ -243,9 +263,20 @@ public class GraphicalUI extends Observable {
 
 
     public void printPersonalGoal(PersonalGoal pg){
-        // DISPLAY PERSONAL GOAL
+        // Carica l'immagine di sfondo per il nuovo JInternalFrame
+        if(flagDoneOncePG==0) {
+            Image additionalImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/personal goal cards/old/" + pg.getId() + ".jpg"); // Inserisci il percorso corretto dell'immagine
+            additionalImage = additionalImage.getScaledInstance(300, 255, Image.SCALE_SMOOTH);
+            ImagePanel additionalImagePanel = new ImagePanel(additionalImage);
+            this.personalGoalPane.remove(this.personalGoalpanel);
+            this.personalGoalpanel = additionalImagePanel;
+            additionalImagePanel.setBounds(0, 0, this.personalGoalPane.getWidth(), this.personalGoalPane.getHeight());
+            this.personalGoalPane.setContentPane(personalGoalpanel); // Imposta direttamente il pannello dell'immagine come content pane
+            this.personalGoalPane.setVisible(true);
+            mf.setVisible(true);
+            flagDoneOncePG=1;
+        }
 
-       // Image myPersonalGoal;
     }
 
 
@@ -332,23 +363,34 @@ public class GraphicalUI extends Observable {
     }
 
     public void printCommonGoal(List<CommonGoals> commonGoals) {
+        if (flagDoneOnceCG==0) {
+            // Carica le immagini
+            Image image1 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/" + commonGoals.get(0).getId() + ".jpg");
+            Image image2 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/" + commonGoals.get(1).getId() + ".jpg");
 
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
+// Ridimensiona le immagini alle dimensioni desiderate
+            int imageWidth = 300; // Larghezza desiderata dell'immagine
+            int imageHeight = 255; // Altezza desiderata dell'immagine
+            Image scaledImage1 = image1.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+            Image scaledImage2 = image2.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
 
-        JPanel panel1 = new JPanel();
-        panel1.setBackground(Color.RED);
-        panel1.setPreferredSize(new Dimension(200, 200));
+// Crea i componenti per le immagini
+            JLabel label1 = new JLabel(new ImageIcon(scaledImage1));
+            JLabel label2 = new JLabel(new ImageIcon(scaledImage2));
+            this.CGpanel.remove(this.CGL1);
+            this.CGpanel.remove(this.CGL2);
+            this.CGL1=label1;
+            this.CGL2=label2;
+            this.CGpanel.add(Box.createHorizontalGlue()); // Spazio a sinistra
+            this.CGpanel.add(label1);
+            this.CGpanel.add(Box.createRigidArea(new Dimension(10, 0))); // Spazio tra le immagini
+            this.CGpanel.add(label2);
+            this.CGpanel.add(Box.createHorizontalGlue()); // Spazio a destra
+            this.CGpanel.setVisible(true);
+            mf.setVisible(true);
 
-        JPanel panel2 = new JPanel();
-        panel2.setBackground(Color.BLUE);
-        panel2.setPreferredSize(new Dimension(200, 200));
-
-        mainPanel.add(panel1, BorderLayout.NORTH);
-        mainPanel.add(panel2, BorderLayout.CENTER);
-        mf.add(mainPanel, BorderLayout.WEST);
-
-        mf.setVisible(true);
+        flagDoneOnceCG=1;
+        }
     }
 
     public void displayPoints(int myPoint, int myPGpoints) {

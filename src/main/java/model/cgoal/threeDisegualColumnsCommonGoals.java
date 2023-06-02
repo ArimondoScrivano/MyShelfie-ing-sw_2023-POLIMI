@@ -103,5 +103,10 @@ public class threeDisegualColumnsCommonGoals implements CommonGoals, Serializabl
                 └──┘
                 """);
     }
+
+    @Override
+    public int getId() {
+        return 5;
+    }
 }
 

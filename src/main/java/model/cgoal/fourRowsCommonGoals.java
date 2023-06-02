@@ -93,5 +93,10 @@ import java.util.List;
                         \t    X4
                         """);
     }
+
+    @Override
+    public int getId() {
+        return 7;
+    }
 }
 

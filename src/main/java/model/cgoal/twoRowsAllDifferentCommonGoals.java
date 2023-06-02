@@ -83,5 +83,10 @@ public class twoRowsAllDifferentCommonGoals implements CommonGoals, Serializable
                 \tx2
                 """);
     }
+
+    @Override
+    public int getId() {
+        return 6;
+    }
 }
 

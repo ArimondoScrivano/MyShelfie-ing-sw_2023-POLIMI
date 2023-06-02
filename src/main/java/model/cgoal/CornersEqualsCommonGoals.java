@@ -14,6 +14,10 @@ import java.util.List;
     private int current_point;
     private int indexCurrentPoint;
 
+    @Override
+    public int getId() {
+        return 8;
+    }
 
     public CornersEqualsCommonGoals(List<Integer> CommonGoalPoints) {
 

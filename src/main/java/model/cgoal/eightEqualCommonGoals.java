@@ -78,5 +78,10 @@ public class eightEqualCommonGoals implements CommonGoals, Serializable {
                 └──┘   └──┘   └──┘
                 """);
     }
+
+    @Override
+    public int getId() {
+        return 9;
+    }
 }
 
