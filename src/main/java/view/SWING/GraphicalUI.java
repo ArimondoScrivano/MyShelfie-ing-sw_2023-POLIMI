@@ -1,6 +1,7 @@
 package view.SWING;
 
 
+import model.COLOR;
 import model.PersonalGoal;
 import model.Tile;
 import model.cgoal.CommonGoals;
@@ -25,8 +26,11 @@ public class GraphicalUI extends Observable {
     //pane della dashboard
     private JPanel dashboardcurrent;
 
+    //pane in cui è contenuta la shelf;
+    private JLayeredPane shelfPane;
 
-    //CONSTRUCTOR
+    //pane della shelf
+    private JPanel shelfcurrent;
 
     public GraphicalUI(){
         mf=new MainFrame();
@@ -68,7 +72,8 @@ public class GraphicalUI extends Observable {
 
         dashboardButtonPanel.setBounds(0, 0, buttonPanelSize, buttonPanelSize);
         dashboardPane.add(dashboardButtonPanel, Integer.valueOf(1));
-
+        this.dashboardPane= dashboardPane;
+        this.dashboardcurrent=dashboardButtonPanel;
         gridInternalFrame.setResizable(false);
         gridInternalFrame.setVisible(true);
 
@@ -95,28 +100,36 @@ public class GraphicalUI extends Observable {
         secondLayeredPane.add(imagePanelShelf, Integer.valueOf(0));
 
 // Pannello per i bottoni della SHELF
-        JPanel buttonPanelShelf = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 15));
+        JPanel buttonPanelShelf = new JPanel(new FlowLayout(FlowLayout.CENTER, 17, 8));
         buttonPanelShelf.setOpaque(false);
-        buttonPanelShelf.setBorder(BorderFactory.createEmptyBorder(15, 15, 10, 10)); // Imposta il margine del pannello dei bottoni
-        for (int i = 0; i < 5; i++) {
-            JButton button = new JButton();
-            button.setOpaque(false);
-            button.setContentAreaFilled(false);
-            button.setBorderPainted(true);
-            button.setPreferredSize(new Dimension(50, 50)); // Imposta la dimensione personalizzata per i bottoni
-            buttonPanelShelf.add(button);
+        buttonPanelShelf.setBorder(BorderFactory.createEmptyBorder(20, 22, 0, 20));// Imposta il margine del pannello dei bottoni
+
+        for(int row=0; row<6; row++) {
+            for (int i = 0; i < 5; i++) {
+                JButton button = new JButton();
+                button.setOpaque(false);
+                button.setContentAreaFilled(false);
+                button.setBorderPainted(true);
+                button.setPreferredSize(new Dimension(46, 46)); // Imposta la dimensione personalizzata per i bottoni
+                buttonPanelShelf.add(button);
+                if(row>0){
+                    button.setEnabled(false);
+                }
+            }
         }
 
         buttonPanelShelf.setBounds(0, 0, secondInternalFrame.getWidth(), secondInternalFrame.getHeight());
         secondLayeredPane.add(buttonPanelShelf, Integer.valueOf(1));
+        this.shelfPane= secondLayeredPane;
+        this.shelfcurrent=buttonPanelShelf;
 
         secondInternalFrame.setContentPane(secondLayeredPane);
         secondInternalFrame.setResizable(false);
         secondInternalFrame.setVisible(true);
 
 // Posiziona il secondo internal frame a sinistra della dashboard
-        int secondInternalFrameX = internalFrameX - secondInternalFrame.getWidth();
-        int secondInternalFrameY = internalFrameY;
+        int secondInternalFrameX =mf.getWidth() - gridInternalFrame.getWidth() - 410;
+        int secondInternalFrameY = internalFrameY +100;
         secondInternalFrame.setLocation(secondInternalFrameX, secondInternalFrameY);
 
         mf.getContentPane().add(secondInternalFrame);
@@ -124,7 +137,7 @@ public class GraphicalUI extends Observable {
 
 // COMMONGOALS
         JInternalFrame imageFrame = new JInternalFrame("COMMON GOAL", true, true, true, true);
-        imageFrame.setSize(700, 280);
+        imageFrame.setSize(600, 280);
         imageFrame.setLayout(new BorderLayout());
         imageFrame.setResizable(false);
 
@@ -137,8 +150,8 @@ public class GraphicalUI extends Observable {
         Image image2 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/5.jpg");
 
 // Ridimensiona le immagini alle dimensioni desiderate
-        int imageWidth = 350; // Larghezza desiderata dell'immagine
-        int imageHeight = 280; // Altezza desiderata dell'immagine
+        int imageWidth = 300; // Larghezza desiderata dell'immagine
+        int imageHeight = 255; // Altezza desiderata dell'immagine
         Image scaledImage1 = image1.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
         Image scaledImage2 = image2.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
 
@@ -166,23 +179,54 @@ public class GraphicalUI extends Observable {
 
         // Nuovo JInternalFrame gestione PERSONAL GOAL
         JInternalFrame additionalFrame = new JInternalFrame("PERSONAL GOAL", true, true, true, true);
-        additionalFrame.setSize(300, 800);
-        additionalFrame.setLayout(new BorderLayout());
+        additionalFrame.setSize(300, 255);
+        additionalFrame.setLayout(null); // Utilizza un layout di tipo null
         additionalFrame.setResizable(false);
 
 // Carica l'immagine di sfondo per il nuovo JInternalFrame
         Image additionalImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/personal goal cards/old/7.jpg"); // Inserisci il percorso corretto dell'immagine
+        additionalImage= additionalImage.getScaledInstance(300, 255, Image.SCALE_SMOOTH);
         ImagePanel additionalImagePanel = new ImagePanel(additionalImage);
         additionalImagePanel.setBounds(0, 0, additionalFrame.getWidth(), additionalFrame.getHeight());
-        additionalFrame.getContentPane().add(additionalImagePanel, BorderLayout.CENTER);
+        additionalFrame.setContentPane(additionalImagePanel); // Imposta direttamente il pannello dell'immagine come content pane
 
 // Posizione del nuovo JInternalFrame
-        int additionalFrameX = imageFrame.getX() - additionalFrame.getWidth() - 10;
+        int additionalFrameX = imageFrame.getX() - additionalFrame.getWidth();
         int additionalFrameY = imageFrame.getY();
         additionalFrame.setLocation(additionalFrameX, additionalFrameY);
 
         mf.getContentPane().add(additionalFrame);
         additionalFrame.setVisible(true);
+
+        // Crea il JInternalFrame per le etichette di testo
+        JInternalFrame textFrame = new JInternalFrame("GAME STATUS", true, true, true, true);
+        textFrame.setSize(600, 100);
+        textFrame.setLayout(null);
+        textFrame.setResizable(false);
+
+// Crea le JLabel per visualizzare del testo
+        JLabel labelStatus = new JLabel("Status:");
+        JLabel labelPoint = new JLabel("Points:");
+
+// Imposta la posizione e le dimensioni delle JLabel
+        int labelWidth = 200;
+        int labelHeight = 20;
+        int labelMargin = 10;
+        labelStatus.setBounds(labelMargin, labelMargin, labelWidth, labelHeight);
+        labelPoint.setBounds(labelMargin, labelMargin + labelHeight + labelMargin, labelWidth, labelHeight);
+
+// Aggiungi le JLabel al JInternalFrame
+        textFrame.add(labelStatus);
+        textFrame.add(labelPoint);
+
+// Posiziona il JInternalFrame in alto a sinistra
+        int textFrameX = 10;
+        int textFrameY = 10;
+        textFrame.setLocation(textFrameX, textFrameY);
+
+// Aggiungi il JInternalFrame al content pane del JFrame
+        mf.getContentPane().add(textFrame);
+        textFrame.setVisible(true);
     }
 
         public void  showmMatchInfo(Tile[][] copy, List<CommonGoals> commonGoals, Tile[][] myShelf, PersonalGoal pg) {
@@ -204,57 +248,86 @@ public class GraphicalUI extends Observable {
        // Image myPersonalGoal;
     }
 
-    public void shownewMex() {
-        // display chat
-    }
 
     public void printDashboard(Tile[][] copy) {
-
         int buttonPanelSize = 490; // Imposta la dimensione desiderata per il pannello dei bottoni
 
         JPanel DashboardButtonPanel = new JPanel(new GridLayout(9, 9));
         DashboardButtonPanel.setOpaque(false);
         DashboardButtonPanel.setBorder(BorderFactory.createEmptyBorder(21, 15, 10, 10)); // Imposta il margine del pannello dei bottoni
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+
+        for (int i = 1; i < 10; i++) {
+            for (int j = 1; j < 10; j++) {
                 JButton button = new JButton();
-                button.setOpaque(false);
-                button.setContentAreaFilled(false);
-                button.setBorderPainted(true); // Imposta il bordo dei bottoni visibile
+                button.setOpaque(true);
+                if(copy[i][j].getColor().equals(COLOR.BLANK)){
+                    button.setEnabled(false);
+                    button.setContentAreaFilled(false);
+                    button.setBorderPainted(false); // Imposta il bordo dei bottoni non visibile
+                }else{
+                    ImageIcon imageIcon = new ImageIcon("src/main/resources/graphicalResources/item tiles/" + copy[i][j].getColor() +".png"); // Inserisci il percorso corretto dell'immagine
+                    Image image = imageIcon.getImage();
+                    Image scaledImage = image.getScaledInstance(buttonPanelSize / 9, buttonPanelSize / 9, Image.SCALE_SMOOTH);
+                    ImageIcon scaledIcon = new ImageIcon(scaledImage);
+                    button.setIcon(scaledIcon);
+                    button.setContentAreaFilled(false);
+                    button.setBorderPainted(true); // Imposta il bordo dei bottoni visibile
+                }
                 DashboardButtonPanel.add(button);
             }
         }
 
         this.dashboardPane.remove(this.dashboardcurrent);
-        this.dashboardcurrent= DashboardButtonPanel;
+        this.dashboardcurrent = DashboardButtonPanel;
         this.dashboardcurrent.setBounds(0, 0, buttonPanelSize, buttonPanelSize);
         this.dashboardPane.add(this.dashboardcurrent, Integer.valueOf(1));
         this.dashboardPane.setVisible(true);
         mf.setVisible(true);
 
 
+
     }
 
 
     public void printShelf(Tile[][] myShelf) {
-        JPanel mainPanel= new JPanel();
-        mainPanel.setLayout(new BorderLayout());
-        JPanel Shelfpanel = new JPanel(new GridLayout(6, 5));
-        JLabel currentShelf= new JLabel("CURRENT SHELF");
+        // Pannello per i bottoni della SHELF
+        JPanel buttonPanelShelf = new JPanel(new FlowLayout(FlowLayout.CENTER, 17, 8));
+        buttonPanelShelf.setOpaque(false);
+        buttonPanelShelf.setBorder(BorderFactory.createEmptyBorder(22, 22, 0, 20));// Imposta il margine del pannello dei bottoni
+
+        for(int row=0; row<6; row++) {
+            for (int i = 0; i < 5; i++) {
+                JButton button = new JButton();
+                button.setOpaque(false);
+                button.setContentAreaFilled(false);
+                button.setBorderPainted(true);
+                button.setPreferredSize(new Dimension(46, 46)); // Imposta la dimensione personalizzata per i bottoni
 
 
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
-                JButton button = new JButton("(" + i + ", " + j + ")");
-                Shelfpanel.add(button);
+                if (!myShelf[row][i].getColor().equals(COLOR.BLANK)) {
+                    ImageIcon imageIcon = new ImageIcon("src/main/resources/graphicalResources/item tiles/" + myShelf[row][i].getColor() + ".png"); // Inserisci il percorso corretto dell'immagine
+                    Image image = imageIcon.getImage();
+                    Image scaledImage = image.getScaledInstance(400 / 5, 400 / 6, Image.SCALE_SMOOTH);
+                    ImageIcon scaledIcon = new ImageIcon(scaledImage);
+                    button.setIcon(scaledIcon);
+                    button.setBorderPainted(false);
+                }
+
+                if (row > 0 && myShelf[row][i].getColor().equals(COLOR.BLANK) ) {
+                    button.setEnabled(false);
+                    button.setBorderPainted(false);
+                }
+                buttonPanelShelf.add(button);
             }
         }
-        Dimension preferredSize = new Dimension(300, 200);
-        Shelfpanel.setPreferredSize(preferredSize);
-        mainPanel.setPreferredSize(preferredSize);
-        mainPanel.add(Shelfpanel);
-        mf.add(mainPanel,BorderLayout.EAST);
-        mf.setVisible(true);
+                this.shelfPane.remove(this.shelfcurrent);
+                this.shelfcurrent = buttonPanelShelf;
+                this.shelfcurrent.setBounds(0, 0, 400, 400);
+                this.shelfPane.add(this.shelfcurrent, Integer.valueOf(1));
+                this.shelfPane.setVisible(true);
+                mf.setVisible(true);
+
+
 
     }
 
