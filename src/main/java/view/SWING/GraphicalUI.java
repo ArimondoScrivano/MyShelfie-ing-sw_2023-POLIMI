@@ -6,9 +6,7 @@ import model.PersonalGoal;
 import model.Tile;
 import model.cgoal.CommonGoals;
 import view.SWING.Frames.MainFrame;
-import view.SWING.Panels.ButtonListener;
-import view.SWING.Panels.ImagePanel;
-import view.SWING.Panels.TextListener;
+import view.SWING.Panels.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,12 +24,15 @@ public class GraphicalUI extends Observable {
     //pane della dashboard
     private JPanel dashboardcurrent;
 
+    private DashboardListener dashboardListener;
+
     //pane in cui è contenuta la shelf;
     private JLayeredPane shelfPane;
 
     //pane della shelf
     private JPanel shelfcurrent;
 
+    private ShelfListener shelfListener;
     //first label for the common goals
     private JLabel CGL1;
 
@@ -48,6 +49,9 @@ public class GraphicalUI extends Observable {
     private JInternalFrame personalGoalPane;
     private int flagDoneOnceCG;
     private int flagDoneOncePG;
+
+    private JLabel labelStatus;
+    private JLabel labelPoint;
     public GraphicalUI(){
         mf=new MainFrame();
     }
@@ -58,6 +62,8 @@ public class GraphicalUI extends Observable {
         mf.setLayout(null);
         mf.revalidate();
         mf.repaint();
+        this.dashboardListener= new DashboardListener();
+        this.shelfListener= new ShelfListener();
 
         JInternalFrame gridInternalFrame = new JInternalFrame("DASHBOARD", false, false, true, false);
         gridInternalFrame.setSize(500, 500);
@@ -227,7 +233,8 @@ public class GraphicalUI extends Observable {
 // Crea le JLabel per visualizzare del testo
         JLabel labelStatus = new JLabel("Status:");
         JLabel labelPoint = new JLabel("Points:");
-
+    this.labelStatus= labelStatus;
+    this.labelPoint= labelPoint;
 // Imposta la posizione e le dimensioni delle JLabel
         int labelWidth = 200;
         int labelHeight = 20;
@@ -250,13 +257,10 @@ public class GraphicalUI extends Observable {
     }
 
         public void  showmMatchInfo(Tile[][] copy, List<CommonGoals> commonGoals, Tile[][] myShelf, PersonalGoal pg) {
-        // display della dashboard
-
-        // display common goals
-
-        // display della shelf
-
-        // display personal goal
+     printDashboard(copy);
+     printShelf(myShelf);
+     printCommonGoal(commonGoals);
+     printPersonalGoal(pg);
 
     }
 
@@ -281,12 +285,13 @@ public class GraphicalUI extends Observable {
 
 
     public void printDashboard(Tile[][] copy) {
+        int variety;
+        this.labelStatus.setText("ASPETTA IL TUO TURNO");
         int buttonPanelSize = 490; // Imposta la dimensione desiderata per il pannello dei bottoni
 
         JPanel DashboardButtonPanel = new JPanel(new GridLayout(9, 9));
         DashboardButtonPanel.setOpaque(false);
         DashboardButtonPanel.setBorder(BorderFactory.createEmptyBorder(21, 15, 10, 10)); // Imposta il margine del pannello dei bottoni
-
         for (int i = 1; i < 10; i++) {
             for (int j = 1; j < 10; j++) {
                 JButton button = new JButton();
@@ -296,13 +301,15 @@ public class GraphicalUI extends Observable {
                     button.setContentAreaFilled(false);
                     button.setBorderPainted(false); // Imposta il bordo dei bottoni non visibile
                 }else{
-                    ImageIcon imageIcon = new ImageIcon("src/main/resources/graphicalResources/item tiles/" + copy[i][j].getColor() +".png"); // Inserisci il percorso corretto dell'immagine
+                    variety= copy[i][j].getId()% 3;
+                    ImageIcon imageIcon = new ImageIcon("src/main/resources/graphicalResources/item tiles/" +copy[i][j].getColor() +variety +".png"); // Inserisci il percorso corretto dell'immagine
                     Image image = imageIcon.getImage();
                     Image scaledImage = image.getScaledInstance(buttonPanelSize / 9, buttonPanelSize / 9, Image.SCALE_SMOOTH);
                     ImageIcon scaledIcon = new ImageIcon(scaledImage);
                     button.setIcon(scaledIcon);
                     button.setContentAreaFilled(false);
                     button.setBorderPainted(true); // Imposta il bordo dei bottoni visibile
+                    button.addActionListener(dashboardListener);
                 }
                 DashboardButtonPanel.add(button);
             }
@@ -321,6 +328,7 @@ public class GraphicalUI extends Observable {
 
 
     public void printShelf(Tile[][] myShelf) {
+        int variety;
         // Pannello per i bottoni della SHELF
         JPanel buttonPanelShelf = new JPanel(new FlowLayout(FlowLayout.CENTER, 17, 8));
         buttonPanelShelf.setOpaque(false);
@@ -336,7 +344,8 @@ public class GraphicalUI extends Observable {
 
 
                 if (!myShelf[row][i].getColor().equals(COLOR.BLANK)) {
-                    ImageIcon imageIcon = new ImageIcon("src/main/resources/graphicalResources/item tiles/" + myShelf[row][i].getColor() + ".png"); // Inserisci il percorso corretto dell'immagine
+                    variety= myShelf[row][i].getId() % 3;
+                    ImageIcon imageIcon = new ImageIcon("src/main/resources/graphicalResources/item tiles/" + myShelf[row][i].getColor() +variety +".png"); // Inserisci il percorso corretto dell'immagine
                     Image image = imageIcon.getImage();
                     Image scaledImage = image.getScaledInstance(400 / 5, 400 / 6, Image.SCALE_SMOOTH);
                     ImageIcon scaledIcon = new ImageIcon(scaledImage);
@@ -347,6 +356,9 @@ public class GraphicalUI extends Observable {
                 if (row > 0 && myShelf[row][i].getColor().equals(COLOR.BLANK) ) {
                     button.setEnabled(false);
                     button.setBorderPainted(false);
+                }
+                if(row==0 && myShelf[row][i].getColor().equals(COLOR.BLANK)){
+                    button.addActionListener(shelfListener);
                 }
                 buttonPanelShelf.add(button);
             }
@@ -394,7 +406,8 @@ public class GraphicalUI extends Observable {
     }
 
     public void displayPoints(int myPoint, int myPGpoints) {
-
+        int partialSum= myPoint + myPGpoints;
+        this.labelPoint.setText("Il tuo punteggio è di" +partialSum +"punti");
     }
 
     //METODI DELLA CLI
@@ -546,85 +559,69 @@ public class GraphicalUI extends Observable {
 
     }
 
-    public List<String> askNewChatMessage(List<String> playersName, String myplayername) {
-        return null;
-    }
+
 
     public int askNumberOfTiles() {
-        JPanel ntPanel = new JPanel();
-        JLabel questionLabel = new JLabel("Select Number of Tiles:");
-        JButton b1 = new JButton("1");
-        JButton b2 = new JButton("2");
-        JButton b3 = new JButton("3");
-        ButtonListener ONTButton = new ButtonListener(1);
-        ButtonListener TWTButton = new ButtonListener(2);
-        ButtonListener THTButton = new ButtonListener(3);
-        b1.addActionListener(ONTButton);
-        b2.addActionListener(TWTButton);
-        b3.addActionListener(THTButton);
-        ntPanel.add(questionLabel);
-        ntPanel.add(b1);
-        ntPanel.add(b2);
-        ntPanel.add(b3);
-        mf.add(ntPanel);
-        mf.setVisible(true);
-        boolean choiceCollected = false;
-        while (!choiceCollected) {
-            if (ONTButton.getdefinedChoice() || TWTButton.getdefinedChoice() || THTButton.getdefinedChoice()) {
-                choiceCollected = true;
-            }
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        this.labelStatus.setText("Quante tile vuoi pescare:");
+        JFrame frame = new JFrame("Main Frame");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
 
+        String input = null;
+        boolean validInput = false;
+
+        while (!validInput) {
+            input = JOptionPane.showInputDialog(frame, "Quante tile vuoi pescare?:");
+
+            if (input != null) {
+                try {
+                    int number = Integer.parseInt(input);
+                    if (number >= 1 && number <= 3) {
+                        validInput = true;
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Inserisci un numero compreso tra 1 e 3.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(frame, "Inserisci un numero valido.", "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                // L'utente ha cliccato su "Annulla" o ha chiuso la finestra di input
+                break;
+            }
         }
-        if (ONTButton.getdefinedChoice()) {
-            mf.remove(ntPanel);
-            return ONTButton.getChoice();
-        } else if (TWTButton.getdefinedChoice()) {
-            mf.remove(ntPanel);
-            return TWTButton.getChoice();
-        } else {
-            mf.remove(ntPanel);
-            return THTButton.getChoice();
-        }
+            int number = Integer.parseInt(input);
+            frame.dispose();
+            return number;
+
     }
 
+
+
         public List<Integer> askTilesToPick(int numberOfTile) {
-        return null;
+            this.labelStatus.setText("SELEZIONA LE TILE");
+            dashboardListener.setNumTilesRequired(numberOfTile);
+            dashboardListener.setPermission(true);
+            boolean choiceCollected = false;
+            while (!choiceCollected) {
+                if (dashboardListener.isDoneChoice()) {
+                    choiceCollected = true;
+                }
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            this.labelStatus.setText("CONTROLLO PARAMETRI");
+            return dashboardListener.getButtonPosition();
     }
 
     public int askColumn() {
-        JPanel columnPanel = new JPanel();
-        JLabel questionLabel = new JLabel("Choose the column: ");
-        JButton b1 = new JButton("1");
-        JButton b2 = new JButton("2");
-        JButton b3 = new JButton("3");
-        JButton b4 = new JButton("4");
-        JButton b5 = new JButton("5");
-        ButtonListener ONButton = new ButtonListener(1);
-        ButtonListener TWButton = new ButtonListener(2);
-        ButtonListener THButton = new ButtonListener(3);
-        ButtonListener FOButton = new ButtonListener(4);
-        ButtonListener FIButton = new ButtonListener(5);
-        b1.addActionListener(ONButton);
-        b2.addActionListener(TWButton);
-        b3.addActionListener(THButton);
-        b4.addActionListener(FOButton);
-        b5.addActionListener(FIButton);
-        columnPanel.add(questionLabel);
-        columnPanel.add(b1);
-        columnPanel.add(b2);
-        columnPanel.add(b3);
-        columnPanel.add(b4);
-        columnPanel.add(b5);
-        mf.add(columnPanel);
-        mf.setVisible(true);
+       this.labelStatus.setText("SELEZIONA UNA COLONNA");
+       this.shelfListener.setPermission(true);
         boolean choiceCollected = false;
         while (!choiceCollected) {
-            if (ONButton.getdefinedChoice() || TWButton.getdefinedChoice() || THButton.getdefinedChoice()|| FOButton.getdefinedChoice()|| FIButton.getdefinedChoice()) {
+            if (shelfListener.isDoneChoice()) {
                 choiceCollected = true;
             }
             try {
@@ -634,18 +631,7 @@ public class GraphicalUI extends Observable {
             }
 
         }
-        mf.remove(columnPanel);
-        if (ONButton.getdefinedChoice()) {
-            return ONButton.getChoice();
-        } else if (TWButton.getdefinedChoice()) {
-            return TWButton.getChoice();
-        } else if(THButton.getdefinedChoice()) {
-            return THButton.getChoice();
-        }else if(FOButton.getdefinedChoice()) {
-            return FOButton.getChoice();
-        }else{
-            return FIButton.getChoice();
-        }
+        return shelfListener.getButtonPosition();
     }
 
 }

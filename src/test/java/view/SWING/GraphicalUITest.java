@@ -16,7 +16,7 @@ class GraphicalUITest extends TestCase{
 @Test
     public void Checker()throws Exception{
     GraphicalUI provatest= new GraphicalUI();
-  /*  System.out.println("Chiedo connessione");
+    System.out.println("Chiedo connessione");
     int connection= provatest.askConnection();
     System.out.println(connection);
     System.out.println("Chiedo num giocatori");
@@ -26,7 +26,7 @@ class GraphicalUITest extends TestCase{
 
    // provatest.printShelf(new Tile[10][10]);
     //provatest.printCommonGoal(null);
-    System.out.println(name);*/
+    System.out.println(name);
     provatest.initGame();
     Bag bgtest= new Bag();
     Shelf shelftest= new Shelf(new Player(1, "Pietro"));
@@ -37,8 +37,8 @@ class GraphicalUITest extends TestCase{
     tilestoinsert[3]= new Tile(COLOR.BLUE,1);
     tilestoinsert[4]= new Tile(COLOR.YELLOW,1);
     tilestoinsert[5]= new Tile(COLOR.GREEN,1);
-    shelftest.addTiles(tilestoinsert,3);
-    Dashboard dtest= new Dashboard(4,bgtest);
+    shelftest.addTiles(tilestoinsert,1);
+    Dashboard dtest= new Dashboard(3,bgtest);
    provatest.printDashboard(dtest.getTiles());
     provatest.printShelf(shelftest.getTiles());
     List<CommonGoals> mycg= new ArrayList<>();
@@ -51,6 +51,14 @@ class GraphicalUITest extends TestCase{
     provatest.printCommonGoal(mycg);
     PersonalGoal myPg= new PersonalGoal(3);
     provatest.printPersonalGoal(myPg);
+    System.out.println("chiedo il numero di tiles");
+   System.out.println(provatest.askNumberOfTiles());
+   List<Integer> tileprese= provatest.askTilesToPick(2);
+   for(int i=0; i< tileprese.size(); i++){
+       System.out.println(tileprese.get(i));
+   }
+   System.out.println("Sto chiedendo la colonna");
+   System.out.println(provatest.askColumn());
 while (true){
 
 }
