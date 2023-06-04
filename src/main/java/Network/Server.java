@@ -307,9 +307,9 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                     for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
                         //For generalizzato sulla mappa
                         if (checkSocketWinner(message.getId(), chiave)) {
-                            clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.WINNER));
+                            clientHandlerMap.get(message.getId()).get(chiave).sendMessage(new Message("server", SocketMessages.WINNER));
                         } else {
-                            clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.LOSER));
+                            clientHandlerMap.get(message.getId()).get(chiave).sendMessage(new Message("server", SocketMessages.LOSER));
                         }
 
                     }
