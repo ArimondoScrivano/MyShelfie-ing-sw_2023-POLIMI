@@ -53,14 +53,17 @@ public class GraphicalUI implements View, UI {
     private JInternalFrame personalGoalPane;
     private int flagDoneOnceCG;
     private int flagDoneOncePG;
+    private int flaginitdone;
 
     private JLabel labelStatus;
     private JLabel labelPoint;
     public GraphicalUI(){
         mf=new MainFrame();
+        flaginitdone=0;
     }
 
     public void initGame() {
+        flaginitdone=1;
         flagDoneOnceCG=0;
         flagDoneOncePG=0;
         mf.setLayout(null);
@@ -286,6 +289,10 @@ public class GraphicalUI implements View, UI {
 
 
     public void showMatchInfo(Tile[][] copy, List<CommonGoals> commonGoals, Tile[][] myShelf, PersonalGoal pg) {
+        if(flaginitdone==0){
+            initGame();
+            flaginitdone=1;
+        }
      printDashboard(copy);
      printCommonGoal(commonGoals);
      printShelf(myShelf);
