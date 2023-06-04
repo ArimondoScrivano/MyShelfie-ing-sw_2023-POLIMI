@@ -367,7 +367,7 @@ public class GameController {
         if (!currentGame.getCurrentPlayer().getCommonGoalsCompleted()[0]) {
             int partialSum = currentGame.getCommonGoals().get(0).Checker(currentGame.getCurrentPlayer().getShelf().getTilesShelf());
             if (partialSum > 0) {
-                currentGame.getCurrentPlayer().setPoints(partialSum);
+                currentGame.getCurrentPlayer().setCGPoints(partialSum);
                 currentGame.getCurrentPlayer().setCommonGoalsCompleted(0);
             }
         }
@@ -375,7 +375,7 @@ public class GameController {
         if (!currentGame.getCurrentPlayer().getCommonGoalsCompleted()[1]) {
             int partialSecondSum = currentGame.getCommonGoals().get(1).Checker(currentGame.getCurrentPlayer().getShelf().getTilesShelf());
             if (partialSecondSum > 0) {
-                currentGame.getCurrentPlayer().setPoints(partialSecondSum);
+                currentGame.getCurrentPlayer().setCGPoints(partialSecondSum);
                 currentGame.getCurrentPlayer().setCommonGoalsCompleted(1);
             }
         }

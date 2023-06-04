@@ -17,6 +17,7 @@ public class Player implements Serializable {
     //NUMBER OF POINTS OF EACH PLAYER
     private int PGpoints;
 
+    protected  int CGPoints;
     protected int points;
     //BOOLEAN WHICH IS TRUE WHETHER THE PLAYER'S SHELF IS FULL
     private boolean shelfCompleted;
@@ -157,12 +158,14 @@ public class Player implements Serializable {
 
             }
         }
+        points+=CGPoints;
     }
 
     // set the new score thanks to the Common Goal
     public void setPoints(int points){
         this.points= this.points + points;
 }
+    public void setCGPoints(int points){ this.CGPoints= points;}
 
     public void setCommonGoalsCompleted(int indexCompleted) {
         this.commonGoalsCompleted[indexCompleted]= true;
