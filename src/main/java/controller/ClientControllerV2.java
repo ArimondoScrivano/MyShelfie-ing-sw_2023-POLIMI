@@ -57,7 +57,8 @@ public class ClientControllerV2 {
     }
 
     public void onMessageReceived(Message message){
-        System.out.println("Messaggio ricevuto "+message.getMsg());
+        //For debugging purpose
+        //System.out.println("Messaggio ricevuto "+message.getMsg());
         switch (message.getMsg()){
             case NAME_FAILED -> {
                 System.out.println("Name failed! Retry");

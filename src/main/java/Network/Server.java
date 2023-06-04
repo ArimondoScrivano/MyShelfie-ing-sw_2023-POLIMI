@@ -167,7 +167,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                 checkGameStarting(message);
             }
             case IS_IT_MY_TURN -> {
-                System.out.println("iuser " +message.getName() +" chiede se è il suo turno");
+                System.out.println("User " +message.getName() +" chiede se è il suo turno");
                 if(nameCurrentPlayer(message.getNp()).equals(message.getName())){
                     clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.MY_TURN,
                             Lobby.get(message.getNp()).getDashboardTiles(),
@@ -288,15 +288,15 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
 
     public void setMessage(Message message) {
         LobbyMessage.set(message.getId(), message);
-        //Control print
-        System.out.println("Messaggio settato "+ message.getMessageType());
+        //Control print for debugging purpose
+        //System.out.println("Messaggio settato "+ message.getMessageType());
             if (message.getMessageType().equals(MessageType.GAME_STARTING) && ConnectionClientMap.get(message.getId())!=null) {
                 System.out.println("ciao");
                 Thread clientDisconnectionHandler = new Thread(() -> checkDisconnection(message));
                 clientDisconnectionHandler.start();
             }
             if (clientHandlerMap.get(message.getId()) != null) {
-                if (message.getMessageType().equals(MessageType.GAME_STARTING) || message.getMessageType().equals(MessageType.SOMETHINGCHANGED)) {
+                if (message.getMessageType().equals(MessageType.SOMETHINGCHANGED)) {
 
                     for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
                         //For generalizzato sulla mappa
