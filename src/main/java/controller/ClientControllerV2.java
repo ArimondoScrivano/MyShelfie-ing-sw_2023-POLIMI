@@ -65,6 +65,7 @@ public class ClientControllerV2 {
             case GAME_STARTING -> {
                 System.out.println("Game starting");
                 client.sendMessage(new Message(name, SocketMessages.IS_IT_MY_TURN, idLobby));
+                view.initGame();
             }
 
             case WAITING_FOR_OTHER_PLAYERS -> {
