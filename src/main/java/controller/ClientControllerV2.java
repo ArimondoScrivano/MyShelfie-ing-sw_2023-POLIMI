@@ -19,6 +19,9 @@ public class ClientControllerV2 {
     private String name;
     //Index of the Lobby
     private int idLobby;
+
+    private int flaginitgame;
+
     public int getIdLobby() {
         return idLobby;
     }
@@ -34,6 +37,7 @@ public class ClientControllerV2 {
     public ClientControllerV2(View view, UI cli, String address, int port){
         this.view=view;
         this.cli= cli;
+        this.flaginitgame=0;
         try{
             this.client=new SocketClientV2(address, port, this);
             client.pingMessage(true);
@@ -65,14 +69,29 @@ public class ClientControllerV2 {
             case GAME_STARTING -> {
                 System.out.println("Game starting");
                 client.sendMessage(new Message(name, SocketMessages.IS_IT_MY_TURN, idLobby));
-                view.initGame();
+                if(flaginitgame==0) {
+                    view.initGame();
+                    flaginitgame = 1;
+                }
             }
 
             case WAITING_FOR_OTHER_PLAYERS -> {
                 System.out.println("Waiting for other players");
+                if(flaginitgame==0) {
+                    view.initGame();
+                    flaginitgame = 1;
+                }
+            }
+
+            case WAITING_FOR_YOUR_TURN -> {
+                System.out.println("I'm waiting my turn");
             }
             case CHECK_YOUR_TURN -> {
                 client.sendMessage(new Message(name, SocketMessages.IS_IT_MY_TURN, idLobby));
+                if(flaginitgame==0) {
+                    view.initGame();
+                    flaginitgame = 1;
+                }
             }
             case MY_TURN->{
                 System.out.println(ColorUI.BLUE_TEXT+this.name+" is your turn!"+ColorUI.RESET);

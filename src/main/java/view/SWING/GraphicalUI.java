@@ -287,8 +287,8 @@ public class GraphicalUI implements View, UI {
 
     public void showMatchInfo(Tile[][] copy, List<CommonGoals> commonGoals, Tile[][] myShelf, PersonalGoal pg) {
      printDashboard(copy);
-     printShelf(myShelf);
      printCommonGoal(commonGoals);
+     printShelf(myShelf);
      printPersonalGoal(pg);
 
     }
