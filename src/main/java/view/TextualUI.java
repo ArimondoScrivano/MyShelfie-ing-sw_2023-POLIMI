@@ -1,16 +1,17 @@
 package view;
 
 import Network.GameChat.GameMessage;
-import model.*;
+import model.COLOR;
+import model.PersonalGoal;
+import model.Tile;
 import model.cgoal.CommonGoals;
 
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.List;
-import java.util.Observable;
 import java.util.Scanner;
 
-public class TextualUI extends Observable implements View {
+public class TextualUI  implements View {
 
     //Output stream
     private final PrintStream out;
@@ -21,6 +22,14 @@ public class TextualUI extends Observable implements View {
         out = System.out;
     }
 
+    public void initGame(){}
+
+    @Override
+    public void endGame(String esito) {
+        System.out.println(esito);
+    }
+
+    ;
     //Initialize the game
     public void init(){
         clearUI();

@@ -1,19 +1,23 @@
 package view.SWING;
 
 
+import Network.GameChat.GameMessage;
 import model.COLOR;
 import model.PersonalGoal;
 import model.Tile;
 import model.cgoal.CommonGoals;
 import view.SWING.Frames.MainFrame;
 import view.SWING.Panels.*;
+import view.UI;
+import view.View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Observable;
 
-public class GraphicalUI extends Observable {
+public class GraphicalUI implements View, UI {
 
     // ATTRIBUTI
     private MainFrame mf;
@@ -256,7 +260,32 @@ public class GraphicalUI extends Observable {
         textFrame.setVisible(true);
     }
 
-        public void  showmMatchInfo(Tile[][] copy, List<CommonGoals> commonGoals, Tile[][] myShelf, PersonalGoal pg) {
+    public void endGame(String esito) {
+        this.labelStatus.setText("L'esito della partita è " + esito);
+        JFrame frame = new JFrame("End Game");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("L'esito della partita è " + esito);
+        panel.add(label);
+
+        JButton closeButton = new JButton("Chiudi");
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                mf.dispose();
+            }
+        });
+        panel.add(closeButton);
+
+        frame.getContentPane().add(panel);
+        frame.setVisible(true);
+    }
+
+
+    public void showMatchInfo(Tile[][] copy, List<CommonGoals> commonGoals, Tile[][] myShelf, PersonalGoal pg) {
      printDashboard(copy);
      printShelf(myShelf);
      printCommonGoal(commonGoals);
@@ -266,9 +295,9 @@ public class GraphicalUI extends Observable {
 
 
 
-    public void printPersonalGoal(PersonalGoal pg){
+    public void printPersonalGoal(PersonalGoal pg) {
         // Carica l'immagine di sfondo per il nuovo JInternalFrame
-        if(flagDoneOncePG==0) {
+        if (flagDoneOncePG == 0) {
             Image additionalImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/personal goal cards/old/" + pg.getId() + ".jpg"); // Inserisci il percorso corretto dell'immagine
             additionalImage = additionalImage.getScaledInstance(300, 255, Image.SCALE_SMOOTH);
             ImagePanel additionalImagePanel = new ImagePanel(additionalImage);
@@ -278,11 +307,21 @@ public class GraphicalUI extends Observable {
             this.personalGoalPane.setContentPane(personalGoalpanel); // Imposta direttamente il pannello dell'immagine come content pane
             this.personalGoalPane.setVisible(true);
             mf.setVisible(true);
-            flagDoneOncePG=1;
+            flagDoneOncePG = 1;
         }
 
     }
 
+
+    @Override
+    public void shownewMex() {
+
+    }
+
+    @Override
+    public void showGameChat(List<GameMessage> listToDisplay) {
+
+    }
 
     public void printDashboard(Tile[][] copy) {
         int variety;
@@ -371,6 +410,11 @@ public class GraphicalUI extends Observable {
                 mf.setVisible(true);
 
 
+
+    }
+
+    @Override
+    public void init() {
 
     }
 

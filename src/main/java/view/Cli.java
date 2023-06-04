@@ -9,7 +9,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class Cli{
+public class Cli implements UI{
     //Output stream
     private final PrintStream out;
     //Input stream
@@ -39,13 +39,34 @@ public class Cli{
         }
     }
 
+    public int askGUI() {
+        out.println("Choose the interface that you prefer");
+        out.println("1 for GUI and 2 for TUI");
+        int i = 0;
+        while(true){
+            try{
+                i=in.nextInt();
+                while(i<1 || i>2){
+                    out.print(ColorUI.RED_TEXT+"You must choose a number between 1 and 2! Retry "+ColorUI.RESET);
+                    i=in.nextInt();
+                }
+            }catch(InputMismatchException e){
+                System.err.println("You must choose a number");
+
+            }
+            return i;
+        }
+    }
+
     //Asking the nickname
     public String askNickname() {
         out.print("Choose your nickname: ");
-        //Checking if the name is not the same as other players in game
-        return in.nextLine();
+        String input = in.nextLine();
+        while (input.trim().isEmpty()) {
+            input= in.nextLine();
+        }
+        return input;
     }
-
     public boolean askNewGame(){
         out.println("Do you want to create a new game?[Y/N]");
         String read=in.nextLine();

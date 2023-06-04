@@ -16,4 +16,9 @@ public interface View {
     public void printPersonalGoal(PersonalGoal pg);
     void printCommonGoal(List<CommonGoals> commonGoals);
     public void printShelf(Tile[][] myShelf);
+
+    public void init();
+    public void initGame();
+    public void endGame(String esito);
+
 }

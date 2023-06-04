@@ -217,4 +217,13 @@ public void sumUpPoints(){
         return this.myShelf.getTilesShelf();
     }
 
+    public void removeCGPoints(){
+        this.points-= this.CGPoints;
+    }
+
+    public int getCGpoints(){
+        return this.CGPoints;
+    }
+
+
 }

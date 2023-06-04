@@ -1,16 +1,13 @@
 package controller;
 
-import Network.RMI.Server_RMI;
 import Network.Server;
 import Network.messages.Message;
 import Network.messages.MessageType;
-import model.Dashboard;
-import model.Game;
-import model.Shelf;
 import model.*;
 import model.cgoal.CommonGoals;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -367,7 +364,9 @@ public class GameController {
         if (!currentGame.getCurrentPlayer().getCommonGoalsCompleted()[0]) {
             int partialSum = currentGame.getCommonGoals().get(0).Checker(currentGame.getCurrentPlayer().getShelf().getTilesShelf());
             if (partialSum > 0) {
+                currentGame.getCurrentPlayer().removeCGPoints();
                 currentGame.getCurrentPlayer().setCGPoints(partialSum);
+                currentGame.getCurrentPlayer().setPoints(currentGame.getCurrentPlayer().getCGpoints());
                 currentGame.getCurrentPlayer().setCommonGoalsCompleted(0);
             }
         }
@@ -375,7 +374,9 @@ public class GameController {
         if (!currentGame.getCurrentPlayer().getCommonGoalsCompleted()[1]) {
             int partialSecondSum = currentGame.getCommonGoals().get(1).Checker(currentGame.getCurrentPlayer().getShelf().getTilesShelf());
             if (partialSecondSum > 0) {
+                currentGame.getCurrentPlayer().removeCGPoints();
                 currentGame.getCurrentPlayer().setCGPoints(partialSecondSum);
+                currentGame.getCurrentPlayer().setPoints(currentGame.getCurrentPlayer().getCGpoints());
                 currentGame.getCurrentPlayer().setCommonGoalsCompleted(1);
             }
         }
