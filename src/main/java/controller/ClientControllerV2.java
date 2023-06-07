@@ -28,6 +28,7 @@ public class ClientControllerV2 {
     public void setIdLobby(int idLobby) {
         this.idLobby = idLobby;
     }
+
     public String getName() {
         return name;
     }

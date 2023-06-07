@@ -95,6 +95,7 @@ public class GraphicalUI implements View, UI {
             for (int j = 0; j < 9; j++) {
                 JButton button = new JButton();
                 button.setOpaque(false);
+                button.setEnabled(false);
                 button.setContentAreaFilled(false);
                 button.setBorderPainted(true); // Imposta il bordo dei bottoni visibile
                 dashboardButtonPanel.add(button);
@@ -139,6 +140,7 @@ public class GraphicalUI implements View, UI {
             for (int i = 0; i < 5; i++) {
                 JButton button = new JButton();
                 button.setOpaque(false);
+                button.setEnabled(false);
                 button.setContentAreaFilled(false);
                 button.setBorderPainted(true);
                 button.setPreferredSize(new Dimension(46, 46)); // Imposta la dimensione personalizzata per i bottoni
@@ -177,8 +179,8 @@ public class GraphicalUI implements View, UI {
         imagePanelCG.setOpaque(false);
 
 // Carica le immagini
-        Image image1 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/5.jpg");
-        Image image2 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/5.jpg");
+        Image image1 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/back.jpg");
+        Image image2 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/back.jpg");
 
 // Ridimensiona le immagini alle dimensioni desiderate
         int imageWidth = 300; // Larghezza desiderata dell'immagine
@@ -216,7 +218,7 @@ public class GraphicalUI implements View, UI {
         additionalFrame.setResizable(false);
 
 // Carica l'immagine di sfondo per il nuovo JInternalFrame
-        Image additionalImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/personal goal cards/old/7.jpg"); // Inserisci il percorso corretto dell'immagine
+        Image additionalImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/personal goal cards/old/back.jpg"); // Inserisci il percorso corretto dell'immagine
         additionalImage= additionalImage.getScaledInstance(300, 255, Image.SCALE_SMOOTH);
         ImagePanel additionalImagePanel = new ImagePanel(additionalImage);
         this.personalGoalpanel= additionalImagePanel;
@@ -238,8 +240,8 @@ public class GraphicalUI implements View, UI {
         textFrame.setResizable(false);
 
 // Crea le JLabel per visualizzare del testo
-        JLabel labelStatus = new JLabel("Status:");
-        JLabel labelPoint = new JLabel("Points:");
+        JLabel labelStatus = new JLabel("LOADING");
+        JLabel labelPoint = new JLabel("LOADING");
     this.labelStatus= labelStatus;
     this.labelPoint= labelPoint;
 // Imposta la posizione e le dimensioni delle JLabel
@@ -682,6 +684,7 @@ public class GraphicalUI implements View, UI {
             }
 
         }
+        this.labelStatus.setText("ASPETTA IL TUO TURNO");
         return shelfListener.getButtonPosition();
     }
 

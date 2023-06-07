@@ -1,14 +1,7 @@
 package view.SWING;
 
 import junit.framework.TestCase;
-import model.*;
-import model.cgoal.CommonGoals;
-import model.cgoal.threeDisegualColumnsCommonGoals;
-import model.cgoal.twoRowsAllDifferentCommonGoals;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 class GraphicalUITest extends TestCase{
 
@@ -28,7 +21,7 @@ class GraphicalUITest extends TestCase{
     //provatest.printCommonGoal(null);
     System.out.println(name);
     provatest.initGame();
-    Bag bgtest= new Bag();
+    /*Bag bgtest= new Bag();
     Shelf shelftest= new Shelf(new Player(1, "Pietro"));
     Tile[] tilestoinsert= new Tile[6];
     tilestoinsert[0]= new Tile(COLOR.WHITE,1);
@@ -58,7 +51,7 @@ class GraphicalUITest extends TestCase{
        System.out.println(tileprese.get(i));
    }
    System.out.println("Sto chiedendo la colonna");
-   System.out.println(provatest.askColumn());
+   System.out.println(provatest.askColumn());*/
 while (true){
 
 }
