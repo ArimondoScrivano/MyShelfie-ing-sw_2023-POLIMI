@@ -1,7 +1,13 @@
 package view.SWING;
 
 import junit.framework.TestCase;
+import model.cgoal.CommonGoals;
+import model.cgoal.threeDisegualColumnsCommonGoals;
+import model.cgoal.twoRowsAllDifferentCommonGoals;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class GraphicalUITest extends TestCase{
 
@@ -34,15 +40,17 @@ class GraphicalUITest extends TestCase{
     Dashboard dtest= new Dashboard(3,bgtest);
    provatest.printDashboard(dtest.getTiles());
     provatest.printShelf(shelftest.getTiles());
-    List<CommonGoals> mycg= new ArrayList<>();
+   */ List<CommonGoals> mycg= new ArrayList<>();
     List<Integer> cgPoints= new ArrayList<>();
-    cgPoints.add(12);
+    cgPoints.add(8);
     twoRowsAllDifferentCommonGoals cg1= new twoRowsAllDifferentCommonGoals(cgPoints);
     threeDisegualColumnsCommonGoals cg2= new threeDisegualColumnsCommonGoals(cgPoints);
     mycg.add(cg1);
     mycg.add(cg2);
     provatest.printCommonGoal(mycg);
-    PersonalGoal myPg= new PersonalGoal(3);
+    cgPoints.set(0,4);
+    provatest.printCommonGoal(mycg);
+  /*  PersonalGoal myPg= new PersonalGoal(3);
     provatest.printPersonalGoal(myPg);
     System.out.println("chiedo il numero di tiles");
    System.out.println(provatest.askNumberOfTiles());

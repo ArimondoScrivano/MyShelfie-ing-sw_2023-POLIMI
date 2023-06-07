@@ -42,6 +42,8 @@ public class GraphicalUI implements View, UI {
 
     //second label for Common goals
     private JLabel CGL2;
+    private JLabel scoringToken1;
+    private JLabel scoringToken2;
 
     //panel in cui sono contenuti i Common Goals
     private JPanel CGpanel;
@@ -167,7 +169,6 @@ public class GraphicalUI implements View, UI {
 
         mf.getContentPane().add(secondInternalFrame);
         mf.setVisible(true);
-
 // COMMONGOALS
         JInternalFrame imageFrame = new JInternalFrame("COMMON GOAL", false, false, false, false);
         imageFrame.setSize(600, 280);
@@ -180,26 +181,37 @@ public class GraphicalUI implements View, UI {
 
 // Carica le immagini
         Image image1 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/back.jpg");
-        Image image2 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/back.jpg");
+        Image image2 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/scoring tokens/scoring_back_example.jpg");
+        Image image3 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/back.jpg");
+        Image image4 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/scoring tokens/scoring_back_example.jpg");
 
 // Ridimensiona le immagini alle dimensioni desiderate
-        int imageWidth = 300; // Larghezza desiderata dell'immagine
+        int imageWidth = 150; // Larghezza desiderata dell'immagine
         int imageHeight = 255; // Altezza desiderata dell'immagine
         Image scaledImage1 = image1.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
         Image scaledImage2 = image2.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+        Image scaledImage3 = image3.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+        Image scaledImage4 = image4.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
 
 // Crea i componenti per le immagini
         JLabel label1 = new JLabel(new ImageIcon(scaledImage1));
         JLabel label2 = new JLabel(new ImageIcon(scaledImage2));
-        this.CGL1= label1;
-        this.CGL2= label2;
-// Aggiungi spaziatura tra le immagini
-        imagePanelCG.add(Box.createHorizontalGlue()); // Spazio a sinistra
+        JLabel label3 = new JLabel(new ImageIcon(scaledImage3));
+        JLabel label4 = new JLabel(new ImageIcon(scaledImage4));
+
+// Aggiungi le immagini al pannello
         imagePanelCG.add(label1);
-        imagePanelCG.add(Box.createRigidArea(new Dimension(10, 0))); // Spazio tra le immagini
         imagePanelCG.add(label2);
-        imagePanelCG.add(Box.createHorizontalGlue()); // Spazio a destra
-        this.CGpanel= imagePanelCG;
+        imagePanelCG.add(label3);
+        imagePanelCG.add(label4);
+
+        this.CGL1 = label1;
+        this.CGL2 = label3;
+        this.scoringToken1= label2;
+        this.scoringToken2= label4;
+
+        this.CGpanel = imagePanelCG;
+
 // Aggiungi il pannello delle immagini al content pane del JInternalFrame
         imageFrame.getContentPane().add(imagePanelCG, BorderLayout.SOUTH);
 
@@ -210,6 +222,7 @@ public class GraphicalUI implements View, UI {
 
         mf.getContentPane().add(imageFrame);
         imageFrame.setVisible(true);
+
 
         // Nuovo JInternalFrame gestione PERSONAL GOAL
         JInternalFrame additionalFrame = new JInternalFrame("PERSONAL GOAL", false, false, false, false);
@@ -428,34 +441,39 @@ public class GraphicalUI implements View, UI {
     }
 
     public void printCommonGoal(List<CommonGoals> commonGoals) {
-        if (flagDoneOnceCG==0) {
             // Carica le immagini
             Image image1 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/" + commonGoals.get(0).getId() + ".jpg");
-            Image image2 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/" + commonGoals.get(1).getId() + ".jpg");
-
+            Image image3 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/" + commonGoals.get(1).getId() + ".jpg");
+            Image image2= Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/scoring tokens/scoring_" +commonGoals.get(0).getCurrent_point() +".jpg");
+            Image image4= Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/scoring tokens/scoring_" +commonGoals.get(1).getCurrent_point() +".jpg");
 // Ridimensiona le immagini alle dimensioni desiderate
-            int imageWidth = 300; // Larghezza desiderata dell'immagine
+            int imageWidth = 150; // Larghezza desiderata dell'immagine
             int imageHeight = 255; // Altezza desiderata dell'immagine
             Image scaledImage1 = image1.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
             Image scaledImage2 = image2.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+            Image scaledImage3 = image3.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+            Image scaledImage4 = image4.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
 
 // Crea i componenti per le immagini
             JLabel label1 = new JLabel(new ImageIcon(scaledImage1));
             JLabel label2 = new JLabel(new ImageIcon(scaledImage2));
+            JLabel label3 = new JLabel(new ImageIcon(scaledImage3));
+            JLabel label4 = new JLabel(new ImageIcon(scaledImage4));
+
             this.CGpanel.remove(this.CGL1);
             this.CGpanel.remove(this.CGL2);
+            this.CGpanel.remove(this.scoringToken1);
+            this.CGpanel.remove(this.scoringToken2);
             this.CGL1=label1;
-            this.CGL2=label2;
-            this.CGpanel.add(Box.createHorizontalGlue()); // Spazio a sinistra
-            this.CGpanel.add(label1);
-            this.CGpanel.add(Box.createRigidArea(new Dimension(10, 0))); // Spazio tra le immagini
-            this.CGpanel.add(label2);
-            this.CGpanel.add(Box.createHorizontalGlue()); // Spazio a destra
+            this.CGL2=label3;
+            this.scoringToken1=label2;
+            this.scoringToken2=label4;
+            this.CGpanel.add(CGL1);
+            this.CGpanel.add(scoringToken1);
+            this.CGpanel.add(CGL2);
+            this.CGpanel.add(scoringToken2);
             this.CGpanel.setVisible(true);
             mf.setVisible(true);
-
-        flagDoneOnceCG=1;
-        }
     }
 
     public void displayPoints(int myPoint, int myPGpoints) {
