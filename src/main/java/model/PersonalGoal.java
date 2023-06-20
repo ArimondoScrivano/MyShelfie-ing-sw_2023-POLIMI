@@ -1,5 +1,9 @@
 package model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Serializable;
@@ -7,8 +11,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
 
 public class PersonalGoal implements Serializable {
     private int id;
@@ -17,6 +19,12 @@ public class PersonalGoal implements Serializable {
     private List<Integer> points;
 
     //METHOD TO RETURN GOAL POINTS
+
+    /**
+     * Constructs a new PersonalGoal object with the specified ID.
+     *
+     * @param id the ID of the personal goal
+     */
     public PersonalGoal(int id) {
         //Initializing the layout
         this.id = id;
@@ -52,16 +60,32 @@ public class PersonalGoal implements Serializable {
         this.points = Arrays.asList(1, 2, 4, 6, 9, 12);
     }
 
+    /**
+     * Returns the ID of the personal goal.
+     *
+     * @return the ID of the personal goal
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Returns the layout of the personal goal.
+     *
+     * @return the layout of the personal goal
+     */
     public Tile[][] getLayout() {
         return layout;
     }
 
+    /**
+     * Returns the points associated with the specified index in the personal goal.
+     *
+     * @param i the index of the points to retrieve
+     * @return the points associated with the specified index
+     */
     public int getPoints(int i) {
-       return this.points.get(i);
+        return this.points.get(i);
     }
 
 }

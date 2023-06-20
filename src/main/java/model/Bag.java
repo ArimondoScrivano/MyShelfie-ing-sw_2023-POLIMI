@@ -8,7 +8,11 @@ public class Bag {
     //it identifies if the bag is open (1) or not (0)
     private boolean state;
 
-
+    /**
+     * Constructs a new Bag object.
+     * Initializes the tilesInGame HashMap with tiles representing different colors and numbers.
+     * The tiles are assigned to their corresponding color categories and inserted into the HashMap.
+     */
     public Bag(){
         tilesInGame= new HashMap<>();
        for(int i=1; i< 133; i++) {
@@ -50,7 +54,13 @@ public class Bag {
     }
 
     //Check if the bag is empty for a future refill, true if it's empty
-
+    /**
+     * Checks if the bag is empty and needs to be refilled based on the number of players and the remaining tiles.
+     *
+     * @param np          the number of players
+     * @param remainTiles the number of remaining tiles
+     * @return true if the bag is empty and needs to be refilled, false otherwise
+     */
     public boolean checkEmpty(int np, int remainTiles){
         int tilesToRefill;
         if (np==2){
@@ -71,6 +81,11 @@ public class Bag {
         }
     }
 
+    /**
+     * Updates the bag by removing the specified list of tiles from the game and inserting blank tiles in their place.
+     *
+     * @param tilesRemoved the list of tiles to be removed from the game
+     */
     public void updateBag(List<Tile> tilesRemoved ){
 
         for (int i=0; i< tilesRemoved.size(); i++){
@@ -82,16 +97,30 @@ public class Bag {
         }
      }
 
+
+    /**
+     * Sets the state of the game.
+     *
+     * @param state The new state of the game.
+     */
     public void setState(boolean state) {
         this.state = state;
     }
 
-
+    /**
+     * Retrieves the current state of the game.
+     *
+     * @return The current state of the game.
+     */
     public boolean getState(){
         return  this.state;
     }
 
-
+    /**
+     * Retrieves a random tile from the game board.
+     *
+     * @return A random tile from the game board.
+     */
     public Tile getRandomTile(){
         Random rand= new Random();
         int id;
@@ -109,7 +138,11 @@ public class Bag {
         return tileGiven;
 
     }
-
+    /**
+     * Retrieves a map of tiles currently in the game.
+     *
+     * @return A map of tiles currently in the game.
+     */
     public Map<Integer,Tile> getTilesInGame(){
         return this.tilesInGame;
     }

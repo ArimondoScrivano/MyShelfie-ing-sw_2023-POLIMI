@@ -19,6 +19,15 @@ public class Game implements Serializable {
     //Token for the first player to complete the shelf
     private boolean endGame;
 
+
+    /**
+     * Constructs a new Game instance with the specified parameters.
+     *
+     * @param id              the number of the game.
+     * @param dashboard       the reference to the dashboard.
+     * @param pl              the list of players.
+     * @param numberOfPlayers the number of players in the game.
+     */
     public Game(int id, Dashboard dashboard, List<Player> pl, int numberOfPlayers){
         //Setting the number of the game
         this.id=id;
@@ -53,40 +62,89 @@ public class Game implements Serializable {
         this.endGame=false;
     }
 
+
+    /**
+     * Updates the dashboard by setting the specified tiles at the given coordinates to BLANK.
+     *
+     * @param xCord the list of x-coordinates of the tiles to be updated.
+     * @param yCord the list of y-coordinates of the tiles to be updated.
+     * @throws Exception if there is an error during the update process or if the dashboard needs to be refilled.
+     */
     public void updateDashboard(List<Integer> xCord,List<Integer> yCord ) throws Exception{
             getDashboard().updateDashboard(xCord, yCord);
     }
 
+
+    /**
+     * Adds the specified tiles to the given shelf at the specified column.
+     *
+     * @param shelfToModify the shelf to modify.
+     * @param tilesPicked   the tiles to be added to the shelf.
+     * @param column        the column at which the tiles should be added.
+     */
     public void addTiles(Shelf shelfToModify, Tile[] tilesPicked, int column){
         shelfToModify.addTiles(tilesPicked,column);
     }
 
-
+    /**
+     * Returns the dashboard object associated with the game.
+     *
+     * @return the dashboard object.
+     */
     public Dashboard getDashboard() {
         return this.dashboard;
     }
-    public Tile[][] getDashboardMatrix(){
+
+    /**
+     * Returns the matrix representation of the dashboard.
+     *
+     * @return the matrix representation of the dashboard.
+     */
+    public Tile[][] getDashboardMatrix() {
         return dashboard.getTiles();
     }
-    public List<Player> getPlayers(){
-        return players ;
+
+    /**
+     * Returns the list of players participating in the game.
+     *
+     * @return the list of players.
+     */
+    public List<Player> getPlayers() {
+        return players;
     }
 
+    /**
+     * Returns the current player in the game.
+     *
+     * @return the current player.
+     */
     public Player getCurrentPlayer() {
         return this.currentPlayer;
     }
 
-    //Setting the new currentPlayer at the "next iteration" of the match
-    public void setCurrentPlayer(Player pl){
-            this.currentPlayer=pl;
+    /**
+     * Sets the current player in the game.
+     *
+     * @param pl the player to set as the current player.
+     */
+    public void setCurrentPlayer(Player pl) {
+        this.currentPlayer = pl;
     }
 
-    //Return the commonGoals array
+    /**
+     * Returns the list of common goals in the game.
+     *
+     * @return the list of common goals.
+     */
     public List<CommonGoals> getCommonGoals() {
         return this.commonGoals;
     }
-
     //Setting the common Goals for the game
+    /**
+     * Sets the common goals for the game.
+     * Two random common goals are selected from the available options and assigned to the game.
+     * The common goals determine the objectives that players aim to achieve during the game.
+     */
     public void setCommonGoals(){
         //Two random numbers to get the 2 id of the common_goals of the game
         Random rand=new Random();
@@ -123,15 +181,20 @@ public class Game implements Serializable {
         this.commonGoals.add(1, temporaryCommonGoals.get(id_2));
     }
 
-
-    //Get method for the endGame
-    public boolean getEndGame(){
+    /**
+     * Retrieves the status of the end game flag.
+     *
+     * @return true if the game has ended, false otherwise.
+     */
+    public boolean getEndGame() {
         return endGame;
     }
 
-    public void setEndGameTrue(){
-        this.endGame= true;
+    /**
+     * Sets the end game flag to true.
+     * This indicates that the game has ended.
+     */
+    public void setEndGameTrue() {
+        this.endGame = true;
     }
-
-
 }

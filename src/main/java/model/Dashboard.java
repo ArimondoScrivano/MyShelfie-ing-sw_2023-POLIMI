@@ -17,6 +17,12 @@ public class Dashboard {
 
 
     // CONSTRUCTOR (takes as parameters number of players and tile's bag)
+    /**
+     * Constructs a dashboard with the specified number of players and a bag of tiles.
+     *
+     * @param np         The number of players.
+     * @param bagInGame  The bag of tiles for the game.
+     */
     public Dashboard(int np, Bag bagInGame) {
         this.bagInGame= bagInGame;
         np -= 1;
@@ -57,11 +63,21 @@ public class Dashboard {
 
 
     //Method that returns tiles matrix's reference
+    /**
+     * Retrieves the matrix of tiles in the dashboard.
+     *
+     * @return The matrix of tiles in the dashboard.
+     */
     public Tile[][] getTiles() {
         return this.tiles;
     }
 
     //This method returns a copy of tiles matrix.
+    /**
+     * Retrieves a copy of the matrix of tiles in the dashboard.
+     *
+     * @return A copy of the matrix of tiles in the dashboard.
+     */
     public Tile[][] getTilesCopy() {
         Tile[][] tilesCopy = new Tile[11][11];
         for (int r = 0; r < 11; r++){
@@ -72,20 +88,39 @@ public class Dashboard {
         return tilesCopy;
     }
 
+    /**
+     * Retrieves the refillable matrix representing the tile types in the dashboard.
+     *
+     * @return The refillable matrix representing the tile types in the dashboard.
+     */
     public TILETYPE[][] getRefillable() {
         return this.refillable;
     }
 
+    /**
+     * Retrieves the number of players in the game.
+     *
+     * @return The number of players in the game.
+     */
     public int getPlayers() {
         return this.players;
     }
 
+    /**
+     * Checks if the dashboard requires refill.
+     *
+     * @return {@code true} if the dashboard requires refill, {@code false} otherwise.
+     */
     public boolean getRefill() {
         return this.refill;
     }
 
 
-
+    /**
+     * Sets the refill status of the dashboard.
+     *
+     * @throws Exception if an error occurs during the refill process.
+     */
     public void setRefill() throws Exception{
         int flag = 0;
 
@@ -116,7 +151,11 @@ public class Dashboard {
     }
 
 
-
+    /**
+     * Refills the dashboard with new tiles if certain conditions are met.
+     *
+     * @throws Exception if there is an error during the refill process or if there are not enough tiles in the bag.
+     */
     public void refillDashboard() throws Exception {
         int countTiles=0;
         for(int row=1; row<11; row++){
@@ -146,7 +185,13 @@ public class Dashboard {
         }
     }
 
-
+    /**
+     * Updates the dashboard by setting specified tiles at the given coordinates to BLANK.
+     *
+     * @param yCoord the list of y-coordinates of the tiles to be updated.
+     * @param xCoord the list of x-coordinates of the tiles to be updated.
+     * @throws Exception if there is an error during the update process or if the dashboard needs to be refilled.
+     */
     public void updateDashboard(List<Integer> yCoord, List<Integer> xCoord) throws Exception{
 
         for (int index = 0; index < yCoord.size(); index++) {
