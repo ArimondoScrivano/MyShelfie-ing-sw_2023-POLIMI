@@ -2,11 +2,11 @@ package Network.SOCKET;
 
 import Network.Server;
 import Network.messages.Message;
-import Network.messages.MessageType;
 import Network.messages.SocketMessages;
-import view.Cli;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class SocketClientHandler implements Runnable{
@@ -23,6 +23,12 @@ public class SocketClientHandler implements Runnable{
 
     //newConstructor
     //.________________________________.//
+    /**
+     * Constructs a new instance of SocketClientHandler.
+     *
+     * @param server The server instance to which the client handler belongs.
+     * @param client The socket representing the client connection.
+     */
     public SocketClientHandler(Server server, Socket client) {
         this.socketServer = server;
         this.client = client;
@@ -40,6 +46,12 @@ public class SocketClientHandler implements Runnable{
         }
     }
     //.------------------------------------------.//
+
+    /**
+     * Executes the main logic of the SocketClientHandler in a separate thread.
+     * This method is automatically invoked when the thread is started.
+     * It establishes a connection with the client and handles any exceptions that may occur during the process.
+     */
     @Override
     public void run() {
         try {
@@ -49,10 +61,22 @@ public class SocketClientHandler implements Runnable{
         }
     }
 
+    /**
+     * Checks if the client is currently connected to the server.
+     *
+     * @return true if the client is connected, false otherwise.
+     */
     public boolean isConnected() {
         return connected;
     }
 
+
+    /**
+     * Establishes the connection with the client and handles incoming messages.
+     * This method runs in a loop until the current thread is interrupted or the connection is closed.
+     *
+     * @throws IOException if an I/O error occurs while reading from the client.
+     */
     public void connect() throws IOException{
         try {
             while (!Thread.currentThread().isInterrupted()) {
@@ -81,6 +105,13 @@ public class SocketClientHandler implements Runnable{
         client.close();
     }
 
+
+    /**
+     * Disconnects the client from the server.
+     * If the client is currently connected, it closes the client socket, interrupts the current thread,
+     * and notifies the server of the disconnection.
+     * This method does nothing if the client is already disconnected.
+     */
     public void disconnect() {
         if (connected) {
             try {
@@ -97,6 +128,12 @@ public class SocketClientHandler implements Runnable{
         }
     }
 
+
+    /**
+     * Sends a message to the connected client.
+     *
+     * @param message The message to be sent.
+     */
     public void sendMessage(Message message) {
         try {
             synchronized (outputLock) {

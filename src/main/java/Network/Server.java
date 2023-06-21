@@ -34,6 +34,13 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
 
     private Map<Integer, List<ClientCallback>> ConnectionClientMap;
 
+
+    /**
+     * Constructs a new instance of the Server class.
+     *
+     * @param defaultPort The default port number to be used for the server.
+     * @throws RemoteException If there is an error in the remote method invocation.
+     */
     public Server(int defaultPort) throws RemoteException {
         super();
         this.defaultPort=defaultPort;
@@ -45,6 +52,13 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         this.ConnectionClientMap= Collections.synchronizedMap(new HashMap<>());
     }
 
+    /**
+     * Starts the server and listens for incoming client connections.
+     * The server socket is created using the default port specified during server initialization.
+     * For each accepted client connection, a new SocketClientHandler is created and started in a separate thread.
+     * The method continues to listen for incoming connections until the current thread is interrupted.
+     * If an IOException occurs while accepting a client connection, the exception is printed.
+     */
     @Override
     public void run() {
 
@@ -71,6 +85,20 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         }
     }
 
+
+    /**
+     * Creates a lobby with the specified number of players and creator's name.
+     * If there are any previous inactive lobbies, they are replaced by the new lobby.
+     * The lobby is added to the Lobby list, and a corresponding lobby-created message is added to the LobbyMessage list.
+     * The GameController is initialized with the number of players, server reference, and creator's name.
+     * The client handler for the lobby creator is added to the clientHandlerMap.
+     *
+     * @param numPlayers      The number of players for the lobby.
+     * @param creatorLobby    The name of the lobby creator.
+     * @param message         The original message that triggered the lobby creation.
+     * @param clientHandler   The client handler associated with the lobby creator.
+     * @return The index of the created lobby in the Lobby list.
+     */
     public int createLobby(int numPlayers, String creatorLobby, Message message, SocketClientHandler clientHandler){
         System.out.println("Creating a lobby");
         GameController controller = new GameController(numPlayers, this, creatorLobby);
@@ -93,6 +121,19 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         return Lobby.indexOf(controller);
     }
 
+
+    /**
+     * Joins a lobby with the specified player name.
+     * If there is an available lobby that is not full, the player is added to that lobby.
+     * If no available lobby is found, a new 2-player lobby is created.
+     * The player is added to the lobby and a corresponding lobby-created message is added to the LobbyMessage list.
+     * The GameController is initialized with the server reference.
+     * The client handler for the player is added to the clientHandlerMap.
+     *
+     * @param message       The message containing the player name.
+     * @param clientHandler The client handler associated with the player.
+     * @return The index of the joined lobby in the Lobby list.
+     */
     public int joinLobby(Message message, SocketClientHandler clientHandler){
 
         for (int i = 0; i < Lobby.size(); i++) {
@@ -127,6 +168,14 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         return Lobby.indexOf(controller);
     }
 
+    /**
+     * Adds a player to the specified lobby with the given name and client handler.
+     *
+     * @param name          The name of the player to be added.
+     * @param clientHandler The client handler associated with the player.
+     * @param index         The index of the lobby where the player will be added.
+     * @param mult          Indicates whether the player needs to be added to the match (0) or not (1).
+     */
     public void addPlayer(String name, SocketClientHandler clientHandler, int index, int mult){
         // mult= 0 ----->>>>> The Player needs to be Added to the Match
         // mult= 1 ----->>>>> The Player DOES NOT need to be Added to the Match
@@ -160,6 +209,12 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     }
 
     //Messages for game flow management
+    /**
+     * Handles the received message and performs corresponding actions based on the message type.
+     *
+     * @param message The message received.
+     * @throws RemoteException If a remote communication error occurs.
+     */
     public void onMessageReceived(Message message) throws RemoteException{
         System.out.println("Message received");
         switch(message.getMsg()){
@@ -214,11 +269,23 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
             }
         }
     }
-
+    /**
+     * Retrieves the name of the current player in the specified lobby.
+     *
+     * @param index The index of the lobby.
+     * @return The name of the current player.
+     */
     public String nameCurrentPlayer( int index) {
         return Lobby.get(index).playerTurn().getName();
     }
 
+
+    /**
+     * Handles the disconnection of a client from the specified lobby.
+     *
+     * @param clientHandler The client handler associated with the disconnected client.
+     * @param index The index of the lobby.
+     */
     public void onDisconnect(SocketClientHandler clientHandler, int index){
         synchronized (lock){
             for(String chiave : clientHandlerMap.get(index).keySet()){
@@ -228,6 +295,13 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
             LobbyMessage.set(index, new Message(index, MessageType.DISCONNECT));
         }
     }
+
+    /**
+     * Checks if the game in the specified lobby is starting or waiting for more players.
+     * Sends corresponding messages to the clients.
+     *
+     * @param message The message indicating the lobby index.
+     */
     public void checkGameStarting(Message message){
         if (Lobby.get(message.getNp()).isFull()){
 
@@ -264,6 +338,13 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         Lobby.get(LobbyReference).insertTiles(xCoord,yCoord,column);
     }
 
+    /**
+     * Checks if the specified player in the lobby is the winner.
+     *
+     * @param index The index of the lobby.
+     * @param name The name of the player.
+     * @return {@code true} if the player is the winner, {@code false} otherwise.
+     */
     public boolean checkSocketWinner(int index, String name) {
         if(Lobby.get(index).checkWinner().getName().equals(name)){
             return true;
@@ -271,6 +352,12 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         return false;
     }
 
+
+    /**
+     * Checks the connection status of clients in the specified lobby and handles disconnections.
+     *
+     * @param message The message containing the lobby ID.
+     */
     public void checkDisconnection(Message message){
         int numLobby = message.getId();
         while (!Thread.currentThread().isInterrupted()) {
@@ -285,7 +372,11 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         }
     }
 
-
+    /**
+     * Sets the specified message in the LobbyMessage list and performs corresponding actions based on the message type.
+     *
+     * @param message The message to be set.
+     */
     public void setMessage(Message message) {
         LobbyMessage.set(message.getId(), message);
         //Control print for debugging purpose

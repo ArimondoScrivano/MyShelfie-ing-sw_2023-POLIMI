@@ -20,6 +20,14 @@ public class SocketClientV2 {
     private final ExecutorService readExecutionQueue;
     private ScheduledExecutorService ping;
 
+    /**
+     * Constructs a new instance of SocketClientV2.
+     *
+     * @param address         The IP address or hostname of the server to connect to.
+     * @param port            The port number of the server to connect to.
+     * @param controller      The client controller responsible for handling client events and messages.
+     * @throws IOException    If an I/O error occurs while establishing the connection.
+     */
     public SocketClientV2(String address, int port, ClientControllerV2 controller) throws IOException {
         this.socket = new Socket();
         this.socket.connect(new InetSocketAddress(address, port), 10000);
@@ -30,6 +38,11 @@ public class SocketClientV2 {
         this.ping=Executors.newSingleThreadScheduledExecutor();
     }
 
+    /**
+     * Sends a message to the connected server.
+     *
+     * @param message The message to be sent.
+     */
     public void sendMessage(Message message) {
         try {
             outputStream.reset();
@@ -41,6 +54,12 @@ public class SocketClientV2 {
         }
     }
 
+    /**
+     * Reads incoming messages from the server.
+     * This method is executed in a separate thread and continuously reads messages from the input stream.
+     * It dispatches the received messages to the client controller for further processing.
+     * The method terminates when the readExecutionQueue is shutdown or an IO or ClassNotFoundException occurs.
+     */
     public void readMessage() {
         readExecutionQueue.execute(()->{
             while(!readExecutionQueue.isShutdown()){
@@ -66,6 +85,13 @@ public class SocketClientV2 {
         });
     }
 
+
+    /**
+     * Disconnects the client from the server.
+     * If the client is currently connected, it shuts down the read execution queue,
+     * closes the client socket, prints a disconnection message, and exits the program with an error status.
+     * This method does nothing if the client is already disconnected.
+     */
     public void disconnect() {
         try {
             if (!socket.isClosed()) {
@@ -79,6 +105,14 @@ public class SocketClientV2 {
         }
     }
 
+
+    /**
+     * Enables or disables the sending of ping messages to the server.
+     *
+     * @param enable true to enable ping messages, false to disable them.
+     *               If enabled, ping messages are scheduled to be sent every 1000 milliseconds.
+     *               If disabled, the scheduled ping messages are canceled.
+     */
     public void pingMessage(boolean enable){
         if(enable){
             ping.schedule(()->sendMessage(new Message("ping", SocketMessages.PING_MESSAGE)), 1000, TimeUnit.MILLISECONDS);

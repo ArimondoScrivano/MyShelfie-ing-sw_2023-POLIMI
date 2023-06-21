@@ -15,20 +15,43 @@ public class DashboardListener implements ActionListener {
     private boolean doneChoice;
     private List<Integer> buttonPosition;
 
+    /**
+     * Constructs a new DashboardListener object.
+     * Initializes the listener with default values.
+     */
     public DashboardListener() {
         permission = false;
         numTilesRequired = 0;
         doneChoice = false;
         buttonPosition = new ArrayList<>();
     }
+
+    /**
+     * Sets the permission flag indicating whether the listener has permission.
+     *
+     * @param permission the permission flag to set
+     */
     public void setPermission(boolean permission) {
         this.permission = permission;
     }
 
+
+    /**
+     * Sets the number of tiles required by the listener.
+     *
+     * @param numTilesRequired the number of tiles required
+     */
     public void setNumTilesRequired(int numTilesRequired) {
         this.numTilesRequired = numTilesRequired;
     }
 
+
+    /**
+     * Retrieves the button positions selected by the listener.
+     * Clears the internal button positions and resets the listener state.
+     *
+     * @return the list of button positions selected by the listener
+     */
     public List<Integer> getButtonPosition() {
         List<Integer> listToReturn = new ArrayList<>(buttonPosition);
         buttonPosition.clear();
