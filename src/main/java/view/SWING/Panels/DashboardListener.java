@@ -60,10 +60,23 @@ public class DashboardListener implements ActionListener {
         return listToReturn;
     }
 
+
+    /**
+     * Checks if the choice selection is done.
+     *
+     * @return true if the choice selection is done, false otherwise
+     */
     public boolean isDoneChoice() {
         return doneChoice;
     }
 
+
+
+    /**
+     * Performs an action in response to the user's interaction with the component.
+     *
+     * @param e the ActionEvent representing the user's action
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (permission && numTilesRequired > 0) {
@@ -80,6 +93,15 @@ public class DashboardListener implements ActionListener {
     }
 
 
+
+
+
+    /**
+     * Retrieves the position of a button in a grid layout based on the specified source component.
+     *
+     * @param source the source component representing the button
+     * @return a List containing the column and row position of the button, or null if the button is not found
+     */
     private static List<Integer> getButtonPosition(Object source) {
         if (source instanceof Component) {
             Component button = (Component) source;
