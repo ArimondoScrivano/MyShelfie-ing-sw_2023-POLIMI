@@ -15,11 +15,24 @@ public class Cli implements UI{
     //Input stream
     private final Scanner in = new Scanner(new InputStreamReader(System.in));
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+
+    /**
+     * Constructs a new Cli object with the default output stream.
+     */
     public Cli() {
         this.out = System.out;
     }
 
+
+
+
     //Asking the connection method
+    /**
+     * Asks the user to choose the connection method for the game.
+     *
+     * @return The selected connection method (1 for RMI, 2 for Socket).
+     */
     public int askConnection() {
         out.println("Choose the connection method that you prefer");
         out.println("1 for RMI and 2 for Socket");
@@ -39,6 +52,13 @@ public class Cli implements UI{
         }
     }
 
+
+
+    /**
+     * Asks the user to choose the user interface for the game.
+     *
+     * @return The selected user interface (1 for GUI, 2 for TUI).
+     */
     public int askGUI() {
         out.println("Choose the interface that you prefer");
         out.println("1 for GUI and 2 for TUI");
@@ -58,7 +78,15 @@ public class Cli implements UI{
         }
     }
 
+
+
+
     //Asking the nickname
+    /**
+     * Asks the user to enter their nickname.
+     *
+     * @return The entered nickname as a String.
+     */
     public String askNickname() {
         out.print("Choose your nickname: ");
         String input = in.nextLine();
@@ -67,6 +95,14 @@ public class Cli implements UI{
         }
         return input;
     }
+
+
+
+    /**
+     * Asks the user if they want to create a new game.
+     *
+     * @return True if the user wants to create a new game, false otherwise.
+     */
     public boolean askNewGame(){
         out.println("Do you want to create a new game?[Y/N]");
         String read=in.nextLine();
@@ -74,6 +110,12 @@ public class Cli implements UI{
     }
 
 
+
+    /**
+     * Prompts the user to select the number of players between 2 and 4.
+     *
+     * @return The selected number of players.
+     */
     public int askNumberOfPlayers(){
         out.print("Select the number of players between 2 and 4 ");
         while(true){
@@ -90,6 +132,16 @@ public class Cli implements UI{
         }
     }
 
+
+
+
+    /**
+     * Prompts the user to enter a new chat message and select the recipient.
+     *
+     * @param playersName    The list of player names.
+     * @param myplayername   The name of the current player.
+     * @return A list containing the selected recipient and the entered message.
+     */
 
     public List<String> askNewChatMessage(List<String> playersName, String myplayername){
         String read;
@@ -133,7 +185,16 @@ public class Cli implements UI{
 
     }
 
+
+
+
+
     //Asking the number of tiles to pick
+    /**
+     * Prompts the user to choose the number of tiles they want to pick.
+     *
+     * @return The selected number of tiles.
+     */
     public int askNumberOfTiles(){
         out.print("Chose the number of tiles that you want to pick: ");
         while(true){
@@ -150,7 +211,17 @@ public class Cli implements UI{
         }
     }
 
+
+
+
+
     //Coordinate delle tiles da prendere
+    /**
+     * Prompts the user to choose the tiles they want to pick based on the specified number of tiles.
+     *
+     * @param numberOfTile The number of tiles the user needs to pick.
+     * @return A list of integers representing the x and y coordinates of the chosen tiles.
+     */
     public List<Integer> askTilesToPick(int numberOfTile){
         //Se 3 tile da prendere -->lista con 6 elementi
         List<Integer> tilesToPick = new ArrayList<>();
@@ -211,6 +282,14 @@ public class Cli implements UI{
         return tilesToPick;
     }
 
+
+
+
+    /**
+     * Prompts the user to choose the column to insert the selected tiles.
+     *
+     * @return The selected column index (0-based).
+     */
     public int askColumn(){
         out.print("Choose the column to insert the tiles chosen: ");
         int column=-1;
@@ -237,6 +316,15 @@ public class Cli implements UI{
         return (column-1);
     }
 
+
+
+
+    /**
+     * Displays the current points and personal goal points of the player.
+     *
+     * @param myPoint     The current points of the player.
+     * @param myPGpoints  The personal goal points of the player.
+     */
     public void displayPoints(int myPoint, int myPGpoints){
         out.println("Current points: "+ myPoint +"  and " +myPGpoints +" Personal Goal points");
     }

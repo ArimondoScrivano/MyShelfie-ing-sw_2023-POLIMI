@@ -23,10 +23,25 @@ public enum ColorUI {
 
     private final String code;
 
+
+
+    /**
+     * Constructs a ColorUI object with the provided color code.
+     *
+     * @param code the color code to associate with the ColorUI object.
+     */
     ColorUI(String code){
         this.code=code;
     }
 
+
+
+
+    /**
+     * Returns the string representation of the ColorUI object.
+     *
+     * @return the color code associated with the ColorUI object.
+     */
     public String toString(){
         return code;
     }

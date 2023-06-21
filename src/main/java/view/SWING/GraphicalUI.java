@@ -59,11 +59,25 @@ public class GraphicalUI implements View, UI {
 
     private JLabel labelStatus;
     private JLabel labelPoint;
+
+
+    /**
+     * Constructs a new instance of the GraphicalUI class.
+     * This constructor initializes the GraphicalUI by creating a new MainFrame object
+     * and setting the flaginitdone variable to 0.
+     */
     public GraphicalUI(){
         mf=new MainFrame();
         flaginitdone=0;
     }
 
+
+
+    /**
+     * Initializes the game by setting up the user interface and creating necessary components.
+     * This method creates and configures internal frames, panels, buttons, and images required for the game.
+     * It also sets the positions, sizes, and content of these components within the main frame.
+     */
     public void initGame() {
         flaginitdone=1;
         flagDoneOnceCG=0;
@@ -278,6 +292,14 @@ public class GraphicalUI implements View, UI {
         textFrame.setVisible(true);
     }
 
+
+
+    /**
+     * Ends the game and displays the game result in the user interface.
+     * This method sets the game result in the status label and opens a new JFrame to display the result.
+     *
+     * @param esito The result of the game.
+     */
     public void endGame(String esito) {
         this.labelStatus.setText("L'esito della partita è " + esito);
         JFrame frame = new JFrame("End Game");
@@ -303,6 +325,18 @@ public class GraphicalUI implements View, UI {
     }
 
 
+
+
+    /**
+     * Displays the match information in the user interface.
+     * This method prints the dashboard, common goals, personal goal, and shelf in the UI.
+     * If the game initialization has not been done yet, it performs the initialization.
+     *
+     * @param copy         The copy of the game dashboard to be displayed.
+     * @param commonGoals  The list of common goals to be displayed.
+     * @param myShelf      The copy of the player's shelf to be displayed.
+     * @param pg           The player's personal goal to be displayed.
+     */
     public void showMatchInfo(Tile[][] copy, List<CommonGoals> commonGoals, Tile[][] myShelf, PersonalGoal pg) {
         if(flaginitdone==0){
             initGame();
@@ -317,6 +351,15 @@ public class GraphicalUI implements View, UI {
 
 
 
+
+
+    /**
+     * Prints the personal goal card image to be displayed in the user interface.
+     * This method loads the image and sets it as the content pane of the personal goal panel.
+     * If the image has already been displayed once, it won't be reloaded.
+     *
+     * @param pg The personal goal card to be displayed.
+     */
     public void printPersonalGoal(PersonalGoal pg) {
         // Carica l'immagine di sfondo per il nuovo JInternalFrame
         if (flagDoneOncePG == 0) {
@@ -335,15 +378,40 @@ public class GraphicalUI implements View, UI {
     }
 
 
+
+
+    /**
+     * Displays a new message in the user interface.
+     * This method is typically called when a new message is received.
+     */
     @Override
     public void shownewMex() {
 
     }
 
+
+
+
+    /**
+     * Displays the game chat by showing the provided list of game messages.
+     *
+     * @param listToDisplay the list of game messages to be displayed in the game chat
+     */
     @Override
     public void showGameChat(List<GameMessage> listToDisplay) {
 
     }
+
+
+
+
+    /**
+     * Prints the dashboard with the provided tile configuration.
+     *
+     * @param copy the 2D array representing the tile configuration on the dashboard
+     *             where copy[row][column] represents the tile at the specified position
+     *             with row and column starting from 1
+     */
 
     public void printDashboard(Tile[][] copy) {
         int variety;
@@ -388,6 +456,16 @@ public class GraphicalUI implements View, UI {
     }
 
 
+
+
+
+    /**
+     * Prints the shelf with the provided tile configuration.
+     *
+     * @param myShelf the 2D array representing the tile configuration on the shelf
+     *                where myShelf[row][column] represents the tile at the specified position
+     *                with row and column starting from 0
+     */
     public void printShelf(Tile[][] myShelf) {
         int variety;
         // Pannello per i bottoni della SHELF
@@ -435,11 +513,28 @@ public class GraphicalUI implements View, UI {
 
     }
 
+
+
+    /**
+     * Initializes the game.
+     * This method is called when the game starts to perform any necessary initialization tasks.
+     * Implementations of this method can be used to set up game resources, initialize variables, or perform any other initialization logic.
+     */
     @Override
     public void init() {
 
     }
 
+
+
+    /**
+     * Displays the common goals on the user interface.
+     * This method takes a list of common goals and loads the corresponding images from the resources.
+     * The images are resized to the desired dimensions and displayed on the user interface using JLabels.
+     * The previous common goals and scoring tokens are removed from the panel, and the new images are added.
+     *
+     * @param commonGoals  The list of common goals to display.
+     */
     public void printCommonGoal(List<CommonGoals> commonGoals) {
             // Carica le immagini
             Image image1 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/" + commonGoals.get(0).getId() + ".jpg");
@@ -476,12 +571,36 @@ public class GraphicalUI implements View, UI {
             mf.setVisible(true);
     }
 
+
+
+    /**
+     * Displays the current points for the player.
+     * This method calculates the sum of the player's points and personal goal points,
+     * and updates the label on the user interface to show the total score.
+     *
+     * @param myPoint     The player's points.
+     * @param myPGpoints  The player's personal goal points.
+     */
     public void displayPoints(int myPoint, int myPGpoints) {
         int partialSum= myPoint + myPGpoints;
         this.labelPoint.setText("Il tuo punteggio è di" +partialSum +"punti");
     }
 
+
+
+
+
     //METODI DELLA CLI
+    /**
+     * Prompts the user to choose a connection method (RMI or SOCKET) using a graphical user interface.
+     * This method displays a panel with buttons representing the connection options.
+     * The user can click on a button to select the desired connection method.
+     * Once the user's choice is collected, it returns the chosen connection method as an integer.
+     *
+     * @return The chosen connection method:
+     *         - 1 for RMI
+     *         - 2 for SOCKET
+     */
     public int askConnection() {
 
         //Usare una textArea
@@ -519,6 +638,18 @@ public class GraphicalUI implements View, UI {
         }
     }
 
+
+
+
+    /**
+     * Prompts the user to enter their nickname using a graphical user interface.
+     * This method displays a panel with a label asking the user to insert their nickname,
+     * along with a text field where the user can enter their nickname.
+     * The user can press Enter or click outside the text field to submit their nickname.
+     * Once the user's nickname is collected, it returns the entered nickname as a string.
+     *
+     * @return The entered nickname as a string.
+     */
     public String askNickname() {
         //usare una text Area
         JPanel nickNamePanel= new JPanel();
@@ -552,6 +683,18 @@ public class GraphicalUI implements View, UI {
         return playerName;
     }
 
+
+
+
+    /**
+     * Prompts the user to select between starting a new game or joining an existing game using a graphical user interface.
+     * This method displays a panel with buttons representing the options "NEW GAME" and "JOIN GAME".
+     * The user can click on a button to make their selection.
+     * Once the user's choice is collected, it returns a boolean value indicating whether to start a new game or join an existing game.
+     *
+     * @return `true` if the user selects "NEW GAME", indicating a new game should be started.
+     *         `false` if the user selects "JOIN GAME", indicating they want to join an existing game.
+     */
     public boolean askNewGame() {
         JPanel ngPanel = new JPanel();
         JLabel questionLabel = new JLabel("Select One:");
@@ -587,6 +730,17 @@ public class GraphicalUI implements View, UI {
         }
     }
 
+
+
+
+    /**
+     * Prompts the user to select the number of players using a graphical user interface.
+     * This method displays a panel with buttons representing different numbers of players.
+     * The user can click on a button to select the desired number of players.
+     * Once the user's choice is collected, it returns the selected number of players.
+     *
+     * @return The selected number of players.
+     */
     public int askNumberOfPlayers() {
         JPanel npPanel = new JPanel();
         JLabel questionLabel = new JLabel("Select Number of Players:");
@@ -632,6 +786,14 @@ public class GraphicalUI implements View, UI {
 
 
 
+
+    /**
+     * Prompts the user to enter the number of tiles they want to draw using a graphical user interface.
+     * This method displays an input dialog box and validates the user's input.
+     * It ensures that the input is a valid number between 1 and 3, and returns the selected number.
+     *
+     * @return The number of tiles selected by the user.
+     */
     public int askNumberOfTiles() {
         this.labelStatus.setText("Quante tile vuoi pescare:");
         JFrame frame = new JFrame("Main Frame");
@@ -667,7 +829,14 @@ public class GraphicalUI implements View, UI {
     }
 
 
-
+    /**
+     * Prompts the user to select tiles by interacting with a graphical user interface.
+     * This method waits for the user's selection by monitoring the status of a dashboard listener.
+     * Once the user's choice is collected, it returns a list of selected tile positions.
+     *
+     * @param numberOfTile The number of tiles required to be picked.
+     * @return A list of selected tile positions.
+     */
         public List<Integer> askTilesToPick(int numberOfTile) {
             this.labelStatus.setText("SELEZIONA LE TILE");
             dashboardListener.setNumTilesRequired(numberOfTile);
@@ -687,6 +856,16 @@ public class GraphicalUI implements View, UI {
             return dashboardListener.getButtonPosition();
     }
 
+
+
+
+    /**
+     * Prompts the user to select a column by interacting with a graphical user interface.
+     * This method waits for the user's selection by monitoring the status of a shelf listener.
+     * Once the user's choice is collected, it returns the selected column position.
+     *
+     * @return The selected column position.
+     */
     public int askColumn() {
        this.labelStatus.setText("SELEZIONA UNA COLONNA");
        this.shelfListener.setPermission(true);

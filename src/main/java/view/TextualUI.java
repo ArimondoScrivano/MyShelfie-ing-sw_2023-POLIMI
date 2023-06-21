@@ -16,21 +16,51 @@ public class TextualUI  implements View {
     //Output stream
     private final PrintStream out;
     //Input stream
+
+
+    /**
+     * Scanner object for reading input from the standard input stream.
+     */
     private final Scanner in = new Scanner(new InputStreamReader(System.in));
 
+
+    /**
+     * Constructs a TextualUI object.
+     * Initializes the output stream to the standard output.
+     */
     public TextualUI() {
         out = System.out;
     }
 
+
+
+    /**
+     * Initializes a new game.
+     * This method performs the necessary setup and preparations for starting a new game.
+     */
     public void initGame(){}
 
+
+
+    /**
+     * Ends the game and displays the outcome.
+     * This method prints the provided outcome message to the standard output.
+     *
+     * @param esito The outcome message to be displayed.
+     */
     @Override
     public void endGame(String esito) {
         System.out.println(esito);
     }
 
+
+
     ;
     //Initialize the game
+    /**
+     * Initializes the game.
+     * This method clears the user interface, then prints a welcome message and the game logo to the standard output.
+     */
     public void init(){
         clearUI();
         out.println(ColorUI.YELLOW_TEXT + """
@@ -49,7 +79,20 @@ public class TextualUI  implements View {
         out.println(ColorUI.YELLOW_TEXT+"Welcome to MY SHELFIE game"+ColorUI.RESET);
     }
 
+
+
+
     //Showing the actual state of the game
+    /**
+     * Shows the match information on the user interface.
+     * This method clears the user interface and then prints the current dashboard state, the layout of the common goal card,
+     * the shelf, and the personal goal card associated with the player.
+     *
+     * @param copy         The copy of the dashboard state.
+     * @param commonGoals  The list of common goals.
+     * @param myShelf      The shelf of the player.
+     * @param pg           The personal goal card associated with the player.
+     */
     @Override
     public void showMatchInfo(Tile[][] copy, List<CommonGoals> commonGoals, Tile[][] myShelf, PersonalGoal pg) {
         clearUI();
@@ -70,6 +113,12 @@ public class TextualUI  implements View {
     }
 
 
+
+    /**
+     * Prints the personal goal card on the user interface.
+     *
+     * @param pg The personal goal card to be printed.
+     */
     public void printPersonalGoal(PersonalGoal pg){
         String copyColor="";
         out.println("Your Personal Goal");
@@ -86,9 +135,25 @@ public class TextualUI  implements View {
         }
     }
 
-public void shownewMex(){
+
+
+    /**
+     * Displays a new message notification on the user interface.
+     * This method prints the text "New message" in yellow color on the console.
+     */
+    public void shownewMex(){
     System.out.println(  "\u001B[33m" + "New message" + "\u001B[0m");
 }
+
+
+
+    /**
+     * Displays the game chat messages on the user interface.
+     * If the provided list of game messages is not empty, it prints the sender's name and the content of each message.
+     * If the list is empty, it prints a notification indicating that there are no messages to display yet.
+     *
+     * @param listToDisplay The list of game messages to be displayed.
+     */
     public void showGameChat(List<GameMessage> listToDisplay){
         if (listToDisplay.size()>0) {
             for (int i = 0; i < listToDisplay.size(); i++) {
@@ -102,6 +167,15 @@ public void shownewMex(){
         }
     }
 
+
+
+    /**
+     * Prints the dashboard on the user interface.
+     * The dashboard is represented by a two-dimensional array of tiles.
+     * Each tile's color is printed according to its corresponding position in the array.
+     *
+     * @param copy The two-dimensional array representing the dashboard.
+     */
     public void printDashboard(Tile[][] copy){
         String copyColor="";
         //First row
@@ -122,7 +196,13 @@ public void shownewMex(){
 
 
 
-
+    /**
+     * Prints the shelf and the personal goal card associated with the player on the user interface.
+     * The shelf is represented by a two-dimensional array of tiles.
+     * Each tile's color is printed according to its corresponding position in the array.
+     *
+     * @param myShelf The two-dimensional array representing the shelf and personal goal card.
+     */
     public void printShelf(Tile[][] myShelf){
         String copyColor="";
         //Printing the shelf and the personal goal card associated to the player
@@ -139,6 +219,15 @@ public void shownewMex(){
         }
     }
 
+
+
+
+    /**
+     * Prints the common goal cards on the user interface.
+     * Each common goal card contains a layout and an available score.
+     *
+     * @param commonGoals A list of CommonGoals objects representing the common goal cards.
+     */
     public void printCommonGoal(List<CommonGoals> commonGoals){
         out.println(ColorUI.BLUE_TEXT+"COMMON GOAL CARDS"+ColorUI.RESET);
         for(CommonGoals cg : commonGoals){
@@ -166,7 +255,19 @@ public void shownewMex(){
         }
     }
 
+
+
+
+
     //Function that convert the color
+    /**
+     * Converts the color value of a tile into a string representation with the corresponding background color.
+     * The converted string is printed on the user interface.
+     *
+     * @param copyColor The current string representation of the tile's color.
+     * @param color     The color value of the tile to be converted.
+     * @return The updated string representation of the tile's color.
+     */
     private String convertColorInStringTiles(String copyColor, int color) {
         switch (color) {
             case 0 ->
@@ -195,7 +296,14 @@ public void shownewMex(){
         return copyColor;
     }
 
+
+
+
     //Clearing the UI
+    /**
+     * Clears the user interface by printing special escape characters that move the cursor to the top-left position
+     * and then flushes the output stream.
+     */
     public void clearUI(){
         out.println("\033[H\033[2J");
         out.flush();
