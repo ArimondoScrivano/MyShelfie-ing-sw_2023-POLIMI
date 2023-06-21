@@ -21,6 +21,15 @@ public class Client_RMI extends UnicastRemoteObject implements ClientCallback {
      public void CheckConnectionClient() {
          //just to see the connection
      }
+
+    /**
+     * Constructs a new Client_RMI object with the specified name.
+     *
+     * @param name the name of the client
+     * @throws RemoteException      if a remote communication error occurs
+     * @throws NotBoundException    if the server is not bound in the RMI registry
+     * @throws MalformedURLException if the URL for the RMI registry is malformed
+     */
     public Client_RMI(String name) throws RemoteException, NotBoundException, MalformedURLException {
         this.LobbyReference = 0;
         this.playerName = name;
@@ -30,7 +39,12 @@ public class Client_RMI extends UnicastRemoteObject implements ClientCallback {
         this.server = (Server_RMI) lookup;
     }
 
-
+    /**
+     * Creates a lobby with the specified number of players and the name of the lobby's creator.
+     *
+     * @param numPL        the number of players in the lobby
+     * @param creatorLobby the name of the lobby's creator
+     */
     public void createLobby(int numPL, String creatorLobby) {
         try {
             this.LobbyReference = server.createLobby(numPL, creatorLobby, this);
@@ -41,10 +55,20 @@ public class Client_RMI extends UnicastRemoteObject implements ClientCallback {
         }
     }
 
+
+    /**
+     * Retrieves the reference to the lobby.
+     *
+     * @return the reference to the lobby
+     */
     public int getLobbyReference(){
         return this.LobbyReference;
     }
 
+
+    /**
+     * method that implements the Client request of joining a lobby
+     */
     public void joinLobby() {
         try {
             this.LobbyReference = server.joinLobby();
@@ -54,6 +78,12 @@ public class Client_RMI extends UnicastRemoteObject implements ClientCallback {
         }
     }
 
+
+    /**
+     * Adds a player to the lobby with the specified name.
+     *
+     * @param name the name of the player to add
+     */
     public void addPlayer(String name) {
         try {
             this.myId = server.addPlayer(LobbyReference, name, this);
@@ -63,7 +93,12 @@ public class Client_RMI extends UnicastRemoteObject implements ClientCallback {
         }
     }
 
-
+    /**
+     * Checks if a given name is already taken in the lobby.
+     *
+     * @param name the name to check
+     * @return true if the name is already taken, false otherwise
+     */
     public boolean nameAlreadyTaken(String name){
         try {
             return server.nameAleradyTaken(LobbyReference, name, myId);
@@ -73,7 +108,11 @@ public class Client_RMI extends UnicastRemoteObject implements ClientCallback {
         return false;
     }
 
-
+    /**
+     * Changes the name of the player in the lobby.
+     *
+     * @param name the new name to set for the player
+     */
     public void changeName(String name){
         try {
             server.changeName(LobbyReference, myId, name);
@@ -82,7 +121,12 @@ public class Client_RMI extends UnicastRemoteObject implements ClientCallback {
             e.printStackTrace();
         }
     }
-public List<String> playersName(){
+    /**
+     * Retrieves a list of player names in the lobby.
+     *
+     * @return a list of player names in the lobby, or null if an exception occurs
+     */
+    public List<String> playersName(){
         try{
             return server.playersName(LobbyReference);
         } catch (RemoteException e) {
@@ -90,8 +134,13 @@ public List<String> playersName(){
             return null;
         }
 
-}
+    }
 
+    /**
+     * Retrieves a list of game chat messages from the lobby.
+     *
+     * @return a list of game chat messages, or null if an exception occurs
+     */
     public List<GameMessage> showGameChat() {
         try {
             return server.showGameChat(LobbyReference, playerName);
@@ -102,6 +151,13 @@ public List<String> playersName(){
         }
     }
 
+
+    /**
+     * Appends a chat message to the game chat in the lobby.
+     *
+     * @param possibleChatmex the list of receiver names for the chat message
+     * @param myname          the sender name of the chat message
+     */
     public void appendchatmex(List <String> possibleChatmex, String myname) {
 
         try{
@@ -112,6 +168,12 @@ public List<String> playersName(){
         }
 
     }
+
+    /**
+     * Checks if it is the player's turn in the lobby.
+     *
+     * @return true if it is the player's turn, false otherwise or if an exception occurs
+     */
     public boolean isItMyTurn(){
         int currentPlayer;
         try{
@@ -127,6 +189,11 @@ public List<String> playersName(){
         return false;
     }
 
+    /**
+     * Retrieves the dashboard from the lobby.
+     *
+     * @return the dashboard as a 2D array of tiles, or null if an exception occurs
+     */
     public Tile[][] getDashboard() {
         try {
             return server.getDashboard(LobbyReference);
@@ -137,6 +204,12 @@ public List<String> playersName(){
         }
     }
 
+
+    /**
+     * Retrieves the personal shelfie of the player from the lobby.
+     *
+     * @return the player's shelfie as a 2D array of tiles, or null if an exception occurs
+     */
     public Tile[][] getMyShelfie(){
 
             try{
@@ -148,6 +221,12 @@ public List<String> playersName(){
             }
     }
 
+
+    /**
+     * Retrieves the personal goal of the player from the lobby.
+     *
+     * @return the player's personal goal, or null if an exception occurs
+     */
     public PersonalGoal getMyPersonalGoal(){
 
             try {
@@ -158,9 +237,14 @@ public List<String> playersName(){
                 return null;
             }
 
-
     }
 
+
+    /**
+     * Retrieves the list of common goals from the lobby.
+     *
+     * @return the list of common goals, or null if an exception occurs
+     */
     public List<CommonGoals> getCommonGoals(){
         try {
             return server.getCommonGoals(LobbyReference);
@@ -170,6 +254,15 @@ public List<String> playersName(){
             return null;
         }
     }
+
+
+    /**
+     * Checks if the specified tiles at given coordinates are pickable in the lobby.
+     *
+     * @param xCoord the list of x-coordinates of the tiles to check
+     * @param yCoord the list of y-coordinates of the tiles to check
+     * @return true if the tiles at the specified coordinates are pickable, false otherwise or if an exception occurs
+     */
     public boolean pickableTiles(List<Integer> xCoord, List<Integer> yCoord){
         try{
             return server.pickableTiles(LobbyReference, xCoord, yCoord);
@@ -182,7 +275,13 @@ public List<String> playersName(){
     }
 
 
-
+    /**
+     * Checks if the specified column is available to place a certain number of tiles in the lobby.
+     *
+     * @param numTiles      the number of tiles to be placed
+     * @param selectedCol   the selected column index
+     * @return true if the column is available, false otherwise or if an exception occurs
+     */
     public boolean columnAvailable(int numTiles, int selectedCol){
         try{
             return  server.columnAvailable(LobbyReference, numTiles, server.getMyShelfieREF(LobbyReference,playerName, myId), selectedCol);
@@ -194,6 +293,13 @@ public List<String> playersName(){
 
     }
 
+    /**
+     * Performs the final pick of tiles at the specified coordinates in the lobby.
+     *
+     * @param tilesToPick the number of tiles to pick
+     * @param xCord       the list of x-coordinates of the tiles to pick
+     * @param yCord       the list of y-coordinates of the tiles to pick
+     */
     public void FinalPick(int tilesToPick, List<Integer> xCord,List<Integer> yCord ){
         try{
             server.finalPick(LobbyReference,xCord, yCord);
@@ -204,7 +310,13 @@ public List<String> playersName(){
 
 
 
-
+    /**
+     * Inserts the specified tiles at the given coordinates into the specified column in the lobby.
+     *
+     * @param xCoord  the list of x-coordinates of the tiles to insert
+     * @param yCoord  the list of y-coordinates of the tiles to insert
+     * @param column  the column index where the tiles should be inserted
+     */
     public void insertTiles ( List<Integer> xCoord, List<Integer> yCoord, int column){
         try {
             server.insertTiles(LobbyReference, xCoord,yCoord,column);
@@ -214,6 +326,11 @@ public List<String> playersName(){
         }
     }
 
+    /**
+     * Checks the winner of the game in the lobby.
+     *
+     * @return the name of the winner, or "ERROR" if an exception occurs
+     */
     public String checkWinner() {
         try {
             return server.checkWinner(LobbyReference, myId);
@@ -224,6 +341,11 @@ public List<String> playersName(){
         }
     }
 
+    /**
+     * Retrieves the points earned by the player in the lobby.
+     *
+     * @return the points earned by the player, or -1 if an exception occurs
+     */
     public int myPoints(){
         try{
             return server.myPoints(LobbyReference, myId);
@@ -235,6 +357,11 @@ public List<String> playersName(){
 
     }
 
+    /**
+     * Retrieves the PG (Personal Goal) points earned by the player in the lobby.
+     *
+     * @return the PG points earned by the player, or -1 if an exception occurs
+     */
     public int myPGpoints(){
         try{
             return server.myPGpoints(LobbyReference,myId);
@@ -245,7 +372,11 @@ public List<String> playersName(){
     }
 
 
-
+    /**
+     * Retrieves the latest message for the player in the lobby.
+     *
+     * @return the latest message received by the player, or a default disconnect message if the server is unavailable
+     */
     public Message notifyMe(){
         try{
             return server.getMyMessage(LobbyReference);
@@ -255,6 +386,11 @@ public List<String> playersName(){
         }
     }
 
+    /**
+     * Controls the disconnection of the player in the lobby.
+     *
+     * @return null
+     */
     public Runnable controlDisconnection(){
         Thread controllingDisconnection=new Thread(()->{
             while(!Thread.currentThread().isInterrupted()){
