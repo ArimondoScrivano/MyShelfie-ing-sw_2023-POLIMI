@@ -7,6 +7,11 @@ public class Shelf implements Serializable {
     private Player myPlayer;
 
     //CONSTRUCTOR FOR THE SHELF CLASS
+    /**
+     * Constructs a new Shelf object for the specified player.
+     *
+     * @param myPlayer the player associated with the shelf.
+     */
     public Shelf( Player myPlayer) {
         this.myPlayer = myPlayer;
         tilesShelf= new Tile[6][5];
@@ -19,6 +24,12 @@ public class Shelf implements Serializable {
 
     }
 
+
+    /**
+     * Retrieves a copy of the tiles on the shelf.
+     *
+     * @return a 2D array representing the tiles on the shelf.
+     */
     public Tile[][] getTilesShelf(){
         Tile[][] tilesCopy= new Tile[6][5];
         for(int row=0; row<6; row++){
@@ -29,7 +40,14 @@ public class Shelf implements Serializable {
         return tilesCopy;
     }
 
+
+
     //METHOD TO RETURN TRUE WHETHER ONE'S SHELF IS COMPLETED
+    /**
+     * Checks if the shelf is complete, i.e., if all positions on the shelf are filled with tiles.
+     *
+     * @return true if the shelf is complete, false otherwise.
+     */
     public boolean completeShelf() {
         for(int i=0; i<6; i++){
             for(int j=0; j<5; j++){
@@ -41,6 +59,15 @@ public class Shelf implements Serializable {
         return true;
     }
 
+
+
+    /**
+     * Adds the given tiles to the specified column on the shelf.
+     * The tiles are added starting from the bottom of the column and moving upward.
+     *
+     * @param tiles  an array of tiles to be added to the shelf.
+     * @param column the column index where the tiles should be added.
+     */
     public void addTiles(Tile[] tiles, int column) {
         int freeFirstSpot = 0;
         int flagfound=0;
@@ -61,6 +88,13 @@ public class Shelf implements Serializable {
         myPlayer.checkPersonalGoal();
     }
 
+
+
+    /**
+     * Retrieves the 2D array of tiles representing the shelf.
+     *
+     * @return the 2D array of tiles representing the shelf.
+     */
     public Tile[][] getTiles(){
         return this.tilesShelf;
     }
