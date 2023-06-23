@@ -130,6 +130,7 @@ class FourVerticalCommonGoalsTest {
         assertEquals(1, test7.Checker(matrix));
         assertEquals(0, test7.Checker(matrix));
         assertEquals(0, test7.Checker(matrix));
+        int a= test7.getId();
     }
 
 

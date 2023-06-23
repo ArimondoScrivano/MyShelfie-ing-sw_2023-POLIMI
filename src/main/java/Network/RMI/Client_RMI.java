@@ -35,7 +35,7 @@ public class Client_RMI extends UnicastRemoteObject implements ClientCallback {
         this.playerName = name;
         this.myId = 0;
 
-        Remote lookup = Naming.lookup("rmi://localhost:16000/server");
+        Remote lookup = Naming.lookup("rmi://" +"localhost" +":16000/server");
         this.server = (Server_RMI) lookup;
     }
 

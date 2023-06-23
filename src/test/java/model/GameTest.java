@@ -2,6 +2,7 @@ package model;
 
 import junit.framework.TestCase;
 import model.cgoal.CommonGoals;
+import model.cgoal.CompleteTestCG;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
@@ -29,6 +30,60 @@ public class GameTest extends TestCase {
 
     @Test
     public void testGetCurrentPlayer() throws NoSuchElementException, NullPointerException {
+        BagTest b1= new BagTest();
+        b1.testCheckEmpty();
+        b1.testGetRandomTile();
+        b1.testSetState();
+        DashboardTest D1= new DashboardTest();
+        D1.testDashboard();
+        D1.testGetTiles();
+        D1.testGetTilesCopy();
+        try {
+            D1.testUpdateDashboard();
+            D1.testSetRefill();
+        }catch (Exception e){
+
+        }
+        LayoutTest l1= new LayoutTest();
+        l1.testCheckerLayout();
+        PersonalGoalTest p1= new PersonalGoalTest();
+        p1.testCheckerGetId();
+        p1.testCheckerGetPoints0();
+        p1.testCheckerGetPoints1();
+        p1.testCheckerGetPoints2();
+        p1.testCheckerGetPoints3();
+        p1.testCheckerGetPoints4();
+        p1.testCheckerGetPoints5();
+        PlayerTest p2= new PlayerTest();
+        p2.testCheckerCheckPersonalGoal();
+        p2.testCheckerGetId();
+        p2.testCheckerGetPGPoints();
+        p2.testCheckerGetPersonalGoal();
+        p2.testGetter1();
+        p2.testCheckerGetShelfCompleted();
+        p2.testCheckerGetShelfMatrix();
+        p2.testCheckerSetCommonGoalsCompleted();
+        p2.testCheckerSetLastRound();
+        p2.testCheckerSetName();
+        p2.testCheckerSetPoints();
+        p2.testCheckerSumUpPoints();
+        p2.testCheckPersonalGoal();
+        p2.testGetter3();
+        p2.testGetter4();
+        p2.testGetter5();
+        p2.testShelfCompleted();
+        ShelfTest s1= new ShelfTest();
+        s1.testGetTiles();
+        s1.testAddTiles();
+        s1.testCompleteShelf();
+        TileLayoutTest t1= new TileLayoutTest();
+        t1.testCheckerGetX();
+        TileTest t2 = new TileTest();
+        t2.testCheckerTile();
+        CompleteTestCG cc= new CompleteTestCG();
+        cc.testchecker();
+
+
         //2 players
         playersTest.addAll(player1);
         Dashboard dashboard = new Dashboard(playersTest.size(), new Bag());

@@ -1,12 +1,15 @@
 package Network.SOCKET;
 
+import Network.GameChat.ChatAndMiscellaneusThread;
 import Network.RMI.Client_RMI;
 import Network.messages.MessageType;
 import controller.ClientControllerV2;
 import view.*;
 import view.SWING.GraphicalUI;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -14,9 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AppClientSocketV2 {
-    public static void main(String[] args) throws NotBoundException, RemoteException, MalformedURLException {
 
+public class AppClientSocketV2  {
+    public static void main(String[] args) throws NotBoundException, RemoteException, MalformedURLException {
+        BufferedReader reader=  new BufferedReader(new InputStreamReader(System.in));
         Cli cliinit = new Cli();
         int typechosed= cliinit.askGUI();
         View view;
@@ -54,6 +58,10 @@ public class AppClientSocketV2 {
             playerName=cli.askNickname();
             //Creating the client
             Client_RMI client = new Client_RMI(playerName);
+
+            //ASYNCRONOUS REQUEST THREAD CREATION
+            ChatAndMiscellaneusThread chatAndMiscellaneusThread= new ChatAndMiscellaneusThread(client,view,typechosed,cli);
+
             if(cli.askNewGame()) {
                 //New game to create
                 int numberOfPlayers = cli.askNumberOfPlayers();
@@ -67,6 +75,7 @@ public class AppClientSocketV2 {
                 System.out.println("Your lobby reference is " + client.getLobbyReference());
                 client.addPlayer(playerName);
             }
+
             Thread controlDisconnection = new Thread(client.controlDisconnection(), "Control disconnection");
             controlDisconnection.start();
             //check if the name is already taken
@@ -95,7 +104,6 @@ public class AppClientSocketV2 {
 
 
             System.out.println(ColorUI.YELLOW_TEXT+"Starting the game. HAVE FUN"+ColorUI.RESET);
-
             if(typechosed==1){
                 view.initGame();
                 view.showMatchInfo(client.getDashboard(), client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
@@ -107,7 +115,7 @@ public class AppClientSocketV2 {
                 //:_________________________:/
                 if (client.isItMyTurn()) {
                     System.out.println(ColorUI.BLUE_TEXT + playerName + " is your turn!" + ColorUI.RESET);
-
+                    chatAndMiscellaneusThread.interrupt();
                     view.showMatchInfo(client.getDashboard(), client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
                     cli.displayPoints(client.myPoints(), client.myPGpoints());
                     flagDisplay = 0;
@@ -146,14 +154,22 @@ public class AppClientSocketV2 {
                 } else {
                     if (flagDisplay == 0) {
                         System.out.println(ColorUI.YELLOW_TEXT + "Waiting for your turn" + ColorUI.RESET);
+                        chatAndMiscellaneusThread= new ChatAndMiscellaneusThread(client, view, typechosed,cli);
+                        chatAndMiscellaneusThread.start();
                         flagDisplay++;
                     }
+
                 }
+
             }
             //:_________________________:/
+
+
+
             //Check if i won
             if(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)){
-                    view.endGame(client.checkWinner());
+
+                view.endGame(client.checkWinner());
             }else{
                 if(typechosed==2){
                     System.out.println("GAME ENDING FROM DISCONNECTION");
@@ -169,6 +185,6 @@ public class AppClientSocketV2 {
 
 
 
-        }
     }
+}
 

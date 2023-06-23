@@ -59,5 +59,6 @@ class equalXCommonGoalsTest {
         matrix[0][2] = new Tile(COLOR.BLUE, 1);
         matrix[1][3] = new Tile(COLOR.BLUE, 1);
         Assertions.assertEquals(1, test4.Checker(matrix));
+        int a= test4.getId();
     }
 }

@@ -91,5 +91,6 @@ class fourRowsCommonGoalsTest {
         }
 
         assertEquals(0, test6.Checker(matrix));
+        int a= test6.getId();
     }
 }

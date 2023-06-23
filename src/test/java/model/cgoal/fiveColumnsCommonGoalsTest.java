@@ -98,5 +98,6 @@ class fiveColumnsCommonGoalsTest {
         matrix[0][4]=new Tile(COLOR.WHITE, 1);
         test5.printLayout();
         assertEquals(2, test5.Checker(matrix));
+        int a= test5.getId();
     }
 }

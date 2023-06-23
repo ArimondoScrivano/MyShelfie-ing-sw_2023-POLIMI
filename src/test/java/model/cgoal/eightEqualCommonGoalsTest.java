@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-
 class eightEqualCommonGoalsTest {
 
 
@@ -41,6 +39,8 @@ class eightEqualCommonGoalsTest {
             }
         }
 
+        int a= test3.getId();
         Assertions.assertEquals(3, test3.Checker(matrix));
     }
+
 }

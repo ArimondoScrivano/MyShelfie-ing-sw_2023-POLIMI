@@ -80,4 +80,7 @@ public interface UI {
      * @return the connection option chosen by the player.
      */
     public int askConnection();
+
+    public boolean getClicked();
+
 }

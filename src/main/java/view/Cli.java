@@ -328,4 +328,10 @@ public class Cli implements UI{
     public void displayPoints(int myPoint, int myPGpoints){
         out.println("Current points: "+ myPoint +"  and " +myPGpoints +" Personal Goal points");
     }
+
+
+    public boolean getClicked(){
+        return false;
+    }
+
 }

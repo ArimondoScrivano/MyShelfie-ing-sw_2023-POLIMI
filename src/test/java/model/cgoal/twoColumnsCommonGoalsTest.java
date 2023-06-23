@@ -92,5 +92,6 @@ class twoColumnsCommonGoalsTest {
         }
 
         assertEquals(0, test11.Checker(matrix));
+        int a= test11.getId();
     }
 }

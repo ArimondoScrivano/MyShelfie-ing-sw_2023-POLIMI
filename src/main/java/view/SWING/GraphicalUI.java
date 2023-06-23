@@ -60,6 +60,7 @@ public class GraphicalUI implements View, UI {
     private JLabel labelStatus;
     private JLabel labelPoint;
 
+    private RefreshButtonListener refreshbuttonListen;
 
     /**
      * Constructs a new instance of the GraphicalUI class.
@@ -262,7 +263,7 @@ public class GraphicalUI implements View, UI {
 
         // Crea il JInternalFrame per le etichette di testo
         JInternalFrame textFrame = new JInternalFrame("GAME STATUS", false, false, false, false);
-        textFrame.setSize(600, 100);
+        textFrame.setSize(300, 100);
         textFrame.setLayout(null);
         textFrame.setResizable(false);
 
@@ -290,6 +291,26 @@ public class GraphicalUI implements View, UI {
 // Aggiungi il JInternalFrame al content pane del JFrame
         mf.getContentPane().add(textFrame);
         textFrame.setVisible(true);
+        // Create the additional JInternalFrame
+        JInternalFrame RefreshFrame = new JInternalFrame("REFRESH", false, false, false, false);
+        RefreshFrame.setSize(100, 100);
+        RefreshFrame.setLayout(null);
+        RefreshFrame.setResizable(false);
+
+        // Create a button and set its position and size
+        JButton additionalButton = new JButton();
+        additionalButton.setBounds(10, 2, 70, 70);
+        this.refreshbuttonListen= new RefreshButtonListener();
+        additionalButton.addActionListener(refreshbuttonListen);
+        // Add the button to the additional JInternalFrame
+        RefreshFrame.add(additionalButton);
+
+        // Position the additional JInternalFrame between "GAME STATUS" and the dashboard
+        RefreshFrame.setLocation(310, 10);
+
+        // Add the additional JInternalFrame to the content pane of the JFrame
+        mf.getContentPane().add(RefreshFrame);
+        RefreshFrame.setVisible(true);
     }
 
 
@@ -638,9 +659,6 @@ public class GraphicalUI implements View, UI {
         }
     }
 
-
-
-
     /**
      * Prompts the user to enter their nickname using a graphical user interface.
      * This method displays a panel with a label asking the user to insert their nickname,
@@ -884,5 +902,11 @@ public class GraphicalUI implements View, UI {
         this.labelStatus.setText("ASPETTA IL TUO TURNO");
         return shelfListener.getButtonPosition();
     }
+
+    public boolean getClicked(){
+        return refreshbuttonListen.getClicked();
+    }
+
+
 
 }

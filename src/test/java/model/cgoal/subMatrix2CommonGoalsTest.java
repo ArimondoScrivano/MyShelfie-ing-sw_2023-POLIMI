@@ -91,6 +91,6 @@ class subMatrix2CommonGoalsTest {
         Tile a54 = new Tile(COLOR.WHITE, 1);
         matrix[5][4] = a54;
         assertEquals(3, test9.Checker(matrix));
-
+        int a= test9.getId();
     }
 }

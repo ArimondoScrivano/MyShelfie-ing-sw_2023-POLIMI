@@ -90,5 +90,6 @@ class twoRowsAllDifferentCommonGoalsTest {
         }
 
         assertEquals(0, test12.Checker(matrix));
+        int a= test12.getId();
     }
 }

@@ -92,6 +92,6 @@ class threeDisegualColumnsCommonGoalsTest {
         Tile a54 = new Tile(COLOR.GREEN, 1);
         matrix[5][4] = a54;
         assertEquals(3, test10.Checker(matrix));
-
+        int a= test10.getId();
     }
 }

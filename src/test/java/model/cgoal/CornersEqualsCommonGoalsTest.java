@@ -94,7 +94,7 @@ public class CornersEqualsCommonGoalsTest extends TestCase {
         assertEquals(2, test1.Checker(matrix));
         assertEquals(1, test1.Checker(matrix));
         assertEquals(0, test1.Checker(matrix));
-
+        int a= test1.getId();
         for(int i = 0; i < 6; ++i) {
             for(int j = 0; j < 5; ++j) {
                 matrix[i][j] = new Tile(COLOR.BLANK, 1);

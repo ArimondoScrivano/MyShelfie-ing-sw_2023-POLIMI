@@ -92,6 +92,6 @@ class SixPairsEqualCommonGoalsTest {
         }
 
         assertEquals(0, test8.Checker(matrix));
-
+        int a= test8.getId();
     }
 }

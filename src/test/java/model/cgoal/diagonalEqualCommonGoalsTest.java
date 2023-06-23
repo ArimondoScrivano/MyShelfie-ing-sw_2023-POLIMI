@@ -93,5 +93,6 @@ class diagonalEqualCommonGoalsTest {
         Assertions.assertEquals(0, test2.Checker(matrix));
         matrix[3][2] = new Tile(COLOR.GREEN, 1);
         Assertions.assertEquals(2, test2.Checker(matrix));
+        int a= test2.getId();
     }
 }
