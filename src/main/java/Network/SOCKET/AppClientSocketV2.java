@@ -22,6 +22,7 @@ public class AppClientSocketV2  {
     public static void main(String[] args) throws NotBoundException, RemoteException, MalformedURLException {
         BufferedReader reader=  new BufferedReader(new InputStreamReader(System.in));
         Cli cliinit = new Cli();
+
         int typechosed= cliinit.askGUI();
         View view;
         UI cli;
@@ -35,6 +36,7 @@ public class AppClientSocketV2  {
             view = new TextualUI();
             cli= new Cli();
         }
+        String ipaddress= cli.askIP();
         if(typechosed==2) {
             view.init();
         }
@@ -44,7 +46,7 @@ public class AppClientSocketV2  {
         //THE USER CHOSE SOCKET CONNECTION
         if(conn==2) {
             int defaultPort = 16001;
-            ClientControllerV2 clientControllerV2 = new ClientControllerV2(view,cli, "localhost", defaultPort,typechosed);
+            ClientControllerV2 clientControllerV2 = new ClientControllerV2(view,cli, ipaddress, defaultPort,typechosed);
             try{
                 clientControllerV2.gameFlow();
             }catch(IOException e){
@@ -57,7 +59,7 @@ public class AppClientSocketV2  {
             //Asking the nickname
             playerName=cli.askNickname();
             //Creating the client
-            Client_RMI client = new Client_RMI(playerName);
+            Client_RMI client = new Client_RMI(playerName,ipaddress);
 
             //ASYNCRONOUS REQUEST THREAD CREATION
             ChatAndMiscellaneusThread chatAndMiscellaneusThread= new ChatAndMiscellaneusThread(client,view,typechosed,cli);

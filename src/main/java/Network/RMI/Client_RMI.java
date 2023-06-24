@@ -30,12 +30,12 @@ public class Client_RMI extends UnicastRemoteObject implements ClientCallback {
      * @throws NotBoundException    if the server is not bound in the RMI registry
      * @throws MalformedURLException if the URL for the RMI registry is malformed
      */
-    public Client_RMI(String name) throws RemoteException, NotBoundException, MalformedURLException {
+    public Client_RMI(String name, String ipaddress) throws RemoteException, NotBoundException, MalformedURLException {
         this.LobbyReference = 0;
         this.playerName = name;
         this.myId = 0;
 
-        Remote lookup = Naming.lookup("rmi://" +"localhost" +":16000/server");
+        Remote lookup = Naming.lookup("rmi://" +ipaddress +":16000/server");
         this.server = (Server_RMI) lookup;
     }
 

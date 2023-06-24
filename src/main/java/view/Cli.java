@@ -93,6 +93,15 @@ public class Cli implements UI{
         return input;
     }
 
+    public String askIP() {
+        out.print("Insert the IP address: ");
+        String input = in.nextLine();
+        while (input.trim().isEmpty()) {
+            input= in.nextLine();
+        }
+        return input;
+    }
+
 
 
     /**

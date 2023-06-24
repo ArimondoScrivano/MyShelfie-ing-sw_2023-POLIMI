@@ -18,7 +18,7 @@ import java.util.List;
 
 
 
-public class Sock {
+public class Sock  {
     public static void main(String[] args) throws NotBoundException, RemoteException, MalformedURLException {
         BufferedReader reader=  new BufferedReader(new InputStreamReader(System.in));
         Cli cliinit = new Cli();
@@ -35,6 +35,7 @@ public class Sock {
             view = new TextualUI();
             cli= new Cli();
         }
+        String ipaddress= cli.askIP();
         if(typechosed==2) {
             view.init();
         }
@@ -44,7 +45,7 @@ public class Sock {
         //THE USER CHOSE SOCKET CONNECTION
         if(conn==2) {
             int defaultPort = 16001;
-            ClientControllerV2 clientControllerV2 = new ClientControllerV2(view,cli, "localhost", defaultPort,typechosed);
+            ClientControllerV2 clientControllerV2 = new ClientControllerV2(view,cli, ipaddress, defaultPort,typechosed);
             try{
                 clientControllerV2.gameFlow();
             }catch(IOException e){
@@ -57,7 +58,7 @@ public class Sock {
             //Asking the nickname
             playerName=cli.askNickname();
             //Creating the client
-            Client_RMI client = new Client_RMI(playerName);
+            Client_RMI client = new Client_RMI(playerName,ipaddress);
 
             //ASYNCRONOUS REQUEST THREAD CREATION
             ChatAndMiscellaneusThread chatAndMiscellaneusThread= new ChatAndMiscellaneusThread(client,view,typechosed,cli);
@@ -116,6 +117,7 @@ public class Sock {
                 if (client.isItMyTurn()) {
                     System.out.println(ColorUI.BLUE_TEXT + playerName + " is your turn!" + ColorUI.RESET);
                     chatAndMiscellaneusThread.setBufferEnd();
+
                     view.showMatchInfo(client.getDashboard(), client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
                     cli.displayPoints(client.myPoints(), client.myPGpoints());
                     flagDisplay = 0;

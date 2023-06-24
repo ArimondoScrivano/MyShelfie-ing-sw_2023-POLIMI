@@ -1,27 +1,22 @@
 package controller;
 
 import Network.RMI.Client_RMI;
-import Network.SOCKET.Sock;
-import Network.SOCKET.SocketClientHandler;
 import Network.Server;
 import Network.messages.MessageType;
 import junit.framework.TestCase;
-import model.*;
+import model.COLOR;
+import model.Player;
+import model.Tile;
 import model.cgoal.CommonGoals;
 import org.junit.jupiter.api.Test;
-import view.TextualUI;
-import view.View;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class GameControllerTest extends TestCase {
 
@@ -81,10 +76,10 @@ class GameControllerTest extends TestCase {
         System.out.println("Something went wrong :( " + e);
     }
 
-        Client_RMI Franco = new Client_RMI("Franco");
+        Client_RMI Franco = new Client_RMI("Franco","localhost");
         Franco.createLobby(2, "Franco");
         assertTrue(Franco.notifyMe().getMessageType().equals(MessageType.LOBBYCREATED));
-        Client_RMI Mario = new Client_RMI("Mario");
+        Client_RMI Mario = new Client_RMI("Mario","localhost");
         Mario.joinLobby();
         Mario.addPlayer("Mario");
         assertTrue(Franco.notifyMe().getMessageType().equals(MessageType.GAME_STARTING));
@@ -162,8 +157,8 @@ class GameControllerTest extends TestCase {
         Mario.myPGpoints();
         assertFalse(Franco.columnAvailable(10,1));
         assertTrue(Franco.notifyMe().getMessageType().equals(MessageType.GAME_ENDING));
-        Client_RMI Mario2 = new Client_RMI("Mario");
-        Client_RMI Mario3 = new Client_RMI("Mario");
+        Client_RMI Mario2 = new Client_RMI("Mario","localhost");
+        Client_RMI Mario3 = new Client_RMI("Mario","localhost");
 
         Mario2.createLobby(2,"Mario");
         Mario3.joinLobby();
@@ -204,10 +199,10 @@ class GameControllerTest extends TestCase {
         Mario3.FinalPick(2,x12, y12);
        assertTrue( Mario3.columnAvailable(3,4));
         assertTrue(Mario3.columnAvailable(2,4));
-        Client_RMI Giuseppe= new Client_RMI("Giuseppe");
-        Client_RMI Rita= new Client_RMI("Rita");
-        Client_RMI Piehehetro= new Client_RMI("Piehehetro");
-        Client_RMI Lorenzo= new Client_RMI("Lorenzo");
+        Client_RMI Giuseppe= new Client_RMI("Giuseppe","localhost");
+        Client_RMI Rita= new Client_RMI("Rita","localhost");
+        Client_RMI Piehehetro= new Client_RMI("Piehehetro","localhost");
+        Client_RMI Lorenzo= new Client_RMI("Lorenzo","localhost");
 
         Giuseppe.createLobby(4, "Giuseppe");
         Rita.joinLobby();
@@ -217,9 +212,9 @@ class GameControllerTest extends TestCase {
         Lorenzo.joinLobby();
         Lorenzo.addPlayer("Lorenzo");
         assertTrue(Giuseppe.notifyMe().getMessageType().equals(MessageType.GAME_STARTING));
-        Client_RMI Rita1= new Client_RMI("Rita");
-        Client_RMI Piehehetro1= new Client_RMI("Piehehetro");
-        Client_RMI Lorenzo1= new Client_RMI("Lorenzo");
+        Client_RMI Rita1= new Client_RMI("Rita","localhost");
+        Client_RMI Piehehetro1= new Client_RMI("Piehehetro","localhost");
+        Client_RMI Lorenzo1= new Client_RMI("Lorenzo","localhost");
         Rita1.createLobby(3, "Giuseppe");
         Piehehetro1.joinLobby();
         Piehehetro1.addPlayer("Co");

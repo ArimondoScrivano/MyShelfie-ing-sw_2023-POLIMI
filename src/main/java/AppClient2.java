@@ -20,6 +20,7 @@ public class AppClient2 {
         BufferedReader reader=  new BufferedReader(new InputStreamReader(System.in));
         Cli cliinit = new Cli();
         int typechosed= cliinit.askGUI();
+
         View view;
         UI cli;
         if(typechosed==1){
@@ -32,6 +33,7 @@ public class AppClient2 {
             view = new TextualUI();
             cli= new Cli();
         }
+        String ipaddress= cli.askIP();
         if(typechosed==2) {
             view.init();
         }
@@ -41,7 +43,7 @@ public class AppClient2 {
         //THE USER CHOSE SOCKET CONNECTION
         if(conn==2) {
             int defaultPort = 16001;
-            ClientControllerV2 clientControllerV2 = new ClientControllerV2(view,cli, "localhost", defaultPort, typechosed);
+            ClientControllerV2 clientControllerV2 = new ClientControllerV2(view,cli, ipaddress, defaultPort, typechosed);
             try{
                 clientControllerV2.gameFlow();
             }catch(IOException e){
@@ -54,7 +56,7 @@ public class AppClient2 {
             //Asking the nickname
             playerName=cli.askNickname();
             //Creating the client
-            Client_RMI client = new Client_RMI(playerName);
+            Client_RMI client = new Client_RMI(playerName,ipaddress);
 
             //ASYNCRONOUS REQUEST THREAD CREATION
             ChatAndMiscellaneusThread chatAndMiscellaneusThread= new ChatAndMiscellaneusThread(client,view,typechosed,cli);
@@ -112,9 +114,7 @@ public class AppClient2 {
                 //:_________________________:/
                 if (client.isItMyTurn()) {
                     System.out.println(ColorUI.BLUE_TEXT + playerName + " is your turn!" + ColorUI.RESET);
-
-                        chatAndMiscellaneusThread.setBufferEnd();
-
+                    chatAndMiscellaneusThread.setBufferEnd();
 
                     view.showMatchInfo(client.getDashboard(), client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
                     cli.displayPoints(client.myPoints(), client.myPGpoints());
@@ -151,8 +151,6 @@ public class AppClient2 {
                     view.printShelf(client.getMyShelfie());
                     //Displaying the points
                     cli.displayPoints(client.myPoints(), client.myPGpoints());
-
-
                 } else {
                     if (flagDisplay == 0) {
                         System.out.println(ColorUI.YELLOW_TEXT + "Waiting for your turn" + ColorUI.RESET);

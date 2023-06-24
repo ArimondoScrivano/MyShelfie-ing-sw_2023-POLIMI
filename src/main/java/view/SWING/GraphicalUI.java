@@ -16,7 +16,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Scanner;
 
 public class GraphicalUI implements View, UI {
 
@@ -908,8 +907,38 @@ public class GraphicalUI implements View, UI {
         return refreshbuttonListen.getClicked();
     }
 
-    public Scanner getScanner(){
-        return null;
+    public String askIP() {
+        //usare una text Area
+        JPanel nickNamePanel= new JPanel();
+        JLabel questionLabel= new JLabel("Insert the IP address: ");
+        JTextField textField = new JTextField();
+        TextListener mytf= new TextListener(textField);
+        textField.addActionListener(mytf);
+        String IPaddr= new String();
+        boolean nameCollected= false;
+        nickNamePanel.add(questionLabel);
+        Dimension preferredSize = new Dimension(150, 25);
+        textField.setPreferredSize(preferredSize);
+        nickNamePanel.add(textField);
+        mf.add(nickNamePanel);
+        mf.setVisible(true);
+
+        while (!nameCollected) {
+            if (mytf.getdefinedChoice()) {
+                nameCollected = true;
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+        mf.remove(nickNamePanel);
+
+        IPaddr= mytf.getChoice();
+        return IPaddr;
     }
+
 
 }

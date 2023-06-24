@@ -83,4 +83,5 @@ public interface UI {
 
     public boolean getClicked();
 
+    public String askIP();
 }
