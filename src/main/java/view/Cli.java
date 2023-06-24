@@ -1,9 +1,6 @@
 package view;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -13,7 +10,7 @@ public class Cli implements UI{
     //Output stream
     private final PrintStream out;
     //Input stream
-    private final Scanner in = new Scanner(new InputStreamReader(System.in));
+    private  Scanner in = new Scanner(new InputStreamReader(System.in));
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
 
@@ -199,7 +196,8 @@ public class Cli implements UI{
         out.print("Chose the number of tiles that you want to pick: ");
         while(true){
             try{
-                int numberOfTile=in.nextInt();
+                int numberOfTile = in.nextInt();
+
                 while(numberOfTile<1 || numberOfTile>3){
                     out.print(ColorUI.RED_TEXT+"You must choose a number between 1 and 3! Retry "+ColorUI.RESET);
                     numberOfTile=in.nextInt();
@@ -333,5 +331,6 @@ public class Cli implements UI{
     public boolean getClicked(){
         return false;
     }
+
 
 }

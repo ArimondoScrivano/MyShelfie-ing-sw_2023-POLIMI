@@ -5,74 +5,79 @@ import view.UI;
 import view.View;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ChatAndMiscellaneusThread extends Thread {
-    private volatile boolean running = true;
-    private volatile boolean paused = false;
-
     private Client_RMI rmiclient;
     private View currentView;
     private BufferedReader reader;
-
-    private int typechosed;
-
+    private int typeChosen;
     private UI cli;
-    public ChatAndMiscellaneusThread(Client_RMI rmiclient, View currentView, int typechosed, UI cli) {
+    private volatile boolean stop;
+
+    public ChatAndMiscellaneusThread(Client_RMI rmiclient, View currentView, int typeChosen, UI cli) {
         this.rmiclient = rmiclient;
         this.currentView = currentView;
-        this.typechosed= typechosed;
-        this.cli= cli;
+        this.typeChosen = typeChosen;
+        this.cli = cli;
+        this.stop = false;
+        this.reader = new BufferedReader(new InputStreamReader(System.in));
+    }
+
+    public void setBufferEnd() {
+        stop = true;
+        interrupt();
     }
 
     public void run() {
-        while(!currentThread().isInterrupted()) {
-            if(typechosed==2) {
+        while (!stop && !Thread.currentThread().isInterrupted()) {
+            if (typeChosen == 2) {
                 try {
-                    this.reader = new BufferedReader(new InputStreamReader(System.in));
-                    String context = reader.readLine();
+                    if (reader.ready()) {
+                        String context = reader.readLine();
+                        if (isInterrupted()) {
+                            break;
+                        }
 
-
-                    if (context.equals("/dashboard")) {
-                        currentView.printDashboard(rmiclient.getDashboard());
-                    } else if (context.equals("/personalgoal")) {
-                        currentView.printPersonalGoal(rmiclient.getMyPersonalGoal());
-                    } else if (context.equals("/commongoal")) {
-                        currentView.printCommonGoal(rmiclient.getCommonGoals());
-                    } else if (context.equals("/shelf")) {
-                        currentView.printShelf(rmiclient.getMyShelfie());
-                    } else if (context.equals("/refresh")) {
-                        currentView.showMatchInfo(
-                                rmiclient.getDashboard(),
-                                rmiclient.getCommonGoals(),
-                                rmiclient.getMyShelfie(),
-                                rmiclient.getMyPersonalGoal()
-                        );
+                        // Processa l'input
+                        if (context.equals("/dashboard")) {
+                            currentView.printDashboard(rmiclient.getDashboard());
+                        } else if (context.equals("/personalgoal")) {
+                            currentView.printPersonalGoal(rmiclient.getMyPersonalGoal());
+                        } else if (context.equals("/commongoal")) {
+                            currentView.printCommonGoal(rmiclient.getCommonGoals());
+                        } else if (context.equals("/shelf")) {
+                            currentView.printShelf(rmiclient.getMyShelfie());
+                        } else if (context.equals("/refresh")) {
+                            currentView.showMatchInfo(
+                                    rmiclient.getDashboard(),
+                                    rmiclient.getCommonGoals(),
+                                    rmiclient.getMyShelfie(),
+                                    rmiclient.getMyPersonalGoal()
+                            );
+                        }
                     }
-                } catch (Exception e) {
-
+                } catch (IOException e) {
+                    // Gestisci l'eccezione
                 }
-            }else{
-
-            while(true) {
-                
-                try{
-                if (cli.getClicked()) {
-                    currentView.showMatchInfo(
-                            rmiclient.getDashboard(),
-                            rmiclient.getCommonGoals(),
-                            rmiclient.getMyShelfie(),
-                            rmiclient.getMyPersonalGoal()
-                    );
-                }
-                Thread.sleep(100);
-                }catch (Exception e){
-
+            } else {
+                while (true) {
+                    try {
+                        if (cli.getClicked()) {
+                            currentView.showMatchInfo(
+                                    rmiclient.getDashboard(),
+                                    rmiclient.getCommonGoals(),
+                                    rmiclient.getMyShelfie(),
+                                    rmiclient.getMyPersonalGoal()
+                            );
+                        }
+                        Thread.sleep(100);
+                    } catch (Exception e) {
+                        // Gestisci l'eccezione
+                    }
                 }
             }
-
-            }
-        }
-
         }
     }
+}

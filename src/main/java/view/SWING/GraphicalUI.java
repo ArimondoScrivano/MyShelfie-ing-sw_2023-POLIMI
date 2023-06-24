@@ -16,6 +16,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Scanner;
 
 public class GraphicalUI implements View, UI {
 
@@ -907,6 +908,8 @@ public class GraphicalUI implements View, UI {
         return refreshbuttonListen.getClicked();
     }
 
-
+    public Scanner getScanner(){
+        return null;
+    }
 
 }

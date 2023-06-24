@@ -41,7 +41,7 @@ public class AppClient2 {
         //THE USER CHOSE SOCKET CONNECTION
         if(conn==2) {
             int defaultPort = 16001;
-            ClientControllerV2 clientControllerV2 = new ClientControllerV2(view,cli, "localhost", defaultPort);
+            ClientControllerV2 clientControllerV2 = new ClientControllerV2(view,cli, "localhost", defaultPort, typechosed);
             try{
                 clientControllerV2.gameFlow();
             }catch(IOException e){
@@ -112,7 +112,10 @@ public class AppClient2 {
                 //:_________________________:/
                 if (client.isItMyTurn()) {
                     System.out.println(ColorUI.BLUE_TEXT + playerName + " is your turn!" + ColorUI.RESET);
-                    chatAndMiscellaneusThread.interrupt();
+
+                        chatAndMiscellaneusThread.setBufferEnd();
+
+
                     view.showMatchInfo(client.getDashboard(), client.getCommonGoals(), client.getMyShelfie(), client.getMyPersonalGoal());
                     cli.displayPoints(client.myPoints(), client.myPGpoints());
                     flagDisplay = 0;
@@ -148,6 +151,8 @@ public class AppClient2 {
                     view.printShelf(client.getMyShelfie());
                     //Displaying the points
                     cli.displayPoints(client.myPoints(), client.myPGpoints());
+
+
                 } else {
                     if (flagDisplay == 0) {
                         System.out.println(ColorUI.YELLOW_TEXT + "Waiting for your turn" + ColorUI.RESET);

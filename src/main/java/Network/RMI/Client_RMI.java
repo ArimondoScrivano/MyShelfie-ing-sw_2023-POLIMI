@@ -179,8 +179,6 @@ public class Client_RMI extends UnicastRemoteObject implements ClientCallback {
         try{
             currentPlayer=server.getCurrentPlayer(LobbyReference);
         }catch (Exception e){
-            //System.out.println("ERROR, BAD CONNECTION");
-            e.printStackTrace();
             return false;
         }
         if(currentPlayer== myId){

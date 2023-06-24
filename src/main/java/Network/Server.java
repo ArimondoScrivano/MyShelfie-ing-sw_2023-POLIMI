@@ -219,7 +219,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         System.out.println("Message received");
         switch(message.getMsg()){
             case IS_GAME_STARTING -> {
-                checkGameStarting(message);
+             //  checkGameStarting(message);
             }
             case IS_IT_MY_TURN -> {
                 System.out.println("User " +message.getName() +" chiede se è il suo turno");
@@ -266,6 +266,32 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                 }else{
                     clientHandlerMap.get(message.getNp()).get(namePlayer).sendMessage(new Message("server", SocketMessages.LOSER));
                 }
+            }
+            //ASYNCHRONOUS REQUEST MANAGEMENT
+            case DASHBOARD_REQ -> {
+                clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.DASHBOARD_RES,
+                        Lobby.get(message.getNp()).getDashboardTiles(),null,null,null,0,0));
+            }
+            case SHELF_REQ -> {
+                clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.SHELF_RES,
+                       null,null,Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getShelfMatrix(),null,0,0));
+            }
+            case COMMONGOAL_REQ -> {
+                clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.COMMONGOAL_RES,
+                        null,Lobby.get(message.getNp()).getCommonGoals(),null,null,0,0));
+            }
+            case PERSONAL_GOAL_REQ -> {
+                clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.PERSONAL_GOAL_RES,
+                        null,null,null,Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getPersonalGoal(),0,0));
+            }
+            case REFRESH_REQ -> {
+                clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.REFRESH_RES,
+                        Lobby.get(message.getNp()).getDashboardTiles(),
+                        Lobby.get(message.getNp()).getCommonGoals(),
+                        Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getShelfMatrix(),
+                        Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getPersonalGoal(),
+                        Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getPoints(),
+                        Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getPGpoints()));
             }
         }
     }
@@ -381,11 +407,15 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         LobbyMessage.set(message.getId(), message);
         //Control print for debugging purpose
         //System.out.println("Messaggio settato "+ message.getMessageType());
-            if (message.getMessageType().equals(MessageType.GAME_STARTING) && ConnectionClientMap.get(message.getId())!=null) {
+            if (message.getMessageType().equals(MessageType.GAME_STARTING) && clientHandlerMap.get(message.getId())!=null) {
                 System.out.println("ciao");
-
-                Thread clientDisconnectionHandler = new Thread(() -> checkDisconnection(message));
-                clientDisconnectionHandler.start();
+                if(clientHandlerMap.get(message.getId()) != null) {
+                    checkGameStarting(message);
+                }
+                if(ConnectionClientMap.get(message.getId())!=null) {
+                    Thread clientDisconnectionHandler = new Thread(() -> checkDisconnection(message));
+                    clientDisconnectionHandler.start();
+                }
             }
             if (clientHandlerMap.get(message.getId()) != null) {
                 if (message.getMessageType().equals(MessageType.SOMETHINGCHANGED)) {

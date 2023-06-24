@@ -1,5 +1,6 @@
 package controller;
 
+import Network.GameChat.ChatAndMiscellaneusThreadSocket;
 import Network.SOCKET.SocketClientV2;
 import Network.messages.Message;
 import Network.messages.SocketMessages;
@@ -20,7 +21,11 @@ public class ClientControllerV2 {
     //Index of the Lobby
     private int idLobby;
 
+    //index that indicates if the User picked TUI(2) or GUI(1)
+    private int typechosed;
+    private int FlagStartThread;
 
+    private ChatAndMiscellaneusThreadSocket chatAndMiscellaneusThreadSocket;
     /**
      * Returns the ID of the lobby.
      *
@@ -57,15 +62,18 @@ public class ClientControllerV2 {
      * @param address the server address to connect to.
      * @param port    the server port to connect to.
      */
-    public ClientControllerV2(View view, UI cli, String address, int port){
+    public ClientControllerV2(View view, UI cli, String address, int port,int typechosed){
         this.view=view;
         this.cli= cli;
+        this.typechosed=typechosed;
+        this.FlagStartThread=0;
         try{
             this.client=new SocketClientV2(address, port, this);
             client.pingMessage(true);
         }catch(IOException e){
             e.printStackTrace();
         }
+
     }
 
     /**
@@ -121,6 +129,12 @@ public class ClientControllerV2 {
             case GAME_STARTING -> {
                 System.out.println("Game starting");
                 client.sendMessage(new Message(name, SocketMessages.IS_IT_MY_TURN, idLobby));
+
+                if(FlagStartThread==0) {
+                    this.chatAndMiscellaneusThreadSocket = new ChatAndMiscellaneusThreadSocket(view, cli, client, name, idLobby, typechosed);
+                    chatAndMiscellaneusThreadSocket.start();
+                    FlagStartThread=1;
+                }
             }
 
             case WAITING_FOR_OTHER_PLAYERS -> {
@@ -135,6 +149,8 @@ public class ClientControllerV2 {
 
             }
             case MY_TURN->{
+
+                chatAndMiscellaneusThreadSocket.setBufferEnd();
                 System.out.println(ColorUI.BLUE_TEXT+this.name+" is your turn!"+ColorUI.RESET);
                 view.showMatchInfo(message.getDashboard(), message.getCommonGoals(), message.getShelf(), message.getPg());
                 //Points display at the end of the turn
@@ -158,6 +174,8 @@ public class ClientControllerV2 {
                 //Points display at the end of the turn
                 this.cli.displayPoints(message.getPoints(), message.getPgPoints());
                 client.sendMessage(new Message(name, SocketMessages.MY_TURN_ENDED, idLobby));
+                this.chatAndMiscellaneusThreadSocket = new ChatAndMiscellaneusThreadSocket(view, cli, client, name, idLobby, typechosed);
+                chatAndMiscellaneusThreadSocket.start();
             }
             case GAME_ENDING -> {
                 client.sendMessage(new Message(name, SocketMessages.HAVE_I_WON, idLobby));
@@ -173,6 +191,25 @@ public class ClientControllerV2 {
                 view.endGame("GAME ENDING FROM DISCONNECTION");
                 client.disconnect();
             }
+
+            //ASYNCHRONOUS REQUEST MANAGEMENT
+            case DASHBOARD_RES -> {
+                view.printDashboard(message.getDashboard());
+            }
+            case SHELF_RES -> {
+                view.printShelf(message.getShelf());
+            }
+            case COMMONGOAL_RES -> {
+                view.printCommonGoal(message.getCommonGoals());
+            }
+            case PERSONAL_GOAL_RES -> {
+               view.printPersonalGoal(message.getPg());
+            }
+            case REFRESH_RES -> {
+                view.showMatchInfo(message.getDashboard(), message.getCommonGoals(), message.getShelf(), message.getPg());
+                this.cli.displayPoints(message.getPoints(), message.getPgPoints());
+            }
+
         }
     }
     /**
