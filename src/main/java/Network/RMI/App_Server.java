@@ -2,15 +2,24 @@ package Network.RMI;
 
 
 import Network.Server;
+
+import java.io.InputStreamReader;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Scanner;
 
 
 public class App_Server {
 
     public static void main(String [] args) {
         try {
-            System.setProperty("java.rmi.server.hostname", "172.16.0.13");
+            Scanner in = new Scanner(new InputStreamReader(System.in));
+            System.out.println("insert ipAddress: ");
+            String input = in.nextLine();
+            while (input.trim().isEmpty()) {
+                input= in.nextLine();
+            }
+            System.setProperty("java.rmi.server.hostname", input);
             //16000- RMI REGISTRY PORT
             Registry registry = LocateRegistry.createRegistry(16000);
 
