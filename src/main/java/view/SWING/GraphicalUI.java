@@ -604,7 +604,7 @@ public class GraphicalUI implements View, UI {
      */
     public void displayPoints(int myPoint, int myPGpoints) {
         int partialSum= myPoint + myPGpoints;
-        this.labelPoint.setText("Il tuo punteggio è di" +partialSum +"punti");
+        this.labelPoint.setText("Il tuo punteggio è di " +partialSum +" punti");
     }
 
 
@@ -840,7 +840,12 @@ public class GraphicalUI implements View, UI {
                 break;
             }
         }
-            int number = Integer.parseInt(input);
+        int number=0;
+        try {
+           number = Integer.parseInt(input);
+        }catch(Exception e) {
+               return askNumberOfTiles();
+            }
             frame.dispose();
             return number;
 
@@ -904,6 +909,9 @@ public class GraphicalUI implements View, UI {
     }
 
     public boolean getClicked(){
+        if(refreshbuttonListen==null){
+            return false;
+        }
         return refreshbuttonListen.getClicked();
     }
 

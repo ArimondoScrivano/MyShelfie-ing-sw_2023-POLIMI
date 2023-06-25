@@ -25,6 +25,8 @@ public class ClientControllerV2 {
     private int typechosed;
     private int FlagStartThread;
 
+    private boolean doneOnceInit;
+
     private ChatAndMiscellaneusThreadSocket chatAndMiscellaneusThreadSocket;
     /**
      * Returns the ID of the lobby.
@@ -67,6 +69,7 @@ public class ClientControllerV2 {
         this.cli= cli;
         this.typechosed=typechosed;
         this.FlagStartThread=0;
+        doneOnceInit=false;
         try{
             this.client=new SocketClientV2(address, port, this);
             client.pingMessage(true);
@@ -128,6 +131,10 @@ public class ClientControllerV2 {
             }
             case GAME_STARTING -> {
                 System.out.println("Game starting");
+                if(typechosed==1 && !doneOnceInit){
+                    doneOnceInit=true;
+                    view.initGame();
+                }
                 client.sendMessage(new Message(name, SocketMessages.IS_IT_MY_TURN, idLobby));
 
                 if(FlagStartThread==0) {
@@ -145,6 +152,7 @@ public class ClientControllerV2 {
                 System.out.println("I'm waiting my turn");
             }
             case CHECK_YOUR_TURN -> {
+
                 client.sendMessage(new Message(name, SocketMessages.IS_IT_MY_TURN, idLobby));
 
             }
