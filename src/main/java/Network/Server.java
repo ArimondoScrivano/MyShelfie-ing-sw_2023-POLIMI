@@ -412,11 +412,12 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                 if(clientHandlerMap.get(message.getId()) != null) {
                     checkGameStarting(message);
                 }
-                if(ConnectionClientMap.get(message.getId())!=null) {
-                    Thread clientDisconnectionHandler = new Thread(() -> checkDisconnection(message));
-                    clientDisconnectionHandler.start();
-                }
+
             }
+            if(ConnectionClientMap.get(message.getId())!=null) {
+            Thread clientDisconnectionHandler = new Thread(() -> checkDisconnection(message));
+            clientDisconnectionHandler.start();
+        }
             if (clientHandlerMap.get(message.getId()) != null) {
                 if (message.getMessageType().equals(MessageType.SOMETHINGCHANGED)) {
 
