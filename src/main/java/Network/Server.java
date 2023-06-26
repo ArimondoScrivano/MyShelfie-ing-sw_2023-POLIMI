@@ -331,14 +331,14 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     public void checkGameStarting(Message message){
         if (Lobby.get(message.getId()).isFull()){
 
-            for( String chiave : clientHandlerMap.get(message.getNp()).keySet()) {
+            for( String chiave : clientHandlerMap.get(message.getId()).keySet()) {
                 //For generalizzato sulla mappa
-                clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.GAME_STARTING));
+                clientHandlerMap.get(message.getId()).get(chiave).sendMessage(new Message("server", SocketMessages.GAME_STARTING));
             }
         }else{
-            for( String chiave : clientHandlerMap.get(message.getNp()).keySet()) {
+            for( String chiave : clientHandlerMap.get(message.getId()).keySet()) {
                 //For generalizzato sulla mappa
-                clientHandlerMap.get(message.getNp()).get(chiave).sendMessage(new Message("server", SocketMessages.WAITING_FOR_OTHER_PLAYERS));
+                clientHandlerMap.get(message.getId()).get(chiave).sendMessage(new Message("server", SocketMessages.WAITING_FOR_OTHER_PLAYERS));
             }
         }
     }
