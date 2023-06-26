@@ -342,12 +342,21 @@ public class Cli implements UI{
     }
 
 
-    public boolean getClicked(){
+    /**
+     * Gets the state of the clicked status.
+     *
+     * @return Always returns false.
+     */
+    public boolean getClicked() {
         return false;
     }
 
-
-    public  boolean pressAnyKey() {
+    /**
+     * Prompts the user to press any key.
+     *
+     * @return Always returns true.
+     */
+    public boolean pressAnyKey() {
         System.out.println("PRESS ENTER TO EXIT OR WAIT THE DISCONNECTION...");
         Scanner in = new Scanner(System.in);
 
@@ -358,6 +367,7 @@ public class Cli implements UI{
 
         return true;
     }
+
 
 
 }
