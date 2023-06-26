@@ -167,7 +167,7 @@ public class AppClient2 {
             //Check if I won
             if(client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)){
                 view.endGame(client.checkWinner());
-
+                chatAndMiscellaneusThread.setBufferEnd();
                 Thread waitEnd = new Thread(()->{
                     try{
                         //Wait for a minute then disconnect the client
