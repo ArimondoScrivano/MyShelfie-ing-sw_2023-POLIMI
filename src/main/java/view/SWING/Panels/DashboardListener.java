@@ -13,7 +13,7 @@ public class DashboardListener implements ActionListener {
     private boolean permission;
     private int numTilesRequired;
     private boolean doneChoice;
-    private List<Integer> buttonPosition;
+    private final List<Integer> buttonPosition;
 
     /**
      * Constructs a new DashboardListener object.

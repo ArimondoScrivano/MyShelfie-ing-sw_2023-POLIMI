@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
     public class ImagePanel extends JPanel {
-        private Image image;
+        private final Image image;
 
 
 

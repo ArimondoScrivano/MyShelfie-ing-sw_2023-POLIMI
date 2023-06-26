@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class ButtonListener implements ActionListener {
     private boolean definedChoice;
-    private int choice;
+    private final int choice;
 
     /**
      * Constructs a new ButtonListener object with the specified choice.

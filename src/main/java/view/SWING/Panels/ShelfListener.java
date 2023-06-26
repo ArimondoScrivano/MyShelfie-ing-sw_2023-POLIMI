@@ -15,7 +15,6 @@ public class ShelfListener implements ActionListener {
     /**
      * Constructs a new ShelfListener.
      * Initializes the permission, doneChoice, and buttonPosition variables.
-     *
      * The permission variable indicates whether the listener has permission to perform actions.
      * The doneChoice variable indicates whether a choice has been made.
      * The buttonPosition variable stores the position of a button.
@@ -99,12 +98,11 @@ public class ShelfListener implements ActionListener {
             Container parent = button.getParent();
             for (int i = 0; i < parent.getComponentCount(); i++) {
                 if (parent.getComponent(i) == button) {
-                    int col = i % 5;  // 5 rappresenta il numero di colonne nella griglia
-                    return col;
+                    return i % 5;
                 }
             }
         }
-        return -1;  // Valore di ritorno di default in caso di errore o se il bottone non è stato trovato
+        return -1;  //Default return value
     }
 }
 

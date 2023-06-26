@@ -1,14 +1,13 @@
 package view.SWING.Panels;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TextListener implements ActionListener {
     private boolean definedChoice;
     private String choice;
-    private JTextField myTF;
+    private final JTextField myTF;
 
 
     /**
