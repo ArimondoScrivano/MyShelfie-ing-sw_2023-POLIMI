@@ -191,9 +191,42 @@ public class ClientControllerV2 {
             }
             case WINNER -> {
                 view.endGame("Congratulation, you WON the match");
+                Thread waitEnd = new Thread(()->{
+                    try{
+                        //Wait for a minute then disconnect the client
+                        Thread.sleep(60000);
+                        System.out.println("Timer ended, disconnection...");
+                        System.exit(0);
+                    }catch(InterruptedException e){
+
+                    }
+                });
+                waitEnd.start();
+                if(typechosed==2){
+                    if(cli.pressAnyKey()) {
+                        System.exit(0);
+                    }
+                }
             }
             case LOSER -> {
                 view.endGame("Sorry, You Lost");
+                Thread waitEnd = new Thread(()->{
+                    try{
+                        //Wait for a minute then disconnect the client
+                        Thread.sleep(60000);
+                        System.out.println("Timer ended, disconnection...");
+                        System.exit(0);
+                    }catch(InterruptedException e){
+
+                    }
+                });
+                waitEnd.start();
+                if(typechosed==2){
+                    if(cli.pressAnyKey()) {
+                        System.exit(0);
+                    }
+                }
+
             }
             case DISCONNECT -> {
                 view.endGame("GAME ENDING FROM DISCONNECTION");

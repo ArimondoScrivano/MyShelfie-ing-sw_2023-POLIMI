@@ -32,7 +32,7 @@ public class Cli implements UI{
      */
     public int askConnection() {
         out.println("Choose the connection method that you prefer");
-        out.println("1 for RMI and 2 for Socket");
+        out.println("1 for RMI and 2 for Socket [default:RMI]");
         int i = 0;
         while(true){
             try{
@@ -41,12 +41,14 @@ public class Cli implements UI{
                     out.print(ColorUI.RED_TEXT+"You must choose a number between 1 and 2! Retry "+ColorUI.RESET);
                     i=in.nextInt();
                 }
-            }catch(InputMismatchException e){
-                System.err.println("You must choose a number");
 
+            }catch(InputMismatchException e){
+                System.err.println("Default choice");
+                i=1;
             }
             return i;
         }
+
     }
 
 
@@ -58,8 +60,8 @@ public class Cli implements UI{
      */
     public int askGUI() {
         out.println("Choose the interface that you prefer");
-        out.println("1 for GUI and 2 for TUI");
-        int i = 0;
+        out.println("1 for GUI and 2 for TUI [default:GUI]");
+        int i = 1;
         while(true){
             try{
                 i=in.nextInt();
@@ -67,12 +69,14 @@ public class Cli implements UI{
                     out.print(ColorUI.RED_TEXT+"You must choose a number between 1 and 2! Retry "+ColorUI.RESET);
                     i=in.nextInt();
                 }
-            }catch(InputMismatchException e){
-                System.err.println("You must choose a number");
 
+            }catch(InputMismatchException e){
+                System.err.println("Default choice");
+                i=1;
             }
             return i;
         }
+
     }
 
 
@@ -214,6 +218,7 @@ public class Cli implements UI{
                 return numberOfTile;
             }catch (InputMismatchException e){
                 System.err.println("You must choose a number");
+
             }
         }
     }
@@ -339,6 +344,19 @@ public class Cli implements UI{
 
     public boolean getClicked(){
         return false;
+    }
+
+
+    public  boolean pressAnyKey() {
+        System.out.println("PRESS ENTER TO EXIT OR WAIT THE DISCONNECTION...");
+        Scanner in = new Scanner(System.in);
+
+        String input = in.nextLine();
+        while (!input.isEmpty()) {
+            input = in.nextLine();
+        }
+
+        return true;
     }
 
 

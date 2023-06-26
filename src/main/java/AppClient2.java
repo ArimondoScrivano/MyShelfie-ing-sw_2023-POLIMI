@@ -164,12 +164,26 @@ public class AppClient2 {
             }
             //:_________________________:/
 
-
-
-            //Check if i won
-            if(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)){
-
+            //Check if I won
+            if(client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)){
                 view.endGame(client.checkWinner());
+
+                Thread waitEnd = new Thread(()->{
+                    try{
+                        //Wait for a minute then disconnect the client
+                        Thread.sleep(60000);
+                        System.out.println("Timer ended, disconnection...");
+                        System.exit(0);
+                    }catch(InterruptedException e){
+
+                    }
+                });
+                waitEnd.start();
+                if(typechosed==2){
+                    if(cli.pressAnyKey()) {
+                        System.exit(0);
+                    }
+                }
             }else{
                 if(typechosed==2){
                     System.out.println("GAME ENDING FROM DISCONNECTION");

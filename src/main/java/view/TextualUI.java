@@ -50,7 +50,7 @@ public class TextualUI  implements View {
      */
     @Override
     public void endGame(String esito) {
-        System.out.println(esito);
+        System.out.println(ColorUI.YELLOW_TEXT+esito+ColorUI.RESET);
     }
 
 

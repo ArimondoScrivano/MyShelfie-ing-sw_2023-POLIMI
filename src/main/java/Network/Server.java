@@ -329,7 +329,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
      * @param message The message indicating the lobby index.
      */
     public void checkGameStarting(Message message){
-        if (Lobby.get(message.getNp()).isFull()){
+        if (Lobby.get(message.getId()).isFull()){
 
             for( String chiave : clientHandlerMap.get(message.getNp()).keySet()) {
                 //For generalizzato sulla mappa

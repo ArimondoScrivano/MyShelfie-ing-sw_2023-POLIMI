@@ -948,5 +948,8 @@ public class GraphicalUI implements View, UI {
         return IPaddr;
     }
 
-
+    @Override
+    public boolean pressAnyKey() {
+        return true;
+    }
 }
