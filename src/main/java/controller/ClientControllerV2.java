@@ -14,15 +14,15 @@ import java.util.List;
 
 
 public class ClientControllerV2 {
-    private View view;
-    private UI cli;
+    private final View view;
+    private final UI cli;
     private SocketClientV2 client;
     private String name;
     //Index of the Lobby
     private int idLobby;
 
     //index that indicates if the User picked TUI(2) or GUI(1)
-    private int typechosed;
+    private final int typechosed;
     private int FlagStartThread;
 
     private boolean doneOnceInit;
@@ -144,18 +144,11 @@ public class ClientControllerV2 {
                 }
             }
 
-            case WAITING_FOR_OTHER_PLAYERS -> {
-                System.out.println("Waiting for other players");
-            }
+            case WAITING_FOR_OTHER_PLAYERS -> System.out.println("Waiting for other players");
 
-            case WAITING_FOR_YOUR_TURN -> {
-                System.out.println("I'm waiting my turn");
-            }
-            case CHECK_YOUR_TURN -> {
+            case WAITING_FOR_YOUR_TURN -> System.out.println("I'm waiting my turn");
 
-                client.sendMessage(new Message(name, SocketMessages.IS_IT_MY_TURN, idLobby));
-
-            }
+            case CHECK_YOUR_TURN -> client.sendMessage(new Message(name, SocketMessages.IS_IT_MY_TURN, idLobby));
             case MY_TURN->{
 
                 chatAndMiscellaneusThreadSocket.setBufferEnd();
@@ -163,14 +156,14 @@ public class ClientControllerV2 {
                 view.showMatchInfo(message.getDashboard(), message.getCommonGoals(), message.getShelf(), message.getPg());
                 //Points display at the end of the turn
                 this.cli.displayPoints(message.getPoints(), message.getPgPoints());
-                List<List<Integer>> myPossiblePick= new ArrayList<>();
+                List<List<Integer>> myPossiblePick;
                 myPossiblePick= chooseOnlyTile();
                 int possibleCol= chooseOnlyColumn();
                 client.sendMessage(new Message(name, SocketMessages.ARE_PARAMETERS_OK, idLobby, myPossiblePick, possibleCol));
 
             }
             case PARAMETERS_KO -> {
-                List<List<Integer>> myPossiblePick = new ArrayList<>();
+                List<List<Integer>> myPossiblePick;
                 myPossiblePick = chooseOnlyTile();
                 int possibleCol = chooseOnlyColumn();
                 client.sendMessage(new Message(name, SocketMessages.ARE_PARAMETERS_OK, idLobby, myPossiblePick, possibleCol));
@@ -185,10 +178,7 @@ public class ClientControllerV2 {
                 this.chatAndMiscellaneusThreadSocket = new ChatAndMiscellaneusThreadSocket(view, cli, client, name, idLobby, typechosed);
                 chatAndMiscellaneusThreadSocket.start();
             }
-            case GAME_ENDING -> {
-                client.sendMessage(new Message(name, SocketMessages.HAVE_I_WON, idLobby));
-
-            }
+            case GAME_ENDING -> client.sendMessage(new Message(name, SocketMessages.HAVE_I_WON, idLobby));
             case WINNER -> {
                 view.endGame("Congratulation, you WON the match");
                 Thread waitEnd = new Thread(()->{
@@ -197,7 +187,7 @@ public class ClientControllerV2 {
                         Thread.sleep(60000);
                         System.out.println("Timer ended, disconnection...");
                         System.exit(0);
-                    }catch(InterruptedException e){
+                    }catch(InterruptedException ignored){
 
                     }
                 });
@@ -216,7 +206,7 @@ public class ClientControllerV2 {
                         Thread.sleep(60000);
                         System.out.println("Timer ended, disconnection...");
                         System.exit(0);
-                    }catch(InterruptedException e){
+                    }catch(InterruptedException ignored){
 
                     }
                 });
@@ -234,18 +224,10 @@ public class ClientControllerV2 {
             }
 
             //ASYNCHRONOUS REQUEST MANAGEMENT
-            case DASHBOARD_RES -> {
-                view.printDashboard(message.getDashboard());
-            }
-            case SHELF_RES -> {
-                view.printShelf(message.getShelf());
-            }
-            case COMMONGOAL_RES -> {
-                view.printCommonGoal(message.getCommonGoals());
-            }
-            case PERSONAL_GOAL_RES -> {
-               view.printPersonalGoal(message.getPg());
-            }
+            case DASHBOARD_RES -> view.printDashboard(message.getDashboard());
+            case SHELF_RES -> view.printShelf(message.getShelf());
+            case COMMONGOAL_RES -> view.printCommonGoal(message.getCommonGoals());
+            case PERSONAL_GOAL_RES -> view.printPersonalGoal(message.getPg());
             case REFRESH_RES -> {
                 view.showMatchInfo(message.getDashboard(), message.getCommonGoals(), message.getShelf(), message.getPg());
                 this.cli.displayPoints(message.getPoints(), message.getPgPoints());
