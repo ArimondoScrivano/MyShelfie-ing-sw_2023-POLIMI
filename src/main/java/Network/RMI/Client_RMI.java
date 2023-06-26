@@ -393,12 +393,12 @@ public class Client_RMI extends UnicastRemoteObject implements ClientCallback {
         Thread controllingDisconnection=new Thread(()->{
             while(!Thread.currentThread().isInterrupted()){
                 if(notifyMe().getMessageType().equals(MessageType.DISCONNECT)){
-                    System.out.println("GAME ENDING FROM DISCONNECTION");
+                    System.err.println("GAME ENDING FROM DISCONNECTION");
                     Thread.currentThread().interrupt();
                     System.exit(-1);
                 }
             }
-        });
+        }, "Control disconnection - Client RMI side");
         controllingDisconnection.start();
         return null;
     }
