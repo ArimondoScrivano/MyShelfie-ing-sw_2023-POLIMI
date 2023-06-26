@@ -13,13 +13,13 @@ import java.util.List;
 
 public class GameController {
     //Model
-    private Game currentGame;
-    private int NumPlayers;
+    private final Game currentGame;
+    private final int NumPlayers;
     private int id;
 
 
     //final attribute to the server implementation
-    private Server server;
+    private final Server server;
 
     // 0 if the game is NOT ended or 1 if the Game Ended
     private int end;
@@ -158,11 +158,7 @@ public class GameController {
      * @return true if the game is full, false otherwise.
      */
     public boolean isFull(){
-        if(currentGame.getPlayers().size()==NumPlayers){
-            return true;
-        }else {
-            return false;
-        }
+        return currentGame.getPlayers().size() == NumPlayers;
     }
 
     /**
@@ -378,14 +374,10 @@ public class GameController {
 
         //check one tile picked
         if(xCord.size()==1){
-            if(currentGame.getDashboardMatrix()[xCord.get(0)+1][yCord.get(0)].getColor().equals(COLOR.BLANK)
-                || currentGame.getDashboardMatrix()[xCord.get(0)-1][yCord.get(0)].getColor().equals(COLOR.BLANK)
-                || currentGame.getDashboardMatrix()[xCord.get(0)][yCord.get(0)+1].getColor().equals(COLOR.BLANK)
-                || currentGame.getDashboardMatrix()[xCord.get(0)][yCord.get(0)-1].getColor().equals(COLOR.BLANK)){
-                return true;
-            }else{
-                return false;
-            }
+            return currentGame.getDashboardMatrix()[xCord.get(0) + 1][yCord.get(0)].getColor().equals(COLOR.BLANK)
+                    || currentGame.getDashboardMatrix()[xCord.get(0) - 1][yCord.get(0)].getColor().equals(COLOR.BLANK)
+                    || currentGame.getDashboardMatrix()[xCord.get(0)][yCord.get(0) + 1].getColor().equals(COLOR.BLANK)
+                    || currentGame.getDashboardMatrix()[xCord.get(0)][yCord.get(0) - 1].getColor().equals(COLOR.BLANK);
 
         }else {
             for(int i=0; i<xCord.size(); i++){
@@ -408,10 +400,8 @@ public class GameController {
                 }
                 //check horizontal line
                 if(yCord.get(0).equals(yCord.get(1))){
-                    if(xCord.get(0)== xCord.get(1) +1
-                            || xCord.get(0)== xCord.get(1) -1){
-                        return true;
-                    }
+                    return xCord.get(0) == xCord.get(1) + 1
+                            || xCord.get(0) == xCord.get(1) - 1;
                 }
                 return false;
 
@@ -431,14 +421,12 @@ public class GameController {
                 //check  Horizontal line
                 if(yCord.get(0).equals(yCord.get(1)) && yCord.get(0).equals(yCord.get(2))) {
                     //1-2-3 <---< 3-2-1 <---< 3-1-2 <---< 2-1-3 <---< 1-3-2 <---< 2-3-1
-                    if((xCord.get(0)== xCord.get(1)-1 && xCord.get(0)== xCord.get(2)-2)
-                            || (xCord.get(0)== xCord.get(1)+1 && xCord.get(0)== xCord.get(2)+2)
-                            || (xCord.get(0)== xCord.get(1)+2 && xCord.get(0)== xCord.get(2)+1)
-                            || (xCord.get(0)== xCord.get(1)+1 && xCord.get(0)== xCord.get(2)-1)
-                            || (xCord.get(0)== xCord.get(1)-2 && xCord.get(0)== xCord.get(2)-1)
-                            || (xCord.get(0)== xCord.get(1)-1 && xCord.get(0)== xCord.get(2)+1)){
-                        return true;
-                    }
+                    return (xCord.get(0) == xCord.get(1) - 1 && xCord.get(0) == xCord.get(2) - 2)
+                            || (xCord.get(0) == xCord.get(1) + 1 && xCord.get(0) == xCord.get(2) + 2)
+                            || (xCord.get(0) == xCord.get(1) + 2 && xCord.get(0) == xCord.get(2) + 1)
+                            || (xCord.get(0) == xCord.get(1) + 1 && xCord.get(0) == xCord.get(2) - 1)
+                            || (xCord.get(0) == xCord.get(1) - 2 && xCord.get(0) == xCord.get(2) - 1)
+                            || (xCord.get(0) == xCord.get(1) - 1 && xCord.get(0) == xCord.get(2) + 1);
                 }
 
             }
