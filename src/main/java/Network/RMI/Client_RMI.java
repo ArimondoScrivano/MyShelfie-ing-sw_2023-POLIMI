@@ -12,12 +12,15 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 public class Client_RMI extends UnicastRemoteObject implements ClientCallback {
-    // it indicates the Game where the player is
+    //Lobby index
     private int LobbyReference;
     private String playerName;
     private int myId;
-    private Server_RMI server;
+    private final Server_RMI server;
 
+    /**
+     * Method that control the connection of an RMI client
+     * */
      public void CheckConnectionClient() {
          //just to see the connection
      }
@@ -181,10 +184,7 @@ public class Client_RMI extends UnicastRemoteObject implements ClientCallback {
         }catch (Exception e){
             return false;
         }
-        if(currentPlayer== myId){
-            return true;
-        }
-        return false;
+        return currentPlayer == myId;
     }
 
     /**
