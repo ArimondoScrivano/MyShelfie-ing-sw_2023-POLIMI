@@ -896,22 +896,31 @@ public class GraphicalUI implements View, UI {
         return shelfListener.getButtonPosition();
     }
 
-    public boolean getClicked(){
-        if(refreshbuttonListen==null){
+    /**
+     * Gets the state of the refresh button click.
+     *
+     * @return True if the refresh button was clicked, false otherwise.
+     */
+    public boolean getClicked() {
+        if (refreshbuttonListen == null) {
             return false;
         }
         return refreshbuttonListen.getClicked();
     }
 
+    /**
+     * Asks the user to input an IP address.
+     *
+     * @return The IP address provided by the user.
+     */
     public String askIP() {
-        //usare una text Area
-        JPanel nickNamePanel= new JPanel();
-        JLabel questionLabel= new JLabel("Insert the IP address: ");
+        JPanel nickNamePanel = new JPanel();
+        JLabel questionLabel = new JLabel("Insert the IP address: ");
         JTextField textField = new JTextField();
-        TextListener mytf= new TextListener(textField);
+        TextListener mytf = new TextListener(textField);
         textField.addActionListener(mytf);
-        String IPaddr= new String();
-        boolean nameCollected= false;
+        String IPaddr = new String();
+        boolean nameCollected = false;
         nickNamePanel.add(questionLabel);
         Dimension preferredSize = new Dimension(150, 25);
         textField.setPreferredSize(preferredSize);
@@ -928,16 +937,21 @@ public class GraphicalUI implements View, UI {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
-        mf.remove(nickNamePanel);
 
-        IPaddr= mytf.getChoice();
+        mf.remove(nickNamePanel);
+        IPaddr = mytf.getChoice();
         return IPaddr;
     }
 
+    /**
+     * Indicates if any key is pressed.
+     *
+     * @return Always returns true.
+     */
     @Override
     public boolean pressAnyKey() {
         return true;
     }
+
 }

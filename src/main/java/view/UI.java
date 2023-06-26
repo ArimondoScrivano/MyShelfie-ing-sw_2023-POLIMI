@@ -81,9 +81,25 @@ public interface UI {
      */
     public int askConnection();
 
+    /**
+     * Gets the state of the clicked status.
+     *
+     * @return The state of the clicked status.
+     */
     public boolean getClicked();
 
+    /**
+     * Asks the user to input an IP address.
+     *
+     * @return The IP address provided by the user.
+     */
     public String askIP();
 
+    /**
+     * Prompts the user to press any key.
+     *
+     * @return The result indicating if any key is pressed.
+     */
     public boolean pressAnyKey();
+
 }
