@@ -26,7 +26,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     private final Object lock;
 
     // How it works:
-    //integer= indice della lobby, la mappa interna contiene l'associazione nome Giocatore, il suo socket
+    //Integer: lobby index, the internal map has the association player's name and socket
     private Map<Integer, Map<String, SocketClientHandler> > clientHandlerMap;
     private List<GameController> Lobby;
     private List<Message> LobbyMessage;
