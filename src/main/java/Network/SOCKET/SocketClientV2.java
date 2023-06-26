@@ -18,7 +18,7 @@ public class SocketClientV2 {
     private final ObjectOutputStream outputStream;
     private final ObjectInputStream inputStream;
     private final ExecutorService readExecutionQueue;
-    private ScheduledExecutorService ping;
+    private final ScheduledExecutorService ping;
 
     /**
      * Constructs a new instance of SocketClientV2.
@@ -116,7 +116,6 @@ public class SocketClientV2 {
     public void pingMessage(boolean enable){
         if(enable){
             ping.schedule(()->sendMessage(new Message("ping", SocketMessages.PING_MESSAGE)), 1000, TimeUnit.MILLISECONDS);
-            //ping.scheduleAtFixedRate(()->sendMessage(new Message("ping", SocketMessages.PING_MESSAGE)), 0, 1000, TimeUnit.MILLISECONDS);
         }else{
             ping.shutdownNow();
         }
