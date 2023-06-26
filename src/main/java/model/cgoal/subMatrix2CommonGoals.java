@@ -9,8 +9,8 @@ import java.util.List;
 
 //equal sub-matrix 2x2
 //id=7
- public class subMatrix2CommonGoals implements CommonGoals, Serializable {
-    private List<Integer> points;
+public class subMatrix2CommonGoals implements CommonGoals, Serializable {
+    private final List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;
 

@@ -3,9 +3,8 @@ package model;
 import java.io.Serializable;
 
 public class Tile implements Serializable {
-   private COLOR color;
-   private int id;
-
+   private final COLOR color;
+   private final int id;
 
     /**
      * Constructs a new Tile with the specified color and ID.

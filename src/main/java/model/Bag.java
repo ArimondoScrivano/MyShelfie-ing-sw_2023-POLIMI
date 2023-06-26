@@ -2,7 +2,7 @@ package model;
 import java.util.*;
 
 public class Bag {
-    private Map<Integer,Tile>  tilesInGame;
+    private final Map<Integer,Tile>  tilesInGame;
 
 
     //it identifies if the bag is open (1) or not (0)
@@ -16,8 +16,6 @@ public class Bag {
     public Bag(){
         tilesInGame= new HashMap<>();
        for(int i=1; i< 133; i++) {
-
-
            if (i<24) {
                //case BLUE
             Tile tileToInsert= new Tile(COLOR.BLUE,i);
@@ -74,11 +72,7 @@ public class Bag {
             tilesToRefill= 45- remainTiles;
         }
 
-        if(tilesInGame.size()< tilesToRefill){
-            return true;
-        }else{
-            return false;
-        }
+        return tilesInGame.size() < tilesToRefill;
     }
 
     /**
@@ -88,14 +82,14 @@ public class Bag {
      */
     public void updateBag(List<Tile> tilesRemoved ){
 
-        for (int i=0; i< tilesRemoved.size(); i++){
-             // the key in the map is the Tile - Id
-             tilesInGame.remove(tilesRemoved.get(i).getId(), tilesRemoved.get(i));
-             // insert of a blank tile
-             Tile blankTile = new Tile(COLOR.BLANK, tilesRemoved.get(i).getId());
-             tilesInGame.put(tilesRemoved.get(i).getId(),blankTile);
+        for (Tile tile : tilesRemoved) {
+            // the key in the map is the Tile - Id
+            tilesInGame.remove(tile.getId(), tile);
+            // insert of a blank tile
+            Tile blankTile = new Tile(COLOR.BLANK, tile.getId());
+            tilesInGame.put(tile.getId(), blankTile);
         }
-     }
+    }
 
 
     /**
@@ -136,7 +130,6 @@ public class Bag {
         Tile tileGiven= new Tile(tilesInGame.get(id).getColor(),id);
         tilesInGame.remove(id,tilesInGame.get(id));
         return tileGiven;
-
     }
     /**
      * Retrieves a map of tiles currently in the game.

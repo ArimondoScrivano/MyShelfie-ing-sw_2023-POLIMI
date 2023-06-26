@@ -8,8 +8,8 @@ import java.util.List;
 
 //equal "x"
 //id=10
- public class equalXCommonGoals implements CommonGoals, Serializable {
-    private List<Integer> points;
+public class equalXCommonGoals implements CommonGoals, Serializable {
+    private final List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;
 

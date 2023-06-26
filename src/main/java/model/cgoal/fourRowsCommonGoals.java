@@ -9,8 +9,8 @@ import java.util.List;
 
 // 4 rows that have max 3 tiles equal
 //id=4
- public class fourRowsCommonGoals implements CommonGoals, Serializable {
-    private List<Integer> points;
+public class fourRowsCommonGoals implements CommonGoals, Serializable {
+    private final List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;
 

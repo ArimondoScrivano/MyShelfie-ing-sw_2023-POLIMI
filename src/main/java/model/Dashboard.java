@@ -7,16 +7,15 @@ public class Dashboard {
     private Tile[][] tiles;
     //Setting the state of a tile
     private final TILETYPE[][] refillable;
-    private boolean refill;
+    private final boolean refill;
     //Number of players
-    private int players;
-    private Bag bagInGame;
+    private final int players;
+    private final Bag bagInGame;
     public enum TILETYPE {
         TWO_PL, THREE_PL, FOUR_PL, BLK
     }
 
 
-    // CONSTRUCTOR (takes as parameters number of players and tile's bag)
     /**
      * Constructs a dashboard with the specified number of players and a bag of tiles.
      *

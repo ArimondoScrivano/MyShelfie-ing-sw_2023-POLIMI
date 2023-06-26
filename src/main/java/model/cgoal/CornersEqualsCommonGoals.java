@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-//equals 4 corners
+//Equals 4 corners
 //id=3
- public class CornersEqualsCommonGoals implements CommonGoals, Serializable {
-    private List<Integer> points;
+public class CornersEqualsCommonGoals implements CommonGoals, Serializable {
+    private final List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;
 

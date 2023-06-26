@@ -8,8 +8,8 @@ import java.util.List;
 
 //2 columns All different tiles
 //id=6
- public class twoColumnsCommonGoals implements CommonGoals, Serializable {
-    private List<Integer> points;
+public class twoColumnsCommonGoals implements CommonGoals, Serializable {
+    private final List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;
 

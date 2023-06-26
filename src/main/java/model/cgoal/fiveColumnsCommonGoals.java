@@ -8,8 +8,8 @@ import java.util.List;
 
 // 5 Columns different height
 //id=12
- public class fiveColumnsCommonGoals implements CommonGoals, Serializable {
-    private List<Integer> points;
+public class fiveColumnsCommonGoals implements CommonGoals, Serializable {
+    private final List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;
 
