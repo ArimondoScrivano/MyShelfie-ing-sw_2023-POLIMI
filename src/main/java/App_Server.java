@@ -1,6 +1,3 @@
-package Network.RMI;
-
-
 import Network.Server;
 
 import java.io.InputStreamReader;
