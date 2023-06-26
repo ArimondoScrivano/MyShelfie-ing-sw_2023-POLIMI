@@ -12,7 +12,7 @@ public interface UI {
      * @param myPoint    the total points of the player.
      * @param myPGpoints the personal goal points of the player.
      */
-    public void displayPoints(int myPoint, int myPGpoints);
+    void displayPoints(int myPoint, int myPGpoints);
 
 
 
@@ -21,7 +21,7 @@ public interface UI {
      *
      * @return the column number inputted by the player.
      */
-    public int askColumn();
+    int askColumn();
 
 
 
@@ -31,7 +31,7 @@ public interface UI {
      * @param numberOfTile the number of tiles to be picked by the player.
      * @return a list of integers representing the tiles picked by the player.
      */
-    public List<Integer> askTilesToPick(int numberOfTile);
+    List<Integer> askTilesToPick(int numberOfTile);
 
 
 
@@ -40,7 +40,7 @@ public interface UI {
      *
      * @return the number of tiles inputted by the player.
      */
-    public int askNumberOfTiles();
+    int askNumberOfTiles();
 
 
 
@@ -52,7 +52,7 @@ public interface UI {
      *
      * @return the number of players inputted by the user.
      */
-    public int askNumberOfPlayers();
+    int askNumberOfPlayers();
 
 
 
@@ -61,7 +61,7 @@ public interface UI {
      *
      * @return true if the player wants to start a new game, false otherwise.
      */
-    public boolean askNewGame();
+    boolean askNewGame();
 
 
 
@@ -70,7 +70,7 @@ public interface UI {
      *
      * @return the nickname inputted by the player.
      */
-    public String askNickname();
+    String askNickname();
 
 
 
@@ -79,27 +79,27 @@ public interface UI {
      *
      * @return the connection option chosen by the player.
      */
-    public int askConnection();
+    int askConnection();
 
     /**
      * Gets the state of the clicked status.
      *
      * @return The state of the clicked status.
      */
-    public boolean getClicked();
+    boolean getClicked();
 
     /**
      * Asks the user to input an IP address.
      *
      * @return The IP address provided by the user.
      */
-    public String askIP();
+    String askIP();
 
     /**
      * Prompts the user to press any key.
      *
      * @return The result indicating if any key is pressed.
      */
-    public boolean pressAnyKey();
+    boolean pressAnyKey();
 
 }
