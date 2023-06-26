@@ -4,10 +4,12 @@ import model.PersonalGoal;
 import model.Tile;
 import model.cgoal.CommonGoals;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
 public  class Message implements Serializable {
+    @Serial
     private static final long serialVersionUID = 382104422531955291L;
 
     //LOBBY ID
@@ -39,32 +41,12 @@ public  class Message implements Serializable {
 
 
     /**
-     * Sets the list of possible picks for the player.
-     *
-     * @param myPossiblePick the list of possible picks for the player
-     */
-    public void setMyPossiblePick(List<List<Integer>> myPossiblePick) {
-        this.myPossiblePick = myPossiblePick;
-    }
-
-
-    /**
      * Returns the possible column value.
      *
      * @return the possible column value
      */
     public int getPossibleCol() {
         return possibleCol;
-    }
-
-
-    /**
-     * Sets the possible column value.
-     *
-     * @param possibleCol the possible column value to be set
-     */
-    public void setPossibleCol(int possibleCol) {
-        this.possibleCol = possibleCol;
     }
 
 
@@ -93,25 +75,6 @@ public  class Message implements Serializable {
         this.name = name;
         this.msg = msg;
         this.np = index;
-    }
-
-    /**
-     * Constructs a new Message object with the given parameters.
-     *
-     * @param name        the name associated with the message
-     * @param msg         the message content
-     * @param dashboard   the tile matrix representing the dashboard
-     * @param commonGoals the list of common goals
-     * @param shelf       the tile matrix representing the shelf
-     * @param pg          the personal goal
-     */
-    public Message(String name, SocketMessages msg, Tile[][] dashboard, List<CommonGoals> commonGoals, Tile[][] shelf, PersonalGoal pg) {
-        this.name = name;
-        this.msg = msg;
-        this.dashboard = dashboard;
-        this.commonGoals = commonGoals;
-        this.shelf = shelf;
-        this.pg = pg;
     }
 
     /**
@@ -217,15 +180,6 @@ public  class Message implements Serializable {
         return pgPoints;
     }
 
-
-    /**
-     * Sets the value of pgPoints for the message.
-     *
-     * @param pgPoints the value of pgPoints to set
-     */
-    public void setPgPoints(int pgPoints) {
-        this.pgPoints = pgPoints;
-    }
 
     /**
      * Retrieves the value of np from the message.

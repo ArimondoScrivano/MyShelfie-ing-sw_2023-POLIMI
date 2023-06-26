@@ -17,8 +17,8 @@ public class SocketClientHandler implements Runnable{
     private boolean connected;
     private final Object inputLock;
     private final Object outputLock;
-    private ObjectOutputStream output; // server to client
-    private ObjectInputStream input; // client to server
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
 
 
     //newConstructor
@@ -33,7 +33,7 @@ public class SocketClientHandler implements Runnable{
         this.socketServer = server;
         this.client = client;
         this.connected = true;
-        //those are the inizialization value of the index of the game and the index of the player
+        //Those are the initialization value of the index of the game and the index of the player
         this.idLobby= 0;
         this.inputLock = new Object();
         this.outputLock = new Object();
@@ -42,7 +42,8 @@ public class SocketClientHandler implements Runnable{
             this.output = new ObjectOutputStream(client.getOutputStream());
             this.input = new ObjectInputStream(client.getInputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error in connection");
+            System.exit(0);
         }
     }
     //.------------------------------------------.//
@@ -59,15 +60,6 @@ public class SocketClientHandler implements Runnable{
         } catch (IOException e) {
             disconnect();
         }
-    }
-
-    /**
-     * Checks if the client is currently connected to the server.
-     *
-     * @return true if the client is connected, false otherwise.
-     */
-    public boolean isConnected() {
-        return connected;
     }
 
 
@@ -100,7 +92,9 @@ public class SocketClientHandler implements Runnable{
                 }
             }
         } catch (ClassCastException | ClassNotFoundException e) {
-            e.printStackTrace();
+            //For debugging purpose
+            //e.printStackTrace();
+            System.err.println("Error receiving a message");
         }
         client.close();
     }
@@ -125,7 +119,6 @@ public class SocketClientHandler implements Runnable{
             Thread.currentThread().interrupt();
 
             socketServer.onDisconnect(this, this.idLobby);
-            System.out.println("Sono io il problema");
         }
     }
 

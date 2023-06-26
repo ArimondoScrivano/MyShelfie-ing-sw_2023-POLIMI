@@ -5,9 +5,7 @@ import controller.ClientControllerV2;
 import view.*;
 import view.SWING.GraphicalUI;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -15,9 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AppClientRMI {
+public class AppMyShelfie {
     public static void main(String[] args) throws NotBoundException, RemoteException, MalformedURLException {
-        BufferedReader reader=  new BufferedReader(new InputStreamReader(System.in));
         Cli cliinit = new Cli();
         int typechosed= cliinit.askGUI();
 
@@ -164,12 +161,27 @@ public class AppClientRMI {
             }
             //:_________________________:/
 
-
-
-            //Check if i won
-            if(!client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)){
-
+            //Check if I won
+            if(client.notifyMe().getMessageType().equals(MessageType.GAME_ENDING)){
                 view.endGame(client.checkWinner());
+                chatAndMiscellaneusThread.setBufferEnd();
+                Thread waitEnd = new Thread(()->{
+                    try{
+                        //Wait for a minute then disconnect the client
+                        Thread.sleep(60000);
+                        System.out.println("Timer ended, disconnection...");
+                        System.exit(0);
+                    }catch(InterruptedException e){
+                        //For debugging purpose
+                        //e.printStackTrace();
+                    }
+                });
+                waitEnd.start();
+                if(typechosed==2){
+                    if(cli.pressAnyKey()) {
+                        System.exit(0);
+                    }
+                }
             }else{
                 if(typechosed==2){
                     System.out.println("GAME ENDING FROM DISCONNECTION");
