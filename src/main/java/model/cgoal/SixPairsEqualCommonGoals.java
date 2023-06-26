@@ -7,8 +7,8 @@ import java.util.*;
 
 // 6 pairs equal
 //id=1
- public class SixPairsEqualCommonGoals implements CommonGoals, Serializable {
-    private List<Integer> points;
+public class SixPairsEqualCommonGoals implements CommonGoals, Serializable {
+    private final List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;
 

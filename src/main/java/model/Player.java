@@ -13,7 +13,7 @@ public class Player implements Serializable {
     //PLAYER'S SHELF
     protected Shelf myShelf;
     //THE PERSONAL GOAL IS CONNECTED TO THE PLAYER INSTANCE
-     private PersonalGoal myPersonalGoal;
+     private final PersonalGoal myPersonalGoal;
     //NUMBER OF POINTS OF EACH PLAYER
     private int PGpoints;
 
@@ -171,8 +171,7 @@ public class Player implements Serializable {
      */
     public void convertPoints(Tile[][] matrix) {
         this.points = 0;
-        int count = 0;
-        // we have to use a support matrix to avoid corner cases and so we can modify the elements
+        //We use a support matrix to avoid corner cases, so we can modify the elements
         Tile[][] matrixSupport = new Tile[8][7];
         for (int r = 0; r < 8; r++) {
             for (int c = 0; c < 7; c++) {

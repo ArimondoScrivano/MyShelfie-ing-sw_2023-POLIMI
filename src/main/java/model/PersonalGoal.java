@@ -15,10 +15,9 @@ import java.util.List;
 public class PersonalGoal implements Serializable {
     private int id;
 
-    private Tile[][] layout;
-    private List<Integer> points;
+    private final Tile[][] layout;
+    private final List<Integer> points;
 
-    //METHOD TO RETURN GOAL POINTS
 
     /**
      * Constructs a new PersonalGoal object with the specified ID.

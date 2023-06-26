@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 // 4 vertical tiles equals four times
 //id=5
- public class FourVerticalCommonGoals implements CommonGoals, Serializable {
-    private List<Integer> points;
+public class FourVerticalCommonGoals implements CommonGoals, Serializable {
+    private final List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;
 

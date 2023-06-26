@@ -10,7 +10,7 @@ import java.util.List;
 //2 rows of all different tiles
 //id=8
 public class twoRowsAllDifferentCommonGoals implements CommonGoals, Serializable {
-    private List<Integer> points;
+    private final List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;
 

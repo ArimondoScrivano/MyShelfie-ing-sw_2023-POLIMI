@@ -4,9 +4,8 @@ import java.io.Serializable;
 
 public class Shelf implements Serializable {
     protected Tile[][] tilesShelf;
-    private Player myPlayer;
+    private final Player myPlayer;
 
-    //CONSTRUCTOR FOR THE SHELF CLASS
     /**
      * Constructs a new Shelf object for the specified player.
      *
@@ -21,8 +20,6 @@ public class Shelf implements Serializable {
             }
 
         }
-
-
     }
 
 

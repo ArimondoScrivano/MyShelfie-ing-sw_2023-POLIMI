@@ -10,7 +10,7 @@ import java.util.List;
 //8 equal tiles random order
 //id=11
 public class eightEqualCommonGoals implements CommonGoals, Serializable {
-    private List<Integer> points;
+    private final List<Integer> points;
     private int current_point;
     private int indexCurrentPoint;
 
