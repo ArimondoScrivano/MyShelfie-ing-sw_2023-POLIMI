@@ -317,7 +317,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
             for(String chiave : clientHandlerMap.get(index).keySet()){
                 clientHandlerMap.get(index).get(chiave).sendMessage(new Message("server", SocketMessages.DISCONNECT));
             }
-
+            System.out.println("siamo nell'Ondisconnect del server");
             LobbyMessage.set(index, new Message(index, MessageType.DISCONNECT));
         }
     }
@@ -384,17 +384,21 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
      *
      * @param message The message containing the lobby ID.
      */
-    public void checkDisconnection(Message message){
+    public void checkDisconnection(Message message) {
         int numLobby = message.getId();
-        while (!Thread.currentThread().isInterrupted()) {
+        boolean stop=false;
+        while (!Thread.currentThread().isInterrupted() & !stop) {
             for (int j = 0; j < ConnectionClientMap.get(numLobby).size(); j++) {
                 try {
                     ConnectionClientMap.get(numLobby).get(j).CheckConnectionClient();
                 } catch (RemoteException e) {
                     setMessage(new Message(numLobby, MessageType.DISCONNECT));
                     Thread.currentThread().interrupt();
+                    stop=true;
+                    System.out.println("Qualcuno si è disconnesso");
                 }
             }
+
         }
     }
 
@@ -407,17 +411,18 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         LobbyMessage.set(message.getId(), message);
         //Control print for debugging purpose
         //System.out.println("Messaggio settato "+ message.getMessageType());
-            if (message.getMessageType().equals(MessageType.GAME_STARTING) && clientHandlerMap.get(message.getId())!=null) {
+            if (message.getMessageType().equals(MessageType.GAME_STARTING)) {
                 System.out.println("ciao");
                 if(clientHandlerMap.get(message.getId()) != null) {
                     checkGameStarting(message);
                 }
 
+                if(ConnectionClientMap.get(message.getId())!=null) {
+                    Thread clientDisconnectionHandler = new Thread(() -> checkDisconnection(message));
+                    clientDisconnectionHandler.start();
+                }
             }
-            if(ConnectionClientMap.get(message.getId())!=null) {
-            Thread clientDisconnectionHandler = new Thread(() -> checkDisconnection(message));
-            clientDisconnectionHandler.start();
-        }
+
             if (clientHandlerMap.get(message.getId()) != null) {
                 if (message.getMessageType().equals(MessageType.SOMETHINGCHANGED)) {
 
@@ -436,13 +441,18 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                         }
 
                     }
-                }else if(message.getMessageType().equals(MessageType.DISCONNECT)){
-                    System.out.println("Invio messaggi disconnessione");
-                    for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
-                        System.out.println("Invio messaggio a "+ chiave);
-                        clientHandlerMap.get(message.getId()).get(chiave).sendMessage(new Message("server", SocketMessages.DISCONNECT));
+                }else if(message.getMessageType().equals(MessageType.DISCONNECT)) {
+                    System.out.println("Invio messaggi disconnessione" +message.getId());
+                    if (clientHandlerMap.get(message.getId()) != null) {
+                        for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
+                            System.out.println("Invio messaggio a " + chiave);
+                            clientHandlerMap.get(message.getId()).get(chiave).sendMessage(new Message("server", SocketMessages.DISCONNECT));
+                        }
+                        clientHandlerMap.get(message.getId()).clear();
+                        ConnectionClientMap.get(message.getId()).clear();
+                        LobbyMessage.set(message.getId(),new Message(message.getId(), MessageType.LOBBYCLOSED));
+
                     }
-                    clientHandlerMap.get(message.getId()).clear();
                 }
             }
         }

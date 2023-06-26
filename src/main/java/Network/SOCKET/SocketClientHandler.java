@@ -125,6 +125,7 @@ public class SocketClientHandler implements Runnable{
             Thread.currentThread().interrupt();
 
             socketServer.onDisconnect(this, this.idLobby);
+            System.out.println("Sono io il problema");
         }
     }
 
