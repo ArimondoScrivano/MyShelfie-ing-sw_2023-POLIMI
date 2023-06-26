@@ -11,7 +11,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-// This class is server side for The RMI connection with the client
+//This class is server side for The RMI connection with the client
 public interface Server_RMI extends Remote{
  /**
   * Creates a lobby with the specified number of players and creator's name.
@@ -22,7 +22,7 @@ public interface Server_RMI extends Remote{
   * @return the reference ID of the created lobby
   * @throws RemoteException if a remote communication error occurs
   */
- public int createLobby(int numPlayers, String creatorLobby, ClientCallback client) throws RemoteException;
+ int createLobby(int numPlayers, String creatorLobby, ClientCallback client) throws RemoteException;
 
  /**
   * Joins an existing lobby.
@@ -30,7 +30,7 @@ public interface Server_RMI extends Remote{
   * @return the reference ID of the joined lobby
   * @throws RemoteException if a remote communication error occurs
   */
- public int joinLobby() throws RemoteException;
+ int joinLobby() throws RemoteException;
 
  /**
   * Adds a player to the specified lobby.
@@ -41,7 +41,7 @@ public interface Server_RMI extends Remote{
   * @return the ID of the added player
   * @throws RemoteException if a remote communication error occurs
   */
- public int addPlayer(int index, String name,ClientCallback Client) throws RemoteException;
+ int addPlayer(int index, String name,ClientCallback Client) throws RemoteException;
 
 
  /**
@@ -53,7 +53,7 @@ public interface Server_RMI extends Remote{
   * @return true if the name is already taken, false otherwise
   * @throws RemoteException if a remote communication error occurs
   */
- public boolean nameAleradyTaken(int index, String name,int id)throws RemoteException;
+ boolean nameAleradyTaken(int index, String name,int id)throws RemoteException;
 
  /**
   * Changes the name of a player in the specified lobby.
@@ -63,7 +63,7 @@ public interface Server_RMI extends Remote{
   * @param name  the new name for the player
   * @throws RemoteException if a remote communication error occurs
   */
- public void changeName(int index, int id, String name)throws RemoteException;
+ void changeName(int index, int id, String name)throws RemoteException;
 
  /**
   * Retrieves the names of the players in the specified lobby.
@@ -72,7 +72,7 @@ public interface Server_RMI extends Remote{
   * @return the list of player names
   * @throws RemoteException if a remote communication error occurs
   */
- public List<String> playersName(int index) throws RemoteException;
+ List<String> playersName(int index) throws RemoteException;
 
 
  /**
@@ -83,7 +83,7 @@ public interface Server_RMI extends Remote{
   * @return the list of game chat messages
   * @throws RemoteException if a remote communication error occurs
   */
- public List<GameMessage> showGameChat(int index, String id_receiver) throws RemoteException;
+ List<GameMessage> showGameChat(int index, String id_receiver) throws RemoteException;
 
  /**
   * Appends chat messages to the game chat in the specified lobby with the sender's name.
@@ -93,7 +93,7 @@ public interface Server_RMI extends Remote{
   * @param myname           the name of the sender
   * @throws RemoteException if a remote communication error occurs
   */
- public void appendchatmex(int index, List<String> possibleChatmex, String myname)throws RemoteException;
+ void appendchatmex(int index, List<String> possibleChatmex, String myname)throws RemoteException;
 
  /**
   * Retrieves the dashboard of the specified lobby.
@@ -102,7 +102,7 @@ public interface Server_RMI extends Remote{
   * @return the dashboard as a 2D array of tiles
   * @throws RemoteException if a remote communication error occurs
   */
- public Tile[][] getDashboard(int index) throws RemoteException;
+ Tile[][] getDashboard(int index) throws RemoteException;
 
 
  /**
@@ -114,7 +114,7 @@ public interface Server_RMI extends Remote{
   * @return the shelf as a 2D array of tiles
   * @throws RemoteException if a remote communication error occurs
   */
- public Tile[][] getMyShelfie(int index, String playerName, int playerId) throws RemoteException;
+ Tile[][] getMyShelfie(int index, String playerName, int playerId) throws RemoteException;
 
 
  /**
@@ -126,7 +126,7 @@ public interface Server_RMI extends Remote{
   * @return the reference to the shelf object
   * @throws RemoteException if a remote communication error occurs
   */
- public Shelf getMyShelfieREF(int index, String playerName, int playerId) throws RemoteException;
+ Shelf getMyShelfieREF(int index, String playerName, int playerId) throws RemoteException;
 
 
  /**
@@ -137,7 +137,7 @@ public interface Server_RMI extends Remote{
   * @return the points of the player
   * @throws RemoteException if a remote communication error occurs
   */
- public int myPoints(int index, int playerId) throws RemoteException;
+ int myPoints(int index, int playerId) throws RemoteException;
 
 
  /**
@@ -148,7 +148,7 @@ public interface Server_RMI extends Remote{
   * @return the public goal points of the player
   * @throws RemoteException if a remote communication error occurs
   */
- public int myPGpoints(int index, int playerId)  throws RemoteException;
+ int myPGpoints(int index, int playerId)  throws RemoteException;
 
 
  /**
@@ -159,7 +159,7 @@ public interface Server_RMI extends Remote{
   * @return the personal goal of the player
   * @throws RemoteException if a remote communication error occurs
   */
-public PersonalGoal getMyPersonalGoal(int index, int playerId) throws RemoteException;
+ PersonalGoal getMyPersonalGoal(int index, int playerId) throws RemoteException;
 
 
  /**
@@ -169,7 +169,7 @@ public PersonalGoal getMyPersonalGoal(int index, int playerId) throws RemoteExce
   * @return the list of common goals
   * @throws RemoteException if a remote communication error occurs
   */
-public List<CommonGoals> getCommonGoals(int index) throws RemoteException;
+List<CommonGoals> getCommonGoals(int index) throws RemoteException;
 
  /**
   * Checks if the specified tiles are pickable in the specified lobby.
@@ -180,7 +180,7 @@ public List<CommonGoals> getCommonGoals(int index) throws RemoteException;
   * @return true if the tiles are pickable, false otherwise
   * @throws RemoteException if a remote communication error occurs
   */
-public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoord) throws RemoteException;
+boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoord) throws RemoteException;
 
  /**
   * Retrieves the selected tiles in the specified lobby based on the number of tiles to pick and their coordinates.
@@ -192,7 +192,7 @@ public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoo
   * @return the array of selected tiles
   * @throws RemoteException if a remote communication error occurs
   */
- public Tile[] getSelectedTiles(int index,int tilesToPick, List<Integer> xCoord, List<Integer> yCoord) throws RemoteException;
+ Tile[] getSelectedTiles(int index,int tilesToPick, List<Integer> xCoord, List<Integer> yCoord) throws RemoteException;
 
 
  /**
@@ -205,7 +205,7 @@ public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoo
   * @return true if the column is available, false otherwise
   * @throws RemoteException if a remote communication error occurs
   */
- public boolean columnAvailable(int index, int numTiles, Shelf myShelf, int selectedCol) throws RemoteException;
+ boolean columnAvailable(int index, int numTiles, Shelf myShelf, int selectedCol) throws RemoteException;
 
  /**
   * Performs the final pick of tiles in the specified lobby based on their coordinates.
@@ -215,7 +215,7 @@ public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoo
   * @param yCord  the list of y coordinates of the tiles
   * @throws RemoteException if a remote communication error occurs
   */
- public void finalPick(int index, List<Integer> xCord, List<Integer> yCord)throws RemoteException;
+ void finalPick(int index, List<Integer> xCord, List<Integer> yCord)throws RemoteException;
 
 
  /**
@@ -227,7 +227,7 @@ public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoo
   * @param column         the column to insert the tiles into
   * @throws RemoteException if a remote communication error occurs
   */
- public void insertTiles ( int LobbyReference, List<Integer> xCoord, List<Integer>  yCoord, int column) throws RemoteException;
+ void insertTiles ( int LobbyReference, List<Integer> xCoord, List<Integer>  yCoord, int column) throws RemoteException;
 
  /**
   * Checks the winner of the game in the specified lobby based on the player ID.
@@ -237,7 +237,7 @@ public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoo
   * @return the winner's name, "DRAW" for a tie, or "NOT FINISHED" if the game is not finished
   * @throws RemoteException if a remote communication error occurs
   */
- public String checkWinner(int index, int id) throws RemoteException;
+ String checkWinner(int index, int id) throws RemoteException;
 
 
  /**
@@ -247,7 +247,7 @@ public boolean pickableTiles(int index, List<Integer> xCoord, List<Integer> yCoo
   * @return the ID of the current player
   * @throws RemoteException if a remote communication error occurs
   */
-public int getCurrentPlayer( int index) throws RemoteException;
+int getCurrentPlayer( int index) throws RemoteException;
 
 
  /**
@@ -256,7 +256,7 @@ public int getCurrentPlayer( int index) throws RemoteException;
   * @param message the message to set
   * @throws RemoteException if a remote communication error occurs
   */
-public void setMessage( Message message) throws RemoteException;
+void setMessage( Message message) throws RemoteException;
 
  /**
   * Retrieves the message for the current player in the specified lobby.
@@ -265,7 +265,7 @@ public void setMessage( Message message) throws RemoteException;
   * @return the message for the current player
   * @throws RemoteException if a remote communication error occurs
   */
- public Message getMyMessage(int index) throws RemoteException;
+ Message getMyMessage(int index) throws RemoteException;
 
 
 }
