@@ -138,7 +138,7 @@ public class ClientControllerV2 {
                 client.sendMessage(new Message(name, SocketMessages.IS_IT_MY_TURN, idLobby));
 
                 if(FlagStartThread==0) {
-                    this.chatAndMiscellaneusThreadSocket = new ChatAndMiscellaneusThreadSocket(view, cli, client, name, idLobby, typechosed);
+                    this.chatAndMiscellaneusThreadSocket = new ChatAndMiscellaneusThreadSocket( cli, client, name, idLobby, typechosed);
                     chatAndMiscellaneusThreadSocket.start();
                     FlagStartThread=1;
                 }
@@ -175,7 +175,7 @@ public class ClientControllerV2 {
                 //Points display at the end of the turn
                 this.cli.displayPoints(message.getPoints(), message.getPgPoints());
                 client.sendMessage(new Message(name, SocketMessages.MY_TURN_ENDED, idLobby));
-                this.chatAndMiscellaneusThreadSocket = new ChatAndMiscellaneusThreadSocket(view, cli, client, name, idLobby, typechosed);
+                this.chatAndMiscellaneusThreadSocket = new ChatAndMiscellaneusThreadSocket(cli, client, name, idLobby, typechosed);
                 chatAndMiscellaneusThreadSocket.start();
             }
             case GAME_ENDING -> client.sendMessage(new Message(name, SocketMessages.HAVE_I_WON, idLobby));

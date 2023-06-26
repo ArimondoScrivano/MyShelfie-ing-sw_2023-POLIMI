@@ -9,13 +9,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ChatAndMiscellaneusThread extends Thread {
-    private Client_RMI rmiclient;
-    private View currentView;
-    private BufferedReader reader;
-    private int typeChosen;
-    private UI cli;
+    private final Client_RMI rmiclient;
+    private final View currentView;
+    private final BufferedReader reader;
+    private final int typeChosen;
+    private final UI cli;
     private volatile boolean stop;
 
+    /**
+     * A thread for handling chat and miscellaneous actions.
+     *
+     * @param rmiclient   The RMI client object.
+     * @param currentView The current view object.
+     * @param typeChosen  The chosen type for the thread.
+     * @param cli         The user interface object.
+     */
     public ChatAndMiscellaneusThread(Client_RMI rmiclient, View currentView, int typeChosen, UI cli) {
         this.rmiclient = rmiclient;
         this.currentView = currentView;
@@ -25,11 +33,17 @@ public class ChatAndMiscellaneusThread extends Thread {
         this.reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
+    /**
+     * Sets the buffer end and interrupts the thread.
+     */
     public void setBufferEnd() {
         stop = true;
         interrupt();
     }
 
+    /**
+     * Runs the thread logic.
+     */
     public void run() {
         while (!stop && !Thread.currentThread().isInterrupted()) {
             if (typeChosen == 2) {
@@ -40,17 +54,13 @@ public class ChatAndMiscellaneusThread extends Thread {
                             break;
                         }
 
-                        // Processa l'input
-                        if (context.equals("/dashboard")) {
-                            currentView.printDashboard(rmiclient.getDashboard());
-                        } else if (context.equals("/personalgoal")) {
-                            currentView.printPersonalGoal(rmiclient.getMyPersonalGoal());
-                        } else if (context.equals("/commongoal")) {
-                            currentView.printCommonGoal(rmiclient.getCommonGoals());
-                        } else if (context.equals("/shelf")) {
-                            currentView.printShelf(rmiclient.getMyShelfie());
-                        } else if (context.equals("/refresh")) {
-                            currentView.showMatchInfo(
+                        // Process the input
+                        switch (context) {
+                            case "/dashboard" -> currentView.printDashboard(rmiclient.getDashboard());
+                            case "/personalgoal" -> currentView.printPersonalGoal(rmiclient.getMyPersonalGoal());
+                            case "/commongoal" -> currentView.printCommonGoal(rmiclient.getCommonGoals());
+                            case "/shelf" -> currentView.printShelf(rmiclient.getMyShelfie());
+                            case "/refresh" -> currentView.showMatchInfo(
                                     rmiclient.getDashboard(),
                                     rmiclient.getCommonGoals(),
                                     rmiclient.getMyShelfie(),
@@ -59,7 +69,7 @@ public class ChatAndMiscellaneusThread extends Thread {
                         }
                     }
                 } catch (IOException e) {
-                    // Gestisci l'eccezione
+                    // Handle the exception
                 }
             } else {
                 while (true) {
@@ -74,7 +84,7 @@ public class ChatAndMiscellaneusThread extends Thread {
                         }
                         Thread.sleep(100);
                     } catch (Exception e) {
-                        // Gestisci l'eccezione
+                        // Handle the exception
                     }
                 }
             }

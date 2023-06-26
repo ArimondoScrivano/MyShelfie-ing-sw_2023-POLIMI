@@ -1,29 +1,51 @@
 package Network.GameChat;
 
-import Network.RMI.Server_RMI;
-
 import java.io.Serializable;
 
 public class GameMessage implements Serializable {
-    private String myGameMessage;
-    private String Name_Creator;
-    private String receiver;
+    private final String myGameMessage;
+    private final String Name_Creator;
+    private final String receiver;
 
-    public String  getReceiver() {
+    /**
+     * Constructs a GameMessage object.
+     *
+     * @param myGameMessage The game message.
+     * @param Name_Creator  The name of the message creator.
+     * @param receiver      The receiver of the message.
+     */
+    public GameMessage(String myGameMessage, String Name_Creator, String receiver) {
+        this.myGameMessage = myGameMessage;
+        this.Name_Creator = Name_Creator;
+        this.receiver = receiver;
+    }
+
+    /**
+     * Gets the receiver of the message.
+     *
+     * @return The receiver of the message.
+     */
+    public String getReceiver() {
         return receiver;
     }
 
+    /**
+     * Gets the game message.
+     *
+     * @return The game message.
+     */
     public String getMyGameMessage() {
         return myGameMessage;
     }
 
+    /**
+     * Gets the name of the message creator.
+     *
+     * @return The name of the message creator.
+     */
     public String getName_Creator() {
         return Name_Creator;
     }
-    public GameMessage(String myGameMessage, String Name_Creator,String receiver) {
-        this.myGameMessage = myGameMessage;
-        this.Name_Creator= Name_Creator;
-        this.receiver= receiver;
-    }
-
 }
+
+
