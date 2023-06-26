@@ -337,6 +337,7 @@ public class GraphicalUI implements View, UI {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
                 mf.dispose();
+                System.exit(0);
             }
         });
         panel.add(closeButton);
