@@ -10,8 +10,8 @@ public class Cli implements UI{
     //Output stream
     private final PrintStream out;
     //Input stream
-    private  Scanner in = new Scanner(new InputStreamReader(System.in));
-    private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private final Scanner in = new Scanner(new InputStreamReader(System.in));
+    private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
 
     /**
