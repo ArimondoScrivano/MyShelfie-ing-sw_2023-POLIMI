@@ -19,7 +19,7 @@ import java.util.List;
 
 public class GraphicalUI implements View, UI {
     // ATTRIBUTES
-    private MainFrame mf;
+    private final MainFrame mf;
 
     // Pane that contains the dashboard
     private JLayeredPane dashboardPane;
