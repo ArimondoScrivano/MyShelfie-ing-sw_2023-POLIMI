@@ -388,7 +388,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         int numLobby = message.getId();
         boolean stop=false;
         while (!Thread.currentThread().isInterrupted() & !stop) {
-            for (int j = 0; j < ConnectionClientMap.get(numLobby).size(); j++) {
+            for (int j = 0; j < ConnectionClientMap.get(numLobby).size() &!stop; j++) {
                 try {
                     ConnectionClientMap.get(numLobby).get(j).CheckConnectionClient();
                 } catch (RemoteException e) {
