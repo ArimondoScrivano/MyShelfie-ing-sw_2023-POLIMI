@@ -105,7 +105,6 @@ public class TextualUI  implements View {
         //Printing the layout of the common goal card
         printCommonGoal(commonGoals);
 
-        //TODO: Rendere più visibile la shelf e dividere i quadrati della shelf in personal goal, da implementare la parte di visione del solo personal goal del giocatore connesso e non la visione complessiva
         //Printing the shelf and the personal goal card associated to the player
         printShelf(myShelf);
 

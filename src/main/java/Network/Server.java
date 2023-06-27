@@ -72,7 +72,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         while(!Thread.currentThread().isInterrupted()){
             try{
                 Socket client = serverSocket.accept();
-                //set the timeout to infinity
+                //Set the timeout to infinity
                 client.setSoTimeout(0);
 
                 SocketClientHandler clientHandler = new SocketClientHandler(this, client);
@@ -198,7 +198,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         }else{
             clientHandlerMap.get(index).put(name, clientHandler);
             clientHandlerMap.get(index).get(name).sendMessage(new Message(name, SocketMessages.LOGIN_REPLY, index));
-            //legato alla joinLobby
+            //Bound to JoinLobby
 
             if(mult==0){
                 int IndexPlayer=Lobby.get(index).getPlayersFilled();
@@ -222,7 +222,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
              //  checkGameStarting(message);
             }
             case IS_IT_MY_TURN -> {
-                System.out.println("User " +message.getName() +" chiede se è il suo turno");
+                System.out.println("User " +message.getName() +" ask if it's his turn");
                 if(nameCurrentPlayer(message.getNp()).equals(message.getName())){
                     clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.MY_TURN,
                             Lobby.get(message.getNp()).getDashboardTiles(),
@@ -317,7 +317,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
             for(String chiave : clientHandlerMap.get(index).keySet()){
                 clientHandlerMap.get(index).get(chiave).sendMessage(new Message("server", SocketMessages.DISCONNECT));
             }
-            System.out.println("siamo nell'Ondisconnect del server");
+            System.out.println("Server: On disconnect");
             LobbyMessage.set(index, new Message(index, MessageType.DISCONNECT));
         }
     }
@@ -332,12 +332,12 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
         if (Lobby.get(message.getId()).isFull()){
 
             for( String chiave : clientHandlerMap.get(message.getId()).keySet()) {
-                //For generalizzato sulla mappa
+                //Generalized for on the map
                 clientHandlerMap.get(message.getId()).get(chiave).sendMessage(new Message("server", SocketMessages.GAME_STARTING));
             }
         }else{
             for( String chiave : clientHandlerMap.get(message.getId()).keySet()) {
-                //For generalizzato sulla mappa
+                //Generalized for on the map
                 clientHandlerMap.get(message.getId()).get(chiave).sendMessage(new Message("server", SocketMessages.WAITING_FOR_OTHER_PLAYERS));
             }
         }
@@ -372,10 +372,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
      * @return {@code true} if the player is the winner, {@code false} otherwise.
      */
     public boolean checkSocketWinner(int index, String name) {
-        if(Lobby.get(index).checkWinner().getName().equals(name)){
-            return true;
-        }
-        return false;
+        return Lobby.get(index).checkWinner().getName().equals(name);
     }
 
 
@@ -395,7 +392,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                     setMessage(new Message(numLobby, MessageType.DISCONNECT));
                     Thread.currentThread().interrupt();
                     stop=true;
-                    System.out.println("Qualcuno si è disconnesso");
+                    System.out.println("An RMI client disconnect...");
                 }
             }
 
@@ -410,9 +407,9 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     public void setMessage(Message message) {
         LobbyMessage.set(message.getId(), message);
         //Control print for debugging purpose
-        //System.out.println("Messaggio settato "+ message.getMessageType());
+        //System.out.println("Setting message "+ message.getMessageType());
             if (message.getMessageType().equals(MessageType.GAME_STARTING)) {
-                System.out.println("ciao");
+                System.out.println("The game "+message.getId()+" is starting");
                 if(clientHandlerMap.get(message.getId()) != null) {
                     checkGameStarting(message);
                 }
@@ -427,13 +424,13 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                 if (message.getMessageType().equals(MessageType.SOMETHINGCHANGED)) {
 
                     for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
-                        //For generalizzato sulla mappa
+                        //Generalized for on the map
                         clientHandlerMap.get(message.getId()).get(chiave).sendMessage(new Message("server", SocketMessages.CHECK_YOUR_TURN));
                     }
 
                 } else if (message.getMessageType().equals(MessageType.GAME_ENDING)) {
                     for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
-                        //For generalizzato sulla mappa
+                        //Generalized for on the map
                         if (checkSocketWinner(message.getId(), chiave)) {
                             clientHandlerMap.get(message.getId()).get(chiave).sendMessage(new Message("server", SocketMessages.WINNER));
                         } else {
@@ -442,10 +439,10 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
 
                     }
                 }else if(message.getMessageType().equals(MessageType.DISCONNECT)) {
-                    System.out.println("Invio messaggi disconnessione" +message.getId());
+                    System.out.println("Sending disconnection messages to " +message.getId()+" lobby");
                     if (clientHandlerMap.get(message.getId()) != null) {
                         for (String chiave : clientHandlerMap.get(message.getId()).keySet()) {
-                            System.out.println("Invio messaggio a " + chiave);
+                            System.out.println("Sending message to " + chiave);
                             clientHandlerMap.get(message.getId()).get(chiave).sendMessage(new Message("server", SocketMessages.DISCONNECT));
                         }
                         clientHandlerMap.get(message.getId()).clear();
@@ -459,7 +456,7 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     @Override
     public int createLobby(int numPlayers, String creatorLobby, ClientCallback client) throws RemoteException {
         GameController controller = new GameController(numPlayers, this, creatorLobby);
-        //if other match ended
+        //If another match ended
         int foundPreviousMatch=0;
         for(int i=0; i<Lobby.size() && foundPreviousMatch==0; i++){
             if(LobbyMessage.get(i)!=null){
