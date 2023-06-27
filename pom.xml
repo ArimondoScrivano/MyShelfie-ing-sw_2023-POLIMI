@@ -20,10 +20,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
+        <version>3.3.0</version>
         <executions>
         <execution>
-          <id>${project.artifactId}-server</id>
+          <id>Server</id>
           <phase>package</phase>
           <goals>
             <goal>shade</goal>
@@ -36,35 +36,15 @@
                       implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                 <mainClass>App_Server</mainClass>
               </transformer>
-              <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
-                <resource>src/main/resources</resource>
-
-              </transformer>
             </transformers>
-            <filters>
-              <filter>
-                <artifact>*:*</artifact>
-                <excludes>
-                  <exclude>module-info.class</exclude>
-                </excludes>
-              </filter>
-            </filters>
           </configuration>
         </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
-        <executions>
           <execution>
-            <id>${project.artifactId}-client</id>
+            <id>Client</id>
             <phase>package</phase>
             <goals>
               <goal>shade</goal>
             </goals>
-
             <configuration>
               <outputDirectory>deliveries/jar</outputDirectory>
               <finalName>Client</finalName>
@@ -73,21 +53,7 @@
                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <mainClass>AppMyShelfie</mainClass>
                 </transformer>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
-                  <resource>resources/graphicalResources</resource>
-                </transformer>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
-                  <resource>resources/jsonFiles</resource>
-                </transformer>
               </transformers>
-              <filters>
-                <filter>
-                  <artifact>*:*</artifact>
-                  <excludes>
-                    <exclude>module-info.class</exclude>
-                  </excludes>
-                </filter>
-              </filters>
             </configuration>
           </execution>
         </executions>

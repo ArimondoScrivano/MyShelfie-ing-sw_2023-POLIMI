@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Serializable;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +37,24 @@ public class PersonalGoal implements Serializable {
                 .create();
         //Read from file json and construct the personal goal
         try {
-            FileReader reader = new FileReader("src/main/resources/jsonFiles/PersonalGoal" + this.id + ".json");
+            InputStream in = getClass().getResourceAsStream("/jsonFiles/PersonalGoal"+this.id+".json");
+                 BufferedReader read = new BufferedReader(new InputStreamReader(in));
+                // Use resource
+                File f = new File("output.json");
+                try (FileWriter fileWriter = new FileWriter(f);
+                     BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+
+                    String line;
+                    while ((line = read.readLine()) != null) {
+                        bufferedWriter.write(line);
+                        bufferedWriter.newLine();
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            FileReader reader = new FileReader(f);
+
             //as a list
             Type layoutListType = new TypeToken<ArrayList<Layout>>() {
             }.getType();
@@ -48,7 +63,8 @@ public class PersonalGoal implements Serializable {
             for (Layout l : layouts) {
                 this.layout[l.getTile().getX()][l.getTile().getY()] = new Tile(l.getTile().convert(), this.id);
             }
-
+            f.deleteOnExit();
+            System.out.println("File deleted");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

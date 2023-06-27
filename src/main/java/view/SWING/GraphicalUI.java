@@ -11,10 +11,13 @@ import view.SWING.Panels.*;
 import view.UI;
 import view.View;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.List;
 
 public class GraphicalUI implements View, UI {
@@ -72,6 +75,55 @@ public class GraphicalUI implements View, UI {
         flaginitdone=0;
     }
 
+    public File retrieveImages(String path, int type, int instantClose){
+        //Type=1:png
+        //Type=2:jpg
+        //instantClose=1:close
+        //instantClose=0:notClosable
+        InputStream in = getClass().getResourceAsStream(path);
+        BufferedReader read = new BufferedReader(new InputStreamReader(in));
+        // Use resource
+        if(type==1){
+            File f = new File(path+type);
+            try (FileWriter fileWriter = new FileWriter(f);
+                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+
+                String line;
+                while ((line = read.readLine()) != null) {
+                    bufferedWriter.write(line);
+                    bufferedWriter.newLine();
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            if(instantClose==1){
+                f.delete();
+            }else{
+                f.deleteOnExit();
+            }
+            return f;
+        }else{
+            File f = new File(path+type);
+            try (FileWriter fileWriter = new FileWriter(f);
+                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+
+                String line;
+                while ((line = read.readLine()) != null) {
+                    bufferedWriter.write(line);
+                    bufferedWriter.newLine();
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            if(instantClose==1){
+                f.delete();
+            }else{
+                f.deleteOnExit();
+            }
+            return f;
+        }
+    }
+
 
 
     /**
@@ -95,9 +147,14 @@ public class GraphicalUI implements View, UI {
 
         JLayeredPane dashboardPane = new JLayeredPane();
         gridInternalFrame.setContentPane(dashboardPane);
-
         //LOAD THE BACKGROUND DASHBOARD IMAGE
-        Image backgroundImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/boards/livingroom.png"); //IMAGE PATH
+        InputStream in = getClass().getResourceAsStream("/graphicalResources/boards/livingroom.png");
+        Image backgroundImage;
+        try{
+            backgroundImage = ImageIO.read(in);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         ImagePanel imagePanel = new ImagePanel(backgroundImage);
         imagePanel.setBounds(0, 0, gridInternalFrame.getWidth(), gridInternalFrame.getHeight());
         dashboardPane.add(imagePanel, Integer.valueOf(0));
@@ -142,7 +199,13 @@ public class GraphicalUI implements View, UI {
         JLayeredPane secondLayeredPane = new JLayeredPane();
 
         //SHELF BACKGROUND IMAGE
-        Image backgroundImageShelf = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/boards/bookshelf.png");
+        InputStream in2 = getClass().getResourceAsStream("/graphicalResources/boards/bookshelf.png");
+        Image backgroundImageShelf;
+        try{
+            backgroundImageShelf = ImageIO.read(in2);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         ImagePanel imagePanelShelf = new ImagePanel(backgroundImageShelf);
         imagePanelShelf.setBounds(0, 0, secondInternalFrame.getWidth(), secondInternalFrame.getHeight());
         secondLayeredPane.add(imagePanelShelf, Integer.valueOf(0));
@@ -193,11 +256,22 @@ public class GraphicalUI implements View, UI {
         imagePanelCG.setLayout(new BoxLayout(imagePanelCG, BoxLayout.X_AXIS));
         imagePanelCG.setOpaque(false);
 
-
-        Image image1 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/back.jpg");
-        Image image2 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/scoring tokens/scoring_back_example.jpg");
-        Image image3 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/back.jpg");
-        Image image4 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/scoring tokens/scoring_back_example.jpg");
+        InputStream in3 = getClass().getResourceAsStream("/graphicalResources/common goal cards/back.jpg");
+        InputStream in4 = getClass().getResourceAsStream("/graphicalResources/scoring tokens/scoring_back_example.jpg");
+        InputStream in5 = getClass().getResourceAsStream("/graphicalResources/common goal cards/back.jpg");
+        InputStream in6 = getClass().getResourceAsStream("/graphicalResources/scoring tokens/scoring_back_example.jpg");
+        Image image1;
+        Image image2;
+        Image image3;
+        Image image4;
+        try{
+            image1 = ImageIO.read(in3);
+            image2 = ImageIO.read(in4);
+            image3 = ImageIO.read(in5);
+            image4 = ImageIO.read(in6);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         int imageWidth = 150;
         int imageHeight = 255;
@@ -241,8 +315,13 @@ public class GraphicalUI implements View, UI {
         additionalFrame.setLayout(null); //Using a null layout
         additionalFrame.setResizable(false);
 
-
-        Image additionalImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/personal goal cards/old/back.jpg");
+        InputStream pg = getClass().getResourceAsStream("/graphicalResources/personal goal cards/old/back.jpg");
+        Image additionalImage;
+        try{
+            additionalImage=ImageIO.read(pg);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         additionalImage= additionalImage.getScaledInstance(300, 255, Image.SCALE_SMOOTH);
         ImagePanel additionalImagePanel = new ImagePanel(additionalImage);
         this.personalGoalpanel= additionalImagePanel;
@@ -378,7 +457,13 @@ public class GraphicalUI implements View, UI {
      */
     public void printPersonalGoal(PersonalGoal pg) {
         if (flagDoneOncePG == 0) {
-            Image additionalImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/personal goal cards/old/" + pg.getId() + ".jpg"); // Inserisci il percorso corretto dell'immagine
+            InputStream in = getClass().getResourceAsStream("/graphicalResources/personal goal cards/old/" + pg.getId() + ".jpg");
+            Image additionalImage;
+            try{
+                additionalImage=ImageIO.read(in);
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
             additionalImage = additionalImage.getScaledInstance(300, 255, Image.SCALE_SMOOTH);
             ImagePanel additionalImagePanel = new ImagePanel(additionalImage);
             this.personalGoalPane.remove(this.personalGoalpanel);
@@ -446,7 +531,15 @@ public class GraphicalUI implements View, UI {
                     button.setBorderPainted(false);
                 }else{
                     variety= copy[i][j].getId()% 3;
-                    ImageIcon imageIcon = new ImageIcon("src/main/resources/graphicalResources/item tiles/" +copy[i][j].getColor() +variety +".png");
+                    InputStream in = getClass().getResourceAsStream("/graphicalResources/item tiles/" +copy[i][j].getColor() +variety +".png");
+
+                    ImageIcon imageIcon;
+                    try{
+                        BufferedImage bufferedImage = ImageIO.read(in);
+                        imageIcon=new ImageIcon(bufferedImage);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     Image image = imageIcon.getImage();
                     Image scaledImage = image.getScaledInstance(buttonPanelSize / 9, buttonPanelSize / 9, Image.SCALE_SMOOTH);
                     ImageIcon scaledIcon = new ImageIcon(scaledImage);
@@ -498,7 +591,14 @@ public class GraphicalUI implements View, UI {
 
                 if (!myShelf[row][i].getColor().equals(COLOR.BLANK)) {
                     variety= myShelf[row][i].getId() % 3;
-                    ImageIcon imageIcon = new ImageIcon("src/main/resources/graphicalResources/item tiles/" + myShelf[row][i].getColor() +variety +".png");
+                    InputStream in = getClass().getResourceAsStream("/graphicalResources/item tiles/" + myShelf[row][i].getColor() +variety +".png");
+                    ImageIcon imageIcon;
+                    try{
+                        BufferedImage bufferedImage = ImageIO.read(in);
+                        imageIcon=new ImageIcon(bufferedImage);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     Image image = imageIcon.getImage();
                     Image scaledImage = image.getScaledInstance(400 / 5, 400 / 6, Image.SCALE_SMOOTH);
                     ImageIcon scaledIcon = new ImageIcon(scaledImage);
@@ -547,11 +647,23 @@ public class GraphicalUI implements View, UI {
      * @param commonGoals  The list of common goals to display.
      */
     public void printCommonGoal(List<CommonGoals> commonGoals) {
-            Image image1 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/" + commonGoals.get(0).getId() + ".jpg");
-            Image image3 = Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/common goal cards/" + commonGoals.get(1).getId() + ".jpg");
-            Image image2= Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/scoring tokens/scoring_" +commonGoals.get(0).getCurrent_point() +".jpg");
-            Image image4= Toolkit.getDefaultToolkit().getImage("src/main/resources/graphicalResources/scoring tokens/scoring_" +commonGoals.get(1).getCurrent_point() +".jpg");
-            int imageWidth = 150;
+        InputStream in = getClass().getResourceAsStream("/graphicalResources/common goal cards/" + commonGoals.get(0).getId() + ".jpg");
+        InputStream in2 = getClass().getResourceAsStream("/graphicalResources/scoring tokens/scoring_" +commonGoals.get(0).getCurrent_point() +".jpg");
+        InputStream in3 = getClass().getResourceAsStream("/graphicalResources/common goal cards/" + commonGoals.get(1).getId() + ".jpg");
+        InputStream in4 = getClass().getResourceAsStream("/graphicalResources/scoring tokens/scoring_" +commonGoals.get(1).getCurrent_point() +".jpg");
+        Image image1;
+            Image image3;
+            Image image2;
+            Image image4;
+            try{
+                image1 = ImageIO.read(in);
+                image2 = ImageIO.read(in2);
+                image3 = ImageIO.read(in3);
+                image4 = ImageIO.read(in4);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        int imageWidth = 150;
             int imageHeight = 255;
             Image scaledImage1 = image1.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
             Image scaledImage2 = image2.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
