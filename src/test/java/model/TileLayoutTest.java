@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TileLayoutTest extends TestCase {
+public class TileLayoutTest extends TestCase {
 
     @Test
     //TESTING METHOD getX(), getY(), getColor(), setX(), setY(), setColor()

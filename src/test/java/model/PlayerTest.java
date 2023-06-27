@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PlayerTest extends TestCase{
+public class PlayerTest extends TestCase{
         @Test
         //TESTING METHOD getName()
         public void testGetter1(){

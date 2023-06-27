@@ -18,7 +18,7 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 
-class GameControllerTest extends TestCase {
+public class GameControllerTest extends TestCase {
 
     //TESTING SETTERS AND GETTERS
     @Test

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LayoutTest extends TestCase {
+public class LayoutTest extends TestCase {
 
     @Test
     public void testCheckerLayout(){

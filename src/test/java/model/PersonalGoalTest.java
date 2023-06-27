@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PersonalGoalTest extends TestCase {
+public class PersonalGoalTest extends TestCase {
     @Test
     //TESTING METHOD getId()
     public void testCheckerGetId(){
