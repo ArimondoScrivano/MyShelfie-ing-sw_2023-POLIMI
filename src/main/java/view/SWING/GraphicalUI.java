@@ -238,7 +238,7 @@ public class GraphicalUI implements View, UI {
         //  PERSONAL GOAL
         JInternalFrame additionalFrame = new JInternalFrame("PERSONAL GOAL", false, false, false, false);
         additionalFrame.setSize(300, 255);
-        additionalFrame.setLayout(null); // Utilizza un layout di tipo null
+        additionalFrame.setLayout(null); //Using a null layout
         additionalFrame.setResizable(false);
 
 
@@ -265,8 +265,8 @@ public class GraphicalUI implements View, UI {
 
         JLabel labelStatus = new JLabel("LOADING");
         JLabel labelPoint = new JLabel("LOADING");
-    this.labelStatus= labelStatus;
-    this.labelPoint= labelPoint;
+        this.labelStatus= labelStatus;
+        this.labelPoint= labelPoint;
         int labelWidth = 200;
         int labelHeight = 20;
         int labelMargin = 10;
@@ -316,16 +316,16 @@ public class GraphicalUI implements View, UI {
      * @param esito The result of the game.
      */
     public void endGame(String esito) {
-        this.labelStatus.setText("L'esito della partita è " + esito);
+        this.labelStatus.setText("The result of the game is " + esito);
         JFrame frame = new JFrame("End Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 200);
 
         JPanel panel = new JPanel();
-        JLabel label = new JLabel("L'esito della partita è " + esito);
+        JLabel label = new JLabel("The result of the game is " + esito);
         panel.add(label);
 
-        JButton closeButton = new JButton("Chiudi");
+        JButton closeButton = new JButton("Close");
         closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -430,7 +430,7 @@ public class GraphicalUI implements View, UI {
 
     public void printDashboard(Tile[][] copy) {
         int variety;
-        this.labelStatus.setText("ASPETTA IL TUO TURNO");
+        this.labelStatus.setText("Wait for your turn");
         int buttonPanelSize = 490;
 
         JPanel DashboardButtonPanel = new JPanel(new GridLayout(9, 9));
@@ -516,15 +516,12 @@ public class GraphicalUI implements View, UI {
                 buttonPanelShelf.add(button);
             }
         }
-                this.shelfPane.remove(this.shelfcurrent);
-                this.shelfcurrent = buttonPanelShelf;
-                this.shelfcurrent.setBounds(0, 0, 400, 400);
-                this.shelfPane.add(this.shelfcurrent, Integer.valueOf(1));
-                this.shelfPane.setVisible(true);
-                mf.setVisible(true);
-
-
-
+        this.shelfPane.remove(this.shelfcurrent);
+        this.shelfcurrent = buttonPanelShelf;
+        this.shelfcurrent.setBounds(0, 0, 400, 400);
+        this.shelfPane.add(this.shelfcurrent, Integer.valueOf(1));
+        this.shelfPane.setVisible(true);
+        mf.setVisible(true);
     }
 
 
@@ -598,11 +595,7 @@ public class GraphicalUI implements View, UI {
         this.labelPoint.setText("Il tuo punteggio è di " +partialSum +" punti");
     }
 
-
-
-
-
-    //METODI DELLA CLI
+    //Cli methods
     /**
      * Prompts the user to choose a connection method (RMI or SOCKET) using a graphical user interface.
      * This method displays a panel with buttons representing the connection options.
@@ -802,7 +795,7 @@ public class GraphicalUI implements View, UI {
      * @return The number of tiles selected by the user.
      */
     public int askNumberOfTiles() {
-        this.labelStatus.setText("Quante tile vuoi pescare:");
+        this.labelStatus.setText("Choose the number of tiles to pick:");
         JFrame frame = new JFrame("Main Frame");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 200);
@@ -811,7 +804,7 @@ public class GraphicalUI implements View, UI {
         boolean validInput = false;
 
         while (!validInput) {
-            input = JOptionPane.showInputDialog(frame, "Quante tile vuoi pescare?:");
+            input = JOptionPane.showInputDialog(frame, "Choose the number of tiles to pick:");
 
             if (input != null) {
                 try {
@@ -819,10 +812,10 @@ public class GraphicalUI implements View, UI {
                     if (number >= 1 && number <= 3) {
                         validInput = true;
                     } else {
-                        JOptionPane.showMessageDialog(frame, "Inserisci un numero compreso tra 1 e 3.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "Insert a number between 1 and 3", "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(frame, "Inserisci un numero valido.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Insert a valid number", "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 break;
@@ -849,7 +842,7 @@ public class GraphicalUI implements View, UI {
      * @return A list of selected tile positions.
      */
         public List<Integer> askTilesToPick(int numberOfTile) {
-            this.labelStatus.setText("SELEZIONA LE TILE");
+            this.labelStatus.setText("Select the tiles");
             dashboardListener.setNumTilesRequired(numberOfTile);
             dashboardListener.setPermission(true);
             boolean choiceCollected = false;
@@ -863,7 +856,7 @@ public class GraphicalUI implements View, UI {
                     e.printStackTrace();
                 }
             }
-            this.labelStatus.setText("CONTROLLO PARAMETRI");
+            this.labelStatus.setText("Checking parameters");
             return dashboardListener.getButtonPosition();
     }
 
@@ -878,7 +871,7 @@ public class GraphicalUI implements View, UI {
      * @return The selected column position.
      */
     public int askColumn() {
-       this.labelStatus.setText("SELEZIONA UNA COLONNA");
+       this.labelStatus.setText("Choose a column");
        this.shelfListener.setPermission(true);
         boolean choiceCollected = false;
         while (!choiceCollected) {
@@ -892,7 +885,7 @@ public class GraphicalUI implements View, UI {
             }
 
         }
-        this.labelStatus.setText("ASPETTA IL TUO TURNO");
+        this.labelStatus.setText("Waiting for your turn");
         return shelfListener.getButtonPosition();
     }
 
