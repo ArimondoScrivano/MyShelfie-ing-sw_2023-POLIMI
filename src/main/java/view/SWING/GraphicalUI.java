@@ -592,7 +592,7 @@ public class GraphicalUI implements View, UI {
      */
     public void displayPoints(int myPoint, int myPGpoints) {
         int partialSum= myPoint + myPGpoints;
-        this.labelPoint.setText("Il tuo punteggio è di " +partialSum +" punti");
+        this.labelPoint.setText("Your points: " +partialSum);
     }
 
     //Cli methods
