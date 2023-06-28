@@ -68,17 +68,19 @@ Resoconto sulla copertura degli unit test effettuati in fase di sviluppo del pro
 
 Il client può essere eseguito utilzzando la modalità CLI e la modalità GUI
 
-E' necessario eseguire il client con un terminale che supporti UTF-8 e gli ANSI escape codes per una migliore esperienza nell'eventuale scelta della Cli.
+É necessario eseguire il client con un terminale che supporti UTF-8 e gli ANSI escape codes per una migliore esperienza nell'eventuale scelta della Cli.
 
 Il comando per eseguire il client in modalità CLI/GUI è il seguente:
-
+```shell
 java -jar Client.jar
-
+```
+* É consigliabile assicurarsi di poter visualizzare i colori tramite i codici di escape ANSI per la versione CLI
 ### Server
 Il comando per eseguire il Server è il seguente:
 
+```shell
 java -jar Server.jar
-
+ ```
  
 ## Software utilizzati
 * [Draw.io - Diagrams.net](https://app.diagrams.net/): UML diagrams.
