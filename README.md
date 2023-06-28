@@ -35,13 +35,13 @@ Il primo giocatore a completare la libreria guadagna un punto aggiuntivo ed inne
 ## Documentazione
 
 ### UML
-Diagrammi delle classi creati in fase di progettazione del programma: [UML]()
+Diagrammi delle classi creati in fase di progettazione del programma: [UML](https://github.com/ArimondoScrivano/ing-sw-2023-scrivano-vercelloni-pavesi-sartini/deliveries/UML_alto_livello)
 
 ### JavaDoc
-Documentazione Java che descrive classi e metodi utilizzati: [JavaDoc]()
+Documentazione Java che descrive classi e metodi utilizzati: [JavaDoc](https://github.com/ArimondoScrivano/ing-sw-2023-scrivano-vercelloni-pavesi-sartini/deliveries/javaDoc)
 
 ### Testing
-Resoconto sulla copertura degli unit test effettuati in fase di sviluppo del programma: [test](https://github.com/ArimondoScrivano/ing-sw-2023-scrivano-vercelloni-pavesi-sartini/tree/main/src/test/java)
+Resoconto sulla copertura degli unit test effettuati in fase di sviluppo del programma: [test](https://github.com/ArimondoScrivano/ing-sw-2023-scrivano-vercelloni-pavesi-sartini/src/test)
 
 ### Librerie e Plugins
 |                 | Utilizzo |
@@ -64,11 +64,17 @@ Resoconto sulla copertura degli unit test effettuati in fase di sviluppo del pro
 
 ## Compilazione ed Esecuzione
 
-*** packaging e Jar ***
+Client
+Il client può essere eseguito utilzzando la modalità CLI e la modalità GUI
+E' necessario eseguire il client con un terminale che supporti UTF-8 e gli ANSI escape codes per una migliore esperienza nell'eventuale scelta della Cli.
+Il comando per eseguire il client in modalità CLI/GUI è il seguente:
 
-*** esecuzione ***
+java -jar Client.jar
 
-*** eventuali info aggiuntive o requirements ***
+Server
+Il comando per eseguire il Server è il seguente:
+
+java -jar Server.jar
 
  
 ## Software utilizzati
