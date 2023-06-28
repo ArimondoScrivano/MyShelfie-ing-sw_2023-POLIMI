@@ -69,11 +69,9 @@ public class PersonalGoal implements Serializable {
                 this.layout[l.getTile().getX()][l.getTile().getY()] = new Tile(l.getTile().convert(), this.id);
             }
             f.deleteOnExit();
-            System.out.println("File deleted");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
         //Personal goal's id
         this.id = id;
         //Initializing the points' list
