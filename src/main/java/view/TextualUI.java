@@ -58,8 +58,6 @@ public class TextualUI  implements View {
     }
 
 
-
-    ;
     //Initialize the game
     /**
      * Initializes the game.
