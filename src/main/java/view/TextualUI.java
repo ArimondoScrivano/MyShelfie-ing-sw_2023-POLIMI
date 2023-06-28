@@ -124,7 +124,7 @@ public class TextualUI  implements View {
         String copyColor="";
         out.println("Your Personal Goal");
         for(int i=0; i<5; i++){
-            out.print(" "+(i+1)+"    ");
+            out.print(" "+(i+1)+"  ");
         }
         out.println();
         for(int i=0; i<6; i++){
@@ -181,7 +181,7 @@ public class TextualUI  implements View {
         String copyColor="";
         //First row
         for(int i=0; i<11; i++){
-            out.print("  "+i+"    ");
+            out.print(" "+i+"  ");
         }
         out.print("\n");
         //Dashboard print
@@ -208,7 +208,7 @@ public class TextualUI  implements View {
         String copyColor="";
         //Printing the shelf and the personal goal card associated to the player
         for(int i=0; i<5; i++){
-            out.print(" "+(i+1)+"    ");
+            out.print(" "+(i+1)+"  ");
         }
         out.println();
         for(int i=0; i<6; i++){
