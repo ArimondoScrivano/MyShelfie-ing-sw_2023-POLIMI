@@ -124,7 +124,7 @@ public class TextualUI  implements View {
         String copyColor="";
         out.println("Your Personal Goal");
         for(int i=0; i<5; i++){
-            out.print(" "+(i+1)+"\t");
+            out.print(" "+(i+1)+"    ");
         }
         out.println();
         for(int i=0; i<6; i++){
@@ -181,7 +181,7 @@ public class TextualUI  implements View {
         String copyColor="";
         //First row
         for(int i=0; i<11; i++){
-            out.print("  "+i+"\t");
+            out.print("  "+i+"    ");
         }
         out.print("\n");
         //Dashboard print
@@ -208,7 +208,7 @@ public class TextualUI  implements View {
         String copyColor="";
         //Printing the shelf and the personal goal card associated to the player
         for(int i=0; i<5; i++){
-            out.print(" "+(i+1)+"\t");
+            out.print(" "+(i+1)+"    ");
         }
         out.println();
         for(int i=0; i<6; i++){
@@ -273,25 +273,25 @@ public class TextualUI  implements View {
         switch (color) {
             case 0 ->
                 //Blank
-                    copyColor = ColorUI.BLANK_BG+"\t"+ColorUI.RESET;
+                    copyColor = ColorUI.BLANK_BG+"    "+ColorUI.RESET;
             case 1 ->
                 //Green
-                    copyColor = ColorUI.GREEN_BG+"\t"+ColorUI.RESET;
+                    copyColor = ColorUI.GREEN_BG+"    "+ColorUI.RESET;
             case 2 ->
                 //Yellow
-                    copyColor = ColorUI.YELLOW_BG+"\t"+ColorUI.RESET;
+                    copyColor = ColorUI.YELLOW_BG+"    "+ColorUI.RESET;
             case 3 ->
                 //White
-                    copyColor = ColorUI.WHITE_BG+"\t"+ColorUI.RESET;
+                    copyColor = ColorUI.WHITE_BG+"    "+ColorUI.RESET;
             case 4 ->
                 //Lightblue
-                    copyColor = ColorUI.LIGHTBLUE_BG+"\t"+ColorUI.RESET;
+                    copyColor = ColorUI.LIGHTBLUE_BG+"    "+ColorUI.RESET;
             case 5 ->
                 //Violet
-                    copyColor = ColorUI.VIOLET_BG+"\t"+ColorUI.RESET;
+                    copyColor = ColorUI.VIOLET_BG+"    "+ColorUI.RESET;
             case 6 ->
                 //Blue
-                    copyColor = ColorUI.BLUE_BG+"\t"+ColorUI.RESET;
+                    copyColor = ColorUI.BLUE_BG+"    "+ColorUI.RESET;
         }
         out.print(copyColor);
         return copyColor;
