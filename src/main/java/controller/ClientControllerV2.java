@@ -12,7 +12,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * The ClientControllerV2 class handles the client-side control and communication in the game. It's the handler of the
+ * various message to and from the Server except the login reply
+ */
 public class ClientControllerV2 {
     private final View view;
     private final UI cli;

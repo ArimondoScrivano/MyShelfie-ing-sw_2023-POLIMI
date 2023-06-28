@@ -3,6 +3,10 @@ package view.SWING.Panels;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The ButtonListener class implements the ActionListener interface to handle button click events.
+ * It keeps track of a choice associated with the button and provides methods to retrieve the choice value.
+ */
 public class ButtonListener implements ActionListener {
     private boolean definedChoice;
     private final int choice;

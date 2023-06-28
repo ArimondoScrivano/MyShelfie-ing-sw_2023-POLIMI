@@ -1,5 +1,9 @@
 package Network.messages;
 
+/**
+ * The SocketMessages enum represents different types of socket messages used in the network communication.
+ * Each socket message type corresponds to a specific action or request.
+ */
 public enum SocketMessages {
     LOGIN_REPLY,PING_MESSAGE, NAME_FAILED, NAME_UPDATE, NEW_GAME, WAITING_FOR_OTHER_PLAYERS,
     WAITING_FOR_YOUR_TURN, JOIN_LOBBY, IS_GAME_STARTING,GAME_STARTING, IS_IT_MY_TURN,CHECK_YOUR_TURN, ARE_PARAMETERS_OK,

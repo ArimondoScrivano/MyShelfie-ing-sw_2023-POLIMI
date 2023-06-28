@@ -20,6 +20,10 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.List;
 
+/**
+ * This class represents a Graphical User Interface (GUI) for a view implementation.
+ * It implements the View and UI interfaces.
+ */
 public class GraphicalUI implements View, UI {
     // ATTRIBUTES
     private final MainFrame mf;

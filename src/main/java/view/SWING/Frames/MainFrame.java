@@ -2,6 +2,11 @@ package view.SWING.Frames;
 
 import javax.swing.*;
 
+
+/**
+ * The MainFrame class represents the main frame of the MY SHELFIE GAME application.
+ * It extends the JFrame class and provides the graphical user interface for the game.
+ */
 public class MainFrame extends JFrame {
 
     /**

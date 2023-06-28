@@ -2,6 +2,10 @@ package model;
 
 import java.io.Serializable;
 
+/**
+ * The Tile class represents a tile in the game.
+ * It implements the Serializable interface to support serialization and deserialization.
+ */
 public class Tile implements Serializable {
    private final COLOR color;
    private final int id;

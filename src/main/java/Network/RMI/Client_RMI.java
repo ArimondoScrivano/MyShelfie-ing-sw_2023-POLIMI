@@ -11,6 +11,11 @@ import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
+/**
+ * The Client_RMI class represents an RMI client for the game server.
+ * It extends the UnicastRemoteObject class and implements the ClientCallback interface.
+ * This class is responsible for handling RMI-based communication between the client and the server.
+ */
 public class Client_RMI extends UnicastRemoteObject implements ClientCallback {
     //Lobby index
     private int LobbyReference;

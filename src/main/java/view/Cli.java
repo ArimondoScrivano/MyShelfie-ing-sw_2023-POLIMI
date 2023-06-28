@@ -6,6 +6,10 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This class represents a Command Line Interface (CLI) for the user interface.
+ * It implements the UI interface.
+ */
 public class Cli implements UI{
     //Output stream
     private final PrintStream out;

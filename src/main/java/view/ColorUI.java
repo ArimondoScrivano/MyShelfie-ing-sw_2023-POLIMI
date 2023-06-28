@@ -1,6 +1,10 @@
 package view;
 
 //Colors contained in the view
+/**
+ * The ColorUI enum represents different colors used in the view.
+ * It provides text colors and background colors for various elements.
+ */
 public enum ColorUI {
     //Text Colors
     //Reset the colors

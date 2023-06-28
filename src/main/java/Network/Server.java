@@ -20,6 +20,10 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
+/**
+ * The Server class represents a server for handling client connections and implementing remote method invocation (RMI).
+ * It extends the UnicastRemoteObject class and implements the Runnable and Server_RMI interfaces.
+ */
 public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
     private final int defaultPort;
     private ServerSocket serverSocket;

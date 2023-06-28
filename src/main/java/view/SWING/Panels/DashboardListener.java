@@ -7,6 +7,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The DashboardListener class implements the ActionListener interface to handle dashboard-related events.
+ * It keeps track of permissions, the number of tiles required, and whether the choice is done.
+ * It also stores a list of button positions.
+ */
 public class DashboardListener implements ActionListener {
 
 

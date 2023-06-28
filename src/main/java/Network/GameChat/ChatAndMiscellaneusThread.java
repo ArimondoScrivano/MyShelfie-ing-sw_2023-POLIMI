@@ -8,6 +8,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * The ChatAndMiscellaneusThread class represents an asynchronous thread that handles chat and miscellaneous actions (RMI).
+ * It is responsible for processing user input, displaying game information, and interacting with the client and view objects.
+ */
 public class ChatAndMiscellaneusThread extends Thread {
     private final Client_RMI rmiclient;
     private final View currentView;

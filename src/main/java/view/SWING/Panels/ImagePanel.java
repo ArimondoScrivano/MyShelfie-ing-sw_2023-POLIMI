@@ -3,6 +3,9 @@ package view.SWING.Panels;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The ImagePanel class extends JPanel and represents a panel that displays an image.
+ */
     public class ImagePanel extends JPanel {
         private final Image image;
 

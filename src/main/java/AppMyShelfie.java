@@ -12,8 +12,19 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * The main class for starting the MyShelfie client application.
+ */
 public class AppMyShelfie {
+
+    /**
+     * The main method that starts the MyShelfie client application.
+     *
+     * @param args command-line arguments
+     * @throws NotBoundException     if the remote object is not bound in the registry
+     * @throws RemoteException      if a remote communication error occurs
+     * @throws MalformedURLException if the URL of the remote object is malformed
+     */
     public static void main(String[] args) throws NotBoundException, RemoteException, MalformedURLException {
         Cli cliinit = new Cli();
         int typechosed= cliinit.askGUI();

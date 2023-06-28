@@ -1,6 +1,9 @@
 package model;
 import java.util.*;
 
+/**
+ * The Bag class represents a collection of tiles in the game.
+ */
 public class Bag {
     private final Map<Integer,Tile>  tilesInGame;
 

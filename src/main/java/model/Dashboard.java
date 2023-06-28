@@ -2,6 +2,9 @@ package model;
 
 import java.util.List;
 
+/**
+ * The Dashboard class represents the model of the game's dashboard.
+ */
 public class Dashboard {
     //Dashboard model
     private Tile[][] tiles;
@@ -11,8 +14,15 @@ public class Dashboard {
     //Number of players
     private final int players;
     private final Bag bagInGame;
+
+    /**
+     * An enum representing the types of tiles on the dashboard.
+     */
     public enum TILETYPE {
-        TWO_PL, THREE_PL, FOUR_PL, BLK
+        TWO_PL,     // Represents a tile for two players
+        THREE_PL,   // Represents a tile for three players
+        FOUR_PL,    // Represents a tile for four players
+        BLK         // Represents a blank tile
     }
 
 

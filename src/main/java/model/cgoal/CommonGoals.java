@@ -4,6 +4,10 @@ import model.Tile;
 
 import java.util.List;
 
+/**
+ * The CommonGoals interface represents the common goals in the game.
+ * It defines the contract for implementing common goals.
+ */
 public interface  CommonGoals{
 
    /**

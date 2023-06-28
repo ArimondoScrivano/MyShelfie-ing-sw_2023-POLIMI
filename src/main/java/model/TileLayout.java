@@ -1,6 +1,8 @@
 package model;
 
-
+/**
+ * The TileLayout class represents the layout of a tile in the game.
+ */
 public class TileLayout {
     private int x;
     private int y;
