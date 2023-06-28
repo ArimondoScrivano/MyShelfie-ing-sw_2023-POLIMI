@@ -8,6 +8,11 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
+
+/**
+ * The Message class represents a serializable message used for socket communication.
+ * It encapsulates information to be sent between client and server via sockets.
+ */
 public  class Message implements Serializable {
     @Serial
     private static final long serialVersionUID = 382104422531955291L;

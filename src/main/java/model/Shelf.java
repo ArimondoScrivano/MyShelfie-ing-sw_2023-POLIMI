@@ -2,6 +2,11 @@ package model;
 
 import java.io.Serializable;
 
+
+/**
+ * The Shelf class represents a player's shelf in the game.
+ * It implements the Serializable interface to support serialization and deserialization.
+ */
 public class Shelf implements Serializable {
     protected Tile[][] tilesShelf;
     private final Player myPlayer;

@@ -3,6 +3,9 @@ package view;
 import java.util.List;
 
 //USER INPUT
+/**
+ * This interface represents the user interface for user input and output.
+ */
 public interface UI {
 
 

@@ -2,7 +2,9 @@ package view.SWING.Panels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * The RefreshButtonListener class implements the ActionListener interface and represents a listener for the refresh button.
+ */
 public class RefreshButtonListener implements ActionListener {
 
     private boolean clicked;

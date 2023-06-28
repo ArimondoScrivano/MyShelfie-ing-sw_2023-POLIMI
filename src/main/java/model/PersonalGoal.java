@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
+/**
+ * The PersonalGoal class represents a personal goal in the game.
+ * It implements the Serializable interface to support serialization and deserialization.
+ */
 public class PersonalGoal implements Serializable {
     private int id;
 

@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The TextListener class implements the ActionListener interface and represents a listener for text input fields.
+ */
 public class TextListener implements ActionListener {
     private boolean definedChoice;
     private String choice;

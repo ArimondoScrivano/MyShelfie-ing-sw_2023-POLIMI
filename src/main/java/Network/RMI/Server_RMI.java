@@ -12,6 +12,10 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 //This class is server side for The RMI connection with the client
+/**
+ * The Server_RMI interface defines the contract for the RMI server.
+ * It allows clients to interact with the server using remote method invocation.
+ */
 public interface Server_RMI extends Remote{
  /**
   * Creates a lobby with the specified number of players and creator's name.

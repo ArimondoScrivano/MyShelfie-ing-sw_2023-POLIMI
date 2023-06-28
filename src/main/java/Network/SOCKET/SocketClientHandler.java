@@ -9,6 +9,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ * The SocketClientHandler class is responsible for handling client connections and communication
+ * in the server-side of a socket-based network implementation.
+ * It runs in a separate thread and establishes a connection with the client socket,
+ * handles incoming messages, and sends messages to the connected client.
+ */
 public class SocketClientHandler implements Runnable{
     private final Socket client;
 

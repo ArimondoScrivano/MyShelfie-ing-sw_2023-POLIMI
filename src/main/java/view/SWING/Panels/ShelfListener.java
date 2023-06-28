@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The ShelfListener class implements the ActionListener interface and represents a listener for the shelf buttons.
+ */
 public class ShelfListener implements ActionListener {
 
     private boolean permission;

@@ -1,5 +1,9 @@
 package model;
 
+
+/**
+ * The Layout class represents the layout of the tile in the dashboard.
+ */
 public class Layout {
     private String position;
     private TileLayout tile;

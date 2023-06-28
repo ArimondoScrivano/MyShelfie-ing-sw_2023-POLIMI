@@ -12,6 +12,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The SocketClientHandler class is responsible for handling client connections and communication
+ * in the server-side of a socket-based network implementation.
+ * It runs in a separate thread and establishes a connection with the client socket,
+ * handles incoming messages, and sends messages to the connected client.
+ */
 public class SocketClientV2 {
     private final Socket socket;
     private final ClientControllerV2 clientController;

@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
+/**
+ * The GameController class manages the game logic and flow.(CONTROLLER)
+ */
 public class GameController {
     //Model
     private final Game currentGame;

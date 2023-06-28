@@ -2,6 +2,10 @@ package Network.GameChat;
 
 import java.io.Serializable;
 
+/**
+ * The GameMessage class represents a serializable message used for communication between game components.
+ * It encapsulates information related to game actions, events, or updates.
+ */
 public class GameMessage implements Serializable {
     private final String myGameMessage;
     private final String Name_Creator;

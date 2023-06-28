@@ -11,6 +11,10 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * The TextualUI class represents the textual user interface for the game.
+ * It implements the View interface and provides methods for displaying game information and interacting with the user.
+ */
 public class TextualUI  implements View {
 
     //Output stream

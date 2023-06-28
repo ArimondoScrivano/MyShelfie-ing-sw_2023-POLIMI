@@ -7,6 +7,9 @@ import model.cgoal.CommonGoals;
 
 import java.util.List;
 
+/**
+ * This interface represents the view for displaying game information and interacting with the user.
+ */
 public interface View {
     //Showing info
 

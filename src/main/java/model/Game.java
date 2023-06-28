@@ -4,6 +4,10 @@ import model.cgoal.*;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * The Game class represents a game instance (MODEL).
+ * It implements the Serializable interface to support serialization and deserialization.
+ */
 public class Game implements Serializable {
     //Number of game
     private int id;

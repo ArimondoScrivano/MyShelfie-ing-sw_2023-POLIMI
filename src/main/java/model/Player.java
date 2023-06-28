@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * The Player class represents a player in the game.
+ * It implements the Serializable interface to support serialization and deserialization.
+ */
 public class Player implements Serializable {
     //INTEGER TO IDENTIFY THE PLAYER
     private final int id;
