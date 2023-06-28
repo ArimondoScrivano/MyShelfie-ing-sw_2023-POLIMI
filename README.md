@@ -35,7 +35,7 @@ Il primo giocatore a completare la libreria guadagna un punto aggiuntivo ed inne
 ## Documentazione
 
 ### UML
-Diagrammi delle classi creati in fase di progettazione del programma: [UML](https://github.com/ArimondoScrivano/ing-sw-2023-scrivano-vercelloni-pavesi-sartini/tree/main/deliveries/UML_alto_livello)
+Diagrammi delle classi creati in fase di progettazione del programma: [UML](https://github.com/ArimondoScrivano/ing-sw-2023-scrivano-vercelloni-pavesi-sartini/tree/main/deliveries/HighLevel_UML_Diagram.png)
 
 ### JavaDoc
 Documentazione Java che descrive classi e metodi utilizzati: [JavaDoc](https://github.com/ArimondoScrivano/ing-sw-2023-scrivano-vercelloni-pavesi-sartini/tree/main/deliveries/javaDoc)
@@ -64,14 +64,17 @@ Resoconto sulla copertura degli unit test effettuati in fase di sviluppo del pro
 
 ## Compilazione ed Esecuzione
 
-Client
+### Client
+
 Il client può essere eseguito utilzzando la modalità CLI e la modalità GUI
+
 E' necessario eseguire il client con un terminale che supporti UTF-8 e gli ANSI escape codes per una migliore esperienza nell'eventuale scelta della Cli.
+
 Il comando per eseguire il client in modalità CLI/GUI è il seguente:
 
 java -jar Client.jar
 
-Server
+### Server
 Il comando per eseguire il Server è il seguente:
 
 java -jar Server.jar
