@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"controller"},{"l":"model"},{"l":"model.cgoal"},{"l":"Network"},{"l":"Network.GameChat"},{"l":"Network.messages"},{"l":"Network.RMI"},{"l":"Network.SOCKET"},{"l":"view"},{"l":"view.SWING"},{"l":"view.SWING.Frames"},{"l":"view.SWING.Panels"}];updateSearchResults();
