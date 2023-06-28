@@ -35,13 +35,13 @@ Il primo giocatore a completare la libreria guadagna un punto aggiuntivo ed inne
 ## Documentazione
 
 ### UML
-Diagrammi delle classi creati in fase di progettazione del programma: [UML](https://github.com/ArimondoScrivano/ing-sw-2023-scrivano-vercelloni-pavesi-sartini/deliveries/UML_alto_livello)
+Diagrammi delle classi creati in fase di progettazione del programma: [UML](https://github.com/ArimondoScrivano/ing-sw-2023-scrivano-vercelloni-pavesi-sartini/tree/main/deliveries/UML_alto_livello)
 
 ### JavaDoc
-Documentazione Java che descrive classi e metodi utilizzati: [JavaDoc](https://github.com/ArimondoScrivano/ing-sw-2023-scrivano-vercelloni-pavesi-sartini/deliveries/javaDoc)
+Documentazione Java che descrive classi e metodi utilizzati: [JavaDoc](https://github.com/ArimondoScrivano/ing-sw-2023-scrivano-vercelloni-pavesi-sartini/tree/main/deliveries/javaDoc)
 
 ### Testing
-Resoconto sulla copertura degli unit test effettuati in fase di sviluppo del programma: [test](https://github.com/ArimondoScrivano/ing-sw-2023-scrivano-vercelloni-pavesi-sartini/src/test)
+Resoconto sulla copertura degli unit test effettuati in fase di sviluppo del programma: [test](https://github.com/ArimondoScrivano/ing-sw-2023-scrivano-vercelloni-pavesi-sartini/tree/main/src/test)
 
 ### Librerie e Plugins
 |                 | Utilizzo |
