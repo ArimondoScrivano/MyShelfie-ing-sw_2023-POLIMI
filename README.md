@@ -74,7 +74,6 @@ Il comando per eseguire il client in modalità CLI/GUI è il seguente:
 ```shell
 java -jar Client.jar
 ```
-* É consigliabile assicurarsi di poter visualizzare i colori tramite i codici di escape ANSI per la versione CLI
 ### Server
 Il comando per eseguire il Server è il seguente:
 
