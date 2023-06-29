@@ -242,7 +242,7 @@ public class Cli implements UI{
                         x=in.nextInt();
                     }catch(InputMismatchException e){
                         System.err.println("You must choose a number! Retry");
-                        x=-1;
+                        in.nextLine();
                     }
                 }while(x==-1);
                 //Check if the value is between 1 and 10
@@ -254,7 +254,7 @@ public class Cli implements UI{
                             x=in.nextInt();
                         }catch(InputMismatchException e){
                             System.err.println("You must choose a number! Retry");
-                            x=-1;
+                            in.nextLine();
                         }
                     }while(x==-1);
                 }
@@ -267,7 +267,7 @@ public class Cli implements UI{
                         y=in.nextInt();
                     }catch(InputMismatchException e){
                         System.err.println("You must choose a number! Retry");
-                        y=-1;
+                        in.nextLine();
                     }
                 }while(y==-1);
 
@@ -279,7 +279,7 @@ public class Cli implements UI{
                             y=in.nextInt();
                         }catch(InputMismatchException e){
                             System.err.println("You must choose a number! Retry");
-                            y=-1;
+                            in.nextLine();
                         }
                     }while(y==-1);
                 }
@@ -305,7 +305,7 @@ public class Cli implements UI{
                 column =in.nextInt();
             }catch(InputMismatchException e){
                 System.err.println("You must choose a number! Retry");
-                column=-1;
+                in.nextLine();
             }
         }while(column==-1);
 
@@ -316,7 +316,7 @@ public class Cli implements UI{
                     column =in.nextInt();
                 }catch(InputMismatchException e){
                     System.err.println("You must choose a number! Retry");
-                    column=-1;
+                    in.nextLine();
                 }
             }while(column==-1);
         }

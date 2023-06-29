@@ -250,13 +250,15 @@ public class Server extends UnicastRemoteObject implements Runnable,Server_RMI {
                 if(pickableTiles( index, xCoord,  yCoord) &&  columnAvailable(index,  numberTiles, Lobby.get(message.getNp()).playerTurn().getShelf(), possibleCol )){
                     insertTiles(index,xCoord,yCoord,possibleCol);
                     finalPick(index, xCoord,yCoord);
-                    clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.PARAMETERS_OK,
-                            Lobby.get(message.getNp()).getDashboardTiles(),
-                            Lobby.get(message.getNp()).getCommonGoals(),
-                            Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getShelfMatrix(),
-                            Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getPersonalGoal(),
-                            Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getPoints(),
-                            Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getPGpoints()));
+                    if(!clientHandlerMap.get(message.getNp()).isEmpty()) {
+                        clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server", SocketMessages.PARAMETERS_OK,
+                                Lobby.get(message.getNp()).getDashboardTiles(),
+                                Lobby.get(message.getNp()).getCommonGoals(),
+                                Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getShelfMatrix(),
+                                Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getPersonalGoal(),
+                                Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getPoints(),
+                                Lobby.get(message.getNp()).getPlayersList().get(Lobby.get(message.getNp()).finderPlayer(message.getName())).getPGpoints()));
+                    }
                 }else{
                     clientHandlerMap.get(message.getNp()).get(message.getName()).sendMessage(new Message("server",SocketMessages.PARAMETERS_KO));
                 }
