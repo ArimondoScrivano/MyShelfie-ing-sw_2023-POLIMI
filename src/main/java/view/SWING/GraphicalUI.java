@@ -79,57 +79,6 @@ public class GraphicalUI implements View, UI {
         flaginitdone=0;
     }
 
-    public File retrieveImages(String path, int type, int instantClose){
-        //Type=1:png
-        //Type=2:jpg
-        //instantClose=1:close
-        //instantClose=0:notClosable
-        InputStream in = getClass().getResourceAsStream(path);
-        BufferedReader read = new BufferedReader(new InputStreamReader(in));
-        // Use resource
-        if(type==1){
-            File f = new File(path+type);
-            try (FileWriter fileWriter = new FileWriter(f);
-                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-
-                String line;
-                while ((line = read.readLine()) != null) {
-                    bufferedWriter.write(line);
-                    bufferedWriter.newLine();
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            if(instantClose==1){
-                f.delete();
-            }else{
-                f.deleteOnExit();
-            }
-            return f;
-        }else{
-            File f = new File(path+type);
-            try (FileWriter fileWriter = new FileWriter(f);
-                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-
-                String line;
-                while ((line = read.readLine()) != null) {
-                    bufferedWriter.write(line);
-                    bufferedWriter.newLine();
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            if(instantClose==1){
-                f.delete();
-            }else{
-                f.deleteOnExit();
-            }
-            return f;
-        }
-    }
-
-
-
     /**
      * Initializes the game by setting up the user interface and creating necessary components.
      * This method creates and configures internal frames, panels, buttons, and images required for the game.

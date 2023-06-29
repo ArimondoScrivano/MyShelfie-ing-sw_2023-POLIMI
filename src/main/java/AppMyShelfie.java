@@ -55,7 +55,7 @@ public class AppMyShelfie {
             try{
                 clientControllerV2.gameFlow();
             }catch(IOException e){
-                e.printStackTrace();
+                System.exit(-1);
             }
 
         }else{
@@ -133,9 +133,10 @@ public class AppMyShelfie {
                     List<Integer> yCoord = new ArrayList<>();
                     int column;
                     do {
-                        //Asking the number of tiles to pick
-                        numberOfTilesToPick = cli.askNumberOfTiles();
+
                         do {
+                            //Asking the number of tiles to pick
+                            numberOfTilesToPick = cli.askNumberOfTiles();
                             xCoord.clear();
                             yCoord.clear();
                             tilesToPick = cli.askTilesToPick(numberOfTilesToPick);

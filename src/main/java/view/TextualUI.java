@@ -20,8 +20,6 @@ public class TextualUI  implements View {
     //Output stream
     private final PrintStream out;
     //Input stream
-
-
     /**
      * Scanner object for reading input from the standard input stream.
      */

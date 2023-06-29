@@ -68,7 +68,6 @@ public  class Message implements Serializable {
 
     //Message for new game (np=numberOfPlayers)
     //Message for Lobby_created (np=indexOfController)
-
     /**
      * Constructs a new Message object with the given name, message, and index.
      *

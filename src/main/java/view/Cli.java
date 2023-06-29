@@ -142,6 +142,7 @@ public class Cli implements UI{
                 return numberOfPlayers;
             }catch(InputMismatchException e){
                 System.err.println("You must choose a number");
+                in.nextLine();
             }
         }
     }
@@ -199,10 +200,6 @@ public class Cli implements UI{
 
     }
 
-
-
-
-
     //Asking the number of tiles to pick
     /**
      * Prompts the user to choose the number of tiles they want to pick.
@@ -222,16 +219,11 @@ public class Cli implements UI{
                 return numberOfTile;
             }catch (InputMismatchException e){
                 System.err.println("You must choose a number");
-
+                in.nextLine();
             }
         }
     }
 
-
-
-
-
-    //Coordinate delle tiles da prendere
     /**
      * Prompts the user to choose the tiles they want to pick based on the specified number of tiles.
      *
@@ -239,7 +231,6 @@ public class Cli implements UI{
      * @return A list of integers representing the x and y coordinates of the chosen tiles.
      */
     public List<Integer> askTilesToPick(int numberOfTile){
-        //Se 3 tile da prendere -->lista con 6 elementi
         List<Integer> tilesToPick = new ArrayList<>();
         out.println("Choose the tiles to pick using x and y coordinates");
         for(int i=0; i<numberOfTile*2; i++){
@@ -371,7 +362,4 @@ public class Cli implements UI{
 
         return true;
     }
-
-
-
 }

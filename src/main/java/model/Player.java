@@ -258,7 +258,7 @@ public class Player implements Serializable {
 
 
 
-    // set the new score thanks to the Common Goal
+    //Set the new score adding the common Goal points
     /**
      * Sets the points earned by the player.
      *

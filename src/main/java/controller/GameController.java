@@ -109,7 +109,7 @@ public class GameController {
     public void createPlayer(int id_new, String np){
         Player NewPlayer= new Player(id_new, np);
         currentGame.getPlayers().add(id_new,NewPlayer);
-        System.out.println("il numero dei giocatori è: " + currentGame.getPlayers().size());
+        System.out.println("Players connected: " + currentGame.getPlayers().size());
         if(currentGame.getPlayers().size()==NumPlayers) {
             started();
         }
