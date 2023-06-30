@@ -64,6 +64,13 @@ Resoconto sulla copertura degli unit test effettuati in fase di sviluppo del pro
 
 ## Compilazione ed Esecuzione
 
+I jar sono stati realizzati con l'ausilio di Maven Shade Plugin. Per compilare i jar autonomamente è necessario posizionarsi nella root del progetto e lanciare il comando
+```shell
+mvn clean package
+```
+
+Questo progetto richiede una versione di Java 19 o superiore per essere eseguito correttamente.
+
 ### Client
 
 Il client può essere eseguito utilzzando la modalità CLI e la modalità GUI
@@ -74,6 +81,8 @@ Il comando per eseguire il client in modalità CLI/GUI è il seguente:
 ```shell
 java -jar Client.jar
 ```
+
+All'avvio verrà richiesto di inserire l'indirizzo IP del server di gioco.
 ### Server
 Il comando per eseguire il Server è il seguente:
 
