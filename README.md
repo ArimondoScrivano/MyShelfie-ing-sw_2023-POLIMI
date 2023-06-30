@@ -41,7 +41,7 @@ Diagrammi delle classi creati in fase di progettazione del programma: [UML](http
 Documentazione Java che descrive classi e metodi utilizzati: [JavaDoc](https://github.com/ArimondoScrivano/ing-sw-2023-scrivano-vercelloni-pavesi-sartini/tree/main/deliveries/javaDoc)
 
 ### Testing
-Resoconto sulla copertura degli unit test effettuati in fase di sviluppo del programma: [test](https://github.com/ArimondoScrivano/ing-sw-2023-scrivano-vercelloni-pavesi-sartini/tree/main/src/test)
+Resoconto sulla copertura degli unit test effettuati in fase di sviluppo del programma: [test](https://github.com/ArimondoScrivano/ing-sw-2023-scrivano-vercelloni-pavesi-sartini/tree/main/deliveries/Screen_Shot_Coverage_Tests)
 
 ### Librerie e Plugins
 |                 | Utilizzo |
