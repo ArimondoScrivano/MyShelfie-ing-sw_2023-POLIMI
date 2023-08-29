@@ -6,6 +6,18 @@ Il programma è un'implementazione digitale del gioco da tavolo [**My Shelfie**]
 
 Il progetto è stato sviluppato per la prova finale del corso Ingegneria del Software 2022/2023, Politecnico di Milano.
 
+NOTA: My Shelfie è un gioco da tavolo sviluppato ed
+edito da Cranio Creations Srl. I contenuti grafici di
+questo progetto riconducibili al prodotto editoriale da
+tavolo sono utilizzati previa approvazione di Cranio
+Creations Srl a solo scopo didattico. È vietata la
+distribuzione, la copia o la riproduzione dei contenuti e
+immagini in qualsiasi forma al di fuori del progetto,
+così come la redistribuzione e la pubblicazione dei
+contenuti e immagini a fini diversi da quello
+sopracitato. E inoltre vietato l'utilizzo commerciale di
+suddetti contenuti.
+
 ### Game plot
 Il gioco consiste nel riempire la propria libreria con svariati oggetti, disponendoli in modo da ottenere il maggior numero di punti possibili.
 
